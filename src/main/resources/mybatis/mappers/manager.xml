@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.manager">
+	<resultMap id="mgrResult" type="managerVO">
+		<result property="id" column="mgr_id" />
+		<result property="name" column="mgr_name" />
+		<result property="pw" column="mgr_pw" />
+		<result property="phone" column="mgr_phone" />
+	</resultMap> 
+	
+	<select id="loginById"  resultMap="mgrResult"   parameterType="managerVO" >
+	<![CDATA[
+		select * from MANAGER	
+		where mgr_id=#{id} and mgr_pw=#{pw}
+	]]>
+	</select>
+	
+</mapper>

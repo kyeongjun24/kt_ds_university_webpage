@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.company">
+	<resultMap id="comResult" type="companyVO">
+		<result property="id" column="com_id" />
+		<result property="name" column="com_name" />
+		<result property="regDate" column="com_reg_date" />
+		<result property="modDate" column="com_mod_date" />
+		<result property="contractName" column="com_contract_name" />
+		<result property="managerPhone" column="com_manager_phone" />
+		<result property="managerEmail" column="com_manager_email" />
+		<result property="contractStat" column="com_contract_stat" />
+		<result property="contractType" column="com_contract_type" />
+	</resultMap>
+	
+	<select id="selectAllCompaniesList" resultMap="comResult">
+		<![CDATA[
+			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
+			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type from company
+			]]>
+	</select>
+	
+	<select id="selectBySearchCompaniesList" resultMap="comResult" parameterType="companyVO" >
+         select * from company         
+	     <choose>
+         	<when test="name != null and contractName == ''">
+         		WHERE com_name LIKE '%' || #{name} || '%'
+         	</when>
+         	<when test="contractName != null and name == ''">
+         		WHERE com_contract_name LIKE '%' || #{contractName} || '%'
+         	</when>
+         </choose>
+	</select>
+	
+	<select id="selectCompany" resultMap="comResult" parameterType="String">
+		<![CDATA[
+			select * from company where com_id = #{id}
+		]]>
+	</select>
+</mapper>

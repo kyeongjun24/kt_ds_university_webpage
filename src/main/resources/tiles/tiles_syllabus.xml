@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+
+   <definition name="/syllabus/listSyllabuses" extends="baseLayout">
+      <put-attribute name="title" value="강의계획서목록창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSyllabus.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/syllabus/syllabusList.jsp" />
+   </definition>
+   
+   
+   <definition name="/syllabus/syllabusForm" extends="baseLayout">
+      <put-attribute name="title" value="강의계획서등록창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSyllabus.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/syllabus/syllabusForm.jsp" />
+   </definition>
+   
+   
+   <definition name="/syllabus/updateSyllabusForm" extends="baseLayout">
+      <put-attribute name="title" value="강의계획서수정창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSyllabus.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/syllabus/syllabusUpdateForm.jsp" />
+   </definition>
+   
+   <definition name="/syllabus/selectSyllabus" extends="baseLayout">
+      <put-attribute name="title" value="강의계획서상세설명창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSyllabus.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/syllabus/syllabusDescription.jsp" />
+   </definition>
+   
+</tiles-definitions>
