@@ -24,19 +24,19 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsList;
 	}
 	
-	// »óÅÂ "½ÂÀÎ" À¸·Î ¹Ù²ãÁÜ
+	// ìƒíƒœ 'ìŠ¹ì¸' ìœ¼ë¡œ ìˆ˜ì •
 	@Override 
 	public int updateEnrollment(int id) throws DataAccessException {
 		return enrollmentDAO.updateEnrollment(id);
 	}
 	
-	// »óÅÂ "¼ö·á" ·Î ¹Ù²ãÁÜ
+	// ìƒíƒœ 'ìˆ˜ë£Œ' ë¡œ ìˆ˜ì •
 	@Override 
 	public int updateEnrollmentComplete(int id) throws DataAccessException {
 		return enrollmentDAO.updateEnrollmentComplete(id); 
 	}
 	
-	// »óÅÂ "Ãë¼Ò" ·Î ¹Ù²ãÁÜ
+	// ìƒíƒœ 'ì·¨ì†Œ' ë¡œ ìˆ˜ì •
 	@Override 
 	public int updateEnrollmentCancel(int id) throws DataAccessException {
 		return enrollmentDAO.updateEnrollmentCancel(id); 

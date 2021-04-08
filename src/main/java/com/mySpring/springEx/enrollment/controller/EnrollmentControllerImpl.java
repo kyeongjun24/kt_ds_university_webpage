@@ -45,7 +45,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav;
 	}
 	
-	// ���� "����" ���� �ٲ���
+	// 상태 '승인' 으로 수정
 	@Override
 	@RequestMapping(value="/enrollment/modEnrollment.do", method = RequestMethod.POST)
 	public ModelAndView updateEnrollment(int [] arr, 
@@ -59,7 +59,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav;
 	}
 	
-	// ���� "����" �� �ٲ���
+	// 상태 '수료' 로 수정
 	@Override
 	@RequestMapping(value="/enrollment/modEnrollmentComplete.do", method = RequestMethod.POST)
 	public ModelAndView updateEnrollmentComplete(int [] arr, 
@@ -73,7 +73,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav;
 	}
 	
-	// ���� "���" �� �ٲ���
+	// 상태 '취소' 로 수정
 	@Override
 	@RequestMapping(value="/enrollment/modEnrollmentCancel.do", method = RequestMethod.POST)
 	public ModelAndView updateEnrollmentCancel(int [] arr, 

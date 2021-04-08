@@ -22,21 +22,21 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
-	// »óÅÂ "½ÂÀÎ" À¸·Î ¹Ù²ãÁÜ
+	// ìƒíƒœ 'ìŠ¹ì¸' ìœ¼ë¡œ ìˆ˜ì •
 	@Override
 	public int updateEnrollment(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateEnrollment", id);
 		return result;
 	}
 	
-	// »óÅÂ "¼ö·á" ·Î ¹Ù²ãÁÜ
+	// ìƒíƒœ 'ìˆ˜ë£Œ' ë¡œ ìˆ˜ì •
 	@Override
 	public int updateEnrollmentComplete(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateEnrollmentComplete", id);
 		return result;
 	}
 	
-	// »óÅÂ "Ãë¼Ò" ·Î ¹Ù²ãÁÜ
+	// ìƒíƒœ 'ì·¨ì†Œ' ë¡œ ìˆ˜ì •
 	@Override
 	public int updateEnrollmentCancel(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateEnrollmentCancel", id);
