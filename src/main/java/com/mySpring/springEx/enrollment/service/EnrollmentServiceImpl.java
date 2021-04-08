@@ -23,4 +23,11 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		enrollmentsList = enrollmentDAO.selectAllEnrollmentList();
 		return enrollmentsList;
 	}
+	
+	@Override
+	public List listCompletion() throws DataAccessException {
+		List completionList = null;
+		completionList = enrollmentDAO.selectAllCompletionList();
+		return completionList;
+	}
 }
