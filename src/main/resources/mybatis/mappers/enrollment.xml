@@ -76,4 +76,28 @@
 		]]>
 	</select>
 	
+	<update id="updateEnrollment"  parameterType="int">
+    	<![CDATA[
+	    	UPDATE enrollment_detail
+			SET enrd_stat = '승인'
+			WHERE enrd_id = #{id}
+      	]]>      
+   </update> 
+   
+   <update id="updateEnrollmentCancel"  parameterType="int">
+    	<![CDATA[
+	    	UPDATE enrollment_detail
+			SET enrd_stat = '취소'
+			WHERE enrd_id = #{id}
+      	]]>      
+   </update> 
+   
+   <update id="updateEnrollmentComplete"  parameterType="int">
+    	<![CDATA[
+	    	UPDATE enrollment_detail
+			SET enrd_stat = '수료'
+			WHERE enrd_id = #{id}
+      	]]>      
+   </update> 
+	
 </mapper>

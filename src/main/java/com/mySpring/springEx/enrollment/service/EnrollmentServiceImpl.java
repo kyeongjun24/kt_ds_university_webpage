@@ -23,4 +23,23 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		enrollmentsList = enrollmentDAO.selectAllEnrollmentList();
 		return enrollmentsList;
 	}
+	
+	// »óÅÂ "½ÂÀÎ" À¸·Î ¹Ù²ãÁÜ
+	@Override 
+	public int updateEnrollment(int id) throws DataAccessException {
+		return enrollmentDAO.updateEnrollment(id);
+	}
+	
+	// »óÅÂ "¼ö·á" ·Î ¹Ù²ãÁÜ
+	@Override 
+	public int updateEnrollmentComplete(int id) throws DataAccessException {
+		return enrollmentDAO.updateEnrollmentComplete(id); 
+	}
+	
+	// »óÅÂ "Ãë¼Ò" ·Î ¹Ù²ãÁÜ
+	@Override 
+	public int updateEnrollmentCancel(int id) throws DataAccessException {
+		return enrollmentDAO.updateEnrollmentCancel(id); 
+	}
+	
 }

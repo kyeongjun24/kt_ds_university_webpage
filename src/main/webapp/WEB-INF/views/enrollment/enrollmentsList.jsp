@@ -28,15 +28,6 @@
 	  }
 	} */
 	
-	$(function(){
-		$('#selectAll').click(function(){
-			if ($("input:checkbox[id='selectAll']").prop("checked")) {
-				$("input[type=checkbox]").prop("checked", true);
-			} else{
-				$("input[type=checkbox]").prop("checked", false);
-			}
-		})	
-		
 		/* 검색기능 수정해야함 */
 		/* $('#searchSubmit').on('click', function(){
 			var searchText = $('#search').val();
@@ -83,11 +74,53 @@
 			             
 			        }
 				})
-				return false;
+				return false;	
 			}
 			
 		}) */
+	
+	// 전체 체크되게 하는 함수
+	$(function() {
+		$('#selectAll').click(function(){
+			if ($("input:checkbox[id='selectAll']").prop("checked")) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else{
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		})	
 	})
+		
+	//체크 된 걸 가져오는 함수
+	function getCheckList() {
+		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
+		alert(length);
+		var arr = new Array();
+		$("input:checkbox[type=checkbox]:checked").each(function(index) {
+			/* alert($(this).attr('id')); */
+			arr.push($(this).attr('id'));
+		})
+		
+		if(length == 0){
+			alert("선택된 값이 없습니다.");
+			return false;
+		} else{
+			$.ajax({
+				type: 'post',
+				url: '${contextPath}/enrollment/modEnrollment.do',
+				traditional : true, //Array 형태로 보내려면 설정 해줘야함
+				data: {arr : arr},
+				
+				success: function(data) {
+					alert('데이터 받기 성공');
+					alert(data);
+					window.location.href = "${contextPath}/enrollment/listEnrollments.do";
+				}, error:function(data,request,status,error){
+		             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		             
+		        }
+			})
+		}
+	}
 	
 	$(document).on("click", '#selectAll', function(){
 		$('#selectAll').click(function(){
@@ -130,18 +163,18 @@
   <c:when test="${enrollmentsList !=null }" >
    <c:forEach  var="enrollment" items="${enrollmentsList }" varStatus="enrdNum" >
 	    <tr align="center">
-		<td><input type="checkbox"></td>
-		<td width="15%">${enrollment.id }</td>
-		<td align='left'  width="20%">
-		  <span style="padding-right:10px"></span>
-		  <a href="#">${enrollment.memId }</a>
-		 </td>
-		 <td>${enrollment.memberVO.phone }</td>
-		 <td>${enrollment.memberVO.name }</td> 
-		 <td>${enrollment.memberVO.companyName }</td>
-		 <td>${enrollment.syllabusVO.name }</td>
-		 <td>${enrollment.stat }</td>
-		 <td>${enrollment.joinDate }</td>
+			<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
+			<td width="15%">${enrollment.memId }</td>
+			<td align='left'  width="20%">
+		  		<span style="padding-right:10px"></span>
+		  		<a href="#">${enrollment.memberVO.name }</a>
+		 	</td>
+		 	<td>${enrollment.memberVO.phone }</td>
+		 	<td>${enrollment.memberVO.email }</td> 
+		 	<td>${enrollment.memberVO.companyName }</td>
+		 	<td>${enrollment.syllabusVO.name }</td>
+		 	<td>${enrollment.stat }</td>
+		 	<td>${enrollment.joinDate }</td>
 		</tr>
     </c:forEach>
      </c:when>
@@ -149,6 +182,9 @@
 </table>
 <button type="button" style="width: 5%;">등록</button>
 <button type="button" style="width: 5%;">삭제</button>
+<button type="button" onclick='getCheckList()' style="width: 5%;">승인</button>
+<button type="button" style="width: 5%;">취소</button>
+<button type="button" style="width: 5%;">수료</button>
 <!-- 등록 버튼 추가해야함 -->
 <%-- <a  class="cls1"  href="javascript:fn_articleForm('${isLogOn}','${contextPath}/company/companyForm.do', 
                                                     '${contextPath}/member/loginForm.do')"><p class="cls2">회사등록하기</p></a> --%>

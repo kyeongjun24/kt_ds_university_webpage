@@ -44,4 +44,46 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		mav.addObject("enrollmentsList", enrollmentsList);
 		return mav;
 	}
+	
+	// ���� "����" ���� �ٲ���
+	@Override
+	@RequestMapping(value="/enrollment/modEnrollment.do", method = RequestMethod.POST)
+	public ModelAndView updateEnrollment(int [] arr, 
+					  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		for(int i = 0; i < arr.length; i++) { 
+			result = enrollmentService.updateEnrollment(arr[i]);
+		 } 
+		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
+		return mav;
+	}
+	
+	// ���� "����" �� �ٲ���
+	@Override
+	@RequestMapping(value="/enrollment/modEnrollmentComplete.do", method = RequestMethod.POST)
+	public ModelAndView updateEnrollmentComplete(int [] arr, 
+					  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		for(int i = 0; i < arr.length; i++) { 
+			result = enrollmentService.updateEnrollmentComplete(arr[i]);
+		 } 
+		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
+		return mav;
+	}
+	
+	// ���� "���" �� �ٲ���
+	@Override
+	@RequestMapping(value="/enrollment/modEnrollmentCancel.do", method = RequestMethod.POST)
+	public ModelAndView updateEnrollmentCancel(int [] arr, 
+					  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		for(int i = 0; i < arr.length; i++) { 
+			result = enrollmentService.updateEnrollmentCancel(arr[i]);
+		 } 
+		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
+		return mav;
+	}
 }
