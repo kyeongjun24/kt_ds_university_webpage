@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mySpring.springEx.course.service.CourseService;
 import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.enrollment.service.EnrollmentService;
+import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
 import com.mySpring.springEx.member.service.MemberService;
 import com.mySpring.springEx.member.vo.MemberVO;
 
@@ -35,6 +38,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	@Autowired
 	CourseVO courseVO;
 
+	//수강신청내역 리스트로 이동 
 	@Override
 	@RequestMapping(value="/enrollment/listEnrollments.do" ,method = RequestMethod.GET)
 	public ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -45,8 +49,24 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav;
 	}
 	
-	// 상태 '승인' 으로 수정
+	//상세 접수내역 페이지로 이동
 	@Override
+	@RequestMapping(value="/enrollment/informationEnrollment.do" ,method = RequestMethod.GET)
+	public ModelAndView informationEnrollment(@RequestParam int id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("utf-8");
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(viewName);
+		EnrollmentVO enrollmentVO = enrollmentService.selectEnrollment(id);	
+		mv.addObject("enrollmentVO", enrollmentVO);
+		return mv;
+	}
+	
+	
+	// 상태 수정
+	@Override
+	@ResponseBody
 	@RequestMapping(value="/enrollment/modEnrollment.do", method = RequestMethod.POST)
 	public ModelAndView updateEnrollment(int [] arr, 
 					  HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -54,34 +74,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) { 
 			result = enrollmentService.updateEnrollment(arr[i]);
-		 } 
-		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
-		return mav;
-	}
-	
-	// 상태 '수료' 로 수정
-	@Override
-	@RequestMapping(value="/enrollment/modEnrollmentComplete.do", method = RequestMethod.POST)
-	public ModelAndView updateEnrollmentComplete(int [] arr, 
-					  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		int result = 0;
-		for(int i = 0; i < arr.length; i++) { 
-			result = enrollmentService.updateEnrollmentComplete(arr[i]);
-		 } 
-		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
-		return mav;
-	}
-	
-	// 상태 '취소' 로 수정
-	@Override
-	@RequestMapping(value="/enrollment/modEnrollmentCancel.do", method = RequestMethod.POST)
-	public ModelAndView updateEnrollmentCancel(int [] arr, 
-					  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		int result = 0;
-		for(int i = 0; i < arr.length; i++) { 
-			result = enrollmentService.updateEnrollmentCancel(arr[i]);
 		 } 
 		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
 		return mav;

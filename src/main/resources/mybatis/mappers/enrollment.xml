@@ -47,6 +47,12 @@
         <result property="time" column="slb_time" />
 	</resultMap> 
 	
+	<resultMap id="enrsResult" type="enrollmentScheduleVO">
+		<result property="enrsStartDate" column="enrs_start_date" />
+		<result property="enrsEndDate" column="enrs_end_date" />
+        
+	</resultMap> 
+	
 	<resultMap id="enrdResult" type="enrollmentVO">
 		<result property="id" column="enrd_id" />
 		<result property="crsId" column="crs_id" />
@@ -54,11 +60,14 @@
 		<result property="stat" column="enrd_stat" />
 		<result property="joinDate" column="enrd_join_date" />
 		<result property="modDate" column="enrd_mod_date" />
+		<result property="completeDate" column="enrd_complete_date" />
 		<collection property="memberVO" resultMap="memResult"/>
 		<collection property="courseVO" resultMap="courseResult" />
 		<collection property="syllabusVO" resultMap="syllabusResult" />
+		<collection property="enrollmentScheduleVO" resultMap="enrsResult" />
 	</resultMap>
 
+	<!-- 수강신청내역 리스트 -->
 	<select id="selectAllEnrollmentList" resultMap="enrdResult">
 		<![CDATA[
 			select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name,
@@ -76,6 +85,39 @@
 		]]>
 	</select>
 	
+	<!-- 상세 접수내용 페이지 -->
+	<select id="selectEnrollment"  resultMap="enrdResult"   parameterType="Int" >
+	<![CDATA[
+		select 
+			m.mem_name, m.mem_id, m.mem_phone, m.mem_email, m.mem_company_name,
+			substr(e.enrd_join_date, 1, 10) as enrd_join_date,
+			e.enrd_stat, e.enrd_complete_date,
+			s.slb_type, s.slb_category, s.slb_name, s.slb_report_name,
+			c.crs_classroom,
+			substr(es.enrs_start_date, 1, 10) as enrs_start_date, substr(es.enrs_end_date, 1, 10) as enrs_end_date, 
+			substr(c.crs_start_date, 1, 10) as crs_start_date, substr(c.crs_end_date, 1, 10) as crs_end_date, 
+			substr(c.crs_start_time, 11, 6) as crs_start_time, substr(crs_end_time, 11, 6) as crs_end_time, 
+			c.crs_capacity,
+			s.slb_days, s.slb_time
+		from enrollment_detail E 
+			LEFT JOIN member M
+			ON
+			    e.mem_id = m.mem_id
+			LEFT JOIN course C
+			ON
+			    e.crs_id = c.crs_id
+			LEFT JOIN syllabus S
+			ON
+			    c.slb_id = s.slb_id
+            LEFT JOIN enrollment_schedule ES
+            ON
+                e.crs_id = es.crs_id    	
+			where enrd_id=#{id} 	
+	]]>
+	
+  </select>
+	
+	
 	<update id="updateEnrollment"  parameterType="int">
     	<![CDATA[
 	    	UPDATE enrollment_detail
@@ -83,21 +125,8 @@
 			WHERE enrd_id = #{id}
       	]]>      
    </update> 
+
    
-   <update id="updateEnrollmentCancel"  parameterType="int">
-    	<![CDATA[
-	    	UPDATE enrollment_detail
-			SET enrd_stat = '취소'
-			WHERE enrd_id = #{id}
-      	]]>      
-   </update> 
    
-   <update id="updateEnrollmentComplete"  parameterType="int">
-    	<![CDATA[
-	    	UPDATE enrollment_detail
-			SET enrd_stat = '수료'
-			WHERE enrd_id = #{id}
-      	]]>      
-   </update> 
 	
 </mapper>

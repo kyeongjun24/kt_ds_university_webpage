@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mySpring.springEx.enrollment.dao.EnrollmentDAO;
+import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
 
 @Service("enrollmentService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -17,6 +18,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Autowired
 	private EnrollmentDAO enrollmentDAO;
 
+	//수강신청내역 리스트로 이동
 	@Override
 	public List listEnrollments() throws DataAccessException {
 		List enrollmentsList = null;
@@ -24,22 +26,16 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsList;
 	}
 	
+	//상세 접수내역 페이지로 이동
+	@Override
+	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
+		return enrollmentDAO.selectEnrollment(id);
+	}
+	
 	// 상태 '승인' 으로 수정
 	@Override 
 	public int updateEnrollment(int id) throws DataAccessException {
 		return enrollmentDAO.updateEnrollment(id);
-	}
-	
-	// 상태 '수료' 로 수정
-	@Override 
-	public int updateEnrollmentComplete(int id) throws DataAccessException {
-		return enrollmentDAO.updateEnrollmentComplete(id); 
-	}
-	
-	// 상태 '취소' 로 수정
-	@Override 
-	public int updateEnrollmentCancel(int id) throws DataAccessException {
-		return enrollmentDAO.updateEnrollmentCancel(id); 
 	}
 	
 }

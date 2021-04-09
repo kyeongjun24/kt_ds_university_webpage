@@ -167,7 +167,9 @@
 			<td width="15%">${enrollment.memId }</td>
 			<td align='left'  width="20%">
 		  		<span style="padding-right:10px"></span>
-		  		<a href="#">${enrollment.memberVO.name }</a>
+		  		<a href="${contextPath}/enrollment/informationEnrollment.do?id=${enrollment.id }">${enrollment.memberVO.name }</a>
+		  		
+		  		
 		 	</td>
 		 	<td>${enrollment.memberVO.phone }</td>
 		 	<td>${enrollment.memberVO.email }</td> 

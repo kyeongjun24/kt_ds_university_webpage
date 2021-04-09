@@ -11,5 +11,11 @@
       <put-attribute name="body" value="/WEB-INF/views/enrollment/enrollmentsList.jsp" />
    </definition>
    
+   <definition name="/enrollment/informationEnrollment" extends="baseLayout">
+      <put-attribute name="title" value="수강신청목록창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideEnrollment.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/enrollment/enrollmentInformation.jsp" />
+   </definition>
+   
 </tiles-definitions>
 

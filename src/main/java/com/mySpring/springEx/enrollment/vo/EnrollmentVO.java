@@ -16,16 +16,18 @@ public class EnrollmentVO {
 	private String stat;
 	private String joinDate;
 	private String modDate;
+	private String completeDate;
 	
 	private MemberVO memberVO;
 	private CourseVO courseVO;
 	private SyllabusVO syllabusVO;
+	private EnrollmentScheduleVO enrollmentScheduleVO;
 	
 	public EnrollmentVO() {
 	}
 
-	public EnrollmentVO(int id, int crsId, String memId, String slbName, String stat, String joinDate, String modDate,
-			MemberVO memberVO, CourseVO courseVO, SyllabusVO syllabusVO) {
+	public EnrollmentVO(int id, int crsId, String memId, String slbName, String stat, String joinDate, String modDate, String completeDate,
+			MemberVO memberVO, CourseVO courseVO, SyllabusVO syllabusVO, EnrollmentScheduleVO enrollmentScheduleVO) {
 		this.id = id;
 		this.crsId = crsId;
 		this.memId = memId;
@@ -33,9 +35,11 @@ public class EnrollmentVO {
 		this.stat = stat;
 		this.joinDate = joinDate;
 		this.modDate = modDate;
+		this.completeDate = completeDate;
 		this.memberVO = memberVO;
 		this.courseVO = courseVO;
 		this.syllabusVO = syllabusVO;
+		this.enrollmentScheduleVO = enrollmentScheduleVO;
 	}
 
 	public int getId() {
@@ -93,6 +97,14 @@ public class EnrollmentVO {
 	public void setModDate(String modDate) {
 		this.modDate = modDate;
 	}
+	
+	public String getCompleteDate() {
+		return completeDate;
+	}
+
+	public void setCompleteDate(String completeDate) {
+		this.completeDate = completeDate;
+	}
 
 	public MemberVO getMemberVO() {
 		return memberVO;
@@ -116,6 +128,14 @@ public class EnrollmentVO {
 
 	public void setSyllabusVO(SyllabusVO syllabusVO) {
 		this.syllabusVO = syllabusVO;
+	}
+
+	public EnrollmentScheduleVO getEnrollmentScheduleVO() {
+		return enrollmentScheduleVO;
+	}
+
+	public void setEnrollmentScheduleVO(EnrollmentScheduleVO enrollmentScheduleVO) {
+		this.enrollmentScheduleVO = enrollmentScheduleVO;
 	}
 
 	
