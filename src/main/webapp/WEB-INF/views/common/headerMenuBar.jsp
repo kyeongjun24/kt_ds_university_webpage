@@ -21,15 +21,16 @@ header {
    display: flex;
 }
 
-ul {
+/* header 부분에만 적용되게 추가... ul li a 태그까지 */
+header ul {
    list-style-type: none;
 }
 
-ul li {
+header ul li {
    float: left;
 }
 
-ul li a {
+header ul li a {
    color: #fff;
    font-weight: 400;
    padding : 5px 15px;
