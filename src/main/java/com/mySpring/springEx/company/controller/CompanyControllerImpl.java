@@ -36,12 +36,12 @@ public class CompanyControllerImpl implements CompanyController {
 
 	// 협력회사 리스트 불러오는 메소드
 	@Override
-	@RequestMapping(value = "/company/listSuppliers.do", method = RequestMethod.GET)
-	public ModelAndView listSuppliers(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/company/listPartners.do", method = RequestMethod.GET)
+	public ModelAndView listPartners(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		List suppliersList = companyService.listSuppliers();
+		List partnersList = companyService.listPartners();
 		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("suppliersList", suppliersList);
+		mav.addObject("partnersList", partnersList);
 		return mav;
 	}
 
@@ -77,6 +77,32 @@ public class CompanyControllerImpl implements CompanyController {
 		ModelAndView mv = new ModelAndView(viewName);
 		mv.addObject("companiesList", companiesList);
 		return mv;
+	}
+
+	// 회사명을 선택하면 회사 상세창에서 회사를 삭제할 수 있는 메소드
+	@Override
+	@RequestMapping(value = "/company/removeCompany.do", method = RequestMethod.GET)
+	public ModelAndView removeCompany(@RequestParam("id") String id, 
+						HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		companyService.removeCompany(id);
+		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
+		return mav;
+	}
+	
+	// 회사 리스트 창에서 체크해서 회사를 삭제할 수 있는 메소드
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/company/removeCheckedCompanies.do", method = RequestMethod.POST)
+	public int removeCheckedCompanies(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		System.out.println("================================ "+ arr.length);
+		int result = 0;
+		for(int i = 0; i < arr.length; i++) {
+			result = companyService.removeCompany(arr[i]);
+		}
+		
+		return result;
 	}
 
 	private String getViewName(HttpServletRequest request) throws Exception {

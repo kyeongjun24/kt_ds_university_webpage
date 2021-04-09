@@ -48,7 +48,7 @@
 	</select>
 	
 	<!-- 협력회사 출력하기 -->
-	<select id="selectAllSuppliersList" resultMap="comResult">
+	<select id="selectAllPartnersList" resultMap="comResult">
 		<![CDATA[
 			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
 			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel from company 
@@ -56,4 +56,13 @@
 			order by com_reg_date
 		]]>
 	</select>
+	
+	<!-- 회사 삭제 쿼리 -->
+	<delete id="deleteCompany"  parameterType="String">
+		<![CDATA[
+		delete from company
+		where 
+		com_id=#{id}
+		]]>
+	</delete>
 </mapper>

@@ -15,5 +15,8 @@ public interface CompanyDAO {
 	public CompanyVO selectCompany(String id) throws DataAccessException;
 
 	// 협력회사 리스트 출력 메소드
-	public List selectAllSupplierList() throws DataAccessException;
+	public List selectAllPartnersList() throws DataAccessException;
+	
+	// 회사 삭제 메소드
+	public int deleteCompany(String id) throws DataAccessException;
 }

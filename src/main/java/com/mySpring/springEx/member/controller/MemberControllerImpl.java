@@ -117,7 +117,7 @@ public class MemberControllerImpl   implements MemberController {
 	@RequestMapping(value="/member/removeCheckedMembers.do", method = RequestMethod.POST)
 	public int removeCheckedMembers(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("utf-8");
-		System.out.println(arr.length);
+		System.out.println("============================"+arr.length);
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) {
 			result = memberService.removeMember(arr[i]);

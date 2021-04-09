@@ -12,7 +12,7 @@
 	<h1>사이드 메뉴</h1>
 	
 	<h1>
-		<a href="${contextPath}/company/listSuppliers.do" class="no-underline">협약회사</a><br>
+		<a href="${contextPath}/company/listPartners.do" class="no-underline">협약회사</a><br>
 		<a href="${contextPath}/member/listMembers.do"  class="no-underline">학생관리</a><br>
 		<a href="${contextPath}/company/listCompanies.do" class="no_unerline">회사관리</a><br>
 		<a href="#"  class="no-underline">계정관리</a><br>

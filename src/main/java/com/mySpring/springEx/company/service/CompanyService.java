@@ -15,6 +15,9 @@ public interface CompanyService {
 	public CompanyVO selectCompany(String id) throws DataAccessException;
 
 	// 협력회사 리스트 출력 메소드
-	public List listSuppliers() throws DataAccessException;
+	public List listPartners() throws DataAccessException;
+	
+	// 회사 삭제 메소드
+	public int removeCompany(String id) throws DataAccessException;
 
 }

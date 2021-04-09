@@ -36,9 +36,16 @@ public class CompanyDAOImpl implements CompanyDAO{
 	}
 	
 	@Override
-	public List selectAllSupplierList() throws DataAccessException {
-		List<CompanyVO> suppliersList = null;
-		suppliersList = sqlSession.selectList("mapper.company.selectAllSuppliersList");
-		return suppliersList;
+	public List selectAllPartnersList() throws DataAccessException {
+		List<CompanyVO> partnersList = null;
+		partnersList = sqlSession.selectList("mapper.company.selectAllPartnersList");
+		return partnersList;
+	}
+	
+	// 회사 삭제 메소드
+	@Override
+	public int deleteCompany(String id) throws DataAccessException {
+		int result = sqlSession.delete("mapper.company.deleteCompany",id);
+		return result;
 	}
 }

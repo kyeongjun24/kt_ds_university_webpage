@@ -38,9 +38,15 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 	
 	@Override
-	public List listSuppliers() throws DataAccessException {
-		List suppliersList = null;
-		suppliersList = companyDAO.selectAllSupplierList();
-		return suppliersList;
+	public List listPartners() throws DataAccessException {
+		List partnersList = null;
+		partnersList = companyDAO.selectAllPartnersList();
+		return partnersList;
+	}
+	
+	// 회사 삭제 메소드
+	@Override
+	public int removeCompany(String id) throws DataAccessException {
+		return companyDAO.deleteCompany(id);
 	}
 }

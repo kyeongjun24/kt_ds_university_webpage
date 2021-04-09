@@ -26,6 +26,9 @@ border-bottom : 2px solid #a3a3a3;
 .line2 {
 border-bottom : 0.5px solid #d3d3d3;
 }
+#partners {
+border-collapse: collapse;
+}
 </style>
 <meta charset="UTF-8">
 <title>협약회사 목록창</title>
@@ -51,7 +54,7 @@ border-bottom : 0.5px solid #d3d3d3;
 			id="search" style="width: 100px; margin-right: 20px;"><input
 			type="submit" value="검색" id="searchSubmit">
 	</form>
-	<table align="center" border="0" width="80%" id="supplier">
+	<table align="center" border="0" width="80%" id="partners">
 		<tr height="15" align="center" >
 			<td class = line1><b>번호</b></td>
 			<td class = line1><b>회사명</b></td>
@@ -61,7 +64,7 @@ border-bottom : 0.5px solid #d3d3d3;
 			<td class = line1><b>등록/수정일</b></td>
 		</tr>
 		<c:choose>
-			<c:when test="${suppliersList ==null }">
+			<c:when test="${partnersList ==null }">
 				<tr height="10">
 					<td colspan="4">
 						<p align="center">
@@ -70,8 +73,8 @@ border-bottom : 0.5px solid #d3d3d3;
 					</td>
 				</tr>
 			</c:when>
-			<c:when test="${suppliersList !=null }">
-				<c:forEach var="company" items="${suppliersList }"
+			<c:when test="${partnersList !=null }">
+				<c:forEach var="company" items="${partnersList }"
 					varStatus="articleNum">
 					<tr align="center">
 						<!--<td width="5%">${articleNum.count}</td>  -->
