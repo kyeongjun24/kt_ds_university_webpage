@@ -13,11 +13,8 @@ import com.mySpring.springEx.member.vo.MemberVO;
 
 public interface MemberController {
 	ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	ModelAndView listBySearchMembers(@RequestParam("searchType") String searchType, @RequestParam("searchText")String searchText, HttpServletRequest request,
-			HttpServletResponse response) throws Exception;
 	ModelAndView addMember(@ModelAttribute("info") MemberVO memberVO,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	int idCheckMember(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
 	ModelAndView removeMember(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	ModelAndView updateMember(@ModelAttribute("member") MemberVO memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	ModelAndView updateMemberForm(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception; 
