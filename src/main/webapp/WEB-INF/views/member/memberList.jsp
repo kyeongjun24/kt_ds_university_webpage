@@ -155,7 +155,7 @@
 	
 	
 <table border="0"  align="center"  width="80%">
-    <tr align="center">
+    <tr align="center" id="attr">
       <td><input type="checkbox" id="selectAll"></td>
       <td ><b>아이디</b></td>
       <td><b>회사명</b></td>
