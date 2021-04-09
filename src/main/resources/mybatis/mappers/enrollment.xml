@@ -114,7 +114,6 @@
                 e.crs_id = es.crs_id    	
 			where enrd_id=#{id} 	
 	]]>
-	
   </select>
 	
 	
