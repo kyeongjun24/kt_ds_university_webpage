@@ -15,5 +15,7 @@ public interface CompanyController {
 	ModelAndView listCompanies(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	List listBySearchCompanies(CompanyVO companyVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	ModelAndView selectCompany(@RequestParam String comId, HttpServletRequest request, HttpServletResponse response) throws Exception;
-
+	
+	// 협력회사 출력
+	ModelAndView listSuppliers(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

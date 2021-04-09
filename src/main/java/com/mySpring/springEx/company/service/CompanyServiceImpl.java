@@ -33,7 +33,14 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public CompanyVO selectCompany(String comId) throws DataAccessException {
-		return companyDAO.selectCompany(comId);
+	public CompanyVO selectCompany(String id) throws DataAccessException {
+		return companyDAO.selectCompany(id);
+	}
+	
+	@Override
+	public List listSuppliers() throws DataAccessException {
+		List suppliersList = null;
+		suppliersList = companyDAO.selectAllSupplierList();
+		return suppliersList;
 	}
 }

@@ -14,12 +14,16 @@
 		<result property="managerEmail" column="com_manager_email" />
 		<result property="contractStat" column="com_contract_stat" />
 		<result property="contractType" column="com_contract_type" />
+		<result property="homePage" column="com_homepage" />
+		<result property="address" column="com_address" />
+		<result property="contractAgree" column="com_contract_agree" />
+		<result property="companyTel" column="com_tel" />
 	</resultMap>
 	
 	<select id="selectAllCompaniesList" resultMap="comResult">
 		<![CDATA[
 			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
-			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type from company
+			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel from company
 			]]>
 	</select>
 	
@@ -37,7 +41,19 @@
 	
 	<select id="selectCompany" resultMap="comResult" parameterType="String">
 		<![CDATA[
-			select * from company where com_id = #{id}
+			select com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
+			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homepage, com_address, com_contract_agree, com_tel from company 
+			where com_id = #{id}
+		]]>
+	</select>
+	
+	<!-- 협력회사 출력하기 -->
+	<select id="selectAllSuppliersList" resultMap="comResult">
+		<![CDATA[
+			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
+			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel from company 
+			where com_contract_type = '협약 완료'
+			order by com_reg_date
 		]]>
 	</select>
 </mapper>

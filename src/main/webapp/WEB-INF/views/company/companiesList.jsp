@@ -129,7 +129,7 @@
 	<td width="15%">${company.contractStat }</td>
 	<td align='left'  width="20%">
 	  <span style="padding-right:10px"></span>
-	  <a class='cls1' href="${contextPath}/company/selectCompany.do?comId=${company.id}">${company.name }</a>
+	  <a class='cls1' href="${contextPath}/company/selectCompany.do?id=${company.id}">${company.name }</a>
 	 </td>
 	 <td>${company.contractName }</td>
 	 <td>${company.managerPhone }</td>

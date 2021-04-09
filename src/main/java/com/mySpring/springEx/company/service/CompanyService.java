@@ -9,7 +9,12 @@ import com.mySpring.springEx.company.vo.CompanyVO;
 public interface CompanyService {
 
 	public List listCompanies() throws DataAccessException;
+
 	public List listBySearchCompanies(CompanyVO companyVO) throws DataAccessException;
-	public CompanyVO selectCompany(String comId) throws DataAccessException;
+
+	public CompanyVO selectCompany(String id) throws DataAccessException;
+
+	// 협력회사 리스트 출력 메소드
+	public List listSuppliers() throws DataAccessException;
 
 }

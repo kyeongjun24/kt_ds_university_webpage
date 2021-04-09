@@ -30,8 +30,15 @@ public class CompanyDAOImpl implements CompanyDAO{
 	}
 
 	@Override
-	public CompanyVO selectCompany(String comId) throws DataAccessException {
-		CompanyVO vo = sqlSession.selectOne("mapper.company.selectCompany", comId);
+	public CompanyVO selectCompany(String id) throws DataAccessException {
+		CompanyVO vo = sqlSession.selectOne("mapper.company.selectCompany", id);
 		return vo;
+	}
+	
+	@Override
+	public List selectAllSupplierList() throws DataAccessException {
+		List<CompanyVO> suppliersList = null;
+		suppliersList = sqlSession.selectList("mapper.company.selectAllSuppliersList");
+		return suppliersList;
 	}
 }
