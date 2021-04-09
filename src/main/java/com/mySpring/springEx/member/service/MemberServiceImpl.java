@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.member.dao.MemberDAO;
 import com.mySpring.springEx.member.vo.MemberVO;
 
@@ -26,11 +27,26 @@ public class MemberServiceImpl implements MemberService {
 		return membersList;
 	}
 	
+	//기준 나누는 메서드 
+	@Override
+	public List listCriteria(Criteria criteria) throws DataAccessException {
+		return memberDAO.listCriteria(criteria);
+	}
+	
+	//검색에 의해 나눠지는 메서드
 	@Override
 	public List listBySearchMembers(String searchType, String searchText) throws DataAccessException {
 		List membersBySearchList = null;
 		membersBySearchList = memberDAO.selectBySearchMemberList(searchType, searchText);
 		return membersBySearchList;
+	}
+	
+	//검색과 기준에 의해 리스트 나눠지는 메서드
+	@Override
+	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		List membersCriteriaBySearch = null;
+		membersCriteriaBySearch = memberDAO.selectCriteriaBySearch(criteria);
+		return membersCriteriaBySearch;
 	}
 
 	@Override
@@ -63,4 +79,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectMember(id);
 	}
 
+
+	
 }
