@@ -125,21 +125,28 @@ td {
 	padding: 5px 15px;
 }
 
-input[type=submit] {
+
+
+input[type=submit], [type=reset], [type=button] {
 border : none;
 width : 60px;
 height : 35px;
 font-size: 15px;
 background-color : #969696;
 color : #EFEFEF;
+cursor: pointer;
+border-radius : 5px;
+margin : 5px;
 }
 
-input[type=text] {
+input[type=text], [type=password],[type=tel],[type=email] {
 border : none;
 width : 200px;
 height : 35px;
 background-color: #ECECEC;
 margin-right: 10px;
+margin : 5px;
+border-radius : 5px;
 }
 select {
 border : none;
@@ -148,11 +155,14 @@ height : 35px;
 background-color: #ECECEC;
 font-size: 13px;
 margin-right: 10px;
+cursor: pointer;
+border-radius : 5px;
 }
 
 #enrollButton {
 background-color: #E91B23;
 color : #EFEFEF;
+cursor: pointer;
 }
 
 button {
@@ -163,6 +173,7 @@ border : none;
 border-radius : 5px;
 background-color: #ECECEC;
 font-size: 15px;
+cursor: pointer;
 }
 
 .memberButton {
@@ -171,6 +182,7 @@ margin-top : 60px;
 width : 1500px;
 display : flex;
 justify-content: flex-end;
+cursor: pointer;
 }
 
 #searchFrm {
