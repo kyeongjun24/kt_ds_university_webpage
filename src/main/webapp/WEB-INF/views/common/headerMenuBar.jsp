@@ -23,7 +23,6 @@ header {
 	height: 60px;
 	border-top: 2px solid #e91b23;
 	display: flex;
-	
 }
 
 /* header 부분에만 적용되게 추가... ul li a 태그까지 */

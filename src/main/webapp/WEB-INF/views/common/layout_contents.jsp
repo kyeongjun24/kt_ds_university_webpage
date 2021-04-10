@@ -18,15 +18,19 @@
 
 #sidebar-left {
 	width: 200px;
-	height: 88vh;
 	float: left;
+	height : 88vh;
+	background-color: #e3e3e3;
+	border-right: 0.5px solid #bcbcbc;
+	font-size: 10px;
+	text-align: center;
+	justify-content: center;
 	background-color: #e3e3e3;
 	border-right: 0.5px solid #bcbcbc;
 	font-size: 10px;
 	text-align: center;
 	display: flex;
 	justify-content: center;
-	font-size: 10px
 }
 
 h1 {
@@ -53,8 +57,9 @@ h1 {
 }
 
 #container {
-	margin : 0px;
-	padding : 0px;
+	margin: 0px;
+	padding: 0px;
+	display: block;
 }
 
 #content {
@@ -78,7 +83,7 @@ h1 {
 }
 
 #attr {
-	border-bottom : 2px solid #bcbcbc;
+	border-bottom: 2px solid #bcbcbc;
 }
 
 a {
@@ -87,14 +92,94 @@ a {
 
 table {
 	width: 1500px;
-	border-collapse : collapse;
+	border-collapse: collapse;
 }
 
 td {
-	padding-bottom : 5px;
-	border-bottom : 0.3px solid;
+	padding-bottom: 5px;
+	border-bottom: 0.3px solid;
 	border-color: #9C9D9D;
 }
+
+.pageNumber {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	position : absolute;
+	left : 100px;
+	margin-top : 20px;
+}
+
+.pageNumber ul {
+	list-style-type: none;
+	display: flex;
+}
+
+/* .pageNumber ul li {
+   float: left;
+} */
+.pageNumber ul li a {
+	color: black;
+	font-weight: 400;
+	padding: 5px 15px;
+}
+
+input[type=submit] {
+border : none;
+width : 60px;
+height : 35px;
+font-size: 15px;
+background-color : #969696;
+color : #EFEFEF;
+}
+
+input[type=text] {
+border : none;
+width : 200px;
+height : 35px;
+background-color: #ECECEC;
+margin-right: 10px;
+}
+select {
+border : none;
+width : 90px;
+height : 35px;
+background-color: #ECECEC;
+font-size: 13px;
+margin-right: 10px;
+}
+
+#enrollButton {
+background-color: #E91B23;
+color : #EFEFEF;
+}
+
+button {
+margin-left : 20px;
+width : 90px;
+height : 35px;
+border : none;
+border-radius : 5px;
+background-color: #ECECEC;
+font-size: 15px;
+}
+
+.memberButton {
+position : relative;
+margin-top : 60px;
+width : 1500px;
+display : flex;
+justify-content: flex-end;
+}
+
+#searchFrm {
+display : flex;
+justify-content: space-between;
+width : 1500px;
+margin-bottom : 20px;
+}
+
 </style>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
