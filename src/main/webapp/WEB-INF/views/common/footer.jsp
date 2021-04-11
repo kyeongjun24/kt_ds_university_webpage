@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"   isELIgnored="false"
  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-
-<p> e-mail:emily.kyungah.kim@gmail.com</p> 
-<p> 회사주소:서울시 성동구</p>
-<p>찾아오는 길:<a href="#">약도</a></p>
+<div>
+<p> copyright(c) 2018 kt ds All Rights Reserved.</p> 
+</div>

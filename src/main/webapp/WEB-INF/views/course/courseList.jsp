@@ -30,8 +30,8 @@
 	})
 </script>
 <body>
-<table align="center" border="0"  width="80%"  >
-  <tr height="10" align="center">
+<table align="center" border="0" >
+  <tr height="10" align="center" id="attr">
      <td><input type="checkbox" id="selectAll"></td>
      <td><b>아이디</b></td>
      <td><b>과정명</b></td>
