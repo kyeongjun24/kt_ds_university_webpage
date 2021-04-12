@@ -22,62 +22,98 @@ request.setCharacterEncoding("UTF-8");
 <meta charset="UTF-8">
 <title>글목록창</title>
 </head>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
 	//체크 된 걸 가져오는 함수
 	function getCheckList() {
-	var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
-	alert(length);
-	var arr = new Array();
-	$("input:checkbox[type=checkbox]:checked").each(function(index) {
-		/* alert($(this).attr('id')); */
-		arr.push($(this).attr('id'));
-	})
-	
-	if(length == 0){
-		alert("선택된 값이 없습니다.");
-		return false;
-	} else{
-		$.ajax({
-			type: 'post',
-			url: '${contextPath}/company/removeCheckedCompanies.do',
-			traditional : true, //Array 형태로 보내려면 설정 해줘야함
-			data: {arr : arr},
-			
-			success: function(data) {
-				alert('데이터 받기 성공');
-				alert(data);
-				window.location.href = "${contextPath}/company/listCompanies.do";
-			}, error:function(data,request,status,error){
-	             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	             
-	        }
+		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
+		alert(length);
+		var arr = new Array();
+		$("input:checkbox[type=checkbox]:checked").each(function(index) {
+			/* alert($(this).attr('id')); */
+			arr.push($(this).attr('id'));
 		})
+
+		if (length == 0) {
+			alert("선택된 값이 없습니다.");
+			return false;
+		} else {
+			$
+					.ajax({
+						type : 'post',
+						url : '${contextPath}/company/removeCheckedCompanies.do',
+						traditional : true, //Array 형태로 보내려면 설정 해줘야함
+						data : {
+							arr : arr
+						},
+
+						success : function(data) {
+							alert('데이터 받기 성공');
+							alert(data);
+							window.location.href = "${contextPath}/company/listCompanies.do";
+						},
+						error : function(data, request, status, error) {
+							alert("code:" + request.status + "\n" + "message:"
+									+ request.responseText + "\n" + "error:"
+									+ error);
+
+						}
+					})
+		}
 	}
-}
-	
+
 	// 전체 체크되게 하는 함수
-	$(function(){
-		$('#selectAll').click(function(){
+	$(function() {
+		$('#selectAll').click(function() {
 			if ($("input:checkbox[id='selectAll']").prop("checked")) {
 				$("input[type=checkbox]").prop("checked", true);
-			} else{
+			} else {
 				$("input[type=checkbox]").prop("checked", false);
 			}
 		})
-		
-	})  //function
-		
-		
+
+	}) //function
 </script>
+
 <body>
-	<form id="searchFrm">
-		<select id="searchType"><option value="">선택</option>
-			<option value="comName">회사명</option>
-			<option value="contractName">담당자</option></select> <input type="text"
-			id="search" style="width: 100px; margin-right: 20px;"><input
-			type="submit" value="검색" id="searchSubmit">
+	<%
+	String searchType = request.getParameter("searchType");
+	String searchText = request.getParameter("searchType");
+	%>
+
+	<form method="get" action="${contextPath }/company/listCompanies.do"
+		id="searchFrm">
+		<select name="searchType" id="searchType">
+			<c:if test="${searchType == 'name'}">
+				<option value="">선택</option>
+				<option value="name" selected>회사명</option>
+				<option value="contractName">담당자</option>
+			</c:if>
+			<c:if test="${searchType == 'contractName'}">
+				<option value="">선택</option>
+				<option value="name">회사명</option>
+				<option value="contractName" selected>담당자</option>
+			</c:if>
+			<c:if test="${searchType == null}">
+				<option value="" selected>선택</option>
+				<option value="name">회사명</option>
+				<option value="contractName">담당자</option>
+			</c:if>
+		</select>
+		<c:choose>
+			<c:when test="${searchText != null}">
+				<input type="text" name="searchText" id="search"
+					value="${searchText }" style="width: 100px; margin-right: 20px;">
+			</c:when>
+			<c:otherwise>
+				<input type="text" name="searchText" id="search"
+					style="width: 100px; margin-right: 20px;">
+			</c:otherwise>
+		</c:choose>
+		<input type="submit" value="검색" id="searchSubmit">
 	</form>
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" style="border-bottom: solid;">
@@ -104,13 +140,13 @@ request.setCharacterEncoding("UTF-8");
 				<c:forEach var="company" items="${companiesList}"
 					varStatus="articleNum">
 					<tr align="center">
-						<!--<td width="5%">${articleNum.count}</td>  -->
-						<td><input type="checkbox" name="selectedCheckbox" id="${company.id }"></td>
+						<td><input type="checkbox" name="selectedCheckbox"
+							id="${company.id }"></td>
 						<td>${articleNum.count }</td>
 						<td width="15%">${company.contractStat }</td>
 						<td align='left' width="20%"><span
 							style="padding-right: 10px"></span> <a class='cls1'
-							href="${contextPath}/company/selectCompany.do?id=${company.id}">${company.name }</a>
+							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>
 						<td>${company.contractName }</td>
 						<td>${company.managerPhone }</td>
@@ -121,11 +157,10 @@ request.setCharacterEncoding("UTF-8");
 			</c:when>
 		</c:choose>
 	</table>
-	<button type="button" onclick="location.href=" style="width: 5%;">등록</button>
+	<button type="button"
+		onclick="location.href='${contextPath}/company/addCompanyForm.do'"
+		style="width: 5%;">등록</button>
 	<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
-	<!-- 등록하기 function 추가해야함 -->
-	<%-- 'fn_articleForm('${isLogOn}','${contextPath}/company/companyForm.do', 
-'${contextPath}/member/loginForm.do')'; --%>
 
 </body>
 </html>

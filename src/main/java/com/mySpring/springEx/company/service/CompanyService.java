@@ -9,8 +9,9 @@ import com.mySpring.springEx.company.vo.CompanyVO;
 public interface CompanyService {
 
 	public List listCompanies() throws DataAccessException;
-
-	public List listBySearchCompanies(CompanyVO companyVO) throws DataAccessException;
+	
+	// 회사 검색 메소드
+	public List listBySearchCompanies(String searchType, String searchText) throws DataAccessException;
 
 	public CompanyVO selectCompany(String id) throws DataAccessException;
 
@@ -19,5 +20,13 @@ public interface CompanyService {
 	
 	// 회사 삭제 메소드
 	public int removeCompany(String id) throws DataAccessException;
+	
+	// 회사 추가 메소드
+	public int addCompany(CompanyVO companyVO) throws DataAccessException;
+
+	// 회사 수정 메소드
+	public int modCompany(CompanyVO companyVO) throws DataAccessException;
+
+	
 
 }

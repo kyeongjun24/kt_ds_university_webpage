@@ -1,6 +1,8 @@
 package com.mySpring.springEx.company.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,12 @@ public class CompanyDAOImpl implements CompanyDAO{
 	}
 
 	@Override
-	public List selectBySearchMemberList(CompanyVO companyVO) throws DataAccessException {
+	public List selectBySearchCompanyList(String searchType, String searchText) throws DataAccessException {
 		List<CompanyVO> companiesBySearchList = null;
-		companiesBySearchList = sqlSession.selectList("mapper.company.selectBySearchCompaniesList", companyVO);
+		Map<String, String> mapSearch = new HashMap<String, String>();
+		mapSearch.put("searchType", searchType);
+		mapSearch.put("searchText", searchText);
+		companiesBySearchList = sqlSession.selectList("mapper.company.selectBySearchCompanyList", mapSearch);
 		return companiesBySearchList;
 	}
 
@@ -46,6 +51,20 @@ public class CompanyDAOImpl implements CompanyDAO{
 	@Override
 	public int deleteCompany(String id) throws DataAccessException {
 		int result = sqlSession.delete("mapper.company.deleteCompany",id);
+		return result;
+	}
+	
+	// 회사 등록 메소드
+	@Override
+	public int insertCompany(CompanyVO company) throws DataAccessException {
+		int result = sqlSession.insert("mapper.company.insertCompany", company);
+		return result;
+	}
+	
+	// 회사 수정 메소드
+	@Override
+	public int modCompany(CompanyVO company) throws DataAccessException {
+		int result = sqlSession.update("mapper.company.updateCompany", company);
 		return result;
 	}
 }

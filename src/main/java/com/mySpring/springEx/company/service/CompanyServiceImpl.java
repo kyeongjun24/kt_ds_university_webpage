@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mySpring.springEx.company.dao.CompanyDAO;
 import com.mySpring.springEx.company.vo.CompanyVO;
+import com.mySpring.springEx.course.dao.CourseDAO;
 
 @Service("companyService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -26,9 +27,9 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public List listBySearchCompanies(CompanyVO companyVO) throws DataAccessException {
+	public List listBySearchCompanies(String searchType, String searchText) throws DataAccessException {
 		List companiesBySearchList = null;
-		companiesBySearchList = companyDAO.selectBySearchMemberList(companyVO);
+		companiesBySearchList = companyDAO.selectBySearchCompanyList(searchType, searchText);
 		return companiesBySearchList;
 	}
 
@@ -48,5 +49,18 @@ public class CompanyServiceImpl implements CompanyService{
 	@Override
 	public int removeCompany(String id) throws DataAccessException {
 		return companyDAO.deleteCompany(id);
+	}
+	
+	// 회사 추가 메소드
+	@Override
+	public int addCompany(CompanyVO company) throws DataAccessException {
+		
+		return companyDAO.insertCompany(company);
+	}
+	
+	// 회사 수정 메소드
+	@Override
+	public int modCompany(CompanyVO company) throws DataAccessException {
+		return companyDAO.modCompany(company);
 	}
 }

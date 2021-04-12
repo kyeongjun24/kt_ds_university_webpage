@@ -84,7 +84,7 @@ border-collapse: collapse;
 						</td> --%>
 						<td class = line2 align='center' width="20%"><span
 							style="padding-right: 10px"></span> <a class='cls1'
-							href="${contextPath}/company/selectCompany.do?id=${company.id}">${company.name }</a>
+							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>
 						<td class = line2>${company.contractName }</td>
 						<td class = line2>${company.managerPhone }</td>
