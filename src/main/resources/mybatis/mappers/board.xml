@@ -2,84 +2,83 @@
 <!DOCTYPE mapper
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+   
 <mapper namespace="mapper.board">
-<resultMap id="articlesResult" type="articleVO">
-    <result property="level" column="level" />
-    <result property="articleNO" column="articleNO" />
-    <result property="parentNO" column="parentNO" />
-    <result property="title" column="title" />
-    <result property="content" column="content" />
-    <result property="writeDate" column="writeDate" />
-    <result property="imageFileName" column="imageFileName" />
-  </resultMap> 
+	<resultMap id="articlesResult" type="articleVO">
+    	<result property="id" column="art_id" />
+    	<result property="title" column="art_title" />
+    	<result property="joinDate" column="art_join_date" />
+    	<result property="contents" column="art_contents" />
+    	<result property="file" column="art_file" />
+    	<result property="important" column="art_important" />
+    	<result property="hits" column="art_hits" />
+  	</resultMap> 
   
-  <resultMap id="imgResult" type="imageVO">
-	  <result property="imageFileNO" column="imageFileNO" />
-	  <result property="articleNO" column="articleNO" />
-	  <result property="imageFileName" column="imageFileName" />
- </resultMap>
+	<resultMap id="filesResult" type="articleFileVO">
+	  <result property="id" column="file_id" />
+	  <result property="name" column="file_name" />
+	  <result property="artId" column="art_id" />
+	</resultMap>
 
+  <!-- 모든 공지사항 리스트 선택 -->
   <select id="selectAllArticlesList" resultMap="articlesResult"   >
     <![CDATA[
-      SELECT board_level, articleNO, parentNO, title, content, writeDate, imageFileName, id
-      from t_board order by articleNO ASC
-      
+     SELECT art_id, art_title, art_file, art_hits, art_join_date 
+     from article	
     ]]>
   </select>
-    <!--START WITH  parentNO=0
-      CONNECT BY PRIOR articleNO=parentNO 
-      ORDER SIBLINGS BY articleNO DESC-->
-	<!--단일이미지 추가  -->
-	 
+  
+  <!--  -->
   <insert id="insertNewArticle"  parameterType="java.util.Map">
 		<![CDATA[
-			INSERT into t_board(articleNO,  title, content, imageFileName, id)
-			VALUES(#{articleNO}, #{title}, #{content}, #{imageFileName}, #{id})
+			INSERT into article(art_id, art_title, art_file, art_hits, art_join_date )
+			VALUES(#{id}, #{title},	#{file}, #{hits}, #{joinDate})
 		]]>      
 	</insert>
 	
-  <select id="selectNewArticleNO" resultType="int"  >
+  <select id="selectNewId" resultType="int"  >
+  	<!-- SELECT NVL(max(articleNO)+1,0) from t_board	  -->
 		<![CDATA[
-			SELECT  max(articleNO)+1 from t_board		
+			SELECT max(art_id)+1 from article	
 		]]>
 	</select>
 	
-  <select id="selectArticle" resultType="articleVO"   parameterType="int">
+	<select id="selectArticle" resultMap="articlesResult" parameterType="int">
+  <!-- <select id="selectArticle" resultType="articleVO"   parameterType="int"> -->
     <![CDATA[
-      SELECT * from t_board
-      where articleNO = #{articleNO}		
+      SELECT * from article
+      where art_id = #{id}		
     ]]>
   </select>
   
   <update id="updateArticle"  parameterType="java.util.Map">
-			update t_board
-			set title=#{title},	 
-			content=#{content}
-			 <if test="imageFileName!='' and imageFileName!=null">
+			update article
+			set art_title=#{title},	 
+			art_contents=#{contents}
+ 			<!--  <if test="imageFileName!='' and imageFileName!=null">
 			  , imageFileName=#{imageFileName}
-			</if>
-			where articleNO=#{articleNO}
+			</if> -->
+			where art_id=#{id}
 	</update>
 	
 	<delete id="deleteArticle"  parameterType="int">
     <![CDATA[
-      delete from t_board
-      where articleNO in (
-         SELECT articleNO FROM  t_board
-         START WITH articleNO = #{articleNO}
-         CONNECT BY PRIOR  articleNO = parentNO )
+      delete from article
+      where id in (
+         SELECT id 
+         FROM  article
+         START WITH art_id = #{id} )
     ]]>      
   </delete>
 
- <!--다중 이미지 추가 SQL문 ->   
+ <!-- 다중 이미지 추가 SQL문 
 
     <insert id="insertNewArticle"  parameterType="java.util.Map">
     <![CDATA[
       insert into t_board(articleNO, id, title, content, imageFileName)
       values(#{articleNO}, #{id}, #{title}, #{content}, null)
     ]]>      
-  </insert-->
+  </insert>
 
  
    <insert id="insertNewImage"  parameterType="java.util.Map">
@@ -103,6 +102,6 @@
       SELECT * from t_imageFile
       where articleNO=#{articleNO}	
     ]]>
-  </select> 
+  </select>  -->
   
 </mapper>

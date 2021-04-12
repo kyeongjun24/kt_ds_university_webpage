@@ -89,8 +89,7 @@ img {
             <li class="header_menu"><a
                href="${contextPath}/enrollment/listEnrollments.do">수강관리</a></li>
             <li class="header_menu"><a href="#">설문조사관리</a></li>
-            <li class="header_menu"><a
-               href="#">게시판관리</a></li>
+            <li class="header_menu"><a href="${contextPath}/board/listArticles.do">게시판관리</a></li>
             <li><c:choose>
                   <c:when test="${isLogOn == true  && manager!= null}">
                      <a href="${contextPath}/manager/logout.do">로그아웃</a>

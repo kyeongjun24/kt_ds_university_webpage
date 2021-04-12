@@ -12,7 +12,7 @@
 	<h1>사이드 메뉴</h1>
 	
 	<h1>
-		<a href="#"  class="no-underline">공지사항</a><br>
+		<a href="${contextPath}/board/listArticles.do"  class="no-underline">공지사항</a><br>
 		<a href="#"  class="no-underline">FAQ</a><br>
 		<a href="#"  class="no-underline">자료실</a><br>
 		<a href="#"  class="no-underline">이벤트</a><br>

@@ -6,46 +6,24 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
+// 공지사항 VO
 @Component("articleVO")
 public class ArticleVO {
-	private int  level;
-	private int articleNO;
-	private int parentNO;
+	private int id;
 	private String title;
-	private String content;
-	private String imageFileName;
-	private String id;
-	private Date  writeDate;
-	
-	
-	public ArticleVO() {
-		System.out.println("ArticleVO");
+	private String joinDate;
+	private String contents;
+	private String file;
+	private String important;
+	private int hits;
+
+	public int getId() {
+		return id;
 	}
 
-	public int getArticleNO() {
-		return articleNO;
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public void setArticleNO(int articleNO) {
-		this.articleNO = articleNO;
-	}
-
-	public int getParentNO() {
-		return parentNO;
-	}
-
-	public void setParentNO(int parentNO) {
-		this.parentNO = parentNO;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
 
 	public String getTitle() {
 		return title;
@@ -55,45 +33,50 @@ public class ArticleVO {
 		this.title = title;
 	}
 
-	public String getContent() {
-		return content;
+	public String getJoinDate() {
+		return joinDate;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
 	}
 
-	public String getImageFileName() {
-		return imageFileName;
+	public String getContents() {
+		return contents;
 	}
 
-	public void setImageFileName(String imageFileName) {
-		try {
-			if(imageFileName!= null && imageFileName.length()!=0) {
-				this.imageFileName = URLEncoder.encode(imageFileName,"UTF-8");
-			}
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+	public void setContenst(String contents) {
+		this.contents = contents;
+	}
+
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
 	}
 	
+	public String getImportant() {
+		return important;
+	}
+	public void setImportant(String important) {
+		this.important = important;
+	}
 	
-
-	public String getId() {
-		return id;
+	public int getHits() {
+		return hits;
+	}
+	public void setHits(int hits) {
+		this.hits = hits;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+	/*
+	 * public void setFile(String imageFileName) { try { if(imageFileName!= null &&
+	 * imageFileName.length()!=0) { this.imageFileName =
+	 * URLEncoder.encode(imageFileName,"UTF-8"); } } catch
+	 * (UnsupportedEncodingException e) { e.printStackTrace(); } }
+	 */
 
-	public Date getWriteDate() {
-		return writeDate;
-	}
-
-	public void setWriteDate(Date writeDate) {
-		this.writeDate = writeDate;
-	}
 
 
 	
