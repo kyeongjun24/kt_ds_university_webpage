@@ -21,4 +21,18 @@ public class ManagerServiceImpl implements ManagerService{
 		return managerDAO.loginById(managerVO);
 	}
 
+	@Override
+	public ManagerVO selectManager(String id)  {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int updateManager(ManagerVO manager) {
+		// TODO Auto-generated method stub
+		return managerDAO.updateManager(manager);
+	}
+	
+	
+	
 }

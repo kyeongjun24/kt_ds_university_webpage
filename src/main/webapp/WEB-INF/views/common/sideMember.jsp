@@ -15,6 +15,6 @@
 		<a href="#" class="no-underline">협력회사</a><br>
 		<a href="${contextPath}/member/listMembers.do"  class="no-underline">학생관리</a><br>
 		<a href="${contextPath}/company/listCompanies.do" class="no_unerline">회사관리</a><br>
-		<a href="#"  class="no-underline">계정관리</a><br>
+		<a href="${contextPath}/manager/modManagerForm.do"  class="no-underline">계정관리</a><br>
 	</h1>
 	 

@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mySpring.springEx.manager.service.ManagerService;
 import com.mySpring.springEx.manager.vo.ManagerVO;
+import com.mySpring.springEx.member.vo.MemberVO;
 
 @Controller("managerController")
 public class ManagerControllerImpl implements ManagerController{
@@ -23,10 +25,12 @@ public class ManagerControllerImpl implements ManagerController{
 	@Autowired
 	ManagerVO managerVO;
 	
-	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
-	private String main(HttpServletRequest request, HttpServletResponse response) {
-		return "";
-	}
+	
+	 @RequestMapping (value = {"/"}, method = RequestMethod.GET) 
+	 private String main(HttpServletRequest request, HttpServletResponse response) {
+		 return "";
+	 }
+	
 	
 	@Override
 	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST)
@@ -46,7 +50,7 @@ public class ManagerControllerImpl implements ManagerController{
 	    if(action!= null) {
 	       mav.setViewName("redirect:"+action);
 	    }else {
-	       mav.setViewName("redirect:/member/listMembers.do");	
+	       mav.setViewName("redirect:/main.do");	
 	    }
 
 	}else {
@@ -65,7 +69,42 @@ public class ManagerControllerImpl implements ManagerController{
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/");
 		return mav;
-	}	
+	}
+	
+	
+	@Override
+	@RequestMapping(value="/manager/modManager.do", method = RequestMethod.POST)
+	public ModelAndView updateManager(@ModelAttribute("manager") ManagerVO manager,
+					  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		result = managerService.updateManager(manager);
+		ModelAndView mav = new ModelAndView("redirect:/");
+
+//		int result1 = 1;
+//		result1 = managerService.updateManager(manager);
+	
+		return mav;
+	}
+	
+	
+	@Override
+	@RequestMapping(value="/manager/modManagerForm.do", method = RequestMethod.GET)
+	public ModelAndView updateManagerForm(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("utf-8");
+		String viewName = (String)request.getAttribute("viewName");
+		System.out.println(viewName);
+		HttpSession session = request.getSession();
+		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager"); //현재 로그인된 매니저의 정보를 가져옴
+
+		ModelAndView mv = new ModelAndView();	
+		mv.setViewName(viewName);
+//		ManagerVO vo = managerService.selectManager(id);
+		mv.addObject("managerVO", managerVO);
+		return mv;
+	}
+	
 	
 	private String getViewName(HttpServletRequest request) throws Exception {
 		String contextPath = request.getContextPath();
