@@ -17,7 +17,7 @@ public class ManagerDAOImpl implements ManagerDAO{
 	@Override
 	public ManagerVO loginById(ManagerVO managerVO) throws DataAccessException {
 		ManagerVO vo = sqlSession.selectOne("mapper.manager.loginById", managerVO);
-		System.out.println(managerVO.getId());
+		System.out.println(managerVO.getId());  //VO에 Id를 불러옴
 		System.out.println(vo);
 		return vo;
 	}
@@ -25,7 +25,7 @@ public class ManagerDAOImpl implements ManagerDAO{
 	@Override
 	public int updateManager(ManagerVO managerVO) throws DataAccessException {
 		System.out.println("In DAO *********************" + managerVO.getId());
-		int result = sqlSession.update("mapper.manager.updateManager", managerVO);
+		int result = sqlSession.update("mapper.manager.updateManager", managerVO);  //VO에 선언된 변수의 값을 불려옴
 		return result;
 	}
 	
