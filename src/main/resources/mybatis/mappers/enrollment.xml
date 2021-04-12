@@ -67,6 +67,16 @@
 		<collection property="enrollmentScheduleVO" resultMap="enrsResult" />
 	</resultMap>
 
+	 <select id="addEnrollment" parameterType="enrollmentVO">
+		<![CDATA[
+			INSERT INTO enrollment_detail
+				VALUES(
+    			(SELECT NVL(MAX(enrd_id)+1,0) FROM enrollment_detail), 
+    			{crs.id}, {mem.id}, '신청', sysdate, sysdate, null)
+    	]]>
+	</select>
+
+
 	<!-- 수강신청내역 리스트 -->
 	<select id="selectAllEnrollmentList" resultMap="enrdResult">
 		<![CDATA[
@@ -113,11 +123,11 @@
             ON
                 e.crs_id = es.crs_id    	
 			where enrd_id=#{id} 	
-	]]>
-  </select>
+		]]>
+  	</select>
 	
-	
-	<update id="updateEnrollment"  parameterType="int">
+	<!-- 체크리스트 상태변경 -->
+	<update id="updateEnrollments"  parameterType="int">
     	<![CDATA[
 	    	UPDATE enrollment_detail
 			SET enrd_stat = '승인'
@@ -125,7 +135,14 @@
       	]]>      
    </update> 
 
-   
+	<!--  상세페이지 상태변경 -->
+   <update id="modEnrollment"  parameterType="enrollmentVO">
+    	<![CDATA[
+	    	UPDATE enrollment_detail
+			SET enrd_stat = #{stat}
+			WHERE enrd_id = #{id}
+      	]]>      
+   </update> 
    
 	
 </mapper>

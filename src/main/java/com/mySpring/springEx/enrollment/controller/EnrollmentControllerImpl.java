@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +40,9 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	@Autowired
 	CourseVO courseVO;
 
+	
+	
+	
 	//수강신청내역 리스트로 이동 
 	@Override
 	@RequestMapping(value="/enrollment/listEnrollments.do" ,method = RequestMethod.GET)
@@ -63,19 +68,59 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mv;
 	}
 	
+	//수강신청 등록
+	@Override
+	@RequestMapping(value="/enrollment/addEnrollment" ,method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView addEnrollment(@ModelAttribute("enrollment") EnrollmentVO enrollmentVO,
+			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		result = enrollmentService.addEnrollment(enrollmentVO);
+		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
+		return mav;
+	}
 	
-	// 상태 수정
+	// 상세페이지 상태 수정
+	@Override
+	@RequestMapping(value="/enrollment/modEnrollment.do" ,method = RequestMethod.POST)
+	public ModelAndView modEnrollment(@ModelAttribute("enrollment") EnrollmentVO enrollment,
+			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		result = enrollmentService.modEnrollment(enrollment);
+		ModelAndView mav = new ModelAndView("redirect:/enrollment/informationEnrollment.do");
+		return mav;
+	}
+	
+	
+	// 여러개 상태 수정
 	@Override
 	@ResponseBody
-	@RequestMapping(value="/enrollment/modEnrollment.do", method = RequestMethod.POST)
-	public ModelAndView updateEnrollment(int [] arr, 
+	@RequestMapping(value="/enrollment/modEnrollments.do", method = RequestMethod.POST)
+	public int updateEnrollments(int [] arr, 
 					  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) { 
-			result = enrollmentService.updateEnrollment(arr[i]);
+			result = enrollmentService.updateEnrollments(arr[i]);
 		 } 
-		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
+		return result;
+	}
+
+	//폼
+	@RequestMapping(value = "/enrollment/*Form.do", method = RequestMethod.GET)
+	private ModelAndView form(@RequestParam(value = "result", required = false) String result,
+			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String viewName = (String) request.getAttribute("viewName");
+		System.out.println(viewName);
+		HttpSession session = request.getSession();
+		session.setAttribute("action", action);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("result", result);
+		mav.setViewName(viewName);
 		return mav;
 	}
+	
 }

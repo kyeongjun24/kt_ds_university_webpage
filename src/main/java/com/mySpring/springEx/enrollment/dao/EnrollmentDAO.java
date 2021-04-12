@@ -11,8 +11,12 @@ public interface EnrollmentDAO {
 
 	public List selectAllEnrollmentList() throws DataAccessException;
 
-	public int updateEnrollment(int id) throws DataAccessException;
+	public int updateEnrollments(int id) throws DataAccessException;
 
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException;
+
+	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException;
+
+	public int insertEnrollment(EnrollmentVO enrollmentVO) throws DataAccessException;
 
 }

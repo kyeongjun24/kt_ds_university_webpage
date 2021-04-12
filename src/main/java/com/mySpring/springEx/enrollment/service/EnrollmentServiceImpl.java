@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.enrollment.dao.EnrollmentDAO;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
 
@@ -26,16 +27,27 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsList;
 	}
 	
+	//수강신청 등록
+	@Override
+	public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+		return enrollmentDAO.insertEnrollment(enrollment);
+	}
+	
 	//상세 접수내역 페이지로 이동
 	@Override
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
 		return enrollmentDAO.selectEnrollment(id);
 	}
 	
+	@Override
+	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+		return enrollmentDAO.modEnrollment(enrollment);
+	}
+	
 	// 상태 '승인' 으로 수정
 	@Override 
-	public int updateEnrollment(int id) throws DataAccessException {
-		return enrollmentDAO.updateEnrollment(id);
+	public int updateEnrollments(int id) throws DataAccessException {
+		return enrollmentDAO.updateEnrollments(id);
 	}
 	
 }

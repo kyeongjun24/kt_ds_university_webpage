@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
 import com.mySpring.springEx.member.vo.MemberVO;
 
@@ -24,6 +25,13 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
+	//수강신청 등록
+	@Override
+	public int insertEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
+		int result = sqlSession.insert("mapper.enrollment.addEnrollment", enrollmentVO);
+		return result;
+	}
+	
 	//상세 접수내역 페이지로 이동
 	@Override
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
@@ -31,10 +39,16 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return vo;
 	}
 	
+	@Override
+	public int modEnrollment(EnrollmentVO enrollment)  throws DataAccessException{
+		int result = sqlSession.update("mapper.enrollment.modEnrollment", enrollment);
+		return result;
+	}
+	
 	// 상태 '승인' 으로 수정
 	@Override
-	public int updateEnrollment(int id) throws DataAccessException {
-		int result = sqlSession.update("mapper.enrollment.updateEnrollment", id);
+	public int updateEnrollments(int id) throws DataAccessException {
+		int result = sqlSession.update("mapper.enrollment.updateEnrollments", id);
 		return result;
 	}
 	

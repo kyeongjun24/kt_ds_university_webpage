@@ -106,7 +106,7 @@
 		} else{
 			$.ajax({
 				type: 'post',
-				url: '${contextPath}/enrollment/modEnrollment.do',
+				url: '${contextPath}/enrollment/modEnrollments.do',
 				traditional : true, //Array 형태로 보내려면 설정 해줘야함
 				data: {arr : arr},
 				
@@ -116,7 +116,6 @@
 					window.location.href = "${contextPath}/enrollment/listEnrollments.do";
 				}, error:function(data,request,status,error){
 		             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		             
 		        }
 			})
 		}
@@ -156,8 +155,7 @@
       <td colspan="4">
          <p align="center">
             <b><span style="font-size:9pt;">등록된 회사가 없습니다.</span></b>
-        </p>
-      </td>  
+        </p></td>  
     </tr>
   </c:when>
   <c:when test="${enrollmentsList !=null }" >
@@ -168,8 +166,6 @@
 			<td align='left'  width="20%">
 		  		<span style="padding-right:10px"></span>
 		  		<a href="${contextPath}/enrollment/informationEnrollment.do?id=${enrollment.id }">${enrollment.memberVO.name }</a>
-		  		
-		  		
 		 	</td>
 		 	<td>${enrollment.memberVO.phone }</td>
 		 	<td>${enrollment.memberVO.email }</td> 
@@ -178,11 +174,9 @@
 		 	<td>${enrollment.stat }</td>
 		 	<td>${enrollment.joinDate }</td>
 		</tr>
-    </c:forEach>
-     </c:when>
-    </c:choose>
+    </c:forEach>	</c:when>	</c:choose>
 </table>
-<button type="button" style="width: 5%;">등록</button>
+<button type="button" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'" style="width: 5%;">등록</button>
 <button type="button" style="width: 5%;">삭제</button>
 <button type="button" onclick='getCheckList()' style="width: 5%;">승인</button>
 <button type="button" style="width: 5%;">취소</button>

@@ -20,38 +20,56 @@
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script>
+<script language="javascript">
+	
+	function popup(){
+		var url = "${contextPath}/company/popUp.do";
+		var name = "popup test";
+		var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+		window.open(url, name, option);
+	}
+	
 	
 </script>
 </head>
 <body>
 	<h1  class="text_center"> 상세 접수내용 페이지</h1>
-	
+	<form method="post" action="${contextPath}/enrollment/modEnrollment.do">
 	<table  align="center" border="1">
 	   <tr>
 	      <td width="200" bgcolor="lightblue"><p align="center">성명</td>
 	      <td width="400"><p align="center">${enrollmentVO.memberVO.name }</td>
 	      <td width="200" bgcolor="lightblue"><p align="center">아이디</td>
-	      <td width="400"><p align="center">${enrollmentVO.memId }</td>
+	      <td colspan='2' width="400"><p align="center">${enrollmentVO.memId }</td>
 	   </tr>
 	   
 	    <tr>
 	      <td width="200" bgcolor="lightblue"><p align="center">연락처</td>
 	      <td width="400"><p align="center">${enrollmentVO.memberVO.phone }</td>
 	      <td width="200" bgcolor="lightblue"><p align="center">이메일</td>
-	       <td width="400"><p align="center">${enrollmentVO.memberVO.email }</td>
+	      <td colspan='2' width="400"><p align="center">${enrollmentVO.memberVO.email }</td>
 	    </tr>
-	    <tr>
+	    <tr> 
 	       <td width="200" bgcolor="lightblue"><p align="center">접수일</td>
 	       <td width="400"><p align="center">${enrollmentVO.joinDate }</td>
 	       <td width="200" bgcolor="lightblue"><p align="center">현재상태</td>
-	       <td width="400"><p align="center">${enrollmentVO.stat }
+	       <td width="200"><p align="center"><input type="text" name="stat" id="stat" value="${enrollmentVO.stat }" readonly></td>
+	       <td width="200">     변경 : 
+	       <select name="stat" onchange="document.getElementById('stat').value = this.options[this.selectedIndex].value" >
+	       		<option value="." disabled selected>현재상태</option>
+	       		<option value="승인대기">승인대기</option>
+	       		<option value="승인">승인</option>
+	       		<option value="취소">취소</option>
+	       		<option value="수료">수료</option>
+	       </select></td>
 	    </tr>
 	    <tr>
 	       <td width="200" bgcolor="lightblue"><p align="center">회사정보</td>
-	       <td width="400" ><p align="center">${enrollmentVO.memberVO.companyName }</td>
+	       <td width="400" ><p align="center"><input type="text" name="companyName" id="companyName" value="${enrollmentVO.memberVO.companyName }" readonly><br>*새로운 회사명 선택시 변경됩니다.
+	       <br><a onclick="popup()" >회사 수정</a>
+	       </td>
 	       <td width="200" bgcolor="lightblue"><p align="center">수료일</td>
-	       <td width="400"><p align="center">${enrollmentVO.enrollmentScheduleVO.enrsStartDate }</td> 
+	       <td colspan='2' width="400"><p align="center">${enrollmentVO.enrollmentScheduleVO.enrsStartDate }</td> 
 	    </tr>
 	    
 	</table>
@@ -100,7 +118,8 @@
 	</table>
 	
 	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do' " style="width: 5%;">목록</button>
-	<button type="button" style="width: 5%;">수정</button>
+	<input type="submit" value="수정">
 	<button type="button" style="width: 5%;">삭제</button>
+	</form>
 </body>
 </html>
