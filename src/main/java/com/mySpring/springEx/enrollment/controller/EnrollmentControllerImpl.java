@@ -104,6 +104,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return result;
 	}
 
+	//수강 등록
 	@Override
 	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
 	public ModelAndView enrollmentForm(HttpServletRequest request,

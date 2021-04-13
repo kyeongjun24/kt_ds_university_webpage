@@ -228,6 +228,16 @@ public class MemberControllerImpl   implements MemberController {
 		return mav;
 	}
 	
+	//아이디 검색 팝업
+	@RequestMapping(value = "/member/memberSearchPopUp.do", method = {RequestMethod.GET, RequestMethod.POST})
+	private ModelAndView memberSearchPopUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String)request.getAttribute("viewName");
+		List membersList = memberService.listMembers();
+		ModelAndView mv = new ModelAndView(viewName);
+		mv.addObject("membersList", membersList);
+		return mv;
+	}
+	
 	
 
 	private String getViewName(HttpServletRequest request) throws Exception {

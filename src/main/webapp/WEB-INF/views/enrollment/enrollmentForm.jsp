@@ -13,6 +13,17 @@
 <meta charset="UTF-8">
 <title>수강 등록</title>
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script language="javascript">
+	
+	function popup(){
+		var url = "${contextPath}/member/memberSearchPopUp.do";
+		var name = "popup test";
+		var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+		window.open(url, name, option);
+	}
+	
+</script>
 
 </head>
 <body>
@@ -22,23 +33,26 @@
 	<table  align="center">
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
-	      <td width="400"><input type="text" name="memberVO.id"></td>
+	      <!-- <td width="400"><input type="text" name="memberVO.id"></td> -->
+	      <td width="400" ><p align="center"><input type="text" name="memberVO.id" id="memberId" value="${enrollmentVO.memberVO.id }" readonly>
+	      <a onclick="popup()" >아이디 검색</a>
+	      
 	   </tr>
 	   <tr>
 	      <td width="200"><p align="right">과정명</td>
-	      <td width="400"><input type="text" name="courseVO.id"></td>
-	      <%-- <br><td width="400">
+	      <!-- <td width="400"><input type="text" name="courseVO.id"></td> -->
+	      <br><td width="400">
 	      <select name="courseVO.id">
-	      		<option value="" selected></option>
+	      		<option value="" disabled selected></option>
 	      		<c:forEach var="enrollmentVO" items="${syllabusesCoursesList}" >
 	      			<option value="${enrollmentVO.courseVO.id }">${enrollmentVO.syllabusVO.name }</option>
 	      		</c:forEach>
 	      </select>
-	      </td> --%>
+	      </td>
 	   </tr>
 	</table>
 	
-	<input type="submit" value="가입하기">&nbsp;<input type="reset" value="다시입력" id="reset">&nbsp;
+	<input type="submit" value="등록">&nbsp;<input type="reset" value="다시입력" id="reset">&nbsp;
 	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do' " style="width: 5%;">목록</button>
 	
 	</form>

@@ -115,10 +115,10 @@
 		 	<td>${enrollment.memberVO.companyName }</td>
 	 		<td>${enrollment.syllabusVO.name }</td>
 	 		<td>
-	 			<c:if test="${enrollment.stat eq '신청' }">
+	 			<c:if test="${enrollment.stat == '신청' }">
 	 				<font color="red">${enrollment.stat }</font>
 	 			</c:if>
-	 			<c:if test="${enrollment.stat eq '승인' }">
+	 			<c:if test="${enrollment.stat == '승인' }">
 	 				<font color="green">${enrollment.stat }</font>
 	 			</c:if>
 	 			<c:if test="${enrollment.stat eq '수료' }">
