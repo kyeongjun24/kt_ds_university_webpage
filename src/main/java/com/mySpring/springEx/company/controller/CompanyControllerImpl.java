@@ -30,10 +30,9 @@ public class CompanyControllerImpl implements CompanyController {
 	@RequestMapping(value = "/company/listCompanies.do", method = RequestMethod.GET)
 	public ModelAndView listCompanies(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		String searchType = (String) request.getAttribute("searchType");
-		String searchText = (String) request.getAttribute("searchText"); 
+		String searchType = (String) request.getParameter("searchType");
+		String searchText = (String) request.getParameter("searchText"); 
  		List companiesList = null;
-		/* companyService.listCompanies(); */
 		ModelAndView mav = new ModelAndView(viewName);
 		if (searchType != null && searchText != null) {
 			companiesList = companyService.listBySearchCompanies(searchType, searchText);
@@ -52,6 +51,9 @@ public class CompanyControllerImpl implements CompanyController {
 	public ModelAndView listBySearchCompanies(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
+		System.out.println(viewName);
+		System.out.println(searchType);
+		System.out.println(searchText);
 		List companiesList = companyService.listBySearchCompanies(searchType, searchText);
 		ModelAndView mav = new ModelAndView("/company/listCompanies");
 		mav.addObject("companiesList", companiesList);

@@ -84,36 +84,34 @@ request.setCharacterEncoding("UTF-8");
 	String searchText = request.getParameter("searchType");
 	%>
 
-	<form method="get" action="${contextPath }/company/listCompanies.do"
-		id="searchFrm">
+	<form method="get" action="${contextPath }/company/listCompanies.do" id="searchFrm">
 		<select name="searchType" id="searchType">
 			<c:if test="${searchType == 'name'}">
-				<option value="">선택</option>
+				<option value="name">선택</option>
 				<option value="name" selected>회사명</option>
 				<option value="contractName">담당자</option>
 			</c:if>
 			<c:if test="${searchType == 'contractName'}">
-				<option value="">선택</option>
+				<option value="name">선택</option>
 				<option value="name">회사명</option>
 				<option value="contractName" selected>담당자</option>
 			</c:if>
 			<c:if test="${searchType == null}">
-				<option value="" selected>선택</option>
+				<option value="name" selected>선택</option>
 				<option value="name">회사명</option>
 				<option value="contractName">담당자</option>
 			</c:if>
 		</select>
+		
 		<c:choose>
 			<c:when test="${searchText != null}">
-				<input type="text" name="searchText" id="search"
-					value="${searchText }" style="width: 100px; margin-right: 20px;">
+				<input type="text" name="searchText" id="search" value="${searchText }" style="width: 100px; margin-right: 20px;">
 			</c:when>
 			<c:otherwise>
-				<input type="text" name="searchText" id="search"
-					style="width: 100px; margin-right: 20px;">
+				<input type="text" name="searchText" id="search" style="width: 100px; margin-right: 20px;">
 			</c:otherwise>
 		</c:choose>
-		<input type="submit" value="검색" id="searchSubmit">
+		<input type="submit" value="검색">
 	</form>
 
 	<table align="center" border="0" width="80%" id="dynamicCompany">

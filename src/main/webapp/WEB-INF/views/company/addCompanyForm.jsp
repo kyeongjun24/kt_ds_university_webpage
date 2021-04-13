@@ -33,70 +33,75 @@ button {
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-/* 등록할 때 input에 값이 안 들어가 있으면 alert창을 띄우고 커서가 그 곳으로 가는 메소드 */
-	$(function() {
-		$('#registerCheck').submit(function() {
+	/* 등록할 때 input에 값이 안 들어가 있으면 alert창을 띄우고 커서가 그 곳으로 가는 메소드 */
+	$(
+			function() {
+				$('#registerCheck').submit(
+						function() {
 
-			theForm = document.addFrm;
-			if (theForm.contractStat.value == "") {
-				alert("상태를 입력해주세요.")
-				theForm.contractStat.focus();
-				return false;
-			}
-			if (theForm.name.value == "") {
-				alert("회사명을 입력해주세요.")
-				theForm.name.focus();
-				return false;
-			}
-			if (theForm.companyTel.value == "") {
-				alert("대표번호를 입력해주세요.")
-				theForm.companyTel.focus();
-				return false;
-			}
-			if (theForm.homePage.value == "") {
-				alert("홈페이지를 입력해주세요.")
-				theForm.homePage.focus();
-				return false;
-			}
-			if (theForm.address.value == "") {
-				alert("주소를 입력해주세요.")
-				theForm.address.focus();
-				return false;
-			}
-			if (theForm.id.value == "") {
-				alert("사업자등록번호를 입력해주세요.")
-				theForm.id.focus();
-				return false;
-			}
-			if (theForm.contractName.value == "") {
-				alert("담당자를 입력해주세요.")
-				theForm.contractName.focus();
-				return false;
-			}
-			if (theForm.managerPhone.value == "") {
-				alert("담당자전화번호를 입력해주세요.")
-				theForm.managerPhone.focus();
-				return false;
-			}
-			if (theForm.managerEmail.value == "") {
-				alert("담당자이메일을 입력해주세요.")
-				theForm.managerEmail.focus();
-				return false;
-			}
-			if (!$(':input:radio[name=contractAgree]:checked').val()) {
-				alert("1개 이상 선택해주세요.")
-				$('input:radio[name=contractAgree]').eq(0).attr("checked", true);
-				return false;
-			}
-			if (theForm.contractType.value == "") {
-				alert("협약상태를 입력해주세요.")
-				theForm.contractType.focus();
-				return false;
-			}
-			return true;
-		})
-	})
+							theForm = document.addFrm;
+							if (theForm.contractStat.value == "") {
+								alert("상태를 입력해주세요.")
+								theForm.contractStat.focus();
+								return false;
+							}
+							if (theForm.name.value == "") {
+								alert("회사명을 입력해주세요.")
+								theForm.name.focus();
+								return false;
+							}
+							if (theForm.companyTel.value == "") {
+								alert("대표번호를 입력해주세요.")
+								theForm.companyTel.focus();
+								return false;
+							}
+							if (theForm.homePage.value == "") {
+								alert("홈페이지를 입력해주세요.")
+								theForm.homePage.focus();
+								return false;
+							}
+							if (theForm.address.value == "") {
+								alert("주소를 입력해주세요.")
+								theForm.address.focus();
+								return false;
+							}
+							if (theForm.id.value == "") {
+								alert("사업자등록번호를 입력해주세요.")
+								theForm.id.focus();
+								return false;
+							}
+							if (theForm.contractName.value == "") {
+								alert("담당자를 입력해주세요.")
+								theForm.contractName.focus();
+								return false;
+							}
+							if (theForm.managerPhone.value == "") {
+								alert("담당자전화번호를 입력해주세요.")
+								theForm.managerPhone.focus();
+								return false;
+							}
+							if (theForm.managerEmail.value == "") {
+								alert("담당자이메일을 입력해주세요.")
+								theForm.managerEmail.focus();
+								return false;
+							}
+							if (!$(':input:radio[name=contractAgree]:checked')
+									.val()) {
+								alert("1개 이상 선택해주세요.")
+								$('input:radio[name=contractAgree]').eq(0)
+										.attr("checked", true);
+								return false;
+							}
+							if (theForm.contractType.value == "") {
+								alert("협약상태를 입력해주세요.")
+								theForm.contractType.focus();
+								return false;
+							}
+							return true;
+						})
+			})
 </script>
+
 <body>
 	<form method="post" action="${contextPath}/company/addCompany.do"
 		id=registerCheck name=addFrm>
@@ -109,7 +114,6 @@ button {
 						<option value="협의중">협의중</option>
 						<option value="협약서 접수">협약서 접수</option>
 						<option value="탈퇴">탈퇴</option>
-
 				</select>
 			<tr>
 				<td width="200"><p align="right">회사명</p></td>
@@ -155,10 +159,6 @@ button {
 					value="컨소시엄 협약" id="radio1">컨소시엄 협약 <input type="radio"
 					name="contractAgree" value="컨소시엄 비협약" id="radio2">컨소시엄 비협약</td>
 			</tr>
-			<%-- <tr>
-			<td width="200"><p align="right">협약업체 동의 구분</p></td>
-			<td width="400"><input type="radio" name="" value="${company.contractStat }"></td>
-		</tr> --%>
 			<tr>
 				<td width="200"><p align="right">협약 상태 구분</p></td>
 				<td width="250"><select name="contractType">

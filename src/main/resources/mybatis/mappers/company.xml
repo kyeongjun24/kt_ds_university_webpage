@@ -33,10 +33,10 @@
          select * from company         
 	     <choose>
          	<when test="searchType == 'name'">
-         		WHERE com_name LIKE '%' || #{searchText} || '%'
+         		WHERE upper(com_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          	<when test="searchType =='contractName'">
-         		WHERE com_contract_name LIKE '%' || #{searchText} || '%'
+         		WHERE upper(com_contract_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          </choose>
 	</select>

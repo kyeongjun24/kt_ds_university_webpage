@@ -19,9 +19,9 @@ public class CompanyDAOImpl implements CompanyDAO{
 	
 	@Override
 	public List selectAllCompanyList() throws DataAccessException {
-		List<CompanyVO> companyList = null;
-		companyList = sqlSession.selectList("mapper.company.selectAllCompaniesList");
-		return companyList;
+		List<CompanyVO> companiesList = null;
+		companiesList = sqlSession.selectList("mapper.company.selectAllCompaniesList");
+		return companiesList;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class CompanyDAOImpl implements CompanyDAO{
 		Map<String, String> mapSearch = new HashMap<String, String>();
 		mapSearch.put("searchType", searchType);
 		mapSearch.put("searchText", searchText);
-		companiesBySearchList = sqlSession.selectList("mapper.company.selectBySearchCompanyList", mapSearch);
+		companiesBySearchList = sqlSession.selectList("mapper.company.selectBySearchCompaniesList", mapSearch);
 		return companiesBySearchList;
 	}
 
