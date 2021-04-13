@@ -30,45 +30,81 @@ button {
 }
 </style>
 </head>
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-/* jquery로 상세창은 처음 들어왔을 땐 읽기 전용으로 만들고
-수정을 클릭하면 읽기 전용에서 수정이 가능하도록 만들기 */
+/* 등록할 때 input에 값이 안 들어가 있으면 alert창을 띄우고 커서가 그 곳으로 가는 메소드 */
+	$(function() {
+		$('#registerCheck').submit(function() {
 
-/* 카운트 변수 선언*/
-var count =0;
-
-$(document).ready(function(){
-	$('input').prop('readonly',true);
-	$('option').prop('disabled',true);
-	$('radio').prop('disabled',true);
-	$("input[id=radio1]:radio").attr("disabled", "true");
-	$("input[id=radio2]:radio").attr("disabled", "true");
-});
-function modify(){
-	count ++;
-	if(count == 1){
-		$('input').prop('readonly',false);
-		$('option').prop('disabled',false);
-		$('radio').prop('disabled',false);
-		$("input[id=radio1]:radio").attr("disabled", "false");
-		$("input[id=radio1]:radio").removeAttr("disabled");
-		$("input[id=radio2]:radio").attr("disabled", "false");
-		$("input[id=radio2]:radio").removeAttr("disabled");
-		$("#mod").text("저장");
-	} else{
-		alert("저장되었습니다.");
-		$(location).attr('href','${contextPath}/company/listCompanies.do' )
-	}
-};
-</script> -->
+			theForm = document.addFrm;
+			if (theForm.contractStat.value == "") {
+				alert("상태를 입력해주세요.")
+				theForm.contractStat.focus();
+				return false;
+			}
+			if (theForm.name.value == "") {
+				alert("회사명을 입력해주세요.")
+				theForm.name.focus();
+				return false;
+			}
+			if (theForm.companyTel.value == "") {
+				alert("대표번호를 입력해주세요.")
+				theForm.companyTel.focus();
+				return false;
+			}
+			if (theForm.homePage.value == "") {
+				alert("홈페이지를 입력해주세요.")
+				theForm.homePage.focus();
+				return false;
+			}
+			if (theForm.address.value == "") {
+				alert("주소를 입력해주세요.")
+				theForm.address.focus();
+				return false;
+			}
+			if (theForm.id.value == "") {
+				alert("사업자등록번호를 입력해주세요.")
+				theForm.id.focus();
+				return false;
+			}
+			if (theForm.contractName.value == "") {
+				alert("담당자를 입력해주세요.")
+				theForm.contractName.focus();
+				return false;
+			}
+			if (theForm.managerPhone.value == "") {
+				alert("담당자전화번호를 입력해주세요.")
+				theForm.managerPhone.focus();
+				return false;
+			}
+			if (theForm.managerEmail.value == "") {
+				alert("담당자이메일을 입력해주세요.")
+				theForm.managerEmail.focus();
+				return false;
+			}
+			if (!$(':input:radio[name=contractAgree]:checked').val()) {
+				alert("1개 이상 선택해주세요.")
+				$('input:radio[name=contractAgree]').eq(0).attr("checked", true);
+				return false;
+			}
+			if (theForm.contractType.value == "") {
+				alert("협약상태를 입력해주세요.")
+				theForm.contractType.focus();
+				return false;
+			}
+			return true;
+		})
+	})
+</script>
 <body>
-	<form method="post" action="${contextPath}/company/addCompany.do">
+	<form method="post" action="${contextPath}/company/addCompany.do"
+		id=registerCheck name=addFrm>
 		<h1 class="text_left">회사 등록</h1>
 		<table align="left">
 			<tr>
 				<td width="200"><p align="right">상태</p></td>
-				<td width="250"><select name="comStatus">
+				<td width="250"><select name="contractStat">
 						<option value="">상태를 선택하세요</option>
 						<option value="협의중">협의중</option>
 						<option value="협약서 접수">협약서 접수</option>
@@ -81,7 +117,9 @@ function modify(){
 			</tr>
 			<tr>
 				<td width="200"><p align="right">대표번호</p></td>
-				<td width="250"><input type="text" name="companyTel"></td>
+				<td width="250"><input type="text" name="companyTel"
+					placeholder="예) 02-123-4567" onfocus="this.placeholder=''"
+					onblur="this.placeholder='예) 02-123-1234'"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">홈페이지</p></td>
@@ -93,7 +131,9 @@ function modify(){
 			</tr>
 			<tr>
 				<td width="200"><p align="right">사업자등록번호</p></td>
-				<td width="250"><input type="text" name="id"></td>
+				<td width="250"><input type="text" name="id"
+					placeholder="예) 010-1234-5678" onfocus="this.placeholder=''"
+					onblur="this.placeholder='예) 00-000-0000'"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자</p></td>
@@ -101,7 +141,9 @@ function modify(){
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자전화번호</p></td>
-				<td width="250"><input type="text" name="managerPhone"></td>
+				<td width="250"><input type="text" name="managerPhone"
+					placeholder="예) 010-1234-5678" onfocus="this.placeholder=''"
+					onblur="this.placeholder='예) 010-1234-5678'"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자이메일</p></td>
@@ -109,8 +151,9 @@ function modify(){
 			</tr>
 			<tr>
 				<td width="200"><p align="right">협약업체 동의 구분</p></td>
-				<td width="250"><input type="radio" name="contractAgree" value="컨소시엄 협약" id="radio1">컨소시엄 협약 
-				<input type="radio" name="contractAgree" value="컨소시엄 비협약" id="radio2">컨소시엄 비협약</td>
+				<td width="250"><input type="radio" name="contractAgree"
+					value="컨소시엄 협약" id="radio1">컨소시엄 협약 <input type="radio"
+					name="contractAgree" value="컨소시엄 비협약" id="radio2">컨소시엄 비협약</td>
 			</tr>
 			<%-- <tr>
 			<td width="200"><p align="right">협약업체 동의 구분</p></td>
@@ -118,7 +161,7 @@ function modify(){
 		</tr> --%>
 			<tr>
 				<td width="200"><p align="right">협약 상태 구분</p></td>
-				<td width="250"><select name="solid">
+				<td width="250"><select name="contractType">
 						<option value="">상태를 선택하세요</option>
 						<option value="협약서 없음">협약서없음</option>
 						<option value="상호 변경">상호 변경</option>
@@ -129,7 +172,7 @@ function modify(){
 		</table>
 
 		<!-- 등록, 취소 버튼 만들기 -->
-		<input type="submit" onclick="location.href='${contextPath}/company/listCompanies.do'" value="등록" style="width: 5%;" id="add">
+		<input type="submit" value="등록" style="width: 5%;" id="add">
 		<button type="button" onclick="history.back()" style="width: 5%;">취소</button>
 	</form>
 </body>

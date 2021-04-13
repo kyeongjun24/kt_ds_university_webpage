@@ -115,6 +115,7 @@ request.setCharacterEncoding("UTF-8");
 		</c:choose>
 		<input type="submit" value="검색" id="searchSubmit">
 	</form>
+
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" style="border-bottom: solid;">
 			<td><input type="checkbox" id="selectAll"></td>
@@ -143,8 +144,13 @@ request.setCharacterEncoding("UTF-8");
 						<td><input type="checkbox" name="selectedCheckbox"
 							id="${company.id }"></td>
 						<td>${articleNum.count }</td>
-						<td width="15%">${company.contractStat }</td>
-						<td align='left' width="20%"><span
+						<td width="15%"><c:if test="${company.contractStat eq '협의중'}">
+								<font color="blue">${company.contractStat }</font></c:if> 
+								<c:if test="${company.contractStat eq '협약서 접수'}">
+								<font color="green">${company.contractStat }</font></c:if> 
+								<c:if test="${company.contractStat eq '탈퇴'}">
+								<font color="red">${company.contractStat }</font></c:if></td>
+						<td align='center' width="20%"><span
 							style="padding-right: 10px"></span> <a class='cls1'
 							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>

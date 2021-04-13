@@ -128,6 +128,8 @@ public class CompanyControllerImpl implements CompanyController {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		result = companyService.addCompany(companyVO);
+		System.out.println(companyVO.getContractStat());
+		System.out.println(companyVO.getContractType());
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
 		return mav;
 	}

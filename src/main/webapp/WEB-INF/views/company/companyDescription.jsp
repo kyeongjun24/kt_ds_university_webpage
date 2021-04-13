@@ -30,8 +30,7 @@ button {
 }
 </style>
 </head>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
 	/* jquery로 상세창은 처음 들어왔을 땐 읽기 전용으로 만들고
 	 수정을 클릭하면 읽기 전용에서 수정이 가능하도록 만들기 */
@@ -42,8 +41,11 @@ button {
 	$(document).ready(function() {
 		$('input').prop('readonly', true);
 		$('radio').prop('disabled', true);
+		$('#sel1').prop('disabled', true);
+		$('#sel2').prop('disabled', true);
 		$("input[id=radio1]:radio").attr("disabled", "true");
 		$("input[id=radio2]:radio").attr("disabled", "true");
+		$('input').css('border','none');
 	});
 
 	function modify() {
@@ -51,11 +53,14 @@ button {
 		if (count == 1) {
 			$('input').prop('readonly', false);
 			$('radio').prop('disabled', false);
+			$('#sel1').prop('disabled', false);
+			$('#sel2').prop('disabled', false);
 			$("input[id=radio1]:radio").attr("disabled", "false");
 			$("input[id=radio1]:radio").removeAttr("disabled");
 			$("input[id=radio2]:radio").attr("disabled", "false");
 			$("input[id=radio2]:radio").removeAttr("disabled");
 			$("#mod").text("저장");
+			$('input').css('border',"solid 1px");
 		} else {
 
 			alert("저장되었습니다.");
@@ -70,54 +75,54 @@ button {
 		<table align="left">
 			<tr>
 				<td width="200"><p align="right">상태</p></td>
-				<td width="250"><select name="comStatus">
-						<option value="" id=stat1>상태를 선택하세요</option>
-						<option value="협의중" id=stat2
+				<td width="250"><select name="contractStat" id=sel1>
+						<option value="">상태를 선택하세요</option>
+						<option value="협의중"
 							<c:if test="${companyVO.contractStat eq '협의중' }"> selected</c:if>>협의중</option>
-						<option value="협약서 접수" id=stat3
+						<option value="협약서 접수"
 							<c:if test="${companyVO.contractStat eq '협약서 접수' }"> selected</c:if>>협약서 접수</option>
-						<option value="탈퇴" id=stat4
+						<option value="탈퇴" 
 							<c:if test="${companyVO.contractStat eq '탈퇴'}"> selected</c:if>>탈퇴</option>
 				</select>
 			<tr>
 				<td width="200"><p align="right">회사명</p></td>
 				<td width="250"><input type="text" name="name"
-					value="${companyVO.name}" style="border: none"></td>
+					value="${companyVO.name}"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">대표번호</p></td>
 				<td width="250"><input type="text" name="companyTel"
-					value="${companyVO.companyTel}" style="border: none"></td>
+					value="${companyVO.companyTel}"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">홈페이지</p></td>
 				<td width="250"><input type="text" name="homePage"
-					value="${companyVO.homePage }" style="border: none"></td>
+					value="${companyVO.homePage }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">주소</p></td>
 				<td width="250"><input type="text" name="address"
-					value="${companyVO.address }" style="border: none"></td>
+					value="${companyVO.address }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">사업자등록번호</p></td>
 				<td width="250"><input type="text" name="id"
-					value="${companyVO.id }" style="border: none"></td>
+					value="${companyVO.id }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자</p></td>
 				<td width="250"><input type="text" name="contractName"
-					value="${companyVO.contractName }" style="border: none"></td>
+					value="${companyVO.contractName }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자전화번호</p></td>
 				<td width="250"><input type="text" name="managerPhone"
-					value="${companyVO.managerPhone }" style="border: none"></td>
+					value="${companyVO.managerPhone }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자이메일</p></td>
 				<td width="250"><input type="text" name="managerEmail"
-					value="${companyVO.managerEmail }" style="border: none"></td>
+					value="${companyVO.managerEmail }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">협약업체 동의 구분</p></td>
@@ -129,18 +134,18 @@ button {
 			</tr>
 			<tr>
 				<td width="200"><p align="right">협약 상태 구분</p></td>
-				<td width="250"><select name="solid" id=sel2>
-						<option value="" id=sel1>상태를 선택하세요</option>
-						<option value="협약서 없음" id=type1
+				<td width="250"><select name="contractType" id=sel2>
+						<option value="">상태를 선택하세요</option>
+						<option value="협약서 없음"
 							<c:if test="${companyVO.contractType eq '협약서 없음' }"> selected</c:if>>협약서
 							없음</option>
-						<option value="상호 변경" id=type2
+						<option value="상호 변경"
 							<c:if test="${companyVO.contractType eq '상호 변경' }"> selected</c:if>>상호
 							변경</option>
-						<option value="협약 완료" id=type3
+						<option value="협약 완료"
 							<c:if test="${companyVO.contractType eq '협약 완료' }">selected</c:if>>협약
 							완료</option>
-						<option value="협약서 사본" id=type4
+						<option value="협약서 사본"
 							<c:if test="${companyVO.contractType eq '협약서 사본' }"> selected</c:if>>협약서
 							사본</option>
 				</select></td>
@@ -148,13 +153,14 @@ button {
 			<tr>
 				<td width="200"><p align="right">등록 / 수정일</p></td>
 				<td width="250"><input type="text" readOnly name="regDate"
-					value="${companyVO.regDate }" style="border: none"></td>
+					value="${companyVO.regDate }"></td>
 			</tr>
 		</table>
 
 		<!-- 수정, 삭제 버튼 만들기 -->
 		<button type="button" onclick="modify()" style="width: 5%;" id="mod">수정</button>
 		<button type="button" onclick="location.href='${contextPath}/company/removeCompany.do?id=${companyVO.id }'" style="width: 5%;">삭제</button>
+		<button type="button" onclick="history.back()" style="width: 5%;">취소</button>
 	</form>
 </body>
 </html>
