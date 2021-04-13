@@ -19,6 +19,14 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Autowired
 	private EnrollmentDAO enrollmentDAO;
 
+	
+	@Override
+	public List listSylCrs() throws DataAccessException {
+		List sylCrsList = null;
+		sylCrsList = enrollmentDAO.selectSylCrsList();
+		return sylCrsList;
+	}
+	
 	//수강신청내역 리스트로 이동
 	@Override
 	public List listEnrollments() throws DataAccessException {
@@ -39,6 +47,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentDAO.selectEnrollment(id);
 	}
 	
+	// 상세페이지 상태 수정
 	@Override
 	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException {
 		return enrollmentDAO.modEnrollment(enrollment);

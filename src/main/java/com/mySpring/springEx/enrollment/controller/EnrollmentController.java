@@ -11,7 +11,7 @@ public interface EnrollmentController {
 
 	ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	int updateEnrollments(int[] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	int updateEnrollments(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	ModelAndView informationEnrollment(int id, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
@@ -22,5 +22,5 @@ public interface EnrollmentController {
 	ModelAndView addEnrollment(EnrollmentVO enrollmentVO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
-
+	ModelAndView enrollmentForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

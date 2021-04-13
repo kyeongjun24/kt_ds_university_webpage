@@ -29,6 +29,8 @@
 		<result property="joinDate" column="crs_join_date" />
 		<result property="bannerImg" column="crs_banner_img" />
 		<result property="slbId" column="slb_id" />	
+		<result property="crsrsdate" column="crs_rs_date" />
+		<result property="crsredate" column="crs_re_date" />
 	</resultMap>
 	
 	<resultMap id="syllabusResult" type="SyllabusVO">
@@ -47,12 +49,6 @@
         <result property="time" column="slb_time" />
 	</resultMap> 
 	
-	<resultMap id="enrsResult" type="enrollmentScheduleVO">
-		<result property="enrsStartDate" column="enrs_start_date" />
-		<result property="enrsEndDate" column="enrs_end_date" />
-        
-	</resultMap> 
-	
 	<resultMap id="enrdResult" type="enrollmentVO">
 		<result property="id" column="enrd_id" />
 		<result property="crsId" column="crs_id" />
@@ -64,15 +60,25 @@
 		<collection property="memberVO" resultMap="memResult"/>
 		<collection property="courseVO" resultMap="courseResult" />
 		<collection property="syllabusVO" resultMap="syllabusResult" />
-		<collection property="enrollmentScheduleVO" resultMap="enrsResult" />
 	</resultMap>
 
+	<!-- 등록 페이지 데이터 조회 -->
+	<select id="syllabusCourseEnrollment" resultMap="enrdResult">
+		<![CDATA[
+			SELECT s.slb_name as slb_name, c.crs_id as crs_id
+			FROM syllabus s, course c
+			WHERE s.slb_id = c.slb_id
+    	]]>
+	</select>
+
+
+	<!-- 수강신청 등록 -->
 	 <select id="addEnrollment" parameterType="enrollmentVO">
 		<![CDATA[
 			INSERT INTO enrollment_detail
 				VALUES(
     			(SELECT NVL(MAX(enrd_id)+1,0) FROM enrollment_detail), 
-    			{crs.id}, {mem.id}, '신청', sysdate, sysdate, null)
+    			#{courseVO.id}, #{memberVO.id}, '신청', sysdate, sysdate, sysdate)
     	]]>
 	</select>
 
@@ -80,9 +86,9 @@
 	<!-- 수강신청내역 리스트 -->
 	<select id="selectAllEnrollmentList" resultMap="enrdResult">
 		<![CDATA[
-			select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name,
+			SELECT e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name,
 			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, enrd_join_date as enrd_join_date
-				from enrollment_detail E 
+				FROM enrollment_detail E 
 				LEFT JOIN member M
 				ON
 				    e.mem_id = m.mem_id
@@ -92,6 +98,7 @@
 				LEFT JOIN syllabus S
 				ON
 				    c.slb_id = s.slb_id
+			WHERE enrd_stat IN ('신청', '승인', '수료')
 		]]>
 	</select>
 	
@@ -104,7 +111,7 @@
 			e.enrd_stat, e.enrd_complete_date,
 			s.slb_type, s.slb_category, s.slb_name, s.slb_report_name,
 			c.crs_classroom,
-			substr(es.enrs_start_date, 1, 10) as enrs_start_date, substr(es.enrs_end_date, 1, 10) as enrs_end_date, 
+			substr(c.crs_rs_date, 1, 10) as crs_rs_date, substr(c.crs_re_date, 1, 10) as crs_re_date, 
 			substr(c.crs_start_date, 1, 10) as crs_start_date, substr(c.crs_end_date, 1, 10) as crs_end_date, 
 			substr(c.crs_start_time, 11, 6) as crs_start_time, substr(crs_end_time, 11, 6) as crs_end_time, 
 			c.crs_capacity,
@@ -118,10 +125,7 @@
 			    e.crs_id = c.crs_id
 			LEFT JOIN syllabus S
 			ON
-			    c.slb_id = s.slb_id
-            LEFT JOIN enrollment_schedule ES
-            ON
-                e.crs_id = es.crs_id    	
+			    c.slb_id = s.slb_id	
 			where enrd_id=#{id} 	
 		]]>
   	</select>
@@ -130,17 +134,27 @@
 	<update id="updateEnrollments"  parameterType="int">
     	<![CDATA[
 	    	UPDATE enrollment_detail
-			SET enrd_stat = '승인'
+			SET enrd_stat = '취소'
 			WHERE enrd_id = #{id}
       	]]>      
    </update> 
 
 	<!--  상세페이지 상태변경 -->
+	<!--  프로시저 -->
    <update id="modEnrollment"  parameterType="enrollmentVO">
     	<![CDATA[
-	    	UPDATE enrollment_detail
-			SET enrd_stat = #{stat}
-			WHERE enrd_id = #{id}
+    	{call
+    			
+    			BEGIN
+    				UPDATE enrollment_detail e
+					SET e.enrd_stat = #{stat}
+					WHERE e.mem_id = #{id};
+    	
+	    			UPDATE member m
+					SET m.mem_company_name = #{memberVO.companyName}
+					WHERE m.mem_id = #{id};
+      			END
+      	}
       	]]>      
    </update> 
    

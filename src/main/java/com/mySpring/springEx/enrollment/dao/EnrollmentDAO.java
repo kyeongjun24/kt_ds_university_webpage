@@ -19,4 +19,6 @@ public interface EnrollmentDAO {
 
 	public int insertEnrollment(EnrollmentVO enrollmentVO) throws DataAccessException;
 
+	public List selectSylCrsList() throws DataAccessException;
+
 }

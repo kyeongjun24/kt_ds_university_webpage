@@ -40,9 +40,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	@Autowired
 	CourseVO courseVO;
 
-	
-	
-	
 	//수강신청내역 리스트로 이동 
 	@Override
 	@RequestMapping(value="/enrollment/listEnrollments.do" ,method = RequestMethod.GET)
@@ -97,30 +94,44 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/enrollment/modEnrollments.do", method = RequestMethod.POST)
-	public int updateEnrollments(int [] arr, 
+	public int updateEnrollments(String [] arr, 
 					  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) { 
-			result = enrollmentService.updateEnrollments(arr[i]);
+			result = enrollmentService.updateEnrollments(Integer.parseInt(arr[i]));
 		 } 
 		return result;
 	}
 
-	//폼
-	@RequestMapping(value = "/enrollment/*Form.do", method = RequestMethod.GET)
-	private ModelAndView form(@RequestParam(value = "result", required = false) String result,
-			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
+	@Override
+	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
+	public ModelAndView enrollmentForm(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
+		
+		request.setCharacterEncoding("utf-8");
 		String viewName = (String) request.getAttribute("viewName");
-		System.out.println(viewName);
-		HttpSession session = request.getSession();
-		session.setAttribute("action", action);
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("result", result);
 		mav.setViewName(viewName);
+		List syllabusesCoursesList = enrollmentService.listSylCrs();
+		mav.addObject("syllabusesCoursesList", syllabusesCoursesList);
 		return mav;
 	}
+	
+	
+//	//폼
+//	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
+//	private ModelAndView enrollmentForm(@RequestParam(value = "result", required = false) String result,
+//			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
+//			HttpServletResponse response) throws Exception {
+//
+//		String viewName = (String) request.getAttribute("viewName");
+//		HttpSession session = request.getSession();
+//		session.setAttribute("action", action);
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("result", result);
+//		mav.setViewName(viewName);
+//		return mav;
+//	}
 	
 }

@@ -19,4 +19,6 @@ public interface EnrollmentService {
 
 	public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException;
 
+	public List listSylCrs() throws DataAccessException;
+
 }

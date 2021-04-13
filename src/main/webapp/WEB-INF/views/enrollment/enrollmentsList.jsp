@@ -3,6 +3,7 @@
     isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <%
   request.setCharacterEncoding("UTF-8");
@@ -19,65 +20,6 @@
 </head>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-	/* function fn_articleForm(isLogOn,courseForm,loginForm){
-	  if(isLogOn != '' && isLogOn != 'false'){
-	    location.href=courseForm;
-	  }else{
-	    alert("로그인 후 과정 등록이 가능합니다.")
-	    location.href=loginForm+'?action=/course/courseForm.do';
-	  }
-	} */
-	
-		/* 검색기능 수정해야함 */
-		/* $('#searchSubmit').on('click', function(){
-			var searchText = $('#search').val();
-			var searchType = $('#searchType').val();
-			var comName = '';
-			var contractName = '';
-			
-			
-			if (searchType == 'comName') {
-				comName = searchText;
-			} else if (searchType == 'contractName') {
-				contractName = searchText;
-			}
-			
-			if (comName != '' || contractName != ''){
-				alert(contractName);
-				alert(searchType);
-				
-				$.ajax({
-					type: 'post',
-					url:'${contextPath}/company/listBySearch.do',
-					data: 'contractName='+contractName+'&comName='+comName,
-					
-					success: function(result){
-						
-						if (result.length > 0) {
-							var str = '<tr align="center" bgcolor="lightgreen">';
-							str += '<td><input type="checkbox" id="selectAll"></td><td ><b>상태</b></td><td><b>회사명</b></td><td><b>담당자</b></td><td><b>전화번호</b></td><td><b>사업자등록번호</b></td><td><b>등록 / 수정일</b></td></tr>';
-							for (var i = 0; i<result.length; i++){
-								str += '<tr><td><input type="checkbox"></td>';
-								str += '<td>'+result[i].contractStat+'</td>';
-								str += '<td>'+result[i].comName+'</td>';
-								str += '<td>'+result[i].contractName+'</td>';
-								str += '<td>'+result[i].managerPhone+'</td>';
-								str += '<td>'+result[i].comId+'</td>';
-								str += '<td>'+result[i].modDate+'</td>';
-								}
-								$('#dynamicCompany').html(str);
-								
-							} else{ $('#dynamicCompany').html(''); }
-		
-					}, error:function(result,request,status,error){
-			             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			             
-			        }
-				})
-				return false;	
-			}
-			
-		}) */
 	
 	// 전체 체크되게 하는 함수
 	$(function() {
@@ -95,9 +37,10 @@
 		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
 		alert(length);
 		var arr = new Array();
-		$("input:checkbox[type=checkbox]:checked").each(function(index) {
+		$("input:checkbox[name='selectedCheckbox']:checked").each(function(index) {
 			/* alert($(this).attr('id')); */
 			arr.push($(this).attr('id'));
+			alert($(this).attr('id'));	
 		})
 		
 		if(length == 0){
@@ -170,16 +113,25 @@
 		 	<td>${enrollment.memberVO.phone }</td>
 		 	<td>${enrollment.memberVO.email }</td> 
 		 	<td>${enrollment.memberVO.companyName }</td>
-		 	<td>${enrollment.syllabusVO.name }</td>
-		 	<td>${enrollment.stat }</td>
+	 		<td>${enrollment.syllabusVO.name }</td>
+	 		<td>
+	 			<c:if test="${enrollment.stat eq '신청' }">
+	 				<font color="red">${enrollment.stat }</font>
+	 			</c:if>
+	 			<c:if test="${enrollment.stat eq '승인' }">
+	 				<font color="green">${enrollment.stat }</font>
+	 			</c:if>
+	 			<c:if test="${enrollment.stat eq '수료' }">
+	 				<font color="blue">${enrollment.stat }</font>
+	 			</c:if>
+	 		</td>
 		 	<td>${enrollment.joinDate }</td>
 		</tr>
     </c:forEach>	</c:when>	</c:choose>
 </table>
 <button type="button" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'" style="width: 5%;">등록</button>
-<button type="button" style="width: 5%;">삭제</button>
-<button type="button" onclick='getCheckList()' style="width: 5%;">승인</button>
-<button type="button" style="width: 5%;">취소</button>
+<button type="button" style="width: 5%;">승인</button>
+<button type="button" onclick='getCheckList()' style="width: 5%;">취소</button>
 <button type="button" style="width: 5%;">수료</button>
 <!-- 등록 버튼 추가해야함 -->
 <%-- <a  class="cls1"  href="javascript:fn_articleForm('${isLogOn}','${contextPath}/company/companyForm.do', 

@@ -69,7 +69,7 @@
 	       <br><a onclick="popup()" >회사 수정</a>
 	       </td>
 	       <td width="200" bgcolor="lightblue"><p align="center">수료일</td>
-	       <td colspan='2' width="400"><p align="center">${enrollmentVO.enrollmentScheduleVO.enrsStartDate }</td> 
+	       <td colspan='2' width="400"><p align="center">${enrollmentVO.completeDate }</td> 
 	    </tr>
 	    
 	</table>
@@ -96,7 +96,7 @@
 	      <td width="200" bgcolor="lightblue"><p align="center">강의실 정보</td>
 	      <td width="400"><p align="center">${enrollmentVO.courseVO.classroom } 호</td>
 	      <td width="200" bgcolor="lightblue"><p align="center">수강신청일</td>
-	      <td width="400"><p align="center">${enrollmentVO.enrollmentScheduleVO.enrsStartDate } ~ ${enrollmentVO.enrollmentScheduleVO.enrsEndDate }</td>
+	      <td width="400"><p align="center">${enrollmentVO.courseVO.crsrsdate } ~ ${enrollmentVO.courseVO.crsredate }</td>
 	   </tr>
 	   <tr>
 	      <td width="200" bgcolor="lightblue"><p align="center">교육기간</td>
@@ -117,7 +117,7 @@
 	    
 	</table>
 	
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do' " style="width: 5%;">목록</button>
+	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
 	<input type="submit" value="수정">
 	<button type="button" style="width: 5%;">삭제</button>
 	</form>

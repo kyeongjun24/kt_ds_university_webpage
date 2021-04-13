@@ -260,8 +260,5 @@ public class MemberControllerImpl   implements MemberController {
 		}
 		return viewName;
 	}
-
 	
-
-
 }

@@ -17,6 +17,14 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Autowired
 	private SqlSession sqlSession;
 
+	@Override
+	public List selectSylCrsList() throws DataAccessException {
+		List<EnrollmentVO> sylCrsList = null;
+		sylCrsList = sqlSession.selectList("mapper.enrollment.syllabusCourseEnrollment");
+		return sylCrsList;
+	}
+	
+	
 	//수강신청내역 리스트로 이동
 	@Override
 	public List selectAllEnrollmentList() throws DataAccessException {
@@ -39,6 +47,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return vo;
 	}
 	
+	// 상세페이지 상태 수정
 	@Override
 	public int modEnrollment(EnrollmentVO enrollment)  throws DataAccessException{
 		int result = sqlSession.update("mapper.enrollment.modEnrollment", enrollment);

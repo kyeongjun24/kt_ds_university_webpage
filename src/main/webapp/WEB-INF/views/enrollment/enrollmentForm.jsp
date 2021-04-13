@@ -12,6 +12,8 @@
 <head>
 <meta charset="UTF-8">
 <title>수강 등록</title>
+
+
 </head>
 <body>
 	<form method="post"   action="${contextPath}/enrollment/addEnrollment.do" id=registerFrm>
@@ -20,11 +22,19 @@
 	<table  align="center">
 	   <tr>
 	      <td width="200"><p align="right">아이디</td>
-	      <td width="400"><input type="text" name="=id" id="=id"></td>
+	      <td width="400"><input type="text" name="memberVO.id"></td>
 	   </tr>
 	   <tr>
 	      <td width="200"><p align="right">과정명</td>
-	      <td width="400"><input type="text" name="=id" id="=id"></td>
+	      <td width="400"><input type="text" name="courseVO.id"></td>
+	      <%-- <br><td width="400">
+	      <select name="courseVO.id">
+	      		<option value="" selected></option>
+	      		<c:forEach var="enrollmentVO" items="${syllabusesCoursesList}" >
+	      			<option value="${enrollmentVO.courseVO.id }">${enrollmentVO.syllabusVO.name }</option>
+	      		</c:forEach>
+	      </select>
+	      </td> --%>
 	   </tr>
 	</table>
 	
