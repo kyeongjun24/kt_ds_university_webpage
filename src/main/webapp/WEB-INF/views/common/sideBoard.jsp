@@ -9,9 +9,8 @@ request.setCharacterEncoding("UTF-8");
 
 <div class="side">
 	<h1 class="side_title">게시판관리</h1>
-
 	<ul>
-		<li><a href="#" class="no-underline">공지사항</a></li><br>
+		<li><a href="${contextPath}/board/listArticles.do" class="no-underline">공지사항</a></li><br>
 		<li><a href="#" class="no-underline">FAQ</a></li> <br>
 		<li><a href="#" class="no-underline">자료실</a></li> <br>
 		<li><a href="#" class="no-underline">이벤트</a></li> <br>

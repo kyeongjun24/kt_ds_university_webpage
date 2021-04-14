@@ -71,7 +71,6 @@ img {
 				src="${contextPath}/resources/image/adminLogo2.png"></a>
 			<!-- 로고 클릭 시 회원리스트로 이동 -->
 		</div>
-
 		<div class="main_menu">
 			<ul>
 				<li class="header_menu"><a

@@ -13,21 +13,150 @@
  <style>
    .cls1 {text-decoration:none;}
    .cls2{text-align:center; font-size:30px;}
-  </style>
-  <meta charset="UTF-8">
-  <title>글목록창</title>
+</style>
+<meta charset="UTF-8">
+<title>글목록창</title>
 </head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
-	function fn_articleForm(isLogOn,articleForm,loginForm){
+
+/* 	function fn_articleForm(isLogOn,articleForm,loginForm){
 	  if(isLogOn != '' && isLogOn != 'false'){
 	    location.href=articleForm;
 	  }else{
 	    alert("로그인 후 글쓰기가 가능합니다.")
 	    location.href=loginForm+'?action=/board/articleForm.do';
 	  }
+	} */
+
+	//체크 된 걸 가져오는 함수
+	function getCheckList() {
+		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
+		/* alert(length); */
+ 		var arr = new Array();
+		$("input:checkbox[type=checkbox]:checked").each(function(index) {
+			/* alert($(this).attr('id')); */
+ 			arr.push($(this).attr('id'));
+		})
+		
+		if(length == 0){
+			alert("선택된 값이 없습니다.");
+			return false;
+		} else {
+			$.ajax({
+				type: 'post',
+				url: '${contextPath}/board/removeCheckedArticles.do',
+				traditional : true, //Array 형태로 보내려면 설정 해줘야함 */
+				data: {arr: arr},
+
+				
+				success: function(data) {
+					alert('데이터 받기 성공');
+					alert(data+"개의 데이터가 삭제됩니다.");
+					window.location.href = "${contextPath}/board/listArticles.do";
+				}, error:function(data,request,status,error){
+		             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		             
+		        }
+			})
+		}
 	}
+	
+	// 전체 체크되게 하는 함수
+	$(function(){
+		$('#selectAll').click(function(){
+			if ($("input:checkbox[id='selectAll']").prop("checked")) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else{
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		})	
+		
+		
+	}) //function
 </script>
+	
 <body>
+<%String searchType = request.getParameter("searchType");
+  String searchText = request.getParameter("searchType");
+%>
+<form method="get" action="${contextPath}/board/listArticles.do" id="searchFrm">
+	<select name="searchType" id="searchType">
+		<c:if test="${searchType == 'title'}">
+		<option value="">검색 종류</option>
+		<option value="title" selected>제목</option>
+		</c:if>
+		<c:if test="${searchType == null }">
+		<option value="" selected>검색 종류</option>
+		<option value="title">제목</option>
+		</c:if>
+	</select>
+	<c:choose>
+		<c:when test="${searchText != null }">
+			<input type="text" name="searchText" id="search" value="${searchText }" style="width: 100px; margin-right: 20px;">
+		</c:when>
+		<c:otherwise>
+			<input type="text" name="searchText" id="search" style="width: 100px; margin-right: 20px;">
+		</c:otherwise>
+	</c:choose>
+	<input type="submit" value="검색">
+</form>
+	<table align="center"  width="100%">
+	<tr height="10" align="center"  bgcolor="white">
+	<td><input type="checkbox" id="selectAll"></td>
+     	<td ><b>번호</b></td>
+     	<td ><b>제목</b></td>  
+     	<td ><b>조회수</b></td>
+     	<td ><b>등록일</b></td>
+     </tr>
+     
+     <c:choose>
+      <c:when test="${articlesList2 ==null }" >
+    		<tr  height="10">
+      			<td colspan="4">
+         			<p align="center">
+            		<b><span style="font-size:9pt;">등록된 글이 없습니다.</span></b>
+        			</p>
+      			</td>  
+    		</tr>
+  		</c:when>
+  		<c:when test="${articlesList2 !=null }" >
+  			<c:forEach var="board" items="${articlesList1 }">
+  				<tr align="center">
+  					<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
+  					<td width="10%">공지${board.important}</td>
+  					<td align='center' width="30%">
+	  					<span style="padding-right:10px" ></span>
+      					<a class='cls1' href="${contextPath}/board/selectArticle.do?id=${board.id}">${board.title}</a>
+      				</td>
+      				<td>${board.hits}</td>
+      				<td>${board.joinDate}</td>
+      			</tr>
+  			</c:forEach>
+  			
+   			<c:forEach 	var="board" items="${articlesList2 }" varStatus="boardNum" >  
+   			<tr align="center">
+   				<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
+      				<td width="10%">${boardNum.count}</td>
+      				<td align='center' width="30%">
+	  					<span style="padding-right:10px" ></span>
+      					<a class='cls1' href="${contextPath}/board/selectArticle.do?id=${board.id}">${board.title}</a>
+      				</td>
+      				<td>${board.hits}</td>
+      				<td>${board.joinDate}</td>
+    		</tr>
+  			</c:forEach>  
+  		</c:when>
+  		</c:choose>
+     	</table>
+     	<button type="button" onclick="location.href='${contextPath}/board/articleForm.do'" style="width: 5%;">글쓰기</button>
+     	<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
+</body>
+</html>
+
+
+<%-- <body>
 <table align="center" border="0"  width="80%"  >
   <tr height="10" align="center"  bgcolor="lightgreen">
      <td ><b>글번호</b></td>
@@ -48,9 +177,10 @@
   <c:when test="${articlesList !=null }" >
     <c:forEach  var="article" items="${articlesList }" varStatus="articleNum" >
      <tr align="center">
-	<!--<td width="5%">${articleNum.count}</td>  -->
-	<td width="5%">${article.articleNO }</td>
-	<td width="10%">${article.id }</td>
+	<td width="5%">${articleNum.count}</td>
+	<td width="10%">${article.title }</td>
+	<td width="10%">${article.hits }</td>
+	<td width="10%">${article.joinDate }</td>
 	<td align='left'  width="35%">
 	  <span style="padding-right:30px"></span>
 	   <c:choose>
@@ -59,14 +189,13 @@
 	              <span style="padding-left:20px"></span>    
 	         </c:forEach>
 	         <span style="font-size:12px;">[답변]</span>
-                   <a class='cls1' href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
+                   <a class='cls1' href="${contextPath}/board/viewArticle.do?id=${article.id}">${article.title}</a>
 	          </c:when>
 	          <c:otherwise>
-	            <a class='cls1' href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title }</a>
+	            <a class='cls1' href="${contextPath}/board/viewArticle.do?id=${article.id}">${article.title }</a>
 	          </c:otherwise>
 	        </c:choose>
 	  </td>
-	  <td  width="10%">${article.writeDate}</td> 
 	</tr>
     </c:forEach>
      </c:when>
@@ -76,4 +205,4 @@
 <a  class="cls1"  href="javascript:fn_articleForm('${isLogOn}','${contextPath}/board/articleForm.do', 
                                                     '${contextPath}/member/loginForm.do')"><p class="cls2">글쓰기</p></a>
 </body>
-</html>
+</html> --%>

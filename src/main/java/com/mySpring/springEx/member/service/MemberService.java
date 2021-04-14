@@ -8,6 +8,7 @@ import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.member.vo.MemberVO;
 
 public interface MemberService {
+	
 	public List listMembers() throws DataAccessException;
 	public List listBySearchMembers(String searchType, String searchText) throws DataAccessException;
 	public List listCriteria(Criteria criteria) throws DataAccessException;
@@ -17,7 +18,5 @@ public interface MemberService {
 	public int updateMember(MemberVO memberVO) throws DataAccessException;
 	public MemberVO selectMember(String id) throws DataAccessException;
 	public int idCheckMember(String id) throws DataAccessException;
-	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException;
-	
-	
+	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException;	
 }
