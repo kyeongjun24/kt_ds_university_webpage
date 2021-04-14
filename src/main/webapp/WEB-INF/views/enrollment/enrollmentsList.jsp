@@ -106,7 +106,7 @@
 	<input type="text" id="search" style="width: 100px; margin-right: 20px;"><input type="submit" value="검색" id="searchSubmit">
 </form>
 <table align="center" border="0"  width="80%" id="dynamicCompany" >
-  <tr height="15" align="center" style="border-bottom: solid;">
+  <tr height="15" align="center" id="attr">
      <td><input type="checkbox" id="selectAll"></td>         
      <td ><b>아이디</b></td>
      <td><b>이름</b></td>
@@ -131,9 +131,8 @@
    <c:forEach  var="enrollment" items="${enrollmentsList }" varStatus="enrdNum" >
 	    <tr align="center">
 		<td><input type="checkbox"></td>
-		<td width="15%">${enrollment.id }</td>
-		<td align='left'  width="20%">
-		  <span style="padding-right:10px"></span>
+		<td>${enrollment.id }</td>
+		<td>
 		  <a href="#">${enrollment.memId }</a>
 		 </td>
 		 <td>${enrollment.memberVO.phone }</td>

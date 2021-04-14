@@ -79,6 +79,7 @@ request.setCharacterEncoding("UTF-8");
 </script>
 
 <body>
+<<<<<<< HEAD
 	<%
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
@@ -165,6 +166,5 @@ request.setCharacterEncoding("UTF-8");
 		onclick="location.href='${contextPath}/company/addCompanyForm.do'"
 		style="width: 5%;">등록</button>
 	<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
-
 </body>
 </html>
