@@ -52,7 +52,7 @@
 	   </tr>
 	</table>
 	
-	<input type="submit" value="등록">&nbsp;<input type="reset" value="다시입력" id="reset">&nbsp;
+	<input type="submit" value="등록" style="width: 5%;">&nbsp;<input type="reset" value="다시입력" id="reset" style="width: 5%;">&nbsp;
 	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do' " style="width: 5%;">목록</button>
 	
 	</form>

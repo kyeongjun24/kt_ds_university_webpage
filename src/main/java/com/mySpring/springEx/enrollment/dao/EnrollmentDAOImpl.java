@@ -47,10 +47,20 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return vo;
 	}
 	
-	// 상세페이지 상태 수정
+	// 상세페이지 (회사) 수정
 	@Override
-	public int modEnrollment(EnrollmentVO enrollment)  throws DataAccessException{
-		int result = sqlSession.update("mapper.enrollment.modEnrollment", enrollment);
+	public int modEnrollmentCompany(EnrollmentVO enrollmentVO)  throws DataAccessException{
+		int result = sqlSession.update("mapper.enrollment.modEnrollmentCompany", enrollmentVO);
+		
+		System.out.println(result);
+		System.out.println(enrollmentVO.getId());
+		return result;
+	}
+	
+	// 상세페이지 (상태) 수정
+	@Override
+	public int modEnrollmentStat(EnrollmentVO enrollmentVO)  throws DataAccessException{
+		int result = sqlSession.update("mapper.enrollment.modEnrollmentStat", enrollmentVO);
 		return result;
 	}
 	

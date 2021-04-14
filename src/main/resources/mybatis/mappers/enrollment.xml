@@ -61,12 +61,35 @@
 		<collection property="courseVO" resultMap="courseResult" />
 		<collection property="syllabusVO" resultMap="syllabusResult" />
 	</resultMap>
-
+	
+	<!-- 상세페이지 (상태) 수정 -->
+  	<update id="modEnrollmentStat"  parameterType="enrollmentVO">
+   		<![CDATA[
+    		UPDATE enrollment_detail
+			SET enrd_stat = #{stat}, enrd_complete_date = #{completeDate}
+			WHERE enrd_id = #{id}
+      	]]> 
+   </update>
+	
+	<!-- 상세페이지 (회사) 수정 -->
+  	<update id="modEnrollmentCompany"  parameterType="enrollmentVO">
+   		<![CDATA[
+    		UPDATE member
+			SET mem_company_name = #{memberVO.companyName}
+			WHERE mem_id IN (
+    			select mem_id 
+    			FROM enrollment_detail 
+    			WHERE enrd_id = #{id}
+    			)
+      	]]> 
+   </update>
+   
 	<!-- 수강신청내역 리스트 -->
 	<select id="selectAllEnrollmentList" resultMap="enrdResult">
 		<![CDATA[
 			SELECT e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name,
-			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, enrd_join_date as enrd_join_date
+			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, 
+			 substr(e.enrd_join_date, 1, 10) as enrd_join_date
 				FROM enrollment_detail E 
 				LEFT JOIN member M
 				ON
@@ -85,9 +108,10 @@
 	<select id="selectEnrollment"  resultMap="enrdResult"   parameterType="Int" >
 	<![CDATA[
 		select 
+			e.enrd_id,
 			m.mem_name, m.mem_id, m.mem_phone, m.mem_email, m.mem_company_name,
 			substr(e.enrd_join_date, 1, 10) as enrd_join_date,
-			e.enrd_stat, e.enrd_complete_date,
+			e.enrd_stat, substr(e.enrd_complete_date, 1, 10) as enrd_complete_date,
 			s.slb_type, s.slb_category, s.slb_name, s.slb_report_name,
 			c.crs_classroom,
 			substr(c.crs_rs_date, 1, 10) as crs_rs_date, substr(c.crs_re_date, 1, 10) as crs_re_date, 
@@ -108,7 +132,7 @@
 			where enrd_id=#{id} 	
 		]]>
   	</select>
-	
+  	
 	<!-- 체크리스트 상태변경 -->
 	<update id="updateEnrollments"  parameterType="int">
     	<![CDATA[
@@ -127,36 +151,14 @@
     	]]>
 	</select>
 
-
 	<!-- 수강신청 등록 -->
 	 <select id="addEnrollment" parameterType="enrollmentVO">
 		<![CDATA[
 			INSERT INTO enrollment_detail
 				VALUES(
     			(SELECT NVL(MAX(enrd_id)+1,0) FROM enrollment_detail), 
-    			#{courseVO.id}, #{memberVO.id}, '신청', sysdate, sysdate, sysdate)
+    			#{courseVO.id}, #{memberVO.id}, '신청', null, sysdate, sysdate)
     	]]>
 	</select>
-   
-
-	<!--  상세페이지 상태변경 -->
-	<!--  프로시저 -->
-   <update id="modEnrollment"  parameterType="enrollmentVO">
-    	<![CDATA[
-    	{call
-    			
-    			BEGIN
-    				UPDATE enrollment_detail
-					SET enrd_stat = #{stat}
-					WHERE mem_id = #{id};
-    	
-	    			UPDATE member
-					SET mem_company_name = #{memberVO.companyName}
-					WHERE mem_id = #{id};
-      			END
-      	}
-      	]]>      
-   </update> 
-   
 	
 </mapper>

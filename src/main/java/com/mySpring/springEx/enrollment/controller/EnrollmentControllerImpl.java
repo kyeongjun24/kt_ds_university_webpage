@@ -85,7 +85,8 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		result = enrollmentService.modEnrollment(enrollment);
-		ModelAndView mav = new ModelAndView("redirect:/enrollment/informationEnrollment.do");
+		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
+	//	ModelAndView mav = new ModelAndView("redirect:/enrollment/informationEnrollment.do?id=60000");
 		return mav;
 	}
 	

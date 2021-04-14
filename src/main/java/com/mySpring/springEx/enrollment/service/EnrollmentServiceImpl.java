@@ -45,12 +45,16 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Override
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
 		return enrollmentDAO.selectEnrollment(id);
+		
 	}
 	
 	// 상세페이지 상태 수정
 	@Override
 	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException {
-		return enrollmentDAO.modEnrollment(enrollment);
+		
+		enrollmentDAO.modEnrollmentCompany(enrollment);
+		return enrollmentDAO.modEnrollmentStat(enrollment);
+		
 	}
 	
 	// 상태 '승인' 으로 수정
@@ -58,5 +62,6 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	public int updateEnrollments(int id) throws DataAccessException {
 		return enrollmentDAO.updateEnrollments(id);
 	}
+	
 	
 }

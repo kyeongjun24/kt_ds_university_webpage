@@ -15,10 +15,12 @@ public interface EnrollmentDAO {
 
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException;
 
-	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException;
-
 	public int insertEnrollment(EnrollmentVO enrollmentVO) throws DataAccessException;
 
 	public List selectSylCrsList() throws DataAccessException;
+
+	public int modEnrollmentCompany(EnrollmentVO enrollmentVO) throws DataAccessException;
+
+	public int modEnrollmentStat(EnrollmentVO enrollmentVO) throws DataAccessException;
 
 }

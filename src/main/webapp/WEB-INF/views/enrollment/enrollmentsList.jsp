@@ -106,7 +106,7 @@
 	    <tr align="center">
 			<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
 			<td width="15%">${enrollment.memId }</td>
-			<td align='left'  width="20%">
+			<td align='center'  width="20%">
 		  		<span style="padding-right:10px"></span>
 		  		<a href="${contextPath}/enrollment/informationEnrollment.do?id=${enrollment.id }">${enrollment.memberVO.name }</a>
 		 	</td>
@@ -131,7 +131,7 @@
 </table>
 <button type="button" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'" style="width: 5%;">등록</button>
 <button type="button" style="width: 5%;">승인</button>
-<button type="button" onclick='getCheckList()' style="width: 5%;">취소</button>
+<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
 <button type="button" style="width: 5%;">수료</button>
 <!-- 등록 버튼 추가해야함 -->
 <%-- <a  class="cls1"  href="javascript:fn_articleForm('${isLogOn}','${contextPath}/company/companyForm.do', 
