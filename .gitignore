@@ -7,3 +7,4 @@ pom.xml
 src/test
 src/main/webapp/WEB-INF/config
 src/main/webapp/WEB-INF/lib
+bin
