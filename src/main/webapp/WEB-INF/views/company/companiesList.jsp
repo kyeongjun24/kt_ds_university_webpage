@@ -79,7 +79,6 @@ request.setCharacterEncoding("UTF-8");
 </script>
 
 <body>
-<<<<<<< HEAD
 	<%
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
@@ -109,7 +108,8 @@ request.setCharacterEncoding("UTF-8");
 				<input type="text" name="searchText" id="search" value="${searchText }" style="width: 100px; margin-right: 20px;">
 			</c:when>
 			<c:otherwise>
-				<input type="text" name="searchText" id="search" style="width: 100px; margin-right: 20px;">
+				<input type="text" name="searchText" id="search"
+				placeholder="검색어를 입력하세요." onfocus="this.placeholder=''" onblur="this.placeholder='검색어를 입력하세요.'" style="width: 100px; margin-right: 20px;">
 			</c:otherwise>
 		</c:choose>
 		<input type="submit" value="검색">

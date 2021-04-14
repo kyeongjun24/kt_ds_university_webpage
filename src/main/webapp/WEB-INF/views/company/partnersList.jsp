@@ -20,48 +20,65 @@ request.setCharacterEncoding("UTF-8");
 	text-align: center;
 	font-size: 30px;
 }
+
 .line1 {
-border-bottom : 2px solid #a3a3a3;
+	border-bottom: 2px solid #a3a3a3;
 }
+
 .line2 {
-border-bottom : 0.5px solid #d3d3d3;
+	border-bottom: 0.5px solid #d3d3d3;
 }
+
 #partners {
-border-collapse: collapse;
+	border-collapse: collapse;
 }
 </style>
 <meta charset="UTF-8">
 <title>협약회사 목록창</title>
 </head>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script>
-	$(function() {
-		$('#selectAll').click(function() {
-			if ($("input:checkbox[id='selectAll']").prop("checked")) {
-				$("input[type=checkbox]").prop("checked", true);
-			} else {
-				$("input[type=checkbox]").prop("checked", false);
-			}
-		})
-	})
-</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
 <body>
-	<form id="searchFrm">
-		<select id="searchType"><option value="">선택</option>
-			<option value="comName">회사명</option>
-			<option value="contractName">담당자</option></select> <input type="text"
-			id="search" style="width: 100px; margin-right: 20px;"><input
-			type="submit" value="검색" id="searchSubmit">
+	<form method="get" action="${contextPath }/company/listPartners.do" id="searchFrm">
+		<select id="searchType" name="searchType">
+			<c:if test="${searchType == null }">
+				<option value="name" selected>선택</option>
+				<option value="name">회사명</option>
+				<option value="contractName">담당자</option>
+			</c:if>
+			<c:if test="${searchType == 'name' }">
+				<option value="name">선택</option>
+				<option value="name" selected>회사명</option>
+				<option value="contractName">담당자</option>
+			</c:if>
+			<c:if test="${searchType == 'contractName' }">
+				<option value="name">선택</option>
+				<option value="name">회사명</option>
+				<option value="contractName" selected>담당자</option>
+			</c:if>
+		</select>
+		
+		<c:choose>
+			<c:when test="${searchText != null }">
+				<input type="text" name="searchText"  value="${searchText }" id="search" style="width: 100px; margin-right: 20px;"> 
+			</c:when> 
+			<c:otherwise>
+				<input type="text" name="searchText" id="search" 
+				placeholder="검색어를 입력하세요." onfocus="this.placeholder=''" onblur="this.placeholder='검색어를 입력하세요.'"
+				style="width: 100px; margin-right: 20px;">
+			</c:otherwise>	
+		</c:choose>	
+		<input type="submit" value="검색">
 	</form>
+	
 	<table align="center" border="0" width="80%" id="partners">
-		<tr height="15" align="center" >
-			<td class = line1><b>번호</b></td>
-			<td class = line1><b>회사명</b></td>
-			<td class = line1><b>담당자</b></td>
-			<td class = line1><b>전화번호</b>
-			<td class = line1><b>사업자등록번호</b></td>
-			<td class = line1><b>등록/수정일</b></td>
+		<tr height="15" align="center">
+			<td class=line1><b>번호</b></td>
+			<td class=line1><b>회사명</b></td>
+			<td class=line1><b>담당자</b></td>
+			<td class=line1><b>전화번호</b>
+			<td class=line1><b>사업자등록번호</b></td>
+			<td class=line1><b>등록/수정일</b></td>
 		</tr>
 		<c:choose>
 			<c:when test="${partnersList ==null }">
@@ -77,19 +94,15 @@ border-collapse: collapse;
 				<c:forEach var="company" items="${partnersList }"
 					varStatus="articleNum">
 					<tr align="center">
-						<!--<td width="5%">${articleNum.count}</td>  -->
-						<td class = line2>${articleNum.count }</td>
-						<%-- <td><!-- 순번 위치. 전체 레코드 수 -((현재 페이지 번호 -1)*한 페이지 당 보여지는 레코드 수 + 현재 게시물 출력 순서 --> 
-						${(paginationInfo.totalRecordCount-articleNum.index) - ((paginationInfo.currentPageNo-1) )} 
-						</td> --%>
-						<td class = line2 align='center' width="20%"><span
+						<td class=line2>${articleNum.count }</td>
+						<td class=line2 align='center' width="20%"><span
 							style="padding-right: 10px"></span> <a class='cls1'
 							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>
-						<td class = line2>${company.contractName }</td>
-						<td class = line2>${company.managerPhone }</td>
-						<td class = line2>${company.id }</td>
-						<td class = line2>${company.modDate }</td>
+						<td class=line2>${company.contractName }</td>
+						<td class=line2>${company.managerPhone }</td>
+						<td class=line2>${company.id }</td>
+						<td class=line2>${company.modDate }</td>
 					</tr>
 				</c:forEach>
 			</c:when>

@@ -51,9 +51,6 @@ public class CompanyControllerImpl implements CompanyController {
 	public ModelAndView listBySearchCompanies(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		System.out.println(viewName);
-		System.out.println(searchType);
-		System.out.println(searchText);
 		List companiesList = companyService.listBySearchCompanies(searchType, searchText);
 		ModelAndView mav = new ModelAndView("/company/listCompanies");
 		mav.addObject("companiesList", companiesList);
@@ -65,24 +62,45 @@ public class CompanyControllerImpl implements CompanyController {
 	@RequestMapping(value = "/company/listPartners.do", method = RequestMethod.GET)
 	public ModelAndView listPartners(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		List partnersList = companyService.listPartners();
+		String searchType = request.getParameter("searchType");
+		String searchText = request.getParameter("searchText");
+		List partnersList = null;
 		ModelAndView mav = new ModelAndView(viewName);
+		if (searchType != null && searchText != null) {
+			partnersList = companyService.listBySearchPartners(searchType, searchText);
+			mav.addObject("searchType", searchType);
+			mav.addObject("searchText", searchText);
+		}else {
+			partnersList = companyService.listPartners();
+		}
+		mav.addObject("partnersList", partnersList);
+		return mav;
+	}
+	
+	// 협력회사 검색 할 수 있는 메소드
+	@Override
+	@RequestMapping(value = "/company/listBySearchPartners.do", method = RequestMethod.POST)
+	public ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		List partnersList = companyService.listBySearchPartners(searchType, searchText);
+		ModelAndView mav = new ModelAndView("/company/listPartners");
 		mav.addObject("partnersList", partnersList);
 		return mav;
 	}
 
-	// 협약회사, 회사관리 리스트의 회사명을 클릭하면 그 회사의 정보가 띄어지는 메소드
+	// 협력회사, 회사관리 리스트의 회사명을 클릭하면 그 회사의 정보가 띄어지는 메소드
 	@Override
 	@RequestMapping(value = "/company/companyForm.do", method = { RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView selectCompany(@RequestParam("id") String id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String) request.getAttribute("viewName");
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName(viewName);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
 		CompanyVO companyVO = companyService.selectCompany(id);
-		mv.addObject("companyVO", companyVO);
-		return mv;
+		mav.addObject("companyVO", companyVO);
+		return mav;
 	}
 
 	@RequestMapping(value = "/company/popUp.do", method = { RequestMethod.GET, RequestMethod.POST })

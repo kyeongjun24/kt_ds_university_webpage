@@ -28,7 +28,7 @@
 			]]>
 	</select>
 	
-	<!-- 검색할 수 있는 메소드 -->
+	<!-- 회사 검색 할 수 있는 메소드 -->
 	<select id="selectBySearchCompaniesList" resultMap="comResult" parameterType="java.util.Map" >
          select * from company         
 	     <choose>
@@ -39,6 +39,19 @@
          		WHERE upper(com_contract_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          </choose>
+	</select>
+	
+	<!-- 협력회사 검색 할 수 있는 메소드 -->
+	<select id="selectBySearchPartnersList" resultMap="comResult" parameterType="java.util.Map">
+		select * from company
+		<choose>
+			<when test="searchType == 'name'">
+				where upper(com_name) like '%' || upper(#{searchText}) || '%'
+			</when>
+			<when test="searchType == 'contractName'">
+				where upper(com_contract_name) like '%' || upper(#{searchText}) || '%'
+			</when>
+		</choose>
 	</select>
 	
 	<select id="selectCompany" resultMap="comResult" parameterType="String">

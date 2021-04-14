@@ -26,6 +26,9 @@ public interface CompanyService {
 
 	// 회사 수정 메소드
 	public int modCompany(CompanyVO companyVO) throws DataAccessException;
+	
+	// 협력회사 검색 메소드
+	public List listBySearchPartners(String searchType, String searchText) throws DataAccessException;
 
 	
 

@@ -12,6 +12,9 @@ public interface CompanyDAO {
 	
 	// 회사 검색 메소드
 	public List selectBySearchCompanyList(String searchType, String searchText) throws DataAccessException;
+	
+	// 협력회사 검색 메소드
+	public List selectBySearchPartnerList(String searchType, String searchText) throws DataAccessException;
 
 	public CompanyVO selectCompany(String id) throws DataAccessException;
 

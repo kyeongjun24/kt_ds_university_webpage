@@ -245,8 +245,5 @@ request.setCharacterEncoding("UTF-8");
 			onclick="location.href='${contextPath}/member/memberForm.do'">등록</button>
 		<button type="button" onclick='getCheckList()'>삭제</button>
 	</div>
-	<!-- 등록 버튼 추가해서 함수 실행하게 만들어야함 -->
-	<%-- 
-      <td><a href="${contextPath}/member/removeMember.do?id=${member.id }">삭제</a></td> --%>
 </body>
 </html>

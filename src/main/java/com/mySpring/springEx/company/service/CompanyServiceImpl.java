@@ -32,7 +32,15 @@ public class CompanyServiceImpl implements CompanyService{
 		companiesBySearchList = companyDAO.selectBySearchCompanyList(searchType, searchText);
 		return companiesBySearchList;
 	}
-
+	
+	// 협력회사 검색 메소드
+	@Override
+	public List listBySearchPartners(String searchType, String searchText) throws DataAccessException {
+		List partnersBySearchList = null;
+		partnersBySearchList = companyDAO.selectBySearchPartnerList(searchType, searchText);
+		return partnersBySearchList;
+	}
+	
 	@Override
 	public CompanyVO selectCompany(String id) throws DataAccessException {
 		return companyDAO.selectCompany(id);

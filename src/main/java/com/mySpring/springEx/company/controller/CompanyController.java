@@ -19,6 +19,9 @@ public interface CompanyController {
 	// 검색회사 출력
 	ModelAndView listBySearchCompanies(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
+	// 협력회사 검색리스트 출력
+	ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	// 회사명 클릭했을 때
 	ModelAndView selectCompany(@RequestParam String comId, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
