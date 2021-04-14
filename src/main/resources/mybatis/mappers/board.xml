@@ -15,33 +15,47 @@
   	</resultMap> 
   
 	<resultMap id="filesResult" type="articleFileVO">
-	  <result property="id" column="file_id" />
+	  <result property="fileId" column="file_id" />
 	  <result property="name" column="file_name" />
 	  <result property="artId" column="art_id" />
 	</resultMap>
 
-  <!-- 모든 공지사항 리스트 선택 -->
+ 
+  <!-- 공지인것만 리스트 선택 -->
   <select id="selectAllArticlesList" resultMap="articlesResult"   >
     <![CDATA[
      SELECT art_id, art_title, art_file, art_hits, art_join_date 
      from article	
+     order by art_id desc
     ]]>
   </select>
   
-  <!--  -->
-  <insert id="insertNewArticle"  parameterType="java.util.Map">
+   <!-- 모든 공지사항 리스트 선택 -->
+  <select id="selectImptArticlesList" resultMap="articlesResult"   >
+    <![CDATA[
+     SELECT art_id, art_title, art_file, art_hits, art_join_date 
+     from article	
+     where art_important = '공지'
+     order by art_id desc
+    ]]>
+  </select>
+  
+  
+  	<insert id="insertNewArticle"  parameterType="java.util.Map">
 		<![CDATA[
-			INSERT into article(art_id, art_title, art_file, art_hits, art_join_date )
-			VALUES(#{id}, #{title},	#{file}, #{hits}, #{joinDate})
+			INSERT into article(art_id, art_title, art_contents, art_file, art_important)
+			VALUES(art_seq.NEXTVAL, #{title}, #{contents}, #{file}, #{important})
 		]]>      
 	</insert>
-	
-  <select id="selectNewId" resultType="int"  >
-  	<!-- SELECT NVL(max(articleNO)+1,0) from t_board	  -->
-		<![CDATA[
-			SELECT max(art_id)+1 from article	
-		]]>
-	</select>
+
+	 <insert id="insertNewArticleFile"  parameterType="java.util.Map">
+    	<!-- <foreach close="SELECT * FROM DUAL" separator=" " open="INSERT ALL" collection="list" item="item">
+      		INTO article_File(file_id, file_name, art_id)
+      		VALUES (artf_seq.NEXTVAL, #{fileName}, #{id})
+    	</foreach> -->
+    	INSERT INTO article_file(file_id, file_name, art_id)
+    	VALUES (artf_seq.NEXTVAL, #{name}, #{artId})
+  	</insert>
 	
 	<select id="selectArticle" resultMap="articlesResult" parameterType="int">
   <!-- <select id="selectArticle" resultType="articleVO"   parameterType="int"> -->
@@ -51,25 +65,57 @@
     ]]>
   </select>
   
-  <update id="updateArticle"  parameterType="java.util.Map">
-			update article
-			set art_title=#{title},	 
-			art_contents=#{contents}
- 			<!--  <if test="imageFileName!='' and imageFileName!=null">
-			  , imageFileName=#{imageFileName}
-			</if> -->
-			where art_id=#{id}
-	</update>
-	
-	<delete id="deleteArticle"  parameterType="int">
+  	<select id="selectArticleFile" resultMap="filesResult" parameterType="int">
+  <!-- <select id="selectArticle" resultType="articleVO"   parameterType="int"> -->
     <![CDATA[
-      delete from article
-      where id in (
-         SELECT id 
-         FROM  article
-         START WITH art_id = #{id} )
+      SELECT * from article_file
+      Where art_id = #{artId}		
+    ]]>
+  </select>
+  
+  <select id="selectBySearchArticlesList" resultMap="articlesResult" parameterType="java.util.Map" >
+         SELECT * from article  
+         <choose>
+         	<when test="searchType == 'title'">       
+        	 	WHERE art_title LIKE '%' || #{searchText} || '%'
+         	</when>
+         	</choose>
+	</select>
+  
+  <delete id="deleteArticle"  parameterType="int">
+    <![CDATA[
+      delete from article where art_id = #{id}
     ]]>      
   </delete>
+  
+  <update id="updateArticle"  parameterType="java.util.Map">
+			UPDATE article
+			SET art_important = #{important}, art_title = #{title}, art_contents = #{contents}
+			WHERE art_id = #{id}
+	</update>
+	
+	<update id="updateArticleFile"  parameterType="java.util.Map">
+			UPDATE article_file
+			SET file_name = #{name}	 
+			WHERE art_id = #{artId}
+	</update>
+  
+   <select id="selectNewArticleId" resultType="int"  >
+  	<!-- SELECT NVL(max(articleNO)+1,0) from t_board	  -->
+		<![CDATA[
+			SELECT max(art_id) from article	
+		]]>
+	</select>
+  
+  <select id="selectNewArticleFileId" resultType="int">
+	<![CDATA[
+      SELECT  max(file_id) from article_file		
+    ]]>
+	</select>
+	
+	
+	
+	
 
  <!-- 다중 이미지 추가 SQL문 
 
@@ -95,13 +141,13 @@
       SELECT  nvl(max(imageFileNO),0) from t_imageFile		
     ]]>
   </select>
-	
+	-->
 
-  <select  id="selectImageFileList" resultMap="imgResult" parameterType="int">
+  <select  id="selectArticleFileList" resultMap="filesResult" parameterType="int">
     <![CDATA[
-      SELECT * from t_imageFile
-      where articleNO=#{articleNO}	
+      SELECT * from article_file
+      where artId=#{art_id}	
     ]]>
-  </select>  -->
+  </select>  
   
 </mapper>

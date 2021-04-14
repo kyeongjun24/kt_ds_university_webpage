@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 //공지사항 파일 VO
 @Component("articleFileVO")
 public class ArticleFileVO {
-	private int id;
+	private int fileId;
 	private String name;
 	private int artId;
 	
-	public int getId() {
-		return id;
+	public int getFileId() {
+		return fileId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setFileId(int fileId) {
+		this.fileId = fileId;
 	}
 	public String getName() {
 		return name;
@@ -29,7 +29,7 @@ public class ArticleFileVO {
 	public int getartId() {
 		return artId;
 	}
-	public void setartId(int artId) {
+	public void setArtId(int artId) {
 		this.artId = artId;
 	}
 

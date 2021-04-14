@@ -14,16 +14,16 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 
-   function readURL(input) {
-      if (input.files && input.files[0]) {
-	      var reader = new FileReader();
-	      reader.onload = function (e) {
-	        $('#preview').attr('src', e.target.result);
-          }
-         reader.readAsDataURL(input.files[0]);
+function readURL(input) {
+    if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function (e) {
+	       $('#preview').attr('src', e.target.result);
+         }
+        reader.readAsDataURL(input.files[0]);
       }
   }  
-  function backToList(obj){
+function backToList(obj){
     obj.action="${contextPath}/board/listArticles.do";
     obj.submit();
   }
@@ -39,10 +39,15 @@
 </head>
 <body>
 <h1 style="text-align:center">글쓰기</h1>
-  <form name="articleForm" method="post"   action="${contextPath}/board/insertNewArticle.do"   enctype="registerFrm">
+  <form name="articleForm" method="post" action="${contextPath}/board/addNewArticle.do" enctype="multipart/form-data">
     <table border="0" align="center">
+	    
 	    <tr>
-			<td align="right">제목: </td>
+			<td align="right">공지:</td>
+			<td colspan="2"><select  colspan="2" name="important"><option>공지</option><option></option></select></td>
+		</tr>
+	    <tr>
+			<td align="right" >제목: </td>
 			<td colspan="2"><input type="title" size="67"  maxlength="500" name="title" /></td>
 		</tr>
 	 	<tr>
@@ -51,7 +56,7 @@
      	</tr>
      	 <tr>
 			<td align="right">파일첨부: </td>
-			<td colspan="2"><input type="file" size="67"  maxlength="500" name="file" /></td>
+			<td colspan="2"><input type="file" size="67"  maxlength="500" name="fileName" /></td>
 		</tr>
      	
   <!--    <tr>
@@ -71,7 +76,7 @@
 	    <tr>
 	      <td align="right"> </td>
 	      <td colspan="2">
-	       <input type=submit value="글쓰기" />
+	       <input type=submit value="글쓰기"/>
 	       <input type=button value="목록보기" onClick="backToList(this.form)" />
 	      </td>
      </tr>

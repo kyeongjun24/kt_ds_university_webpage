@@ -1,7 +1,10 @@
 package com.mySpring.springEx.board.dao;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.mySpring.springEx.board.vo.ArticleVO;
+import com.mySpring.springEx.member.vo.MemberVO;
 import com.mySpring.springEx.board.vo.ArticleFileVO;
 
 
@@ -24,6 +28,13 @@ public class BoardDAOImpl implements BoardDAO {
 		List<ArticleVO> articlesList = sqlSession.selectList("mapper.board.selectAllArticlesList");
 		return articlesList;
 	}
+	
+	// 공지사항 리스트
+	@Override
+	public List selectImptArticlesList() throws DataAccessException {
+		List<ArticleVO> articlesList = sqlSession.selectList("mapper.board.selectImptArticlesList");
+		return articlesList;
+	}
 
 	// 공지사항 선택
 	@Override
@@ -32,16 +43,76 @@ public class BoardDAOImpl implements BoardDAO {
 		return vo;
 	}
 	
+	// 공지사항 파일 선택
+	@Override
+	public ArticleFileVO selectArticleFile(int id) throws DataAccessException {
+		ArticleFileVO filevo = sqlSession.selectOne("mapper.board.selectArticleFile", id);
+		return filevo;
+	}
+	
 	// 공지사항 추가
 	@Override
 	public int insertNewArticle(Map articleMap) throws DataAccessException {
-		int id = selectNewId();
-		System.out.println(id);
-		articleMap.put("id", id);
-		sqlSession.insert("mapper.board.insertNewArticle",articleMap);
-		return id;
+
+			int id = selectNewArticleId();
+			articleMap.put("id", id);
+			sqlSession.insert("mapper.board.insertNewArticle",articleMap);
+			return id;
 	}
     
+	// 공지사항 파일 추가
+	@Override
+	public int insertNewArticleFile(Map articleMap) throws DataAccessException {
+		return sqlSession.insert("mapper.board.insertNewArticleFile", articleMap);
+	}
+	
+	// 공지사항 글 삭제
+	@Override 
+	public int deleteArticle(int id) throws DataAccessException {
+		 int result = sqlSession.delete("mapper.board.deleteArticle", id); 
+		 System.out.println(result);
+		 return result;
+	}
+	
+	// 공지사항 글 수정
+	 @Override 
+	 public int updateArticle(Map articleMap) throws DataAccessException { 
+		 return sqlSession.update("mapper.board.updateArticle", articleMap); 
+	 }
+	 
+	// 공지사항 파일 수정
+	 @Override 
+	 public int updateArticleFile(Map articleMap) throws DataAccessException { 
+		 return sqlSession.update("mapper.board.updateArticleFile", articleMap); 
+	 }
+	
+	@Override
+	public List selectArticleFileList(int artId) {
+		List<ArticleFileVO> articleFileList = null	;
+		articleFileList = sqlSession.selectList("mapper.board.selectImageFileList",artId);
+		return articleFileList;
+	}
+	
+	// search
+	@Override
+	public List selectBySearchArticlesList(String searchType, String searchText) throws DataAccessException {
+		List<ArticleVO> articlesBySearchList = null;
+		Map<String, String> mapSearch = new HashMap<String, String>();
+		mapSearch.put("searchType", searchType);
+		mapSearch.put("searchText", searchText);
+		articlesBySearchList = sqlSession.selectList("mapper.board.selectBySearchArticlesList", mapSearch);
+		return articlesBySearchList;
+	}
+	
+	@Override
+	public int selectNewArticleId() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectNewArticleId");
+	}
+	
+	private int selectNewArticleFileId() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectNewArticleFileId");
+	}
+	
 	//占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占싸듸옙
 	/*
 	@Override
@@ -57,21 +128,6 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
    */
-	
-
-
-	/*
-	 * @Override public void updateArticle(Map articleMap) throws
-	 * DataAccessException { sqlSession.update("mapper.board.updateArticle",
-	 * articleMap); }
-	 * 
-	 * @Override public void deleteArticle(int id) throws DataAccessException {
-	 * sqlSession.delete("mapper.board.deleteArticle", id); }
-	 */
-	
-	private int selectNewId() throws DataAccessException {
-		return sqlSession.selectOne("mapper.board.selectNewId");
-	}
 	
 	/*
 	 * @Override public List selectImageFileList(int id) throws DataAccessException

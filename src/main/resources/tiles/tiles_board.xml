@@ -11,15 +11,21 @@
 	</definition>
 	
 	<definition name="/board/selectArticle" extends="baseLayout">
-	  <put-attribute name="title" value="과정상세" />
+	  <put-attribute name="title" value="공지사항상세페이지" />
 	  <put-attribute name="side" value="/WEB-INF/views/common/sideBoard.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/board/articleDescription.jsp" />
    </definition>
    
     <definition name="/board/articleForm" extends="baseLayout">
-      <put-attribute name="title" value="회원등록창" />
+      <put-attribute name="title" value="공지사항등록창" />
       <put-attribute name="side" value="/WEB-INF/views/common/sideBoard.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/board/articleForm.jsp" />
+   </definition>
+   
+   <definition name="/board/modArticleForm" extends="baseLayout">
+      <put-attribute name="title" value="공지사항수정창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideBoard.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/board/modArticle.jsp" />
    </definition>
 	
 	<!-- <definition name="/board/articleForm" extends="baseLayout">

@@ -21,23 +21,74 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardDAO boardDAO;
 
-	// 공지사항 리스트
+	// 공지사항 리스트 출력
 	public List<ArticleVO> listArticles() throws Exception {
 		List<ArticleVO> articlesList = boardDAO.selectAllArticlesList();
 		return articlesList;
 	}
+	
+	// 공지인것만 리스트 출력
+		public List<ArticleVO> listImptArticles() throws Exception {
+			List<ArticleVO> articlesList = boardDAO.selectImptArticlesList();
+			return articlesList;
+		}
 
-	// 공지사항 선택
+	// 공지사항 글 선택 
 	@Override
 	public ArticleVO selectArticle(int id) throws DataAccessException {
 		return boardDAO.selectArticle(id);
 	}
-
-	// 공지사항 추가
+	
+	// 공지사항 파일 선택 
 	@Override
-	public int insertNewArticle(Map articleMap) throws Exception {
-		return boardDAO.insertNewArticle(articleMap);
+	public ArticleFileVO selectArticleFile(int id) throws DataAccessException {
+		return boardDAO.selectArticleFile(id);
 	}
+	
+	 // 공지사항 글 추가
+	@Override
+	public int addNewArticle(Map articleMap) throws Exception{
+		return boardDAO.insertNewArticle(articleMap);
+		
+	}
+	
+	// 공지사항 글에 파일 추가
+	@Override
+	public int addNewArticleFile(Map<String, Object> articleMap) {
+		int id = boardDAO.selectNewArticleId();
+		articleMap.put("artId", id);
+		return boardDAO.insertNewArticleFile(articleMap);
+	}
+	
+	// 공지사항 글 삭제
+	 @Override 
+	 public int removeArticle(int id) throws Exception {
+		 return boardDAO.deleteArticle(id);
+	 }
+	 
+	// 공지사항 글 수정
+	@Override 
+	public int modArticle(Map<String, Object> articleMap) throws Exception {
+		return boardDAO.updateArticle(articleMap); 
+	}
+	
+	// 공지사항 파일 수정
+	@Override 
+	public int modArticleFile(Map<String, Object> articleMap) throws Exception {
+		return boardDAO.updateArticleFile(articleMap); 
+	}
+	
+	// 제목 검색
+	@Override
+	public List listBySearchArticles(String searchType, String searchText) throws DataAccessException {
+		List articlesBySearchList = null;
+		articlesBySearchList = boardDAO.selectBySearchArticlesList(searchType, searchText);
+		return articlesBySearchList;
+	}
+	 
+	 
+}
+	
 	
 	/*
 	 * @Override public Map viewArticle(int id) throws Exception { Map articleMap =
@@ -47,7 +98,7 @@ public class BoardServiceImpl implements BoardService {
 	 * imageFileList); return articleMap; }
 	 */
 
-	// 占쏙옙占쏙옙 占싱뱄옙占쏙옙 占쌩곤옙占싹깍옙
+	// �뜝�룞�삕�뜝�룞�삕 �뜝�떛諭꾩삕�뜝�룞�삕 �뜝�뙥怨ㅼ삕�뜝�떦源띿삕
 	/*
 	 * @Override public int addNewArticle(Map articleMap) throws Exception{ int
 	 * articleNO = boardDAO.insertNewArticle(articleMap);
@@ -55,21 +106,15 @@ public class BoardServiceImpl implements BoardService {
 	 * return articleNO; }
 	 */
 
-	// 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占싱깍옙
+	// �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떛源띿삕
 
 	/*
-	 * //占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占싱깍옙
+	 * //�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떛源띿삕
 	 * 
 	 * @Override public ArticleVO viewArticle(int articleNO) throws Exception {
 	 * ArticleVO articleVO = boardDAO.selectArticle(articleNO); return articleVO; }
 	 */
 
-	/*
-	 * @Override public void modArticle(Map articleMap) throws Exception {
-	 * boardDAO.updateArticle(articleMap); }
-	 * 
-	 * @Override public void removeArticle(int id) throws Exception {
-	 * boardDAO.deleteArticle(id); }
-	 */
 
-}
+
+

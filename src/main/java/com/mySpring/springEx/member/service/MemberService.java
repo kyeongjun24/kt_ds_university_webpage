@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import com.mySpring.springEx.member.vo.MemberVO;
 
 public interface MemberService {
+	
 	public List listMembers() throws DataAccessException;
 	public int addMember(MemberVO memberVO) throws DataAccessException;
 	public int removeMember(String id) throws DataAccessException;
@@ -15,4 +16,5 @@ public interface MemberService {
 	public MemberVO selectMember(String id) throws DataAccessException;
 	public int idCheckMember(String id) throws DataAccessException;
 	public List listBySearchMembers(String searchType, String searchText) throws DataAccessException;
+	
 }
