@@ -44,4 +44,15 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		mav.addObject("enrollmentsList", enrollmentsList);
 		return mav;
 	}
+	
+	//수료관리 리스트 출력 메소드
+	@Override
+	@RequestMapping(value="/enrollment/listCompletion.do" ,method = RequestMethod.GET)
+	public ModelAndView listCompletion(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String)request.getAttribute("viewName");
+		List completionList = enrollmentService.listCompletion();
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("completionList", completionList);
+		return mav;
+	}
 }

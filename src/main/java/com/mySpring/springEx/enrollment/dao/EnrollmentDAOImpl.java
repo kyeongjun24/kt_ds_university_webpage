@@ -22,5 +22,11 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
+	@Override
+	public List selectAllCompletionList() throws DataAccessException {
+		List<EnrollmentVO> completionList = null;
+		completionList = sqlSession.selectList("mapper.enrollment.selectAllCompletionList");
+		return completionList;
+	}
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.member.vo.MemberVO;
 
 
@@ -32,6 +33,28 @@ public class MemberDAOImpl implements MemberDAO {
 		mapSearch.put("searchText", searchText);
 		membersBySearchList = sqlSession.selectList("mapper.member.selectBySearchMemberList", mapSearch);
 		return membersBySearchList;
+	}
+	
+	//페이징 리스트 뽑아오기 메서드
+	@Override
+	public List<MemberVO> listPaging(int page) throws DataAccessException {
+		if (page <= 0) {
+			page = 1;
+		}
+		page = (page - 1) * 10;
+		return sqlSession.selectList("mapper.member.selectMemberListByPaging", page);
+	}
+	
+	// 페이지 기준 설정 메서드
+	@Override
+	public List<MemberVO> listCriteria(Criteria criteria) throws DataAccessException {
+		return sqlSession.selectList("mapper.member.listCriteria", criteria);
+	}
+	
+	//criteria에 의해 리스트 나누는 메서드
+	@Override
+	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		return sqlSession.selectList("mapper.member.selectCriteriaBySearchMemberList", criteria);
 	}
 	
 	@Override
@@ -71,5 +94,4 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	
-
 }

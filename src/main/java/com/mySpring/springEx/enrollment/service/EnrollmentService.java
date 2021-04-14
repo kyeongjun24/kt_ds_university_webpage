@@ -9,4 +9,6 @@ public interface EnrollmentService {
 
 	public List listEnrollments() throws DataAccessException;
 
+	public List listCompletion() throws DataAccessException;
+
 }

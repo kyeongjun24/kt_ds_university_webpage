@@ -7,29 +7,6 @@ a<%@ page language="java" contentType="text/html; charset=UTF-8"
   request.setCharacterEncoding("UTF-8");
 %> 
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-<style>
-    ul {
-        list-style-type: none;
-    }
-
-    li {
-        float: left;
-        margin: 0px 12px;
-    }
-
-    #layout_header{
-        height: 100px;  
-        margin: 0 20%;
-        padding-bottom: 30px;
-        float: left;
-    }
-
-    .header_menu{
-        margin-top: 30px;
-        font-size: 15px;
-    }
-
-</style>
 <body>
 <header>
     <div id="layout_header">
