@@ -40,7 +40,7 @@ a<%@ page language="java" contentType="text/html; charset=UTF-8"
 	            <li class="header_menu"><a href="${contextPath}/course/listCourses.do">과정관리</a></li>
 	            <li class="header_menu"><a href="#">수강관리</a></li>
 	            <li class="header_menu"><a href="#">설문조사관리</a></li>
-	            <li class="header_menu"><a href="#">게시판관리</a></li>
+	            <li class="header_menu"><a href="${contextPath}/board/listArticles.do">게시판관리</a></li>
         	</ul>
           </c:when>
           <c:otherwise>

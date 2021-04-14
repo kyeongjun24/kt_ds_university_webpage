@@ -137,8 +137,7 @@ public class MemberControllerImpl   implements MemberController {
 
 	@Override
 	@RequestMapping(value="/member/addMember.do" ,method = RequestMethod.POST)
-	public ModelAndView addMember(@ModelAttribute("member") MemberVO member,
-			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView addMember(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		result = memberService.addMember(member);
