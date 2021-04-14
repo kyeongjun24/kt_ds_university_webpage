@@ -11,34 +11,30 @@ request.setCharacterEncoding("UTF-8");
 <html>
 <head>
 <style>
-.cls1 {
-	text-decoration: none;
-}
-
-.cls2 {
-	text-align: center;
-	font-size: 30px;
-}
-
 .content:after {
 	content: "";
 	display: block;
 	border-bottom: teal 1px solid #bcbcbc;
 }
 
-
-
-.button:link {
+#button {
 	text-decoration: none;
-	color : black;
-	border : 1px solid;
-	padding : 2px 4px;
+	color: black;
+	border: none;
+	padding: 2px 4px;
+	border-radius: 5px;
+	background-color: #ECECEC;
+	font-size: 15px;
+	cursor: pointer;
+	width: 90px;
+	height: 35px;
+		padding : 5px;
 }
+
 
 #dynamicCompany {
-
+	
 }
-
 </style>
 <meta charset="UTF-8">
 <title>수료관리</title>
@@ -76,42 +72,74 @@ request.setCharacterEncoding("UTF-8");
 	});
 </script>
 
-<script type="text/javascript">
-	function goPrint(MyPrint, print){
-     var sw=screen.width;
-     var sh=screen.height;
-     var w=800;//팝업창 가로길이
-     var h=600;//세로길이
-     var xpos=(sw-w)/2; //화면에 띄울 위치
-     var ypos=(sh-h)/2; //중앙에 띄웁니다.
-     var title='ggggg'; //중앙에 띄웁니다.
- 
-     var pHeader="<html><head><link rel='stylesheet' type='text/css' href='/Exp_admin/css/print.css'><title>" + title + "</title></head><body>";
-     var pgetContent=document.getElementById("print").innerHTML + "<br>";
-     //innerHTML을 이용하여 Div로 묶어준 부분을 가져옵니다.
-     var pFooter="</body></html>";
-     pContent=pHeader + pgetContent + pFooter; 
-      
-     pWin=window.open("","print","width=" + w +",height="+ h +",top=" + ypos + ",left="+ xpos +",status=yes,scrollbars=yes"); //동적인 새창을 띄웁니다.
-     pWin.document.open(); //팝업창 오픈
-     pWin.document.write(pContent); //새롭게 만든 html소스를 씁니다.
-     pWin.document.close(); //클로즈
-     pWin.print(); //윈도우 인쇄 창 띄우고
-     pWin.close(); //인쇄가 되던가 취소가 되면 팝업창을 닫습니다.
-    }
-</script>
+
 <body>
-	<form id="searchFrm">
-		<select id="searchType"><option value="">선택</option>
-			<option value="comName">회사명</option>
-			<option value="contractName">담당자</option></select> <input type="text"
-			id="search" style="width: 100px; margin-right: 20px;"><input
-			type="submit" value="검색" id="searchSubmit">
+	<!-- controller에서 보낸 값 받아서 저장 -->
+	<%
+	String searchType = request.getParameter("searchType");
+	String searchText = request.getParameter("searchType");
+	%>
+	<form method="get" action="${contextPath}/enrollment/listCompletion.do"
+		id="searchFrm">
+
+		<!-- 리시트 필터 값 적용 -->
+		<div class="listFilter">
+			<select name="perPage" id="listFilter">
+				<c:if test="${perPage == '20' }">
+					<option value='10'>10</option>
+					<option value='20' selected>20</option>
+					<option value='30'>30</option>
+
+				</c:if>
+				<c:if test="${perPage == '30' }">
+					<option value='10'>10</option>
+					<option value='20'>20</option>
+					<option value='30' selected>30</option>
+				</c:if>
+				<c:if test="${perPage == '10' }">
+					<option value='10' selected>10</option>
+					<option value='20'>20</option>
+					<option value='30'>30</option>
+				</c:if>
+			</select>
+		</div>
+
+		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
+		<div class="searchType">
+			<select name="searchType" id="searchType">
+				<c:if test="${searchType == 'name'}">
+					<option value="">검색 종류</option>
+					<option value="name" selected>이름</option>
+					<option value="companyName">회사명</option>
+				</c:if>
+				<c:if test="${searchType == 'companyName' }">
+					<option value="">검색 종류</option>
+					<option value="name">이름</option>
+					<option value="companyName" selected>회사명</option>
+				</c:if>
+				<c:if test="${empty searchType }">
+					<option value="" selected>검색 종류</option>
+					<option value="name">이름</option>
+					<option value="companyName">회사명</option>
+				</c:if>
+			</select>
+			<!-- 검색 값이 있냐 없냐에 따라 값 뛰우는거 설정 -->
+			<c:choose>
+				<c:when test="${not empty searchText }">
+					<input type="text" name="searchText" id="searchText"
+						value="${searchText }">
+				</c:when>
+				<c:otherwise>
+					<input type="text" name="searchText" id="searchText">
+				</c:otherwise>
+			</c:choose>
+			<input type="submit" id="searchSubmit" value="검색">
+		</div>
 	</form>
 
 	<div id="print">
-		<table align="center" border="0" width="80%" id="dynamicCompany">
-			<tr height="15" align="center" id="attr">
+		<table align="center" id="dynamicCompany">
+			<tr align="center" id="attr">
 				<td><input type="checkbox" id="selectAll"></td>
 				<td><b>아이디</b></td>
 				<td><b>이름</b></td>
@@ -144,7 +172,8 @@ request.setCharacterEncoding("UTF-8");
 							<td>${enrollment.memberVO.email }</td>
 							<td>${enrollment.memberVO.companyName }</td>
 							<td>${enrollment.syllabusVO.name }</td>
-							<td><a class="button" href="javascript:goPrint('MyPrint', 'print')">출력</a></td>
+							<td><a id="button"
+								href="${contextPath}/enrollment/completionDoc.do?id=${enrollment.id }">출력</a></td>
 							<td>${enrollment.completeDate }</td>
 							<td>${enrollment.joinDate }</td>
 						</tr>
@@ -153,9 +182,59 @@ request.setCharacterEncoding("UTF-8");
 			</c:choose>
 		</table>
 	</div>
-	<!-- 등록 버튼 추가해야함 -->
-	<%-- <a  class="cls1"  href="javascript:fn_articleForm('${isLogOn}','${contextPath}/company/companyForm.do', 
-                                                    '${contextPath}/member/loginForm.do')"><p class="cls2">회사등록하기</p></a> --%>
+
+	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
+	<div class="pageNumber" align="center">
+		<ul>
+			<c:if test="${pageMaker.prev }">
+				<c:choose>
+					<c:when test="${not empty searchType and not empty searchText }">
+						<li><a
+							href="${contextPath}/member/listMembers.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a
+							href="${contextPath}/member/listMembers.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+			<c:choose>
+				<c:when test="${not empty searchType and not empty searchText }">
+					<c:forEach begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }" var="idx">
+						<li
+							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
+							<a
+							href="${contextPath }/member/listMembers.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+						</li>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:forEach begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }" var="idx">
+						<li
+							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
+							<a
+							href="${contextPath }/member/listMembers.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+						</li>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+				<c:choose>
+					<c:when test="${not empty searchType and not empty searchText }">
+						<li><a
+							href="${contextPath}/member/listMembers.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a
+							href="${contextPath}/member/listMembers.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+		</ul>
+	</div>
+
 
 </body>
 </html>

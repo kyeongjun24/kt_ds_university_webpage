@@ -97,10 +97,10 @@
 <body>
 <form id="searchFrm">
 	<select id="searchType"><option value="">선택</option><option value="comName">회사명</option><option value="contractName">담당자</option></select>
-	<input type="text" id="search" style="width: 100px; margin-right: 20px;"><input type="submit" value="검색" id="searchSubmit">
+	<input type="text" id="search"><input type="submit" value="검색" id="searchSubmit">
 </form>
-<table align="center" border="0"  width="80%" id="dynamicCompany" >
-  <tr height="15" align="center" id="attr">
+<table align="center" border="0" id="dynamicCompany" >
+  <tr align="center" id="attr">
      <td><input type="checkbox" id="selectAll"></td>    
      <td><b>번호</b></td>     
      <td ><b>상태</b></td>
@@ -112,8 +112,8 @@
   </tr>
 <c:choose>
   <c:when test="${companiesList ==null }" >
-    <tr  height="10">
-      <td colspan="4">
+    <tr>
+      <td>
          <p align="center">
             <b><span style="font-size:9pt;">등록된 회사가 없습니다.</span></b>
         </p>

@@ -11,4 +11,6 @@ public interface EnrollmentController {
 
 	ModelAndView listCompletion(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+	ModelAndView completionDoc(int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 }

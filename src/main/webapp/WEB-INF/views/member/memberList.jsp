@@ -156,7 +156,7 @@ request.setCharacterEncoding("UTF-8");
 
 
 
-	<table border="0" align="center" width="80%">
+	<table border="0" align="center">
 		<tr align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
 			<td><b>아이디</b></td>
@@ -189,7 +189,7 @@ request.setCharacterEncoding("UTF-8");
 	</table>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>

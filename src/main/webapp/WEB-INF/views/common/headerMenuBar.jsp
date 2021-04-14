@@ -7,22 +7,12 @@ request.setCharacterEncoding("UTF-8");
 %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <style>
-@import
-	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap')
-	;
-
-* {
-	margin: 0px;
-	padding: 0px;
-	box-sizing: border-box;
-	font-family: "Noto Sans KR", sans-serif;
-}
-
 header {
 	background-color: #333;
 	height: 60px;
 	border-top: 2px solid #e91b23;
 	display: flex;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* header 부분에만 적용되게 추가... ul li a 태그까지 */
