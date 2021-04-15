@@ -55,9 +55,24 @@
       <put-attribute name="body" value="/WEB-INF/views/member/memberInformation.jsp" />
    </definition>
    
+<<<<<<< HEAD
    <definition name="/member/memberSearchPopUp"  template="/WEB-INF/views/common/popUp/layout_popUp.jsp">
       <put-attribute name="title" value="아이디검색팝업창" />
       <put-attribute name="body" value="/WEB-INF/views/member/memberSearchPopUp.jsp" />
+=======
+   <!-- 페이지 기준 나눠주는 페이지 -->
+   <definition name="/member/list_criteria" extends="baseLayout">
+      <put-attribute name="title" value="기준창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/member/list.jsp" />
+   </definition>
+   
+   <!-- 페이지 리스트 나눠주는 페이지 -->
+    <definition name="/member/list_paging" extends="baseLayout">
+      <put-attribute name="title" value="페이징창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/member/list_paging.jsp" />
+>>>>>>> dev
    </definition>
    
    

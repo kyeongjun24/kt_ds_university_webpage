@@ -52,6 +52,63 @@
          </choose>
 	</select>
 	
+	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<select id="selectMemberListByPaging" resultMap="memResult">
+		SELECT <include refid="member-columns"></include> FROM
+				(select ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM, <include refid="member-columns"></include>
+				from member 
+				ORDER BY mem_join_date)
+		WHERE NUM BETWEEN #{page} AND 10
+
+	</select>
+	
+	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<select id="listCriteria" resultMap="memResult">
+		SELECT
+			<include refid="member-columns"></include>
+		FROM (select ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM, <include refid="member-columns"></include>
+				from member 
+				ORDER BY mem_join_date)
+		WHERE NUM BETWEEN #{pageStart} 
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by mem_join_date
+	</select>
+	
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select  -->
+	<select id="selectCriteriaBySearchMemberList" resultMap="memResult">
+		SELECT
+			<include refid="member-columns"></include>
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM, <include refid="member-columns"></include>
+			from member
+			<choose>
+	         	<when test="searchType == 'name'">
+	         		WHERE mem_name LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == 'companyName'">
+	         		WHERE mem_company_name LIKE '%' || #{searchText} || '%'
+	         	</when>
+         	</choose>
+		ORDER BY mem_join_date)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by mem_join_date
+	</select>
+	
 	
 	<select id="selectCheckMember" resultType="int" parameterType="String" >
 	 <![CDATA[

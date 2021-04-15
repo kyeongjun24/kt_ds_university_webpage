@@ -15,8 +15,8 @@ public class EnrollmentVO {
 	private String slbName;
 	private String stat;
 	private String joinDate;
-	private String modDate;
 	private String completeDate;
+	private String modDate;
 	
 	private MemberVO memberVO;
 	private CourseVO courseVO;
@@ -128,8 +128,5 @@ public class EnrollmentVO {
 		this.syllabusVO = syllabusVO;
 	}
 
-
-	
-	
 	
 }

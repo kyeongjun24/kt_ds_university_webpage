@@ -69,6 +69,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	public int updateEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateEnrollments", id);
 		return result;
+
 	}
 	
 }

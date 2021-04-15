@@ -59,6 +59,12 @@
 		<beans:property name="defaultEncoding" value="utf-8" />
 	</beans:bean>
 	
+	<!-- 	파일 업로드 디렉토리
+		<beans:bean id="uploadPath" class="java.lang.String">
+			<beans:constructor-arg value="">
+		</beans:bean> 
+	-->
+	
 	<!-- Ajax 주석문 허가 -->
 	<mvc:annotation-driven/>
 	<!-- 스프링에서 처리할 수 없는 요청은 tomcat에 위임 -->

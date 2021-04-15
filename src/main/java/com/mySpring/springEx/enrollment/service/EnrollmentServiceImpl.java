@@ -63,5 +63,4 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentDAO.updateEnrollments(id);
 	}
 	
-	
 }

@@ -81,7 +81,7 @@
 	<input type="text" id="search" style="width: 100px; margin-right: 20px;"><input type="submit" value="검색" id="searchSubmit">
 </form>
 <table align="center" border="0"  width="80%" id="dynamicCompany" >
-  <tr height="15" align="center" style="border-bottom: solid;">
+  <tr height="15" align="center" id="attr">
      <td><input type="checkbox" id="selectAll"></td>         
      <td ><b>아이디</b></td>
      <td><b>이름</b></td>
@@ -104,6 +104,7 @@
   <c:when test="${enrollmentsList !=null }" >
    <c:forEach  var="enrollment" items="${enrollmentsList }" varStatus="enrdNum" >
 	    <tr align="center">
+<<<<<<< HEAD
 			<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
 			<td width="15%">${enrollment.memId }</td>
 			<td align='center'  width="20%">
@@ -126,6 +127,19 @@
 	 			</c:if>
 	 		</td>
 		 	<td>${enrollment.joinDate }</td>
+=======
+		<td><input type="checkbox"></td>
+		<td>${enrollment.id }</td>
+		<td>
+		  <a href="#">${enrollment.memId }</a>
+		 </td>
+		 <td>${enrollment.memberVO.phone }</td>
+		 <td>${enrollment.memberVO.name }</td> 
+		 <td>${enrollment.memberVO.companyName }</td>
+		 <td>${enrollment.syllabusVO.name }</td>
+		 <td>${enrollment.stat }</td>
+		 <td>${enrollment.joinDate }</td>
+>>>>>>> dev
 		</tr>
     </c:forEach>	</c:when>	</c:choose>
 </table>

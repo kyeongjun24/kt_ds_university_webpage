@@ -23,4 +23,5 @@ public interface EnrollmentDAO {
 
 	public int modEnrollmentStat(EnrollmentVO enrollmentVO) throws DataAccessException;
 
+
 }

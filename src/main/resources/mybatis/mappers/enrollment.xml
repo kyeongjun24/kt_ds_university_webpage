@@ -56,7 +56,7 @@
 		<result property="stat" column="enrd_stat" />
 		<result property="joinDate" column="enrd_join_date" />
 		<result property="modDate" column="enrd_mod_date" />
-		<result property="completeDate" column="enrd_complete_date" />
+		<result property="completeDate" column="enrd_complete_date" /> <!-- 이수일 추가 04/08 -->
 		<collection property="memberVO" resultMap="memResult"/>
 		<collection property="courseVO" resultMap="courseResult" />
 		<collection property="syllabusVO" resultMap="syllabusResult" />
@@ -159,6 +159,24 @@
     			(SELECT NVL(MAX(enrd_id)+1,0) FROM enrollment_detail), 
     			#{courseVO.id}, #{memberVO.id}, '신청', null, sysdate, sysdate)
     	]]>
+	</select>
+	
+	
+	<select id="selectAllCompletionList" resultMap="enrdResult">
+		<![CDATA[
+			select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, e.enrd_complete_date as enrd_complete_date,
+			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, enrd_join_date as enrd_join_date
+				from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		]]>
 	</select>
 	
 </mapper>

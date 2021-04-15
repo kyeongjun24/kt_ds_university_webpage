@@ -52,8 +52,8 @@
 		 form.setAttribute("action", url);
 	     var articleNOInput = document.createElement("input");
 	     articleNOInput.setAttribute("type","hidden");
-	     articleNOInput.setAttribute("name","articleNO");
-	     articleNOInput.setAttribute("value", articleNO);
+	     articleNOInput.setAttribute("name","id");
+	     articleNOInput.setAttribute("value", id);
 		 
 	     form.appendChild(articleNOInput);
 	     document.body.appendChild(form);
@@ -61,7 +61,7 @@
 	 
 	 }
 	 
-	 function fn_reply_form(url, parentNO){
+/* 	 function fn_reply_form(url, parentNO){
 		 var form = document.createElement("form");
 		 form.setAttribute("method", "post");
 		 form.setAttribute("action", url);
@@ -73,9 +73,9 @@
 	     form.appendChild(parentNOInput);
 	     document.body.appendChild(form);
 		 form.submit();
-	 }
+	 } */
 	 
-	 function readURL(input) {
+/* 	 function readURL(input) {
 	     if (input.files && input.files[0]) {
 	         var reader = new FileReader();
 	         reader.onload = function (e) {
@@ -83,7 +83,7 @@
 	         }
 	         reader.readAsDataURL(input.files[0]);
 	     }
-	 }  
+	 }   */
  </script>
 </head>
 <body>
@@ -94,8 +94,8 @@
       글번호
    </td>
    <td >
-    <input type="text"  value="${article.articleNO }"  disabled />
-    <input type="hidden" name="articleNO" value="${article.articleNO}"  />
+    <input type="text"  value="${article.id }"  disabled />
+    <input type="hidden" name="id" value="${article.id}"  />
    </td>
   </tr>
   <tr>
@@ -119,7 +119,7 @@
       내용
    </td>
    <td>
-    <textarea rows="20" cols="60"  name="content"  id="i_content"  disabled />${article.content }</textarea>
+    <textarea rows="20" cols="60"  name="content"  id="i_content"  disabled />${article.contents }</textarea>
    </td>  
   </tr>
  <%-- 
@@ -161,7 +161,7 @@
 		    </td>
 		  </tr> 
 		 </c:when>
-		 <c:otherwise>
+		<%--  <c:otherwise>
 		    <tr  id="tr_file_upload" >
 				    <td width="150" align="center" bgcolor="#FF9933"  rowspan="2">
 				      이미지
@@ -177,7 +177,7 @@
 				       <input  type="file"  name="imageFileName " id="i_imageFileName"   disabled   onchange="readURL(this);"   />
 				    </td>
 			  </tr>
-		 </c:otherwise>
+		 </c:otherwise> --%>
 	 </c:choose>
   <tr>
 	   <td width="150" align="center" bgcolor="#FF9933">
@@ -198,10 +198,10 @@
    <td colspan="2" align="center">
        <c:if test="${member.id == article.id }">
 	      <input type=button value="수정하기" onClick="fn_enable(this.form)">
-	      <input type=button value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
+	      <input type=button value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.id})">
 	    </c:if>
 	    <input type=button value="리스트로 돌아가기"  onClick="backToList(this.form)">
-	     <input type=button value="답글쓰기"  onClick="fn_reply_form('${contextPath}/board/replyForm.do', ${article.articleNO})">
+	     <input type=button value="답글쓰기"  onClick="fn_reply_form('${contextPath}/board/replyForm.do', ${article.id})">
    </td>
   </tr>
  </table>
