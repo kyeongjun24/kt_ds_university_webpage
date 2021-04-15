@@ -64,6 +64,7 @@
 
 
 <body>
+
 <%String searchType = request.getParameter("searchType");
   String searchText = request.getParameter("searchType");
 %>

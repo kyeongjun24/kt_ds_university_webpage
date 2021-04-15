@@ -17,8 +17,7 @@ public class ManagerDAOImpl implements ManagerDAO{
 	@Override
 	public ManagerVO loginById(ManagerVO managerVO) throws DataAccessException {
 		ManagerVO vo = sqlSession.selectOne("mapper.manager.loginById", managerVO);
-		System.out.println(managerVO.getId());  //VO¿¡ Id¸¦ ºÒ·¯¿È
-		System.out.println(vo);
+		System.out.println(managerVO.getId());
 		return vo;
 	}
 	

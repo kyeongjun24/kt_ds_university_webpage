@@ -13,7 +13,7 @@
 	<typeAliases>
 		<typeAlias type="com.mySpring.springEx.member.vo.MemberVO"  alias="memberVO" />
 		<typeAlias type="com.mySpring.springEx.board.vo.ArticleVO"  alias="articleVO" />
-		<typeAlias type="com.mySpring.springEx.board.vo.ImageVO"  alias="imageVO" />
+		<typeAlias type="com.mySpring.springEx.board.vo.ArticleFileVO"  alias="articleFileVO" />
 		<typeAlias type="com.mySpring.springEx.course.vo.CourseVO"  alias="courseVO" />
 		<typeAlias type="com.mySpring.springEx.syllabus.vo.SyllabusVO"  alias="syllabusVO" />
 		<typeAlias type="com.mySpring.springEx.manager.vo.ManagerVO"  alias="managerVO" />
