@@ -1,6 +1,7 @@
 package com.mySpring.springEx.course.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mySpring.springEx.course.dao.CourseDAO;
 import com.mySpring.springEx.course.vo.CourseVO;
+import com.mySpring.springEx.course.vo.PagingVO;
 
 
 @Service("courseService")
@@ -25,16 +27,29 @@ public class CourseServiceImpl implements CourseService {
 		coursesList = courseDAO.selectAllCourseList();
 		return coursesList;
 	}
-
+	
 	@Override
-	public int addCourse(CourseVO course) throws DataAccessException {
-		return courseDAO.insertCourse(course);
-		
+	public List listBySearchCourses(String searchType, String searchText) throws DataAccessException {
+		List coursesBySearchList = null;
+		coursesBySearchList = courseDAO.selectBySearchCourseList(searchType, searchText);
+		return coursesBySearchList;
 	}
 
+//	@Override
+//	public int addCourse(CourseVO course) throws DataAccessException {
+//		return courseDAO.insertCourse(course);
+//		
+//	}
+
+	@Override
+	public int addCourse(Map courseMap) throws Exception{
+		return courseDAO.insertCourse(courseMap);
+	}
+	
+	
 	@Override
 	public int removeCourse(int id) throws DataAccessException {
-		return courseDAO.deleteCoures(id);
+		return courseDAO.deleteCourse(id);
 	}
 
 	@Override
@@ -46,5 +61,18 @@ public class CourseServiceImpl implements CourseService {
 	public int updateCourse(CourseVO courseVO) throws DataAccessException {
 		return courseDAO.updateCourse(courseVO);
 	}
+	
+	
+	
+//	@Override
+//	public int countBoard() {
+//		return courseDAO.countBoard();
+//	}
+//	
+//	@Override
+//	public List<CourseVO> selectBoard(PagingVO pagingVO) {
+//		return courseDAO.selectBoard(pagingVO);
+//	}
+//	
 
 }

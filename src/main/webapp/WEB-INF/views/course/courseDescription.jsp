@@ -24,6 +24,9 @@
 	<h3>${vo.capacity }</h3>
 	<h1>${vo.classroom }</h1>
 	<h1>${vo.joinDate }</h1>
-	
+	<h1>${vo.bannerImg }</h1>
+	<h1>${vo.slbId }</h1>
+	<h1>${vo.rsDate }</h1>
+	<h1>${vo.reDate }</h1>
 </body>
 </html>

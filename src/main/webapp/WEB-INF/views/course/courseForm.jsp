@@ -42,17 +42,25 @@
           //datepicker로 선언
           $("#datepicker1").datepicker();                    
           $("#datepicker2").datepicker();
+          $("#datepicker3").datepicker();                    
+          $("#datepicker4").datepicker();
+          
           
           //시작 날짜 초기값을 오늘 날짜로 설정
           $('#datepicker1').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
           //종료 날짜 초기값을 내일로 설정
           $('#datepicker2').datepicker('setDate', '+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
+          
+        //시작 날짜 초기값을 오늘 날짜로 설정
+          $('#datepicker3').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
+          //종료 날짜 초기값을 내일로 설정
+          $('#datepicker4').datepicker('setDate', '+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
       }); 
 
   </script>
 <body>
-
-<form method="post"   action="${contextPath}/course/addCourse.do" id="courseRegister">
+<form name="articleForm" method="post" action="${contextPath}/board/addNewArticle.do" enctype="multipart/form-data"></form>
+<form enctype="multipart/form-data" method="post"   action="${contextPath}/course/addCourse.do" id="courseRegister">
 	<h1  class="text_center">과정 등록</h1>
 	<table  align="center">
 	   <tr>
@@ -68,19 +76,33 @@
 	   </tr>
 	   
 	    <tr>
-	      <td width="200"><p align="right">교육 기간</td>
+	      <td width="200"><p align="right">수강 기간</td>
 	      <td width="400"><input type="text" name="startDate" id="datepicker1" ></td>
+	      <td width="200"><p align="right"></td>
+	      <td width="400"><p><input type="text" name="endDate" id="datepicker2" ></td>
 	   </tr>
-	    <tr>
+	    <!-- <tr>
 	       <td width="200"><p align="right"></td>
 	       <td width="400"><p><input type="text" name="endDate" id="datepicker2" ></td>
-	    </tr>
+	    </tr> -->
+	    
+	    <tr>
+	      <td width="200"><p align="right">접수 기간</td>
+	      <td width="400"><input type="text" name="rsDate" id="datepicker3" ></td>
+	      <td width="200"><p align="right"></td>
+	      <td width="400"><p><input type="text" name="reDate" id="datepicker4" ></td>
+	   </tr>
+	    <!-- <tr>
+	       <td width="200"><p align="right"></td>
+	       <td width="400"><p><input type="text" name="reDate" id="datepicker4" ></td>
+	    </tr> -->
+	    
 	    <tr>
 	       <td width="200"><p align="right">강의 시간</td>
 	       <td width="400"><p><input type="time" name="startTime" ></td>
 	    </tr>
 	    <tr>
-	       <td width="200"><p align="right"> 시간</td>
+	       <td width="200"><p align="right"> 종료 시간</td>
 	       <td width="400"><p><input type="time" name="endTime" ></td>
 	    </tr>
 	    <tr>
@@ -110,6 +132,21 @@
 		        <option value="207호">209호</option>	 
 	       </select></td>
 	    </tr>
+	    <!-- <tr>
+	    	<div class="form-group">
+	    	<label for="File">첨부파일 1</label>
+	    	<input type="file" name="file[0]">
+	    	</div>
+	    	<div class="form-group">
+	    	<label for="File">첨부파일 2</label>
+	    	<input type="file" name="file[1]">
+	    	</div>
+	    	<div class="form-group">
+	    	<label for="File">첨부파일 3</label>
+	    	<input type="file" name="file[2]">
+	    	</div>
+	    </tr> -->
+	    
 	    <tr>
 	       <td width="200"><p>&nbsp;</p></td>
 	       <td width="400"><input type="submit" value="등록하기"><input type="button" onclick="history.back()" value="취소"></td>
@@ -117,4 +154,40 @@
 	</table>
 	</form>
 </body>
+<c:choose> 
+	  <c:when test="${not empty course.bannerImg && course.bannerImg!='null' }">
+	   	<tr>
+		    <td width="150" align="center" bgcolor="#FF9933"  rowspan="2">
+		      이미지
+		   </td>
+		   <td>
+		     <input  type= "hidden"   name="originalFileName" value="${course.bannerImg }" />
+		    <img src="${contextPath}/download.do?courseID=${course.id}&imageFileName=${course.bannerImg}" id="preview"  /><br>
+		   </td>   
+		  </tr>  
+		  <tr>
+		    <td ></td>
+		    <td>
+		       <input  type="file"  name="bannerImg " id="i_bannerImg"   disabled   onchange="readURL(this);"   />
+		    </td>
+		  </tr> 
+		 </c:when>
+		 <c:otherwise>
+		    <tr  id="tr_file_upload" >
+				    <td width="150" align="center" bgcolor="#FF9933"  rowspan="2">
+				      이미지
+				    </td>
+				    <td>
+				      <input  type= "hidden"   name="originalFileName" value="${course.bannerImg }" />
+				    </td>
+			    </tr>
+			    <tr>
+				    <td ></td>
+				    <td>
+				       <img id="preview"  /><br>
+				       <input  type="file"  name="bannerImg " id="i_bannerImg"   disabled   onchange="readURL(this);"   />
+				    </td>
+			  </tr>
+		 </c:otherwise>
+	 </c:choose>
 </html>

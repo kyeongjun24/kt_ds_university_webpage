@@ -1,6 +1,9 @@
 package com.mySpring.springEx.course.vo;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.springframework.stereotype.Component;
 
 import com.mySpring.springEx.syllabus.vo.SyllabusVO;
@@ -18,6 +21,8 @@ public class CourseVO {
 	private String joinDate;
 	private String bannerImg;
 	private int slbId;
+	private String rsDate;
+	private String reDate;
 	
 	private SyllabusVO syllabusVO;
 	
@@ -25,7 +30,8 @@ public class CourseVO {
 	}
 
 	public CourseVO(int id, String startDate, String endDate, String startTime, String endTime, int capacity,
-			String classroom, String joinDate, String bannerImg, int slbId, SyllabusVO syllabusVO) {
+			String classroom, String joinDate, String bannerImg, int slbId, SyllabusVO syllabusVO, String rsDate,
+			String reDate) {
 		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -37,9 +43,27 @@ public class CourseVO {
 		this.bannerImg = bannerImg;
 		this.slbId = slbId;
 		this.syllabusVO = syllabusVO;
+		this.rsDate = rsDate;
+		this.reDate = reDate;
 	}
 
 
+
+	public String getRsDate() {
+		return rsDate;
+	}
+
+	public void setRsDate(String rsData) {
+		this.rsDate = rsData;
+	}
+
+	public String getReDate() {
+		return reDate;
+	}
+
+	public void setReDate(String reDate) {
+		this.reDate = reDate;
+	}
 
 	public int getId() {
 		return id;
@@ -110,7 +134,13 @@ public class CourseVO {
 	}
 	
 	public void setBannerImg(String bannerImg) {
-		this.bannerImg = bannerImg;
+		try {
+			if(bannerImg!= null && bannerImg.length()!=0) {
+				this.bannerImg = URLEncoder.encode(bannerImg,"UTF-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public int getSlbId() {

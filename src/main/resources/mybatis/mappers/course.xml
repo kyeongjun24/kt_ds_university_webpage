@@ -30,21 +30,52 @@
 		<result property="classroom" column="crs_classroom" />
 		<result property="joinDate" column="crs_join_date" />
 		<result property="bannerImg" column="crs_banner_img" />
+		<result property="rsDate" column="crs_rs_date" />
+		<result property="reDate" column="crs_re_date" />
 		<result property="slbId" column="slb_id" />	
 		<collection property="syllabusVO" resultMap="syllabusResult" />
+		
 	</resultMap>
 	
 	
 	<select id="selectAllCoursesList" resultMap="courseResult">
 		<![CDATA[
-			select c.crs_id as crs_id, c.slb_id as slb_id , s.slb_name as slb_name,
-			SUBSTR(c.crs_start_date, 0, 10) as crs_start_date, SUBSTR(c.crs_end_date, 0, 10) as crs_end_date, SUBSTR(c.crs_join_date, 0, 10) as crs_join_date
+			select c.crs_id as crs_id, c.slb_id as slb_id , s.slb_name as slb_name, c.crs_capacity as crs_capacity,
+			SUBSTR(c.crs_start_date, 0, 10) as crs_start_date, SUBSTR(c.crs_end_date, 0, 10) as crs_end_date, SUBSTR(c.crs_join_date, 0, 10) as crs_join_date,
+			SUBSTR(c.crs_rs_date, 0, 10) as crs_rs_date, SUBSTR(c.crs_re_date, 0, 10) as crs_re_date
 			from course C
 				LEFT JOIN syllabus S
 				ON
 				c.slb_id = s.slb_id
 			order by crs_id
 		]]>
+	</select>
+	
+	<select id="selectBySearchCourseList" resultMap="courseResult" parameterType="java.util.Map" >
+         select c.crs_id as crs_id, c.slb_id as slb_id , s.slb_name as slb_name, c.crs_capacity as crs_capacity,
+			SUBSTR(c.crs_start_date, 0, 10) as crs_start_date, SUBSTR(c.crs_end_date, 0, 10) as crs_end_date, SUBSTR(c.crs_join_date, 0, 10) as crs_join_date,
+			SUBSTR(c.crs_rs_date, 0, 10) as crs_rs_date, SUBSTR(c.crs_re_date, 0, 10) as crs_re_date
+			from course C
+				LEFT JOIN syllabus S
+				ON
+				c.slb_id = s.slb_id
+	     <choose>
+         	<when test="searchType == 'crs_id'">
+         		WHERE c.crs_id LIKE '%' || #{searchText} || '%'
+         	</when>
+         	<when test="searchType == 'slb_name'">
+         		WHERE s.slb_name LIKE '%' || #{searchText} || '%'
+         	</when>
+         </choose>
+         order by crs_id
+	</select>
+	
+	<select id="selectCheckCourse" resultType="int" parameterType="String" >
+	 <![CDATA[
+         select COUNT(*) from course
+         where crs_id=#{id}	 	
+      ]]>
+	
 	</select>
 	
 	<select id="selectCourse" resultMap="courseResult" parameterType="int">
@@ -56,15 +87,15 @@
 	
 	<insert id="insertCourse" parameterType="courseVO">
 		<![CDATA[
-			insert into course(crs_id, crs_start_date, crs_end_date, crs_start_time, crs_end_time, crs_capacity, crs_classroom, crs_banner_img, slb_id) values 
-			(crs_seq.NEXTVAL, #{startDate}, #{endDate}, #{startTime}, #{endTime}, TO_NUMBER(#{capacity}), #{classroom}, #{bannerImg}, #{slbId})
+			insert into course(crs_id, crs_start_date, crs_end_date, crs_start_time, crs_end_time, crs_capacity, crs_classroom, crs_banner_img, slb_id, crs_rs_date, crs_re_date) values 
+			(crs_seq.NEXTVAL, #{startDate}, #{endDate}, #{startTime}, #{endTime}, TO_NUMBER(#{capacity}), #{classroom}, #{bannerImg}, #{slbId}, #{rsDate}, #{reDate})
 		]]>
 	</insert>
 	
 	<update id="updateCourse" parameterType="courseVO">
 		<![CDATA[
 			update course set crs_start_date = #{startDate}, crs_end_date = #{endDate}, crs_start_time = #{startTime}, crs_end_time = #{endTime},
-			crs_capacity = #{capacity}, crs_classroom = #{classroom}, crs_banner_img = #{bannerImg}, slb_id = #{slb_id}
+			crs_capacity = #{capacity}, crs_classroom = #{classroom}, crs_banner_img = #{bannerImg}, slb_id = #{slb_id}, crs_rs_date = #{rsDate}, crs_re_date = #{reDate}
 			where crs_id = #{id}
 		]]>
 	</update>
@@ -73,9 +104,34 @@
 	
 	<delete id="deleteCourse" parameterType="int">
 		<![CDATA[
-			delete from course where crs_id = #{id}
+			delete from course 
+			where crs_id = #{id}
 		]]>
 	</delete>
 	
 	
+	<!-- <select id="countBoard" resultType="int">
+		<![CDATA[
+		select count(*) from course
+		]]>
+	</select>
+	
+	
+	
+	<select id="selectBoard" resultType="courseVO">
+		<![CDATA[
+		select * from(select ROWNUM, a.* from course a;
+		]]>
+	</select> -->
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
