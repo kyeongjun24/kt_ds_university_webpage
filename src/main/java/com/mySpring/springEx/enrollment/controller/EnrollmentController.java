@@ -23,4 +23,7 @@ public interface EnrollmentController {
 			throws Exception;
 
 	ModelAndView enrollmentForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	int checkEnrollment(EnrollmentVO enrollmentVO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception;
 }

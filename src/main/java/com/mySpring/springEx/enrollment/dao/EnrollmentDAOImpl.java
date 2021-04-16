@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
 import com.mySpring.springEx.member.vo.MemberVO;
@@ -17,6 +18,12 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Autowired
 	private SqlSession sqlSession;
 
+	// 페이지 기준 설정 메서드
+	@Override
+	public List<MemberVO> listCriteria(Criteria criteria) throws DataAccessException {
+		return sqlSession.selectList("mapper.enrollment.listCriteria", criteria);
+	}
+	
 	@Override
 	public List selectSylCrsList() throws DataAccessException {
 		List<EnrollmentVO> sylCrsList = null;
@@ -24,6 +31,11 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sylCrsList;
 	}
 	
+	//(등록관련) 수강신청 되어있는지 체크
+	public int checkEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
+		int result = sqlSession.insert("mapper.enrollment.checkEnrollment", enrollmentVO);
+		return result;
+	}
 	
 	//수강신청내역 리스트로 이동
 	@Override

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.enrollment.dao.EnrollmentDAO;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
@@ -19,6 +20,18 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Autowired
 	private EnrollmentDAO enrollmentDAO;
 
+	//기준 나누는 메서드 
+	@Override
+	public List listCriteria(Criteria criteria) throws DataAccessException {
+		return enrollmentDAO.listCriteria(criteria);
+	}
+	
+	//(등록관련) 수강신청 되어있는지 체크
+		@Override
+		public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+			return enrollmentDAO.checkEnrollment(enrollment);
+		}
+	
 	
 	@Override
 	public List listSylCrs() throws DataAccessException {

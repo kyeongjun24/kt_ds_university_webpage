@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
 
 
@@ -20,5 +21,9 @@ public interface EnrollmentService {
 	public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException;
 
 	public List listSylCrs() throws DataAccessException;
+
+	public List listCriteria(Criteria criteria) throws DataAccessException;
+
+	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException;
 
 }
