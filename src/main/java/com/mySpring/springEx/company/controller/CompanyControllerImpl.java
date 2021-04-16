@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mySpring.springEx.common.paging.Criteria;
+import com.mySpring.springEx.common.paging.PageMaker;
 import com.mySpring.springEx.company.service.CompanyService;
 import com.mySpring.springEx.company.vo.CompanyVO;
 import com.mySpring.springEx.course.vo.CourseVO;
@@ -31,25 +33,63 @@ public class CompanyControllerImpl implements CompanyController {
 	public ModelAndView listCompanies(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		String searchType = (String) request.getParameter("searchType");
-		String searchText = (String) request.getParameter("searchText"); 
- 		List companiesList = null;
-		ModelAndView mav = new ModelAndView(viewName);
-		if (searchType != null && searchText != null) {
-			companiesList = companyService.listBySearchCompanies(searchType, searchText);
-			mav.addObject("searchText", searchText);
-			mav.addObject("searchType", searchType);
+		String searchText = (String) request.getParameter("searchText");
+
+		// 페이지 변수 선언
+		int page = 0;
+		// 페이지 값이 있으면
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page")); // 페이지 값 저장
 		} else {
-			companiesList = companyService.listCompanies();
+			page = 1; // 없으면 1 저장
 		}
-		mav.addObject("companiesList", companiesList);
+
+		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
+		// perPage 값 있으면
+		if (request.getParameter("perPage") != null) {
+			perPage = Integer.parseInt(request.getParameter("perPage")); // 페이지 값 저장
+		} else {
+			perPage = 10; // 없으면 10 저장
+		}
+
+		System.out.println("전달 받은 페이지 번호 페이지: " + page);
+		System.out.println("리스트 띙ㄹ 개수 perPage: " + perPage);
+
+		List companiesList = null;
+		ModelAndView mav = new ModelAndView(viewName);
+		Criteria criteria = new Criteria();
+		PageMaker pageMaker = new PageMaker();
+
+		criteria.setPerPageNum(perPage); // 리스트 개수 설정
+		pageMaker.setCriteria(criteria); // 기준 값 설정
+
+		if (searchType != null && searchText != null) { // 검색 유형이랑 값을 받았으면
+			companiesList = companyService.listBySearchCompanies(searchType, searchText);
+			criteria.setPage(page); // 페이지 설정
+			criteria.setSearchText(searchText); // 검색 값 설정
+			criteria.setSearchType(searchType); // 검색 유형 설정
+			pageMaker.setTotalCount(companiesList.size()); // 페이지 개수를 전체 리스트 크기로 설정
+			companiesList = companyService.listCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
+			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내고
+			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
+		} else { // type, text를 받지 않으면
+			companiesList = companyService.listCompanies(); // 전체 리스트를 저장하고
+			criteria.setPage(page); // 페이지 설정
+			pageMaker.setTotalCount(companiesList.size()); // 페이지 개수 설정
+			companiesList = companyService.listCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
+		}
+		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
+		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
+		mav.addObject("companiesList", companiesList); // 설정된 리스트 보내기
 		return mav;
 	}
-	
+
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "/company/listBySearch.do", method = RequestMethod.POST)
-	public ModelAndView listBySearchCompanies(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ModelAndView listBySearchCompanies(@RequestParam("searchType") String searchType,
+			@RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		List companiesList = companyService.listBySearchCompanies(searchType, searchText);
 		ModelAndView mav = new ModelAndView("/company/listCompanies");
@@ -64,24 +104,61 @@ public class CompanyControllerImpl implements CompanyController {
 		String viewName = (String) request.getAttribute("viewName");
 		String searchType = request.getParameter("searchType");
 		String searchText = request.getParameter("searchText");
+
+		// 페이지 변수 선언
+		int page = 0;
+		// 페이지 값이 있으면
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page")); // 페이지 값 저장
+		} else {
+			page = 1; // 없으면 1 저장
+		}
+
+		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
+		// perPage 값 있으면
+		if (request.getParameter("perPage") != null) {
+			perPage = Integer.parseInt(request.getParameter("perPage")); // 페이지 값 저장
+		} else {
+			perPage = 10; // 없으면 10 저장
+		}
+
 		List partnersList = null;
 		ModelAndView mav = new ModelAndView(viewName);
+		Criteria criteria = new Criteria();
+		PageMaker pageMaker = new PageMaker();
+		
+		criteria.setPerPageNum(perPage); // 리스트 개수 설정
+		pageMaker.setCriteria(criteria); // 기준 값 설정
+		
 		if (searchType != null && searchText != null) {
 			partnersList = companyService.listBySearchPartners(searchType, searchText);
 			mav.addObject("searchType", searchType);
 			mav.addObject("searchText", searchText);
-		}else {
+			criteria.setPage(page); // 페이지 설정
+			criteria.setSearchText(searchText); // 검색 값 설정
+			criteria.setSearchType(searchType); // 검색 유형 설정
+			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수를 전체 리스트 크기로 설정
+			partnersList = companyService.partnerListCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
+			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내고
+			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
+		} else {
 			partnersList = companyService.listPartners();
+			criteria.setPage(page); // 페이지 설정
+			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수 설정
+			partnersList = companyService.partnerListCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
 		}
+		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
+		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
 		mav.addObject("partnersList", partnersList);
 		return mav;
 	}
-	
+
 	// 협력회사 검색 할 수 있는 메소드
 	@Override
 	@RequestMapping(value = "/company/listBySearchPartners.do", method = RequestMethod.POST)
-	public ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType,
+			@RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		List partnersList = companyService.listBySearchPartners(searchType, searchText);
 		ModelAndView mav = new ModelAndView("/company/listPartners");
@@ -131,7 +208,6 @@ public class CompanyControllerImpl implements CompanyController {
 	public int removeCheckedCompanies(String[] arr, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
-		System.out.println("================================ " + arr.length);
 		int result = 0;
 		for (int i = 0; i < arr.length; i++) {
 			result = companyService.removeCompany(arr[i]);
@@ -158,7 +234,7 @@ public class CompanyControllerImpl implements CompanyController {
 	private ModelAndView Form(@RequestParam(value = "result", required = false) String result,
 			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
+
 		String viewName = (String) request.getAttribute("viewName");
 		HttpSession session = request.getSession();
 		session.setAttribute("action", action);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.company.vo.CompanyVO;
 
 public interface CompanyDAO {
@@ -29,4 +30,16 @@ public interface CompanyDAO {
 	
 	// 회사 수정 메소드
 	public int modCompany(CompanyVO company) throws DataAccessException;
+
+	public List<CompanyVO> listCriteria(Criteria criteria) throws DataAccessException;
+	
+	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException;
+	
+	public List<CompanyVO> listPaging(int page) throws DataAccessException;
+
+	public List<CompanyVO> partnerListCriteria(Criteria criteria) throws DataAccessException;
+
+	public List selectCriteriaBySearchToPartner(Criteria criteria) throws DataAccessException;
+	
+	public List<CompanyVO> partnerListPaging(int page) throws DataAccessException;
 }

@@ -39,4 +39,6 @@ public interface CompanyController {
 	
 	// 회사 수정할 수 있는 메소드
 	ModelAndView modCompany(@ModelAttribute("company")CompanyVO companyVO, HttpServletRequest request, HttpServletResponse response)throws Exception;
+	
+	
 }

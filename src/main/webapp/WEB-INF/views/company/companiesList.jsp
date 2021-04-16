@@ -141,7 +141,7 @@ request.setCharacterEncoding("UTF-8");
 					<option value="name">회사명</option>
 					<option value="contractName" selected>담당자</option>
 				</c:if>
-				<c:if test="${searchType == null}">
+				<c:if test="${empty searchType}">
 					<option value="name" selected>선택</option>
 					<option value="name">회사명</option>
 					<option value="contractName">담당자</option>
@@ -149,12 +149,12 @@ request.setCharacterEncoding("UTF-8");
 			</select>
 
 			<c:choose>
-				<c:when test="${searchText != null}">
-					<input type="text" name="searchText" id="search"
+				<c:when test="${not empty searchText}">
+					<input type="text" name="searchText" id="searchText"
 						value="${searchText }" style="width: 100px; margin-right: 20px;">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="search"
+					<input type="text" name="searchText" id="searchText"
 						placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
 						onblur="this.placeholder='검색어를 입력하세요.'"
 						style="width: 100px; margin-right: 20px;">
@@ -176,7 +176,7 @@ request.setCharacterEncoding("UTF-8");
 			<td><b>등록 / 수정일</b></td>
 		</tr>
 		<c:choose>
-			<c:when test="${companiesList ==null }">
+			<c:when test="${empty companiesList }">
 				<tr height="10">
 					<td colspan="4">
 						<p align="center">
@@ -185,7 +185,7 @@ request.setCharacterEncoding("UTF-8");
 					</td>
 				</tr>
 			</c:when>
-			<c:when test="${companiesList !=null }">
+			<c:when test="${not empty companiesList }">
 				<c:forEach var="company" items="${companiesList}"
 					varStatus="articleNum">
 					<tr align="center">
@@ -242,7 +242,7 @@ request.setCharacterEncoding("UTF-8");
 					</c:when>
 					<c:otherwise>
 						<c:forEach begin="${pageMaker.startPage }"
-							end="${pageMaker,endPage }" var="idx">
+							end="${pageMaker.endPage }" var="idx">
 							<li
 								<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
 								<a
@@ -265,10 +265,12 @@ request.setCharacterEncoding("UTF-8");
 				</c:if>
 			</ul>
 		</div>
-
-		<button type="button"
+		
+		<div class="memberButton">
+		<button type="button" id="enrollButton"
 			onclick="location.href='${contextPath}/company/addCompanyForm.do'"
 			style="width: 5%;">등록</button>
 		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
+		</div>
 </body>
 </html>

@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.company.dao.CompanyDAO;
 import com.mySpring.springEx.company.vo.CompanyVO;
 import com.mySpring.springEx.course.dao.CourseDAO;
+
+import oracle.net.aso.n;
 
 @Service("companyService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -25,6 +28,12 @@ public class CompanyServiceImpl implements CompanyService{
 		companiesList = companyDAO.selectAllCompanyList();
 		return companiesList;
 	}
+	
+	// 기준 나누는 메소드
+	@Override
+	public List listCriteria(Criteria criteria) throws DataAccessException {
+		return companyDAO.listCriteria(criteria);
+	}
 
 	@Override
 	public List listBySearchCompanies(String searchType, String searchText) throws DataAccessException {
@@ -33,12 +42,34 @@ public class CompanyServiceImpl implements CompanyService{
 		return companiesBySearchList;
 	}
 	
+	// 검색에 의해 나눠지는 메서드
+	@Override
+	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		List companiesCriteriaBySearch = null;
+		companiesCriteriaBySearch = companyDAO.selectCriteriaBySearch(criteria);
+		return companiesCriteriaBySearch;
+	}
+	
+	// 기준 나누는 메소드 (협력회사)
+	@Override
+	public List partnerListCriteria(Criteria criteria) throws DataAccessException {
+		return companyDAO.partnerListCriteria(criteria);
+	}
+	
 	// 협력회사 검색 메소드
 	@Override
 	public List listBySearchPartners(String searchType, String searchText) throws DataAccessException {
 		List partnersBySearchList = null;
 		partnersBySearchList = companyDAO.selectBySearchPartnerList(searchType, searchText);
 		return partnersBySearchList;
+	}
+	
+	// 검색에 의해 나눠지는 메소드 (협력회사)
+	@Override
+	public List partnerListCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		List partnersCrteriaBySearch = null;
+		partnersCrteriaBySearch = companyDAO.selectCriteriaBySearchToPartner(criteria);
+		return partnersCrteriaBySearch;
 	}
 	
 	@Override
