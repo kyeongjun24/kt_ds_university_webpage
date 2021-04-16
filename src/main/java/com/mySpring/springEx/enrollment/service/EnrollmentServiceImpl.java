@@ -19,12 +19,31 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	
 	@Autowired
 	private EnrollmentDAO enrollmentDAO;
-
+	
 	//기준 나누는 메서드 
 	@Override
 	public List listCriteria(Criteria criteria) throws DataAccessException {
 		return enrollmentDAO.listCriteria(criteria);
 	}
+	
+	//검색에 의해 나눠지는 메서드
+	@Override
+	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException {
+		List enrollmentsBySearchList = null;
+		enrollmentsBySearchList = enrollmentDAO.selectBySearchEnrollmentList(searchType, searchText);
+		return enrollmentsBySearchList;
+	}
+	
+	//검색과 기준에 의해 리스트 나눠지는 메서드
+	@Override
+	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		List enrollmentsCriteriaBySearch = null;
+		enrollmentsCriteriaBySearch = enrollmentDAO.selectCriteriaBySearch(criteria);
+		return enrollmentsCriteriaBySearch;
+	}
+	
+
+/////////////////////////////////////////	
 	
 	//(등록관련) 수강신청 되어있는지 체크
 		@Override

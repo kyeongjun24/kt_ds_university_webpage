@@ -62,41 +62,54 @@
 		<collection property="syllabusVO" resultMap="syllabusResult" />
 	</resultMap>
 	
-<!-- 	<sql id="enrd-columns">
-	  	<![CDATA[
-	  		enrd_id, crs_id, mem_id, enrd_stat, 
-	  		substr(enrd_join_date, 1, 10) as enrd_join_date,
-	  		substr(enrd_mod_date, 1, 10) as enrd_mod_date, 
-	  		substr(enrd_complete_date, 1, 10) as enrd_complete_date,
-	  		memResult, courseResult, syllabusResult
-	  	]]>
-   </sql> -->
+<!-- ////////////////새로 추가한것 -->
 	
-	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<select id="selectCriteriaBySearchEnrollmentList" resultMap="enrdResult">
+		SELECT
+			<include refid="member-columns"></include>
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM, <include refid="member-columns"></include>
+			from member
+			<choose>
+	         	<when test="searchType == 'name'">
+	         		WHERE mem_name LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == 'companyName'">
+	         		WHERE mem_company_name LIKE '%' || #{searchText} || '%'
+	         	</when>
+         	</choose>
+		ORDER BY mem_join_date)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by mem_join_date
+	</select>
+
+	<select id="selectBySearchEnrollmentList" resultMap="enrdResult" parameterType="java.util.Map" >
+         select * from member         
+	     <choose>
+         	<when test="searchType == 'name'">
+         		WHERE mem_name LIKE '%' || #{searchText} || '%'
+         	</when>
+         	<when test="searchType == 'companyName'">
+         		WHERE mem_company_name LIKE '%' || #{searchText} || '%'
+         	</when>
+         </choose>
+	</select>
+	
+		<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
 	<select id="listCriteria" resultMap="enrdResult">
-	
-		SELECT *
-		FROM (SELECT ROW_NUMBER() OVER (ORDER BY enrd_id) NUM, 
-			e.enrd_id as enrd_id, 
-			e.mem_id as mem_id, 
-			m.mem_phone as mem_phone, 
-			m.mem_name as mem_name,
-                 m.mem_email as mem_email, 
-                 m.mem_company_name as mem_company_name, 
-                 s.slb_name as slb_name, 
-                 e.enrd_stat as enrd_stat, 
-                 substr(e.enrd_join_date, 1, 10) as enrd_join_date
-                    FROM enrollment_detail E 
-                    LEFT JOIN member M
-                    ON
-                        e.mem_id = m.mem_id
-                    LEFT JOIN course C
-                    ON
-                        e.crs_id = c.crs_id
-                    LEFT JOIN syllabus S
-                    ON
-                        c.slb_id = s.slb_id)
-                        
+		SELECT
+			<include refid="member-columns"></include>
+		FROM (select ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM, <include refid="member-columns"></include>
+				from member 
+				ORDER BY mem_join_date)
 		WHERE NUM BETWEEN #{pageStart} 
 		<choose>
 			<when test="#{perPageNum} == '10'">
@@ -106,8 +119,20 @@
 				AND (#{perPageNum} + #{pageStart})
 			</when>
 		</choose>
-		ORDER BY enrd_join_date
+		order by mem_join_date
 	</select>
+
+		<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<select id="selectEnrollmentListByPaging" resultMap="enrdResult">
+		SELECT <include refid="member-columns"></include> FROM
+				(select ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM, <include refid="member-columns"></include>
+				from member 
+				ORDER BY mem_join_date)
+		WHERE NUM BETWEEN #{page} AND 10
+
+	</select>
+
+<!-- //////////////////////////////////////////////////// -->
 	
 	<!-- (등록관련) 수강신청 되어있는지 체크 -->
 	<select id="checkEnrollment" parameterType="enrollmentVO" resultMap="enrdResult">
@@ -144,8 +169,8 @@
 	<!-- 수강신청내역 리스트 -->
 	<select id="selectAllEnrollmentList" resultMap="enrdResult">
 		<![CDATA[
-			SELECT e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name,
-			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, 
+			SELECT e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_name as mem_name,
+			 m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, 
 			 substr(e.enrd_join_date, 1, 10) as enrd_join_date
 				FROM enrollment_detail E 
 				LEFT JOIN member M
@@ -158,6 +183,7 @@
 				ON
 				    c.slb_id = s.slb_id
 			WHERE enrd_stat NOT IN ('취소')
+			ORDER BY m.mem_name
 		]]>
 	</select>
 	

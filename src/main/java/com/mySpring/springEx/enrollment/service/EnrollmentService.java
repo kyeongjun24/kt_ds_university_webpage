@@ -22,8 +22,12 @@ public interface EnrollmentService {
 
 	public List listSylCrs() throws DataAccessException;
 
+	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException;
+
 	public List listCriteria(Criteria criteria) throws DataAccessException;
 
-	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException;
+	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException;
+
+	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException;
 
 }

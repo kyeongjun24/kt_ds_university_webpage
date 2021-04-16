@@ -113,19 +113,40 @@
 				<c:if test="${searchType == 'name' }">
 					<option value="">검색 종류</option>
 					<option value="name" selected>이름</option>
-					<option value="companyName">회사명</option>
+					<option value="memberVO.companyName">회사명</option>
+					<option value="syllabusVO.name">과정명</option>
+					<option value="stat">상태</option>
 				</c:if>
-				<c:if test="${searchType == 'companyName' }">
+				<c:if test="${searchType == 'memberVO.companyName' }">
 					<option value="">검색 종류</option>
 					<option value="name">이름</option>
-					<option value="companyName" selected>회사명</option>
+					<option value="memberVO.companyName" selected>회사명</option>
+					<option value="syllabusVO.name">과정명</option>
+					<option value="stat">상태</option>
+				</c:if>
+				<c:if test="${searchType == 'syllabusVO.name' }">
+					<option value="">검색 종류</option>
+					<option value="name">이름</option>
+					<option value="memberVO.companyName">회사명</option>
+					<option value="syllabusVO.name" selected>과정명</option>
+					<option value="stat">상태</option>
+				</c:if>
+				<c:if test="${searchType == 'stat' }">
+					<option value="">검색 종류</option>
+					<option value="name">이름</option>
+					<option value="memberVO.companyName">회사명</option>
+					<option value="syllabusVO.name">과정명</option>
+					<option value="stat" selected>상태</option>
 				</c:if>
 				<c:if test="${empty searchType }">
 					<option value="" selected>검색 종류</option>
 					<option value="name">이름</option>
-					<option value="companyName">회사명</option>
+					<option value="memberVO.companyName">회사명</option>
+					<option value="syllabusVO.name">과정명</option>
+					<option value="stat">상태</option>
 				</c:if>
 			</select>
+			
 			<!-- 검색 값이 있냐 없냐에 따라 값 뛰우는거 설정 -->
 			<c:choose>
 				<c:when test="${not empty searchText }">
@@ -146,8 +167,6 @@
      <td><input type="checkbox" id="selectAll"></td>         
      <td ><b>아이디</b></td>
      <td><b>이름</b></td>
-     <td><b>전화번호</b></td>
-     <td><b>이메일</b>
      <td><b>소속회사</b></td>
      <td><b>과정명</b></td>
      <td><b>승인</b></td>
@@ -171,8 +190,6 @@
 		  		<span style="padding-right:10px"></span>
 		  		<a href="${contextPath}/enrollment/informationEnrollment.do?id=${enrollment.id }">${enrollment.memberVO.name }</a>
 		 	</td>
-		 	<td>${enrollment.memberVO.phone }</td>
-		 	<td>${enrollment.memberVO.email }</td> 
 		 	<td>${enrollment.memberVO.companyName }</td>
 	 		<td>${enrollment.syllabusVO.name }</td>
 	 		<td>

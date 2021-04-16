@@ -1,6 +1,8 @@
 package com.mySpring.springEx.enrollment.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,40 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 
 	@Autowired
 	private SqlSession sqlSession;
-
+	
+	@Override
+	public List selectBySearchEnrollmentList(String searchType, String searchText) throws DataAccessException {
+		List<EnrollmentVO> enrollmentsBySearchList = null;
+		Map<String, String> mapSearch = new HashMap<String, String>();
+		mapSearch.put("searchType", searchType);
+		mapSearch.put("searchText", searchText);
+		enrollmentsBySearchList = sqlSession.selectList("mapper.enrollment.selectBySearchEnrollmentList", mapSearch);
+		return enrollmentsBySearchList;
+	}
+	
 	// 페이지 기준 설정 메서드
 	@Override
-	public List<MemberVO> listCriteria(Criteria criteria) throws DataAccessException {
+	public List<EnrollmentVO> listCriteria(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.listCriteria", criteria);
 	}
+	
+	//criteria에 의해 리스트 나누는 메서드
+	@Override
+	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchEnrollmentList", criteria);
+	}
+	
+	//페이징 리스트 뽑아오기 메서드
+	@Override
+	public List<EnrollmentVO> listPaging(int page) throws DataAccessException {
+		if (page <= 0) {
+			page = 1;
+		}
+		page = (page - 1) * 10;
+		return sqlSession.selectList("mapper.enrollment.selectEnrollmentListByPaging", page);
+	}
+	
+////////////////////////////////////////////////	
 	
 	@Override
 	public List selectSylCrsList() throws DataAccessException {
