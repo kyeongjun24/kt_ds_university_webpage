@@ -45,7 +45,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		Map<String, String> mapSearch = new HashMap<String, String>();
 		mapSearch.put("searchType", searchType);
 		mapSearch.put("searchText", searchText);
-		completionBySearchList = sqlSession.selectList("mapper.member.selectBySearchCompletion", mapSearch);
+		completionBySearchList = sqlSession.selectList("mapper.enrollment.selectBySearchCompletion", mapSearch);
 		return completionBySearchList;
 	}
 	
@@ -56,19 +56,19 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 			page = 1;
 		}
 		page = (page - 1) * 10;
-		return sqlSession.selectList("mapper.member.selectCompletionByPaging", page);
+		return sqlSession.selectList("mapper.enrollment.selectCompletionByPaging", page);
 	}
 	
 	// 페이지 기준 설정 메서드
 	@Override
 	public List<EnrollmentVO> listCriteria(Criteria criteria) throws DataAccessException {
-		return sqlSession.selectList("mapper.member.listCriteria", criteria);
+		return sqlSession.selectList("mapper.enrollment.listCriteria", criteria);
 	}
 	
 	//criteria에 의해 리스트 나누는 메서드
 	@Override
 	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
-		return sqlSession.selectList("mapper.member.selectCriteriaBySearchCompletion", criteria);
+		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchCompletion", criteria);
 	}
 	
 }

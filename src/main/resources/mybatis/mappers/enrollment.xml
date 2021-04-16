@@ -61,10 +61,10 @@
 			resultMap="syllabusResult" />
 	</resultMap>
 
-	<sql id="member-columns">
+	<sql id="enrollment-columns">
    	<![CDATA[
-   		mem_id, mem_pw, mem_name, mem_phone, mem_email, mem_subscription, mem_company_name,
-         mem_delYN, SUBSTR(mem_join_date,0, 10) as mem_join_date, SUBSTR(mem_mod_date,0, 10) as mem_mod_date, mem_login_fail 
+   		e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, substr(enrd_complete_date,1,10) as enrd_complete_date,
+			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, substr(enrd_join_date,1,10) as enrd_join_date
    	]]>
 	</sql>
 
@@ -127,27 +127,47 @@
 
 	<select id="selectBySearchCompletion" resultMap="enrdResult"
 		parameterType="java.util.Map">
-		select * from member
+		select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, substr(enrd_complete_date,1,10) as enrd_complete_date,
+			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, substr(enrd_join_date,1,10) as enrd_join_date
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
 		<choose>
 			<when test="searchType == 'name'">
-				WHERE mem_name LIKE '%' || #{searchText} || '%'
+				WHERE m.mem_name LIKE '%' || #{searchText} || '%'
 			</when>
 			<when test="searchType == 'companyName'">
-				WHERE mem_company_name LIKE '%' || #{searchText} ||
+				WHERE m.mem_company_name LIKE '%' || #{searchText} ||
 				'%'
 			</when>
 		</choose>
 	</select>
 
 	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
-	<select id="selectCompletionByPaging" resultMap="memResult">
+	<select id="selectCompletionByPaging" resultMap="enrdResult">
 		SELECT
-		<include refid="member-columns"></include>
+		<include refid="enrollment-columns"></include>
 		FROM
-		(select ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM,
-		<include refid="member-columns"></include>
-		from member
-		ORDER BY mem_join_date)
+		(select ROW_NUMBER() OVER (ORDER BY enrd_id) NUM,
+		<include refid="enrollment-columns"></include>
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		ORDER BY enrd_id)
 		WHERE NUM BETWEEN #{page} AND 10
 
 	</select>
@@ -155,52 +175,71 @@
 	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
 	<select id="listCriteria" resultMap="enrdResult">
 		SELECT
-		<include refid="member-columns"></include>
-		FROM (select ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM,
-		<include refid="member-columns"></include>
-		from member
-		ORDER BY mem_join_date)
+		enrd_id, mem_id , mem_phone, mem_name,
+			 mem_email, mem_company_name, slb_name, enrd_stat, enrd_join_date, enrd_complete_date
+		FROM (select ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
+		<include refid="enrollment-columns"></include>
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		ORDER BY enrd_id)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
 			<when test="#{perPageNum} == '10'">
 				AND #{perPageNum}
 			</when>
 			<when test="#{perPageNum} != '10'">
-				AND (#{perPageNum} + #{pageStart})
+				AND (#{perPageNum} + #{pageStart}) -1 
 			</when>
 		</choose>
-		order by mem_join_date
+		order by enrd_id
 	</select>
 
 	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select -->
 	<select id="selectCriteriaBySearchCompletion"
-		resultMap="memResult">
+		resultMap="enrdResult">
 		SELECT
-		<include refid="member-columns"></include>
+		enrd_id, mem_id , mem_phone, mem_name,
+			 mem_email, mem_company_name, slb_name, enrd_stat, enrd_join_date, enrd_complete_date
 		FROM (
-		SELECT ROW_NUMBER() OVER (ORDER BY mem_join_date) NUM,
-		<include refid="member-columns"></include>
-		from member
+		SELECT ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
+		<include refid="enrollment-columns"></include>
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
 		<choose>
 			<when test="searchType == 'name'">
-				WHERE mem_name LIKE '%' || #{searchText} || '%'
+				WHERE m.mem_name LIKE '%' || #{searchText} || '%'
 			</when>
 			<when test="searchType == 'companyName'">
-				WHERE mem_company_name LIKE '%' || #{searchText} ||
-				'%'
+				WHERE m.mem_company_name LIKE '%' || #{searchText} || '%'
 			</when>
 		</choose>
-		ORDER BY mem_join_date)
+		ORDER BY enrd_id)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
 			<when test="#{perPageNum} == '10'">
 				AND #{perPageNum}
 			</when>
 			<when test="#{perPageNum} != '10'">
-				AND (#{perPageNum} + #{pageStart})
+				AND (#{perPageNum} + #{pageStart}) -1
 			</when>
 		</choose>
-		order by mem_join_date
+		order by enrd_id
 	</select>
 
 

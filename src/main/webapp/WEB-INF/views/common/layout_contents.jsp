@@ -119,7 +119,7 @@ td {
 	justify-content: center;
 	text-align: center;
 	position: relative;
-	margin-top: 30px;
+	margin: 30px;
 	width: 1500px;
 }
 

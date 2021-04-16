@@ -28,7 +28,7 @@ request.setCharacterEncoding("UTF-8");
 	cursor: pointer;
 	width: 90px;
 	height: 35px;
-		padding : 5px;
+	padding : 5px;
 }
 
 
@@ -42,14 +42,6 @@ request.setCharacterEncoding("UTF-8");
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-	/* function fn_articleForm(isLogOn,courseForm,loginForm){
-	  if(isLogOn != '' && isLogOn != 'false'){
-	    location.href=courseForm;
-	  }else{
-	    alert("로그인 후 과정 등록이 가능합니다.")
-	    location.href=loginForm+'?action=/course/courseForm.do';
-	  }
-	} */
 
 	$(function() {
 		$('#selectAll').click(function() {
@@ -59,17 +51,28 @@ request.setCharacterEncoding("UTF-8");
 				$("input[type=checkbox]").prop("checked", false);
 			}
 		})
+		
+		$('#listFilter')
+						.on(
+								'change',
+								function() {
+									var perPage = $(this).val();
+									var searchType = document
+											.getElementById('searchType').value;
+									var searchText = document
+											.getElementById('searchText').value;
+									/* alert(perPage+"씩 리스트 출력");
+									alert(searchType);
+									alert(searchText); */
+									location.href = "${contextPath}/enrollment/listCompletion.do?perPage="
+											+ perPage
+											+ "&searchType="
+											+ searchType
+											+ "&searchText="
+											+ searchText;
+								})
 	})
 
-	$(document).on("click", '#selectAll', function() {
-		$('#selectAll').click(function() {
-			if ($("input:checkbox[id='selectAll']").prop("checked")) {
-				$("input[type=checkbox]").prop("checked", true);
-			} else {
-				$("input[type=checkbox]").prop("checked", false);
-			}
-		})
-	});
 </script>
 
 
@@ -77,7 +80,7 @@ request.setCharacterEncoding("UTF-8");
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
-	String searchText = request.getParameter("searchType");
+	String searchText = request.getParameter("searchText");
 	%>
 	<form method="get" action="${contextPath}/enrollment/listCompletion.do"
 		id="searchFrm">
@@ -166,7 +169,7 @@ request.setCharacterEncoding("UTF-8");
 						varStatus="enrdNum">
 						<tr class="test" align="center">
 							<td><input type="checkbox"></td>
-							<td><a href="#">${enrollment.memberVO.id }</a></td>
+							<td>${enrollment.memberVO.id }</td>
 							<td class="content">${enrollment.memberVO.name }</td>
 							<td class="content">${enrollment.memberVO.phone }</td>
 							<td>${enrollment.memberVO.email }</td>
@@ -190,11 +193,11 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/member/listMembers.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/enrollment/listCompletion.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/member/listMembers.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/enrollment/listCompletion.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>
@@ -205,7 +208,7 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
 							<a
-							href="${contextPath }/member/listMembers.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/enrollment/listCompletion.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:when>
@@ -215,7 +218,7 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
 							<a
-							href="${contextPath }/member/listMembers.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/enrollment/listCompletion.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:otherwise>
@@ -224,11 +227,11 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/member/listMembers.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/enrollment/listCompletion.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/member/listMembers.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/enrollment/listCompletion.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>

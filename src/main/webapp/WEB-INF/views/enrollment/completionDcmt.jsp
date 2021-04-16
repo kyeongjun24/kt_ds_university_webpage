@@ -16,14 +16,21 @@ request.setCharacterEncoding("UTF-8");
 @media only print {
 	.completionPrint {
 		position: absolute;
+		transform: translateX(320px);
 	}
 	.completionText {
 		position: absolute;
-		transform: translateY(-100px);
+		transform: translateY(-204px);
 	}
 	header, #sidebar-left, #footer, .completionButton {
 		display: none;
 	}
+	#completionImg {
+	width: 800px;
+	height: 1132.1px;
+	position: absolute;
+	transform: translateY(-100px); 
+}
 }
 
 @font-face {
@@ -43,23 +50,23 @@ request.setCharacterEncoding("UTF-8");
 .completionText {
 	position: absolute;
 	z-index: 11;
-	width: 430px;
-	top: 175px;
+	width: 630px;
+	top: 215px;
 }
 
-#completionImg {
-	width: 559px;
-	height: 786px;
+ #completionImg {
+	width: 800px;
+	height: 1132.1px;
 	z-index: 10;
 }
 
 .completion_serial {
-	font-size: 14px;
+	font-size: 20px;
 	text-align: left;
 }
 
 .completion_main {
-	font-size: 40px;
+	font-size: 65px;
 	margin: 55px;
 	letter-spacing: 25px;
 }
@@ -70,7 +77,7 @@ request.setCharacterEncoding("UTF-8");
 
 .completion_info ul {
 	list-style: none;
-	font-size: 14px;
+	font-size: 20px;
 }
 
 .completion_info ul li {
@@ -79,29 +86,32 @@ request.setCharacterEncoding("UTF-8");
 
 .completion_content {
 	margin: 40px;
-	word-spacing: 4px;
+	word-spacing: 6px;
+	font-size: 28px;	
 }
 
 .completion_date {
-	margin: 30px;
-	font-size: 14px;
+	margin: 60px;
+	font-size: 20px;
 }
 
-.completion_logo {
+#completion_logo {
 	margin: 10px;
+	/* width : 282.17px;
+	height : 48px; */
 }
 
 .completion_ceo {
 	margin: 10px;
-	font-size: 14px;
+	font-size: 23px;
 }
 
 #compl_name {
-	letter-spacing: 58px;
+	letter-spacing: 73px;
 }
 
 #compl_companyName {
-	letter-spacing: 23px;
+	letter-spacing: 28px;
 }
 
 #compl_slb_name {
@@ -109,7 +119,7 @@ request.setCharacterEncoding("UTF-8");
 }
 
 #compl_crs_date {
-	letter-spacing: 11px;
+	letter-spacing: 13px;
 }
 </style>
 
@@ -132,9 +142,9 @@ request.setCharacterEncoding("UTF-8");
 	<div id="printme">
 		<div class="completionPrint">
 			<img id="completionImg" alt=""
-				src="${contextPath}/resources/image/completion.png">
+				src="${contextPath}/resources/image/completion8.jpg">
 			<div class="completionText">
-				<div class="completion_serial">ktds ${enrollmentVO.syllabusVO.type }과정 제 2021030001호</div>
+				<div class="completion_serial">ktds ${enrollmentVO.syllabusVO.type }과정 제 ${enrollmentVO.id }호</div>
 				<div class="completion_main">수료증</div>
 				<div class="completion_info">
 					<ul>
@@ -152,11 +162,11 @@ request.setCharacterEncoding("UTF-8");
 				<div class="completion_content">위 사람은 상기 국가인적자원개발 컨소시엄 과정을
 					수료하였으므로 이 증서를 수여합니다.</div>
 				<div class="completion_date">${enrollmentVO.completeDate }</div>
-				<div class="completion_logo">
-					<img src="${contextPath}/resources/image/completionLogo2.png">
+				<div id="completion_logo">
+					<img src="${contextPath}/resources/image/completionLogo3.png">
 				</div>
 				<div class="completion_ceo">
-					대표이사 <span style="font-size: 16px;">우 정 민</span>
+					대표이사 <span style="font-size: 28px;">우 정 민</span>
 				</div>
 			</div>
 		</div>

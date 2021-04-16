@@ -94,7 +94,7 @@ request.setCharacterEncoding("UTF-8");
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
-	String searchText = request.getParameter("searchType");
+	String searchText = request.getParameter("searchText");
 	%>
 	<form method="get" action="${contextPath}/member/listMembers.do"
 		id="searchFrm">

@@ -22,7 +22,7 @@
    <definition name="/enrollment/completionDoc" extends="baseLayout">
       <put-attribute name="title" value="수료증출력창" />
       <put-attribute name="side" value="/WEB-INF/views/common/sideEnrollment.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/enrollment/completionDoc.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/enrollment/completionDcmt.jsp" /> 
    </definition>
    
 </tiles-definitions>

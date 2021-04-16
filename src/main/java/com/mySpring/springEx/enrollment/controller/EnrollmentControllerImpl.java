@@ -56,7 +56,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		String viewName = (String)request.getAttribute("viewName");
 		String searchType = (String)request.getParameter("searchType");
 		String searchText = (String)request.getParameter("searchText");
-		
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+searchText);
 		
 		// page 기본 변수 생성
 				int page = 0;
@@ -107,12 +107,12 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 					System.out.println("@@@@@@@@검색필터적용안됨요");
 					completionList = enrollmentService.listCompletion(); //전체 리스트 저장
 //					membersList = memberService.listCriteria(criteria);
-					/*
-					 * System.out.println(completionList.size()); //전체 사이즈 
-					 * criteria.setPage(page); //페이지 설정 
-					 * pageMaker.setTotalCount(completionList.size()); //페이지 개수 설정
-					 * completionList = enrollmentService.listCriteria(criteria); //기준에 의해 나눠진 리스트 설정
-					 */				}
+					
+					 System.out.println(completionList.size()); //전체 사이즈 
+					 criteria.setPage(page); //페이지 설정 
+					 pageMaker.setTotalCount(completionList.size()); //페이지 개수 설정
+					 completionList = enrollmentService.listCriteria(criteria); //기준에 의해 나눠진 리스트 설정
+					 			}
 				System.out.println("perPage@@@@@@@@@@@@"+perPage);
 				mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
 				mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
