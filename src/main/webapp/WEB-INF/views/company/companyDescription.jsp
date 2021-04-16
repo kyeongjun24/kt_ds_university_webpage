@@ -75,58 +75,56 @@ button {
 		<table align="left">
 			<tr>
 				<td width="200"><p align="right">상태</p></td>
-				<td width="250"><select name="contractStat" id=sel1>
+				<td width="330"><select name="contractStat" id=sel1>
 						<option value="">상태를 선택하세요</option>
-						<option value="협의중"
-							<c:if test="${companyVO.contractStat eq '협의중' }"> selected</c:if>>협의중</option>
-						<option value="협약서 접수"
-							<c:if test="${companyVO.contractStat eq '협약서 접수' }"> selected</c:if>>협약서 접수</option>
-						<option value="탈퇴" 
-							<c:if test="${companyVO.contractStat eq '탈퇴'}"> selected</c:if>>탈퇴</option>
+						<option value="협약사"
+							<c:if test="${companyVO.contractStat eq '협약사' }"> selected</c:if>>협약사</option>
+						<option value="비협약사"
+							<c:if test="${companyVO.contractStat eq '비협약사' }"> selected</c:if>>비협약사</option>
 				</select>
 			<tr>
 				<td width="200"><p align="right">회사명</p></td>
-				<td width="250"><input type="text" name="name"
+				<td width="330"><input type="text" name="name" 
 					value="${companyVO.name}"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">대표번호</p></td>
-				<td width="250"><input type="text" name="companyTel"
+				<td width="330"><input type="text" name="companyTel"
 					value="${companyVO.companyTel}"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">홈페이지</p></td>
-				<td width="250"><input type="text" name="homePage"
+				<td width="330"><input type="text" name="homePage"
 					value="${companyVO.homePage }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">주소</p></td>
-				<td width="250"><input type="text" name="address"
+				<td width="330"><input type="text" name="address"
 					value="${companyVO.address }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">사업자등록번호</p></td>
-				<td width="250"><input type="text" name="id"
+				<td width="330"><input type="text" name="id"
 					value="${companyVO.id }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자</p></td>
-				<td width="250"><input type="text" name="contractName"
+				<td width="330"><input type="text" name="contractName"
 					value="${companyVO.contractName }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자전화번호</p></td>
-				<td width="250"><input type="text" name="managerPhone"
+				<td width="330"><input type="text" name="managerPhone"
 					value="${companyVO.managerPhone }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자이메일</p></td>
-				<td width="250"><input type="text" name="managerEmail"
+				<td width="330"><input type="text" name="managerEmail"
 					value="${companyVO.managerEmail }"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">협약업체 동의 구분</p></td>
-				<td width="250">
+				<td width="330">
 				<input type="radio" name="contractAgree" value="컨소시엄 협약" id="radio1"
 					<c:if test="${companyVO.contractAgree eq '컨소시엄 협약' }">checked</c:if>>컨소시엄 협약 
 					<input type="radio" name="contractAgree" value="컨소시엄 비협약"
@@ -134,7 +132,7 @@ button {
 			</tr>
 			<tr>
 				<td width="200"><p align="right">협약 상태 구분</p></td>
-				<td width="250"><select name="contractType" id=sel2>
+				<td width="330"><select name="contractType" id=sel2>
 						<option value="">상태를 선택하세요</option>
 						<option value="협약서 없음"
 							<c:if test="${companyVO.contractType eq '협약서 없음' }"> selected</c:if>>협약서
@@ -152,7 +150,7 @@ button {
 			</tr>
 			<tr>
 				<td width="200"><p align="right">등록 / 수정일</p></td>
-				<td width="250"><input type="text" readOnly name="regDate"
+				<td width="330"><input type="text" readOnly name="regDate"
 					value="${companyVO.regDate }"></td>
 			</tr>
 		</table>

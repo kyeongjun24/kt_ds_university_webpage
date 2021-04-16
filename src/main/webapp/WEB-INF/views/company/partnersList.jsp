@@ -128,8 +128,8 @@ request.setCharacterEncoding("UTF-8");
 
 	<table align="center" border="0" width="80%" id="partners">
 		<tr height="15" align="center">
-			<td class=line1><b>번호</b></td>
 			<td class=line1><b>회사명</b></td>
+			<td class=line1><b>협약 상태</b></td>
 			<td class=line1><b>담당자</b></td>
 			<td class=line1><b>전화번호</b>
 			<td class=line1><b>사업자등록번호</b></td>
@@ -149,11 +149,11 @@ request.setCharacterEncoding("UTF-8");
 				<c:set var="num" value="${company.totalCount - ((company.curPage -1)*10) }" />
 				<c:forEach var="company" items="${partnersList }" varStatus="articleNum">
 					<tr align="center">
-						<td class=line2>${articleNum.count}</td>
 						<td class=line2 align='center' width="20%"><span
 							style="padding-right: 10px"></span> <a class='cls1'
 							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>
+						<td class=line2>${company.contractType }</td>
 						<td class=line2>${company.contractName }</td>
 						<td class=line2>${company.managerPhone }</td>
 						<td class=line2>${company.id }</td>

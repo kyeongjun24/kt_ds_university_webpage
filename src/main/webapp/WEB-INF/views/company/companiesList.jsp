@@ -167,7 +167,6 @@ request.setCharacterEncoding("UTF-8");
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" style="border-bottom: solid;">
 			<td><input type="checkbox" id="selectAll"></td>
-			<td><b>번호</b></td>
 			<td><b>상태</b></td>
 			<td><b>회사명</b></td>
 			<td><b>담당자</b></td>
@@ -191,12 +190,9 @@ request.setCharacterEncoding("UTF-8");
 					<tr align="center">
 						<td><input type="checkbox" name="selectedCheckbox"
 							id="${company.id }"></td>
-						<td>${articleNum.count }</td>
-						<td width="15%"><c:if test="${company.contractStat eq '협의중'}">
+						<td width="15%"><c:if test="${company.contractStat eq '협약사'}">
 								<font color="blue">${company.contractStat }</font>
-							</c:if> <c:if test="${company.contractStat eq '협약서 접수'}">
-								<font color="green">${company.contractStat }</font>
-							</c:if> <c:if test="${company.contractStat eq '탈퇴'}">
+							</c:if> <c:if test="${company.contractStat eq '비협약사'}">
 								<font color="red">${company.contractStat }</font>
 							</c:if></td>
 						<td align='center' width="20%"><span

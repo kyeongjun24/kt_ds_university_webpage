@@ -51,10 +51,6 @@ public class CompanyControllerImpl implements CompanyController {
 		} else {
 			perPage = 10; // 없으면 10 저장
 		}
-
-		System.out.println("전달 받은 페이지 번호 페이지: " + page);
-		System.out.println("리스트 띙ㄹ 개수 perPage: " + perPage);
-
 		List companiesList = null;
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();

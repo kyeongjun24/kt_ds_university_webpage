@@ -32,79 +32,28 @@ button {
 </head>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	/* 등록할 때 input에 값이 안 들어가 있으면 alert창을 띄우고 커서가 그 곳으로 가는 메소드 */
-	$(
-			function() {
-				$('#registerCheck')
-						.submit(
-								function() {
-
-									// 이메일 유효성 체크 변수
-									var emailCheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-
-									theForm = document.addFrm;
-									if (theForm.contractStat.value == "") {
-										alert("상태를 입력해주세요.")
-										theForm.contractStat.focus();
-										return false;
-									}
-									if (theForm.name.value == "") {
-										alert("회사명을 입력해주세요.")
-										theForm.name.focus();
-										return false;
-									}
-									if (theForm.companyTel.value == "") {
-										alert("대표번호를 입력해주세요.")
-										theForm.companyTel.focus();
-										return false;
-									}
-									if (theForm.homePage.value == "") {
-										alert("홈페이지를 입력해주세요.")
-										theForm.homePage.focus();
-										return false;
-									}
-									if (theForm.address.value == "") {
-										alert("주소를 입력해주세요.")
-										theForm.address.focus();
-										return false;
-									}
-									if (theForm.id.value == "") {
-										alert("사업자등록번호를 입력해주세요.")
-										theForm.id.focus();
-										return false;
-									}
-									if (theForm.contractName.value == "") {
-										alert("담당자를 입력해주세요.")
-										theForm.contractName.focus();
-										return false;
-									}
-									if (theForm.managerPhone.value == "") {
-										alert("담당자전화번호를 입력해주세요.")
-										theForm.managerPhone.focus();
-										return false;
-									}
-									if (theForm.managerEmail.value == "") {
-										alert("담당자이메일을 입력해주세요.")
-										theForm.managerEmail.focus();
-										return false;
-									}
-									if (!$(
-											':input:radio[name=contractAgree]:checked')
-											.val()) {
-										alert("1개 이상 선택해주세요.")
-										$('input:radio[name=contractAgree]')
-												.eq(0).attr("checked", true);
-										return false;
-									}
-									if (theForm.contractType.value == "") {
-										alert("협약상태를 입력해주세요.")
-										theForm.contractType.focus();
-										return false;
-									}
-									return true;
-								})
-			})
+	/* 주소 찾기 기능 사용하는 메소드 */
+	function openZipSearch() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+            	
+            	var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var jibunAddr = data.jibunAddress; // 지번 주소 변수
+                
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('zipCode').value = data.zonecode;
+                if(roadAddr !== ''){
+                    document.getElementById("address").value = roadAddr;
+                } 
+                else if(jibunAddr !== ''){
+                    document.getElementById("address").value = jibunAddr;
+                }
+            }
+        }).open();
+    }
 </script>
 
 <body>
@@ -114,63 +63,73 @@ button {
 		<table align="left">
 			<tr>
 				<td width="200"><p align="right">상태</p></td>
-				<td width="250"><select name="contractStat">
+				<td width="250"><select name="contractStat" required>
 						<option value="">상태를 선택하세요</option>
-						<option value="협의중">협의중</option>
-						<option value="협약서 접수">협약서 접수</option>
-						<option value="탈퇴">탈퇴</option>
+						<option value="협약사">협약사</option>
+						<option value="비협약사">비협약사</option>
 				</select>
 			<tr>
 				<td width="200"><p align="right">회사명</p></td>
-				<td width="250"><input type="text" name="name"></td>
+				<td width="250"><input type="text" name="name" required></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">대표번호</p></td>
-				<td width="250"><input type="text" name="companyTel"
-					placeholder="예) 00-0000-0000" onfocus="this.placeholder=''"
-					onblur="this.placeholder='예) 00-0000-0000'"></td>
+				<td width="250"><input type="text" name="companyTel" required
+					placeholder="예) 000-000-0000" onfocus="this.placeholder=''"
+					onblur="this.placeholder='예) 000-000-0000'"
+					pattern="\d{2,3}-\d{3,4}-\d{4}" title="예) 000-000-0000"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">홈페이지</p></td>
-				<td width="250"><input type="text" name="homePage"></td>
+				<td width="250"><input type="text" name="homePage" required></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">주소</p></td>
-				<td width="250"><input type="text" name="address"
-				placeholder="예) 00시 00구 또는 00시 00동" onfocus="this.placeholder=''"
-					onblur="this.placeholder='예) 00시 00구 또는 00시 00동'"></td>
+				<td width="250"><input type="text" id="zipCode" name="zip"
+					placeholder="우편번호" readonly>
+					<button type="button" style="width: 60px; height: 32px;"
+						onclick="openZipSearch()">검색</button>
+					<br> <input type="text" id="address" name="address"
+					placeholder="주소" readonly> <input type="text"
+					name="address" placeholder="상세 주소" required></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">사업자등록번호</p></td>
-				<td width="250"><input type="text" name="id"
+				<td width="250"><input type="text" name="id" required
 					placeholder="예) 000-00-00000" onfocus="this.placeholder=''"
-					onblur="this.placeholder='예) 000-00-00000'"></td>
+					onblur="this.placeholder='예) 000-00-00000'"
+					pattern="\d{3}-\d{2}-\d{5}" title="예) 000-00-00000"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자</p></td>
-				<td width="250"><input type="text" name="contractName"></td>
+				<td width="250"><input type="text" name="contractName" required
+					pattern="^[가-힣]{2,5}" ></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자전화번호</p></td>
-				<td width="250"><input type="text" name="managerPhone"
-					placeholder="예) 000-0000-0000" onfocus="this.placeholder=''"
-					onblur="this.placeholder='예) 000-0000-0000'"></td>
+				<td width="250"><input type="text" name="managerPhone" required
+					id="phoneNum" placeholder="예) 010-0000-0000"
+					onfocus="this.placeholder=''"
+					onblur="this.placeholder='예) 010-0000-0000'"
+					pattern="(010)-\d{3,4}-\d{4}" title="예) 010-0000-0000"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">담당자이메일</p></td>
-				<td width="250"><input type="text" name="managerEmail"
+				<td width="250"><input type="text" name="managerEmail" required
 					placeholder="예) xxxx@naver.com" onfocus="this.placeholder=''"
-					onblur="this.placeholder='예) xxxx@naver.com'"></td>
+					onblur="this.placeholder='예) xxxx@naver.com'"
+					pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" title="예) xxxx@naver.com"></td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">협약업체 동의 구분</p></td>
 				<td width="250"><input type="radio" name="contractAgree"
-					value="컨소시엄 협약" id="radio1">컨소시엄 협약 <input type="radio"
-					name="contractAgree" value="컨소시엄 비협약" id="radio2">컨소시엄 비협약</td>
+					required value="컨소시엄 협약" id="radio1">컨소시엄 협약 <input
+					type="radio" name="contractAgree" value="컨소시엄 비협약" id="radio2">컨소시엄
+					비협약</td>
 			</tr>
 			<tr>
 				<td width="200"><p align="right">협약 상태 구분</p></td>
-				<td width="250"><select name="contractType">
+				<td width="250"><select name="contractType" required>
 						<option value="">상태를 선택하세요</option>
 						<option value="협약서 없음">협약서없음</option>
 						<option value="상호 변경">상호 변경</option>

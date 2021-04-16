@@ -75,7 +75,7 @@
 		<![CDATA[
 			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
 			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel from company 
-			where com_contract_type = '협약 완료'
+			where com_contract_stat = '협약사'
 			order by com_reg_date desc
 		]]>
 	</select>
@@ -141,7 +141,7 @@
 		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
 		com_manager_phone, com_manager_email, com_contract_stat,
 		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel from company WHERE com_contract_type = '협약 완료' order by com_reg_date desc)
+		com_tel from company WHERE com_contract_stat = '협약사' order by com_reg_date desc)
 		where NUM between #{page} and 10
 	</select>
 
@@ -184,16 +184,16 @@
 		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
 		com_manager_phone, com_manager_email, com_contract_stat,
 		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel from company WHERE com_contract_type = '협약 완료' ORDER BY com_reg_date desc)
+		com_tel from company WHERE com_contract_stat = '협약사' ORDER BY com_reg_date desc)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
 			<when test="#{perPageNum} == '10'">
 				AND #{perPageNum} - 1
-				AND com_contract_type = '협약 완료'
+				AND com_contract_stat = '협약사'
 			</when>
 			<when test="#{perPageNum} != '10'">
 				AND (#{perPageNum} + #{pageStart}) - 1
-				AND com_contract_type = '협약 완료'
+				AND com_contract_stat = '협약사'
 			</when>
 		</choose>
 		order by com_reg_date desc
@@ -245,15 +245,15 @@
 		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
 		com_manager_phone, com_manager_email, com_contract_stat,
 		com_contract_type, com_homePage, com_address, com_contract_agree, com_tel 
-		from company WHERE com_contract_type = '협약 완료'
+		from company WHERE com_contract_stat = '협약사'
 		<choose>
 			<when test="searchType == 'name'">
 				AND com_name LIKE '%' || #{searchText} || '%'
-				AND com_contract_type = '협약 완료'
+				AND com_contract_stat = '협약사'
 			</when>
 			<when test="searchType == 'contractName'">
 				AND com_contract_name LIKE '%' || #{searchText} || '%'
-				AND com_contract_type = '협약 완료'
+				AND com_contract_stat = '협약사'
 			</when>
 		</choose>
 		ORDER BY com_reg_date desc)
