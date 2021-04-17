@@ -99,14 +99,13 @@ request.setCharacterEncoding("UTF-8");
 </script>
 
 <body>
+	<!-- 파라미터 -->
 	<%
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
 
-	<form method="get" action="${contextPath }/company/listCompanies.do"
-		id="searchFrm">
-
+	<form method="get" action="${contextPath }/company/listCompanies.do" id="searchFrm">
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
 			<select name="perPage" id="listFilter">
@@ -128,7 +127,8 @@ request.setCharacterEncoding("UTF-8");
 				</c:if>
 			</select>
 		</div>
-
+		
+		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
 		<div class="searchType">
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'name'}">
@@ -147,24 +147,23 @@ request.setCharacterEncoding("UTF-8");
 					<option value="contractName">담당자</option>
 				</c:if>
 			</select>
-
+			
+			<!-- 검색 값이 있냐 없냐에 따라 값 띄우는거 설정 -->
 			<c:choose>
 				<c:when test="${not empty searchText}">
-					<input type="text" name="searchText" id="searchText"
-						value="${searchText }" style="width: 100px; margin-right: 20px;">
+					<input type="text" name="searchText" id="searchText" value="${searchText }">
 				</c:when>
 				<c:otherwise>
 					<input type="text" name="searchText" id="searchText"
 						placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
-						onblur="this.placeholder='검색어를 입력하세요.'"
-						style="width: 100px; margin-right: 20px;">
+						onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
 			</c:choose>
 			<input type="submit" value="검색">
 		</div>
 	</form>
 
-	<table align="center" border="0" width="80%" id="dynamicCompany">
+	<table align="center" border="0" width="80%">
 		<tr height="15" align="center" style="border-bottom: solid;">
 			<td><input type="checkbox" id="selectAll"></td>
 			<td><b>상태</b></td>
@@ -263,9 +262,7 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 		
 		<div class="memberButton">
-		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/company/addCompanyForm.do'"
-			style="width: 5%;">등록</button>
+		<button type="button" id="enrollButton" onclick="location.href='${contextPath}/company/addCompanyForm.do'" style="width: 5%;">등록</button>
 		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
 		</div>
 </body>
