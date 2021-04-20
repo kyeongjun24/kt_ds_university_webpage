@@ -13,7 +13,6 @@ public class CompanyVO {
 	private String managerEmail;
 	private String contractStat;
 	private String contractType;
-	
 	private String homePage;
 	private String address;
 	private String contractAgree;
@@ -34,7 +33,6 @@ public class CompanyVO {
 		this.managerEmail = managerEmail;
 		this.contractStat = contractStat;
 		this.contractType = contractType;
-		
 		this.homePage = homePage;
 		this.address = address;
 		this.contractAgree = contractAgree;

@@ -12,8 +12,13 @@ request.setCharacterEncoding("UTF-8");
 <html>
 <head>
 <style>
-.cls1 {
+.cls1:link {
 	text-decoration: none;
+	color: black;
+}
+.cls1:visited {
+	text-decoration: none;
+	color: black;
 }
 
 .cls2 {
@@ -31,6 +36,10 @@ request.setCharacterEncoding("UTF-8");
 
 #partners {
 	border-collapse: collapse;
+}
+.process {
+	text-align: left;
+	margin-bottom: 1em;
 }
 </style>
 
@@ -68,77 +77,78 @@ request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
-	<form method="get" action="${contextPath }/company/listPartners.do"
-		id="searchFrm">
+	<div class="process"><h4>회원관리>협력회사</h4></div>
+	<form method="get" action="${contextPath }/company/listPartners.do" id="searchFrm">
 		
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
 			<select name="perPage" id="listFilter">
 				<c:if test="${perPage == '10' }">
-					<option value='10' selected>10</option>
-					<option value='20'>20</option>
-					<option value='30'>30</option>
+					<option value='10' selected>10개</option>
+					<option value='20'>20개</option>
+					<option value='30'>30개</option>
 
 				</c:if>
 				<c:if test="${perPage == '20' }">
-					<option value='10'>10</option>
-					<option value='20' selected>20</option>
-					<option value='30'>30</option>
+					<option value='10'>10개</option>
+					<option value='20' selected>20개</option>
+					<option value='30'>30개</option>
 				</c:if>
 				<c:if test="${perPage == '30' }">
-					<option value='10'>10</option>
-					<option value='20'>20</option>
-					<option value='30' selected>30</option>
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='30' selected>30개</option>
 				</c:if>
 			</select>
 		</div>
-		
-		<select id="searchType" name="searchType">
-			<c:if test="${empty searchType}">
-				<option value="name" selected>선택</option>
-				<option value="name">회사명</option>
-				<option value="contractName">담당자</option>
-			</c:if>
-			<c:if test="${searchType == 'name' }">
-				<option value="name">선택</option>
-				<option value="name" selected>회사명</option>
-				<option value="contractName">담당자</option>
-			</c:if>
-			<c:if test="${searchType == 'contractName' }">
-				<option value="name">선택</option>
-				<option value="name">회사명</option>
-				<option value="contractName" selected>담당자</option>
-			</c:if>
-		</select>
 
-		<c:choose>
-			<c:when test="${not empty searchText}">
-				<input type="text" name="searchText" value="${searchText }"
-					id="searchText" style="width: 100px; margin-right: 20px;">
-			</c:when>
-			<c:otherwise>
-				<input type="text" name="searchText" id="searchText"
-					placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
-					onblur="this.placeholder='검색어를 입력하세요.'"
-					style="width: 100px; margin-right: 20px;">
-			</c:otherwise>
-		</c:choose>
-		<input type="submit" value="검색">
+		<div class="searchType">
+			<select id="searchType" name="searchType">
+				<c:if test="${empty searchType}">
+					<option value="name" selected>선택</option>
+					<option value="name">회사명</option>
+					<option value="contractName">담당자</option>
+				</c:if>
+				<c:if test="${searchType == 'name' }">
+					<option value="name">선택</option>
+					<option value="name" selected>회사명</option>
+					<option value="contractName">담당자</option>
+				</c:if>
+				<c:if test="${searchType == 'contractName' }">
+					<option value="name">선택</option>
+					<option value="name">회사명</option>
+					<option value="contractName" selected>담당자</option>
+				</c:if>
+			</select>
+
+			<c:choose>
+				<c:when test="${not empty searchText}">
+					<input type="text" name="searchText" value="${searchText }"
+						id="searchText">
+				</c:when>
+				<c:otherwise>
+					<input type="text" name="searchText" id="searchText"
+						placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
+						onblur="this.placeholder='검색어를 입력하세요.'">
+				</c:otherwise>
+			</c:choose>
+			<input type="submit" value="검색">
+		</div>
 	</form>
 
 	<table align="center" border="0" width="80%" id="partners">
-		<tr height="15" align="center">
+		<tr height="15" align="center" style="border-bottom: solid;">
 			<td class=line1><b>회사명</b></td>
 			<td class=line1><b>협약 상태</b></td>
 			<td class=line1><b>담당자</b></td>
 			<td class=line1><b>전화번호</b>
 			<td class=line1><b>사업자등록번호</b></td>
-			<td class=line1><b>등록/수정일</b></td>
+			<td class=line1><b>등록일</b></td>
 		</tr>
 		<c:choose>
 			<c:when test="${empty partnersList}">
-				<tr height="10">
-					<td colspan="4">
+				<tr align="center">
+					<td class=line2 align='center' width="15%">
 						<p align="center">
 							<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
 						</p>
@@ -146,76 +156,72 @@ request.setCharacterEncoding("UTF-8");
 				</tr>
 			</c:when>
 			<c:when test="${not empty partnersList}">
-				<c:set var="num" value="${company.totalCount - ((company.curPage -1)*10) }" />
 				<c:forEach var="company" items="${partnersList }" varStatus="articleNum">
 					<tr align="center">
-						<td class=line2 align='center' width="20%"><span
-							style="padding-right: 10px"></span> <a class='cls1'
+						<td class=line2 align='center' width="15%"><a class='cls1'
 							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>
-						<td class=line2>${company.contractType }</td>
-						<td class=line2>${company.contractName }</td>
-						<td class=line2>${company.managerPhone }</td>
-						<td class=line2>${company.id }</td>
-						<td class=line2>${company.modDate }</td>
+						<td width="15%" class=line2>${company.contractType }</td>
+						<td width="15%" class=line2>${company.contractName }</td>
+						<td width="15%" class=line2>${company.managerPhone }</td>
+						<td width="15%" class=line2>${company.id }</td>
+						<td width="15%" class=line2>${company.regDate }</td>
 					</tr>
-					<c:set var="num" value="${num-1 }"></c:set>
 				</c:forEach>
 			</c:when>
 		</c:choose>
 	</table>
-	
+
 	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
-		<div class="pageNumber" align="center"
-			style="width: 80%; height: 10%;">
-			<ul>
-				<c:if test="${pageMaker.prev }">
-					<c:choose>
-						<c:when test="${not empty searchType and not empty searchText }">
-							<li><a
-								href="${contextPath}/company/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="${contextPath}/company/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
+	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+		<ul>
+			<c:if test="${pageMaker.prev }">
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
-						<c:forEach begin="${pageMaker.startPage }"
-							end="${pageMaker.endPage }" var="idx">
-							<li
-								<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
-								<a
-								href="${contextPath }/company/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
-							</li>
-						</c:forEach>
+						<li><a
+							href="${contextPath}/company/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:when>
 					<c:otherwise>
-						<c:forEach begin="${pageMaker.startPage }"
-							end="${pageMaker.endPage }" var="idx">
-							<li
-								<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
-								<a
-								href="${contextPath }/company/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
-							</li>
-						</c:forEach>
+						<li><a
+							href="${contextPath}/company/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
-				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
-					<c:choose>
-						<c:when test="${not empty searchType and not empty searchText }">
-							<li><a
-								href="${contextPath}/company/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="${contextPath}/company/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
-			</ul>
-		</div>
+			</c:if>
+			<c:choose>
+				<c:when test="${not empty searchType and not empty searchText }">
+					<c:forEach begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }" var="idx">
+						<li
+							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
+							<a
+							href="${contextPath }/company/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+						</li>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:forEach begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }" var="idx">
+						<li
+							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
+							<a
+							href="${contextPath }/company/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+						</li>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+				<c:choose>
+					<c:when test="${not empty searchType and not empty searchText }">
+						<li><a
+							href="${contextPath}/company/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a
+							href="${contextPath}/company/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+		</ul>
+	</div>
 </body>
 </html>

@@ -13,20 +13,65 @@ request.setCharacterEncoding("UTF-8");
 <meta charset="UTF-8">
 <title>회사 등록창</title>
 <style>
-.text_left {
-	text-align: left;
+.text_center {
+	padding-bottom: 30px;
+	border-bottom: 0.3px solid;
+	border-color: #9C9D9D;
 }
 
 input:focus {
 	outline: none;
 }
 
-table {
-	border-spacing: 22px;
+.process {
+	text-align: left;
+	padding-bottom: 50px;
+	color: #9C9D9D;
+	font-weight: bold;
 }
 
-button {
-	
+select {
+	float: left;
+	margin-left: 4em;
+}
+
+#t1, #zipCode, #phoneNum {
+	float: left;
+	margin-left: 4em;
+}
+
+#search {
+	float: left;
+}
+
+#address, #address2 {
+	float: left;
+}
+
+.td1 {
+	border-bottom: none;
+}
+
+#company_add {
+	width: 1150px;
+	border-spacing: 22px;
+	height: 350px;
+	margin: auto;
+	margin-top: 70px;
+}
+
+p {
+	padding-left: 52px
+}
+
+#add {
+	background-color: #E91B23;
+	color: #EFEFEF;
+	cursor: pointer;
+}
+
+.buttonZip {
+	margin-top: 70px;
 }
 </style>
 </head>
@@ -37,99 +82,104 @@ button {
 <script>
 	/* 주소 찾기 기능 사용하는 메소드 */
 	function openZipSearch() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-            	
-            	var roadAddr = data.roadAddress; // 도로명 주소 변수
-                var jibunAddr = data.jibunAddress; // 지번 주소 변수
-                
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('zipCode').value = data.zonecode;
-                if(roadAddr !== ''){
-                    document.getElementById("address").value = roadAddr;
-                } 
-                else if(jibunAddr !== ''){
-                    document.getElementById("address").value = jibunAddr;
-                }
-            }
-        }).open();
-    }
+		new daum.Postcode({
+			oncomplete : function(data) {
+
+				var roadAddr = data.roadAddress; // 도로명 주소 변수
+				var jibunAddr = data.jibunAddress; // 지번 주소 변수
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('zipCode').value = data.zonecode;
+				if (roadAddr !== '') {
+					document.getElementById("address").value = roadAddr;
+				} else if (jibunAddr !== '') {
+					document.getElementById("address").value = jibunAddr;
+				}
+			}
+		}).open();
+	}
 </script>
 
 <body>
+	<div class="process">
+		<a>회원관리>회사관리>회사등록</a>
+	</div>
 	<form method="post" action="${contextPath}/company/addCompany.do"
 		id=registerCheck name=addFrm>
-		<h1 class="text_left">회사 등록</h1>
-		<table align="left">
+		<h1 class="text_center">회사 등록</h1>
+		<table id="company_add">
 			<tr>
-				<td width="200"><p align="right">상태</p></td>
-				<td width="250"><select name="contractStat" required>
+				<td width="10%" class="td1"><p align="right">상태</p></td>
+				<td width="20%" class="td1"><select name="contractStat"
+					required>
 						<option value="">상태를 선택하세요</option>
-						<option value="협약사">협약사</option>
-						<option value="비협약사">비협약사</option>
+						<option value="협력사">협력사</option>
+						<option value="비협력사">비협력사</option>
+						<option value="협약 진행중">협약 진행중</option>
 				</select>
-			<tr>
-				<td width="200"><p align="right">회사명</p></td>
-				<td width="250"><input type="text" name="name" required></td>
+				<td width="10%" class="td1"><p align="right">회사명</p></td>
+				<td width="20%" class="td1"><input type="text" name="name"
+					id=t1 required></td>
 			</tr>
+
 			<tr>
-				<td width="200"><p align="right">대표번호</p></td>
-				<td width="250"><input type="text" name="companyTel" required
-					placeholder="예) 000-000-0000" onfocus="this.placeholder=''"
+				<td width="10%" class="td1"><p align="right">대표번호</p></td>
+				<td width="20%" class="td1"><input type="text"
+					name="companyTel" required id=t1 placeholder="예) 000-000-0000"
+					onfocus="this.placeholder=''"
 					onblur="this.placeholder='예) 000-000-0000'"
 					pattern="\d{2,3}-\d{3,4}-\d{4}" title="예) 000-000-0000"></td>
+				<td width="10%" class="td1"><p align="right">홈페이지</p></td>
+				<td width="20%" class="td1"><input type="text" name="homePage"
+					id=t1 required></td>
 			</tr>
+
 			<tr>
-				<td width="200"><p align="right">홈페이지</p></td>
-				<td width="250"><input type="text" name="homePage" required></td>
+				<td width="10%" class="td1"><p align="right">주소</p></td>
+				<td width="20%" class="td1" colspan="4">
+					<input type="text" id=zipCode name="zip" placeholder="우편번호" readonly>
+					<button type="button" id=search onclick="openZipSearch()">검색</button>
+				<input type="text" id=address name="address" placeholder="주소" readonly> 
+				<input type="text" id=address2 name="address" placeholder="상세 주소" required>
+				</td>
 			</tr>
+
 			<tr>
-				<td width="200"><p align="right">주소</p></td>
-				<td width="250"><input type="text" id="zipCode" name="zip"
-					placeholder="우편번호" readonly>
-					<button type="button" style="width: 60px; height: 32px;"
-						onclick="openZipSearch()">검색</button>
-					<br> <input type="text" id="address" name="address"
-					placeholder="주소" readonly> <input type="text"
-					name="address" placeholder="상세 주소" required></td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">사업자등록번호</p></td>
-				<td width="250"><input type="text" name="id" required
-					placeholder="예) 000-00-00000" onfocus="this.placeholder=''"
+				<td width="10%" class="td1"><p align="right">사업자등록번호</p></td>
+				<td width="20%" class="td1"><input type="text" name="id" id=t1
+					required placeholder="예) 000-00-00000"
+					onfocus="this.placeholder=''"
 					onblur="this.placeholder='예) 000-00-00000'"
 					pattern="\d{3}-\d{2}-\d{5}" title="예) 000-00-00000"></td>
+				<td width="10%" class="td1"><p align="right">담당자</p></td>
+				<td width="20%" class="td1"><input type="text"
+					name="contractName" id=t1 required pattern="^[가-힣]{2,5}"></td>
 			</tr>
+			
 			<tr>
-				<td width="200"><p align="right">담당자</p></td>
-				<td width="250"><input type="text" name="contractName" required
-					pattern="^[가-힣]{2,5}" ></td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">담당자전화번호</p></td>
-				<td width="250"><input type="text" name="managerPhone" required
-					id="phoneNum" placeholder="예) 010-0000-0000"
-					onfocus="this.placeholder=''"
+				<td width="10%" class="td1"><p align="right">담당자전화번호</p></td>
+				<td width="20%" class="td1"><input type="text"
+					name="managerPhone" required id="phoneNum"
+					placeholder="예) 010-0000-0000" onfocus="this.placeholder=''"
 					onblur="this.placeholder='예) 010-0000-0000'"
 					pattern="(010)-\d{3,4}-\d{4}" title="예) 010-0000-0000"></td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">담당자이메일</p></td>
-				<td width="250"><input type="text" name="managerEmail" required
-					placeholder="예) xxxx@naver.com" onfocus="this.placeholder=''"
+				<td width="10%" class="td1"><p align="right">담당자이메일</p></td>
+				<td width="20%" class="td1"><input type="text"
+					name="managerEmail" id=t1 required placeholder="예) xxxx@naver.com"
+					onfocus="this.placeholder=''"
 					onblur="this.placeholder='예) xxxx@naver.com'"
-					pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$" title="예) xxxx@naver.com"></td>
+					pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$"
+					title="예) xxxx@naver.com"></td>
 			</tr>
 			<tr>
-				<td width="200"><p align="right">협약업체 동의 구분</p></td>
-				<td width="250"><input type="radio" name="contractAgree"
-					required value="컨소시엄 협약" id="radio1">컨소시엄 협약 <input
-					type="radio" name="contractAgree" value="컨소시엄 비협약" id="radio2">컨소시엄
-					비협약</td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">협약 상태 구분</p></td>
-				<td width="250"><select name="contractType" required>
+				<td width="10%" class="td1"><p align="right">협약업체 동의 구분</p></td>
+				<td width="20%" class="td1" align="left"><p>
+						<input type="radio" name="contractAgree" value="컨소시엄 협약"
+							id="radio1" required> 컨소시엄 협약 <input type="radio"
+							name="contractAgree" value="컨소시엄 비협약" id="radio2"> 컨소시엄 비협약</td>
+				<td width="10%" class="td1"><p align="right">협약 상태 구분</p></td>
+				<td width="20%" class="td1"><select name="contractType"
+					required>
 						<option value="">상태를 선택하세요</option>
 						<option value="협약서 없음">협약서없음</option>
 						<option value="상호 변경">상호 변경</option>
@@ -140,8 +190,10 @@ button {
 		</table>
 
 		<!-- 등록, 취소 버튼 만들기 -->
-		<input type="submit" value="등록" style="width: 5%;" id="add">
-		<button type="button" onclick="history.back()" style="width: 5%;">취소</button>
+		<div class=buttonZip>
+			<input type="submit" value="등록" style="width: 5%;" id="add">
+			<button type="button" onclick="history.back()" style="width: 5%;">취소</button>
+		</div>
 	</form>
 </body>
 </html>

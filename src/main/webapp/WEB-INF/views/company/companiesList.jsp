@@ -9,16 +9,29 @@ request.setCharacterEncoding("UTF-8");
 <!DOCTYPE html>
 <html>
 <head>
+
 <style>
-.cls1 {
+.cls1:link {
 	text-decoration: none;
+	color: black;
+}
+
+.cls1:visited {
+	text-decoration: none;
+	color: black;
 }
 
 .cls2 {
 	text-align: center;
 	font-size: 30px;
 }
+
+.process {
+	text-align: left;
+	margin-bottom: 1em;
+}
 </style>
+
 <meta charset="UTF-8">
 <title>글목록창</title>
 </head>
@@ -104,30 +117,32 @@ request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
+	<div class="process"><h4>회원관리>회사관리</h4></div>
+	<form method="get" action="${contextPath }/company/listCompanies.do"
+		id="searchFrm">
 
-	<form method="get" action="${contextPath }/company/listCompanies.do" id="searchFrm">
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
 			<select name="perPage" id="listFilter">
 				<c:if test="${perPage == '10' }">
-					<option value='10' selected>10</option>
-					<option value='20'>20</option>
-					<option value='30'>30</option>
+					<option value='10' selected>10개</option>
+					<option value='20'>20개</option>
+					<option value='30'>30개</option>
 
 				</c:if>
 				<c:if test="${perPage == '20' }">
-					<option value='10'>10</option>
-					<option value='20' selected>20</option>
-					<option value='30'>30</option>
+					<option value='10'>10개</option>
+					<option value='20' selected>20개</option>
+					<option value='30'>30개</option>
 				</c:if>
 				<c:if test="${perPage == '30' }">
-					<option value='10'>10</option>
-					<option value='20'>20</option>
-					<option value='30' selected>30</option>
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='30' selected>30개</option>
 				</c:if>
 			</select>
 		</div>
-		
+
 		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
 		<div class="searchType">
 			<select name="searchType" id="searchType">
@@ -147,11 +162,12 @@ request.setCharacterEncoding("UTF-8");
 					<option value="contractName">담당자</option>
 				</c:if>
 			</select>
-			
+
 			<!-- 검색 값이 있냐 없냐에 따라 값 띄우는거 설정 -->
 			<c:choose>
 				<c:when test="${not empty searchText}">
-					<input type="text" name="searchText" id="searchText" value="${searchText }">
+					<input type="text" name="searchText" id="searchText"
+						value="${searchText }">
 				</c:when>
 				<c:otherwise>
 					<input type="text" name="searchText" id="searchText"
@@ -171,7 +187,7 @@ request.setCharacterEncoding("UTF-8");
 			<td><b>담당자</b></td>
 			<td><b>전화번호</b>
 			<td><b>사업자등록번호</b></td>
-			<td><b>등록 / 수정일</b></td>
+			<td><b>등록일</b></td>
 		</tr>
 		<c:choose>
 			<c:when test="${empty companiesList }">
@@ -189,81 +205,83 @@ request.setCharacterEncoding("UTF-8");
 					<tr align="center">
 						<td><input type="checkbox" name="selectedCheckbox"
 							id="${company.id }"></td>
-						<td width="15%"><c:if test="${company.contractStat eq '협약사'}">
+						<td width="15%"><c:if test="${company.contractStat eq '협력사'}">
 								<font color="blue">${company.contractStat }</font>
-							</c:if> <c:if test="${company.contractStat eq '비협약사'}">
+							</c:if> <c:if test="${company.contractStat eq '비협력사'}">
 								<font color="red">${company.contractStat }</font>
+							</c:if> <c:if test="${company.contractStat eq '협약 진행중'}">
+								<font color="green">${company.contractStat }</font>
 							</c:if></td>
-						<td align='center' width="20%"><span
-							style="padding-right: 10px"></span> <a class='cls1'
+						<td align='center' width="15%"><a class='cls1'
 							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>
-						<td>${company.contractName }</td>
-						<td>${company.managerPhone }</td>
-						<td>${company.id }</td>
-						<td>${company.modDate }</td>
+						<td width="15%">${company.contractName }</td>
+						<td width="15%">${company.managerPhone }</td>
+						<td width="15%">${company.id }</td>
+						<td width="15%">${company.regDate }</td>
 					</tr>
 				</c:forEach>
 			</c:when>
 		</c:choose>
-		</table>
+	</table>
 
-		<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
-		<div class="pageNumber" align="center"
-			style="width: 80%; height: 10%;">
-			<ul>
-				<c:if test="${pageMaker.prev }">
-					<c:choose>
-						<c:when test="${not empty searchType and not empty searchText }">
-							<li><a
-								href="${contextPath}/company/listCompanies.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="${contextPath}/company/listCompanies.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
+	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
+	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+		<ul>
+			<c:if test="${pageMaker.prev }">
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
-						<c:forEach begin="${pageMaker.startPage }"
-							end="${pageMaker.endPage }" var="idx">
-							<li
-								<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
-								<a
-								href="${contextPath }/company/listCompanies.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
-							</li>
-						</c:forEach>
+						<li><a
+							href="${contextPath}/company/listCompanies.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:when>
 					<c:otherwise>
-						<c:forEach begin="${pageMaker.startPage }"
-							end="${pageMaker.endPage }" var="idx">
-							<li
-								<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
-								<a
-								href="${contextPath }/company/listCompanies.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
-							</li>
-						</c:forEach>
+						<li><a
+							href="${contextPath}/company/listCompanies.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
-				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
-					<c:choose>
-						<c:when test="${not empty searchType and not empty searchText }">
-							<li><a
-								href="${contextPath}/company/listCompanies.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="${contextPath}/company/listCompanies.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
-			</ul>
-		</div>
-		
-		<div class="memberButton">
-		<button type="button" id="enrollButton" onclick="location.href='${contextPath}/company/addCompanyForm.do'" style="width: 5%;">등록</button>
+			</c:if>
+			<c:choose>
+				<c:when test="${not empty searchType and not empty searchText }">
+					<c:forEach begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }" var="idx">
+						<li
+							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
+							<a
+							href="${contextPath }/company/listCompanies.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+						</li>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:forEach begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }" var="idx">
+						<li
+							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
+							<a
+							href="${contextPath }/company/listCompanies.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+						</li>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+				<c:choose>
+					<c:when test="${not empty searchType and not empty searchText }">
+						<li><a
+							href="${contextPath}/company/listCompanies.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a
+							href="${contextPath}/company/listCompanies.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+		</ul>
+	</div>
+
+	<div class="memberButton">
+		<button type="button" id="enrollButton"
+			onclick="location.href='${contextPath}/company/addCompanyForm.do'"
+			style="width: 5%;">등록</button>
 		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
-		</div>
+	</div>
 </body>
 </html>

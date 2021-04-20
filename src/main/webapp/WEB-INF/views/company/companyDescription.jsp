@@ -13,24 +13,62 @@ request.setCharacterEncoding("UTF-8");
 <meta charset="UTF-8">
 <title>회사 상세창</title>
 <style>
-.text_left {
-	text-align: left;
+.text_center {
+	padding-bottom: 30px;
+	border-bottom: 0.3px solid;
+	border-color: #9C9D9D;
 }
 
 input:focus {
 	outline: none;
 }
 
-table {
-	border-spacing: 22px;
+.process {
+	text-align: left;
+	padding-bottom: 50px;
+	color: #9C9D9D;
+	font-weight: bold;
 }
 
-button {
-	
+select {
+	float: left;
+	margin-left: 4em;
+}
+
+#t1 {
+	float: left;
+	margin-left: 4em;
+}
+
+.td1 {
+	border-bottom: none;
+}
+
+#company_mod {
+	width: 1150px;
+	border-spacing: 22px;
+	height: 350px;
+	margin: auto;
+	margin-top: 70px;
+}
+
+.buttonZip {
+	margin-top: 70px;
+}
+
+p{	
+	padding-left: 52px	
+}
+
+#mod {
+	background-color: #E91B23;
+color : #EFEFEF;
+cursor: pointer;
 }
 </style>
 </head>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
 	/* jquery로 상세창은 처음 들어왔을 땐 읽기 전용으로 만들고
 	 수정을 클릭하면 읽기 전용에서 수정이 가능하도록 만들기 */
@@ -45,7 +83,7 @@ button {
 		$('#sel2').prop('disabled', true);
 		$("input[id=radio1]:radio").attr("disabled", "true");
 		$("input[id=radio2]:radio").attr("disabled", "true");
-		$('input').css('border','none');
+		$('input').css('border', 'none');
 	});
 
 	function modify() {
@@ -60,79 +98,80 @@ button {
 			$("input[id=radio2]:radio").attr("disabled", "false");
 			$("input[id=radio2]:radio").removeAttr("disabled");
 			$("#mod").text("저장");
-			$('input').css('border',"solid 1px");
+			$('input').css('border', "solid 1px");
 		} else {
-
 			alert("저장되었습니다.");
 			document.companyForm.submit();
-
 		}
 	};
 </script>
 <body>
+	<div class="process">
+		<a>회원관리>회사관리>회사수정</a></div>
+	<h1 class="text_center">회사 관리</h1>
 	<form method="post" name="companyForm" action="${contextPath}/company/modCompany.do">
-		<h1 class="text_left">회사 관리</h1>
-		<table align="left">
+		<table id="company_mod">
 			<tr>
-				<td width="200"><p align="right">상태</p></td>
-				<td width="330"><select name="contractStat" id=sel1>
+				<td width="10%" class="td1"><p align="right">상태</p></td>
+				<td width="20%" class="td1"><select name="contractStat" id=sel1>
 						<option value="">상태를 선택하세요</option>
-						<option value="협약사"
-							<c:if test="${companyVO.contractStat eq '협약사' }"> selected</c:if>>협약사</option>
-						<option value="비협약사"
-							<c:if test="${companyVO.contractStat eq '비협약사' }"> selected</c:if>>비협약사</option>
+						<option value="협력사"
+							<c:if test="${companyVO.contractStat eq '협력사' }"> selected</c:if>>협력사</option>
+						<option value="비협력사"
+							<c:if test="${companyVO.contractStat eq '비협력사' }"> selected</c:if>>비협력사</option>
+						<option value="협약 진행중"
+							<c:if test="${companyVO.contractStat eq '협약 진행중' }"> selected</c:if>>협약
+							진행중</option>
 				</select>
-			<tr>
-				<td width="200"><p align="right">회사명</p></td>
-				<td width="330"><input type="text" name="name" 
-					value="${companyVO.name}"></td>
+				<td width="10%" class="td1"><p align="right">회사명</p></td>
+				<td width="20%" class="td1"><input type="text" name="name"
+					id=t1 value="${companyVO.name}"></td>
 			</tr>
+
 			<tr>
-				<td width="200"><p align="right">대표번호</p></td>
-				<td width="330"><input type="text" name="companyTel"
-					value="${companyVO.companyTel}"></td>
+				<td width="10%" class="td1"><p align="right">대표번호</p></td>
+				<td width="20%" class="td1"><input type="text"
+					name="companyTel" id=t1 value="${companyVO.companyTel}"></td>
+				<td width="10%" class="td1"><p align="right">홈페이지</p></td>
+				<td width="20%" class="td1"><input type="text" name="homePage"
+					id=t1 value="${companyVO.homePage }"></td>
 			</tr>
+
 			<tr>
-				<td width="200"><p align="right">홈페이지</p></td>
-				<td width="330"><input type="text" name="homePage"
-					value="${companyVO.homePage }"></td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">주소</p></td>
-				<td width="330"><input type="text" name="address"
-					value="${companyVO.address }"></td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">사업자등록번호</p></td>
-				<td width="330"><input type="text" name="id"
+				<td width="10%" class="td1"><p align="right">주소</p></td>
+				<td width="20%" class="td1"><input type="text" name="address"
+					id=t1 value="${companyVO.address }"></td>
+				<td width="10%" class="td1"><p align="right">사업자등록번호</p></td>
+				<td width="20%" class="td1"><input type="text" name="id" id=t1
 					value="${companyVO.id }"></td>
 			</tr>
+
 			<tr>
-				<td width="200"><p align="right">담당자</p></td>
-				<td width="330"><input type="text" name="contractName"
-					value="${companyVO.contractName }"></td>
+				<td width="10%" class="td1"><p align="right">담당자</p></td>
+				<td width="20%" class="td1"><input type="text"
+					name="contractName" id=t1 value="${companyVO.contractName }"></td>
+				<td width="10%" class="td1"><p align="right">담당자전화번호</p></td>
+				<td width="20%" class="td1"><input type="text"
+					name="managerPhone" id=t1 value="${companyVO.managerPhone }"></td>
 			</tr>
+
 			<tr>
-				<td width="200"><p align="right">담당자전화번호</p></td>
-				<td width="330"><input type="text" name="managerPhone"
-					value="${companyVO.managerPhone }"></td>
+				<td width="10%" class="td1"><p align="right">담당자이메일</p></td>
+				<td width="20%" class="td1"><input type="text"
+					name="managerEmail" id=t1 value="${companyVO.managerEmail }"></td>
+				<td width="10%" class="td1"><p align="right">협약업체 동의 구분</p></td>
+				<td width="20%" class="td1" align="left"><p><input type="radio"
+					name="contractAgree" value="컨소시엄 협약" id="radio1"
+					<c:if test="${companyVO.contractAgree eq '컨소시엄 협약' }">checked</c:if>> 컨소시엄
+					협약 <input type="radio" name="contractAgree" value="컨소시엄 비협약"
+					id="radio2"
+					<c:if test="${companyVO.contractAgree eq '컨소시엄 비협약' }">checked</c:if>> 컨소시엄
+					비협약</td>
 			</tr>
+
 			<tr>
-				<td width="200"><p align="right">담당자이메일</p></td>
-				<td width="330"><input type="text" name="managerEmail"
-					value="${companyVO.managerEmail }"></td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">협약업체 동의 구분</p></td>
-				<td width="330">
-				<input type="radio" name="contractAgree" value="컨소시엄 협약" id="radio1"
-					<c:if test="${companyVO.contractAgree eq '컨소시엄 협약' }">checked</c:if>>컨소시엄 협약 
-					<input type="radio" name="contractAgree" value="컨소시엄 비협약"
-					id="radio2" <c:if test="${companyVO.contractAgree eq '컨소시엄 비협약' }">checked</c:if>>컨소시엄 비협약</td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">협약 상태 구분</p></td>
-				<td width="330"><select name="contractType" id=sel2>
+				<td width="10%" class="td1"><p align="right">협약 상태 구분</p></td>
+				<td width="20%" class="td1"><select name="contractType" id=sel2>
 						<option value="">상태를 선택하세요</option>
 						<option value="협약서 없음"
 							<c:if test="${companyVO.contractType eq '협약서 없음' }"> selected</c:if>>협약서
@@ -147,18 +186,18 @@ button {
 							<c:if test="${companyVO.contractType eq '협약서 사본' }"> selected</c:if>>협약서
 							사본</option>
 				</select></td>
-			</tr>
-			<tr>
-				<td width="200"><p align="right">등록 / 수정일</p></td>
-				<td width="330"><input type="text" readOnly name="regDate"
-					value="${companyVO.regDate }"></td>
+				<td width="10%" class="td1"><p align="right">수정일</p></td>
+				<td width="20%" class="td1"><input type="text" readOnly
+					name="modDate" id=t1 value="${companyVO.modDate }"></td>
 			</tr>
 		</table>
 
 		<!-- 수정, 삭제 버튼 만들기 -->
-		<button type="button" onclick="modify()" style="width: 5%;" id="mod">수정</button>
-		<button type="button" onclick="location.href='${contextPath}/company/removeCompany.do?id=${companyVO.id }'" style="width: 5%;">삭제</button>
-		<button type="button" onclick="history.back()" style="width: 5%;">취소</button>
+		<div class=buttonZip>
+			<button type="button" onclick="modify()" style="width: 5%;" id="mod">수정</button>
+			<button type="button" onclick="location.href='${contextPath}/company/removeCompany.do?id=${companyVO.id }'" style="width: 5%;">삭제</button>
+			<button type="button" onclick="history.back()" style="width: 5%;">취소</button>
+		</div>
 	</form>
 </body>
 </html>
