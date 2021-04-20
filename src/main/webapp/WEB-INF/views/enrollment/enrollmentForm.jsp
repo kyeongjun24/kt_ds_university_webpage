@@ -83,7 +83,7 @@ request.setCharacterEncoding("UTF-8");
 				<!-- <td width="400"><input type="text" name="memberVO.id"></td> -->
 				<td width="400"><p align="center">
 						<input type="text" name="memberVO.id" id="memberId"
-							value="${enrollmentVO.memberVO.id }" readonly> <a type="button"
+							value="${enrollmentVO.memberVO.id }" placeholder="아이디를 검색하세요." readonly> <a type="button"
 							onclick="popup()">아이디 검색</a>
 			</tr>
 			<tr>
@@ -108,7 +108,7 @@ request.setCharacterEncoding("UTF-8");
 			type="reset" value="다시입력" id="reset" style="width: 5%;">&nbsp;
 		<button type="button"
 			onclick="location.href = '${contextPath}/enrollment/listEnrollments.do' "
-			style="width: 5%;">목록</button>
+			style="width: 5%;">취소</button>
 
 	</form>
 </body>

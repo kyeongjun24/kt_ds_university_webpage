@@ -167,9 +167,9 @@
 	   </tr> 
 	</table>
 	
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
 	<input type="submit" value="수정" style="width: 5%;">
 	<button type="button" onclick="location.href = '${contextPath}/enrollment/modDeleteEnrollment.do?id=${enrollmentVO.id }'" style="width: 5%;">삭제</button>
+	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">취소</button>
 	</form>
 </body>
 </html>

@@ -94,6 +94,9 @@
          	<when test="searchType == 'name'">
          		AND m.mem_name LIKE '%' || #{searchText} || '%'
          	</when>
+         	<when test="searchType == ''">
+         		AND m.mem_name LIKE '%' || #{searchText} || '%'
+         	</when>
          	<when test="searchType == 'companyName'">
          		AND m.mem_company_name LIKE '%' || #{searchText} || '%'
          	</when>
@@ -194,6 +197,9 @@
 			WHERE enrd_stat != '취소'
 			<choose>
 	         	<when test="searchType == 'name'">
+	         		AND m.mem_name LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == ''">
 	         		AND m.mem_name LIKE '%' || #{searchText} || '%'
 	         	</when>
 	         	<when test="searchType == 'companyName'">

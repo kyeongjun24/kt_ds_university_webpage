@@ -14,6 +14,18 @@
 <style>
    .cls1 {text-decoration:none;}
    .cls2{text-align:center; font-size:30px;}
+   
+   a:link {
+   	text-decoration: none;
+   	color: black;
+   	}
+   
+   a:visited {
+   	text-decoration: none;
+   	color: black;
+   	}
+   
+   
 </style>
   <meta charset="UTF-8">
   <title>글목록창</title>
@@ -137,21 +149,29 @@
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
 			<select name="perPage" id="listFilter">
-				<c:if test="${perPage == '20' }">
-					<option value='10'>10</option>
-					<option value='20' selected>20</option>
-					<option value='30'>30</option>
-
-				</c:if>
-				<c:if test="${perPage == '30' }">
-					<option value='10'>10</option>
-					<option value='20'>20</option>
-					<option value='30' selected>30</option>
-				</c:if>
 				<c:if test="${perPage == '10' }">
 					<option value='10' selected>10</option>
 					<option value='20'>20</option>
-					<option value='30'>30</option>
+					<option value='50'>50</option>
+					<option value='100'>100</option>
+				</c:if>
+				<c:if test="${perPage == '20' }">
+					<option value='10'>10</option>
+					<option value='20' selected>20</option>
+					<option value='50'>50</option>
+					<option value='100'>100</option>
+				</c:if>
+				<c:if test="${perPage == '50' }">
+					<option value='10'>10</option>
+					<option value='20'>20</option>
+					<option value='50' selected>50</option>
+					<option value='100'>100</option>
+				</c:if>
+				<c:if test="${perPage == '100' }">
+					<option value='10'>10</option>
+					<option value='20'>20</option>
+					<option value='50'>50</option>
+					<option value='100' selected>100</option>
 				</c:if>
 			</select>
 		</div>
@@ -246,10 +266,10 @@
 	 				<font color="red">${enrollment.stat }</font>
 	 			</c:if>
 	 			<c:if test="${enrollment.stat == '승인' }">
-	 				<font color="green">${enrollment.stat }</font>
+	 				<font color="black">${enrollment.stat }</font>
 	 			</c:if>
 	 			<c:if test="${enrollment.stat eq '수료' }">
-	 				<font color="blue">${enrollment.stat }</font>
+	 				<font color="black">${enrollment.stat }</font>
 	 			</c:if>
 	 		</td>
 		 	<td>${enrollment.joinDate }</td>
