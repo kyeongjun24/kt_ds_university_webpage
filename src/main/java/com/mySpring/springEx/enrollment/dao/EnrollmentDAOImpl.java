@@ -54,10 +54,19 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	
 ////////////////////////////////////////////////	
 	
+	//등록 페이지 리스트 출력
 	@Override
 	public List selectSylCrsList() throws DataAccessException {
 		List<EnrollmentVO> sylCrsList = null;
 		sylCrsList = sqlSession.selectList("mapper.enrollment.syllabusCourseEnrollment");
+		return sylCrsList;
+	}
+	
+	//등록 페이지 리스트 출력 (수정)
+	@Override
+	public List selectExceptList(String id) throws DataAccessException {
+		List<EnrollmentVO> sylCrsList = null;
+		sylCrsList = sqlSession.selectList("mapper.enrollment.exceptEnrollment", id);
 		return sylCrsList;
 	}
 	
@@ -106,12 +115,25 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return result;
 	}
 	
+	// 상태 '삭제' 로 수정
+	@Override
+	public int updateDeleteEnrollments(int id) throws DataAccessException {
+		int result = sqlSession.update("mapper.enrollment.updateDeleteEnrollments", id);
+		return result;
+	}
+	
 	// 상태 '승인' 으로 수정
 	@Override
-	public int updateEnrollments(int id) throws DataAccessException {
-		int result = sqlSession.update("mapper.enrollment.updateEnrollments", id);
+	public int updateApproveEnrollments(int id) throws DataAccessException {
+		int result = sqlSession.update("mapper.enrollment.updateApproveEnrollments", id);
 		return result;
-
+	}
+		
+	// 상태 '수료' 으로 수정
+	@Override
+	public int updateCompleteEnrollments(int id) throws DataAccessException {
+		int result = sqlSession.update("mapper.enrollment.updateCompleteEnrollments", id);
+		return result;
 	}
 	
 }

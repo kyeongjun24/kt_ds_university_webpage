@@ -10,8 +10,6 @@ import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
 public interface EnrollmentController {
 
 	ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
-	int updateEnrollments(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	ModelAndView informationEnrollment(int id, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
@@ -26,4 +24,17 @@ public interface EnrollmentController {
 
 	int checkEnrollment(EnrollmentVO enrollmentVO, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
+	
+	int updateDeleteEnrollments(String [] arr, HttpServletRequest request, HttpServletResponse response) 
+			throws Exception;
+
+	int updateApproveEnrollments(String[] arr, HttpServletRequest request, HttpServletResponse response)
+			throws Exception;
+
+	int updateCompleteEnrollments(String[] arr, HttpServletRequest request, HttpServletResponse response)
+			throws Exception;
+
+	ModelAndView exceptEnrollmentForm(String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception;
+
 }

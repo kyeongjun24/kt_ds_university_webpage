@@ -29,38 +29,88 @@
 			} else{
 				$("input[type=checkbox]").prop("checked", false);
 			}
-		})	
+		})
+		
+		$('#listFilter')
+						.on(
+								'change',
+								function() {
+									var perPage = $(this).val();
+									var searchType = document
+											.getElementById('searchType').value;
+									var searchText = document
+											.getElementById('searchText').value;
+									/* alert(perPage+"씩 리스트 출력");
+									alert(searchType);
+									alert(searchText); */
+									location.href = "${contextPath}/enrollment/listEnrollments.do?perPage="
+											+ perPage
+											+ "&searchType="
+											+ searchType
+											+ "&searchText="
+											+ searchText;
+								})
 	})
 		
 	//체크 된 걸 가져오는 함수
-	function getCheckList() {
+	function getCheckList(stat) {
 		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
-		alert(length);
+		//alert(length);
 		var arr = new Array();
 		$("input:checkbox[name='selectedCheckbox']:checked").each(function(index) {
 			/* alert($(this).attr('id')); */
 			arr.push($(this).attr('id'));
-			alert($(this).attr('id'));	
+			//alert($(this).attr('id'));	
 		})
 		
 		if(length == 0){
 			alert("선택된 값이 없습니다.");
 			return false;
 		} else{
-			$.ajax({
-				type: 'post',
-				url: '${contextPath}/enrollment/modEnrollments.do',
-				traditional : true, //Array 형태로 보내려면 설정 해줘야함
-				data: {arr : arr},
-				
-				success: function(data) {
-					alert('데이터 받기 성공');
-					alert(data);
-					window.location.href = "${contextPath}/enrollment/listEnrollments.do";
-				}, error:function(data,request,status,error){
-		             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		        }
-			})
+			if (stat == "delete") { // 상태 '삭제' 로 변경
+				$.ajax({
+					type: 'post',
+					url: '${contextPath}/enrollment/modDeleteEnrollments.do',
+					traditional : true, //Array 형태로 보내려면 설정 해줘야함
+					data: {arr : arr},
+					
+					success: function(data) {
+						//alert('데이터 받기 성공');
+						//alert(data);
+						window.location.href = "${contextPath}/enrollment/listEnrollments.do";
+					}, error:function(data,request,status,error){
+			             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        }
+				})
+			}
+			else if (stat == "approve") { // 상태 '승인' 으로 변경
+				$.ajax({
+					type: 'post',
+					url: '${contextPath}/enrollment/modApproveEnrollments.do',
+					traditional : true, 
+					data: {arr : arr},
+					
+					success: function(data) {
+						window.location.href = "${contextPath}/enrollment/listEnrollments.do";
+					}, error:function(data,request,status,error){
+			             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        }
+				})
+			}
+			else if (stat == "complete") { // 상태 '수료' 로 변경
+				$.ajax({
+					type: 'post',
+					url: '${contextPath}/enrollment/modCompleteEnrollments.do',
+					traditional : true, 
+					data: {arr : arr},
+					
+					success: function(data) {
+						window.location.href = "${contextPath}/enrollment/listEnrollments.do";
+					}, error:function(data,request,status,error){
+			             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        }
+				})
+			}
 		}
 	}
 	
@@ -82,8 +132,7 @@
 	String searchText = request.getParameter("searchType");
 	%>
 	
-	<form method="get" action="${contextPath}/enrollment/listEnrollments.do"
-		id="searchFrm">
+	<form method="get" action="${contextPath}/enrollment/listEnrollments.do" id="searchFrm">
 
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
@@ -113,36 +162,36 @@
 				<c:if test="${searchType == 'name' }">
 					<option value="">검색 종류</option>
 					<option value="name" selected>이름</option>
-					<option value="memberVO.companyName">회사명</option>
-					<option value="syllabusVO.name">과정명</option>
+					<option value="companyName">회사명</option>
+					<option value="slbName">과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
-				<c:if test="${searchType == 'memberVO.companyName' }">
+				<c:if test="${searchType == 'companyName' }">
 					<option value="">검색 종류</option>
 					<option value="name">이름</option>
-					<option value="memberVO.companyName" selected>회사명</option>
-					<option value="syllabusVO.name">과정명</option>
+					<option value="companyName" selected>회사명</option>
+					<option value="slbName">과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
-				<c:if test="${searchType == 'syllabusVO.name' }">
+				<c:if test="${searchType == 'slbName' }">
 					<option value="">검색 종류</option>
 					<option value="name">이름</option>
-					<option value="memberVO.companyName">회사명</option>
-					<option value="syllabusVO.name" selected>과정명</option>
+					<option value="companyName">회사명</option>
+					<option value="slbName" selected>과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 				<c:if test="${searchType == 'stat' }">
 					<option value="">검색 종류</option>
 					<option value="name">이름</option>
-					<option value="memberVO.companyName">회사명</option>
-					<option value="syllabusVO.name">과정명</option>
+					<option value="companyName">회사명</option>
+					<option value="slbName">과정명</option>
 					<option value="stat" selected>상태</option>
 				</c:if>
 				<c:if test="${empty searchType }">
 					<option value="" selected>검색 종류</option>
 					<option value="name">이름</option>
-					<option value="memberVO.companyName">회사명</option>
-					<option value="syllabusVO.name">과정명</option>
+					<option value="companyName">회사명</option>
+					<option value="slbName">과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 			</select>
@@ -266,12 +315,12 @@
 <button type="button" style="width: 5%;">수료</button> --%>
 
 	<!-- 버튼 모음집 -->
-	<div class="enrollmentButton">
+	<div class="memberButton">
 		<button type="button" id="enrollButton"
 			onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'" style="width: 5%;">등록</button>
-		<button type="button" style="width: 5%;">승인</button>
-		<button type="button" style="width: 5%;">대기</button>
-		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
+		<button type="button" onclick='getCheckList("approve")' style="width: 5%;">승인</button>
+		<button type="button" onclick='getCheckList("complete")' style="width: 5%;">수료</button>
+		<button type="button" onclick='getCheckList("delete")' style="width: 5%;">삭제</button>
 	</div>
 	<!-- 등록 버튼 추가해서 함수 실행하게 만들어야함 -->
 	<%-- 

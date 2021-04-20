@@ -41,11 +41,27 @@ public class MemberServiceImpl implements MemberService {
 		return membersBySearchList;
 	}
 	
+	//팝업
+	@Override
+	public List listBySearchMembersPopup(String searchType, String searchText) throws DataAccessException {
+		List membersBySearchList = null;
+		membersBySearchList = memberDAO.selectBySearchMemberListPopup(searchType, searchText);
+		return membersBySearchList;
+	}
+	
 	//검색과 기준에 의해 리스트 나눠지는 메서드
 	@Override
 	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		List membersCriteriaBySearch = null;
 		membersCriteriaBySearch = memberDAO.selectCriteriaBySearch(criteria);
+		return membersCriteriaBySearch;
+	}
+	
+	//팝업
+	@Override
+	public List listCriteriaBySearchPopup(Criteria criteria) throws DataAccessException {
+		List membersCriteriaBySearch = null;
+		membersCriteriaBySearch = memberDAO.selectCriteriaBySearchPopup(criteria);
 		return membersCriteriaBySearch;
 	}
 

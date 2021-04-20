@@ -19,5 +19,7 @@ public interface MemberService {
 	public MemberVO selectMember(String id) throws DataAccessException;
 	public int idCheckMember(String id) throws DataAccessException;
 	public List enrollmentsList(Criteria criteria) throws DataAccessException;
-	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException;	
+	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException;
+	public List listBySearchMembersPopup(String searchType, String searchText) throws DataAccessException;
+	public List listCriteriaBySearchPopup(Criteria criteria) throws DataAccessException;	
 }

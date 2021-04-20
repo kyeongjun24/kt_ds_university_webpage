@@ -41,6 +41,64 @@ public class MemberControllerImpl   implements MemberController {
 		return "main";
 	}
 	
+	//아이디 검색 팝업 (원본)
+//	@RequestMapping(value = "/member/memberSearchPopUp.do", method = {RequestMethod.GET, RequestMethod.POST})
+//	private ModelAndView memberSearchPopUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String viewName = (String)request.getAttribute("viewName");
+//		List membersList = memberService.listMembers();
+//		ModelAndView mv = new ModelAndView(viewName);
+//		mv.addObject("membersList", membersList);
+//		return mv;
+//	}
+	
+	//아이디 검색 팝업 (검색, 페이징 기능 작업중)
+	@RequestMapping(value = "/member/memberSearchPopUp.do", method = {RequestMethod.GET, RequestMethod.POST})
+	private ModelAndView memberSearchPopUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String)request.getAttribute("viewName");
+		String searchType = (String)request.getParameter("searchType");
+		String searchText = (String)request.getParameter("searchText");
+		int page = 1;
+		
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt((String)request.getParameter("page")); //page 변수에 값을 저장
+		} else {
+			page = 1; //아니면 page 1로 기본 지정
+		}
+		
+		int perPage = 10;
+		
+		List membersList = null; 
+		ModelAndView mav = new ModelAndView(viewName);
+		Criteria criteria = new Criteria();
+		PageMaker pageMaker = new PageMaker();
+		
+		criteria.setPerPageNum(perPage); // 리스트 개수 설정
+		pageMaker.setCriteria(criteria); // 기준 값 설정
+		//여기까지 진행 @@
+		if (searchType != null && searchText != null) { // 검색 유형이랑 값을 받았다면
+			membersList = memberService.listBySearchMembersPopup(searchType, searchText);
+			criteria.setPage(page); // page 설정
+			criteria.setSearchText(searchText); // 검색 값 설정
+			criteria.setSearchType(searchType); // 검색 유형 설정
+			pageMaker.setTotalCount(membersList.size()); // 페이지 개수를 전체 리스트 크기로 설정
+			membersList = memberService.listCriteriaBySearchPopup(criteria); // 기준 설정에 의해 새로 받는 리스트
+			
+			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내기
+			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
+		} else { // 검색 유형이랑 값을 받지 않았다면
+			membersList = memberService.listMembers(); //전체 리스트 저장
+			criteria.setPage(page); //페이지 설정
+			pageMaker.setTotalCount(membersList.size()); //페이지 개수 설정
+			membersList = memberService.listCriteria(criteria); //기준에 의해 나눠진 리스트 설정
+		}
+		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
+		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기		
+		mav.addObject("membersList", membersList); //설정된 리스트 보내기
+	
+		
+		return mav;
+	}
+
 	@Override
 	@RequestMapping(value="/member/listMembers.do", method =  RequestMethod.GET)
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response
@@ -71,12 +129,11 @@ public class MemberControllerImpl   implements MemberController {
 		}
 		System.out.println("전달 받은 페이지 번호 page:"+page); // 전달 받은 페이지 번호 page 
 		System.out.println("리스트 띄울 개수 Perpage:"+perPage); // 전달 받은 페이지 번호 page 
-		
+
 		List membersList = null; 
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
-		
 		
 		criteria.setPerPageNum(perPage); // 리스트 개수 설정
 		pageMaker.setCriteria(criteria); // 기준 값 설정
@@ -285,15 +342,7 @@ public class MemberControllerImpl   implements MemberController {
 		return mav;
 	}
 	
-	//아이디 검색 팝업
-	@RequestMapping(value = "/member/memberSearchPopUp.do", method = {RequestMethod.GET, RequestMethod.POST})
-	private ModelAndView memberSearchPopUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = (String)request.getAttribute("viewName");
-		List membersList = memberService.listMembers();
-		ModelAndView mv = new ModelAndView(viewName);
-		mv.addObject("membersList", membersList);
-		return mv;
-	}
+	
 	
 	
 

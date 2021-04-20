@@ -61,9 +61,24 @@
         
         //시작 날짜 초기값을 오늘 날짜로 설정
         //$('#datepicker1').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
-        
+
     }); 
 
+	//datepicker1 = 수료일
+    //stat = 상태
+    /* $('#stat').on('keyup', function() {
+		var completeDate = document.getElementByName('completeDate').value;
+		var stat = this.value;
+		
+		if (completeDate != null && stat != '수료') {
+			$('#pwCheck').html('수료 상태가 아니면 수료일을 입력할 수 없습니다.').css('color','red');
+			return;
+		} else {
+			$('#pwCheck').html('정상').css('color','blue');
+		}
+		
+	}) */
+	
 </script>
 <body>
 	<h1  class="text_center"> 상세 접수내용 페이지</h1>
@@ -101,17 +116,14 @@
 	       
 	       <td width="400" ><p align="center"><input type="text" name="memberVO.companyName" id="companyName" value="${enrollmentVO.memberVO.companyName }" readonly>
 	       <br>*새로운 회사명 선택시 변경됩니다.
-	       <br><a onclick="popup()" >회사 수정</a>
-	       </td>  
+	       <br><a type="button" onclick="popup()" >회사 수정</a></td>  
 	       
 	       <td width="200" bgcolor="lightblue"><p align="center">수료일</td>
-	       <%-- <td colspan='2' width="400"><p align="center">${enrollmentVO.completeDate }</td>  --%>
-	       <td colspan='2' width="400"><input type="text" name="completeDate" id="datepicker1" readonly></td>
+	       <td colspan='2' width="400"><input type="text" name="completeDate" id="datepicker1" value="${enrollmentVO.completeDate }" readonly><br>
+	       <span id="pwCheck"></span></td>
 	    </tr>
-	    
 	</table>
 	
-	<h6> .</h6>
 	<h6> .</h6>
 	<table  align="center" border="1">
 	   <tr>
@@ -157,7 +169,7 @@
 	
 	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
 	<input type="submit" value="수정" style="width: 5%;">
-	<button type="button" style="width: 5%;">삭제</button>
+	<button type="button" onclick="location.href = '${contextPath}/enrollment/modDeleteEnrollment.do?id=${enrollmentVO.id }'" style="width: 5%;">삭제</button>
 	</form>
 </body>
 </html>

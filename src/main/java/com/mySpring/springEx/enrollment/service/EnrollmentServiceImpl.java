@@ -42,20 +42,26 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsCriteriaBySearch;
 	}
 	
-
-/////////////////////////////////////////	
-	
 	//(등록관련) 수강신청 되어있는지 체크
-		@Override
-		public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException {
-			return enrollmentDAO.checkEnrollment(enrollment);
-		}
+	@Override
+	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+		return enrollmentDAO.checkEnrollment(enrollment);
+	}
+
 	
-	
+	//등록 페이지 리스트 출력
 	@Override
 	public List listSylCrs() throws DataAccessException {
 		List sylCrsList = null;
 		sylCrsList = enrollmentDAO.selectSylCrsList();
+		return sylCrsList;
+	}
+	
+	//등록 페이지 리스트 출력 (수정중)
+	@Override
+	public List exceptListSylCrs(String id) throws DataAccessException {
+		List sylCrsList = null;
+		sylCrsList = enrollmentDAO.selectExceptList(id);
 		return sylCrsList;
 	}
 	
@@ -77,7 +83,6 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Override
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
 		return enrollmentDAO.selectEnrollment(id);
-		
 	}
 	
 	// 상세페이지 상태 수정
@@ -86,13 +91,24 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		
 		enrollmentDAO.modEnrollmentCompany(enrollment);
 		return enrollmentDAO.modEnrollmentStat(enrollment);
-		
+	}
+	
+	// 상태 '삭제' 로 수정
+	@Override 
+	public int updateDeleteEnrollments(int id) throws DataAccessException {
+		return enrollmentDAO.updateDeleteEnrollments(id);
 	}
 	
 	// 상태 '승인' 으로 수정
 	@Override 
-	public int updateEnrollments(int id) throws DataAccessException {
-		return enrollmentDAO.updateEnrollments(id);
+	public int updateApproveEnrollments(int id) throws DataAccessException {
+		return enrollmentDAO.updateApproveEnrollments(id);
+	}
+		
+	// 상태 '수료' 로 수정
+	@Override 
+	public int updateCompleteEnrollments(int id) throws DataAccessException {
+		return enrollmentDAO.updateCompleteEnrollments(id);
 	}
 	
 }

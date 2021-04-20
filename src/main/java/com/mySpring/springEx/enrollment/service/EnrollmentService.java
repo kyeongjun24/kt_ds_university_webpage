@@ -11,8 +11,6 @@ import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
 public interface EnrollmentService {
 
 	public List listEnrollments() throws DataAccessException;
-	
-	public int updateEnrollments(int id) throws DataAccessException;
 
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException;
 
@@ -29,5 +27,13 @@ public interface EnrollmentService {
 	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException;
 
 	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException;
+	
+	public int updateDeleteEnrollments(int id) throws DataAccessException;
+
+	public int updateApproveEnrollments(int id) throws DataAccessException;
+
+	public int updateCompleteEnrollments(int id) throws DataAccessException;
+
+	public List exceptListSylCrs(String id) throws DataAccessException;
 
 }
