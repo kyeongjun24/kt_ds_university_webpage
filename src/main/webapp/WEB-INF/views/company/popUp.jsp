@@ -201,7 +201,6 @@ request.setCharacterEncoding("UTF-8");
 			</c:if>
 		</ul>
 	</div>
-
 	<div class="memberButton">
 		<button type="button" onclick="window.close()">창 닫기</button>
 	</div>

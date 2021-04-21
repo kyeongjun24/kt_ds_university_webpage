@@ -7,9 +7,6 @@ public class Criteria {
 	private int perPageNum;
 	private String searchType;
 	private String searchText;
-	
-	
-	
 
 	public Criteria() {
 		this.page = 1;
