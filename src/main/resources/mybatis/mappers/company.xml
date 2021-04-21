@@ -23,10 +23,12 @@
 	<!-- 전체 회사리스트 출력  -->
 	<select id="selectAllCompaniesList" resultMap="comResult">
 		<![CDATA[
-			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
-			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel from company
-			where com_contract_type != '탈퇴'
-			order by com_reg_date desc
+			SELECT 
+			com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
+			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel 
+			FROM company
+			WHERE com_contract_type != '탈퇴'
+			ORDER BY com_reg_date desc
 			]]>
 	</select>
 
@@ -46,44 +48,51 @@
 	
 	<!-- 페이지 전체 리스트 뽑아주는 select list_paging -->
 	<select id="selectCompanyListByPaging" resultMap="comResult">
-		SELECT com_id,
-		com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
-		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
-		com_manager_phone, com_manager_email, com_contract_stat,
-		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel
-		FROM (select ROW_NUMBER() OVER (ORDER BY com_reg_date) NUM,com_id,
-		com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
-		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
-		com_manager_phone, com_manager_email, com_contract_stat,
-		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel from company where com_contract_type != '탈퇴' order by com_reg_date desc)
-		where NUM between #{page} and 10
+		SELECT
+		com_contract_stat,
+		com_name,
+		com_contract_name,
+		com_manager_phone,
+		com_id,
+		SUBSTR(com_reg_date, 0, 10) as com_reg_date
+		FROM
+		(SELECT ROW_NUMBER() OVER (ORDER BY com_reg_date) NUM,
+		com_id,
+		com_name, 
+		SUBSTR(com_reg_date, 0, 10) as com_reg_date,
+		com_contract_name,
+		com_manager_phone,
+		com_contract_stat
+		FROM company
+		where com_contract_type != '탈퇴'
+		ORDER BY com_reg_date desc)
+		NUM between #{page} and 10
 	</select>
 	
 	<!-- 기준으로 페이지 리시트를 나누는 select list.jsp (학생관리 회사수정 팝업창에서도 쓰인다.) -->
 	<select id="listCriteria" resultMap="comResult">
 		SELECT
-		com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
-		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
-		com_manager_phone, com_manager_email, com_contract_stat,
-		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel
+		com_contract_stat, 
+		com_name,
+		com_contract_name,
+		com_manager_phone,
+		com_id,
+		SUBSTR(com_reg_date, 0, 10) as com_reg_date
 		FROM (select ROW_NUMBER() OVER (ORDER BY com_reg_date desc) NUM,
-		com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
-		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
-		com_manager_phone, com_manager_email, com_contract_stat,
-		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel from company where com_contract_type != '탈퇴' ORDER BY com_reg_date desc)
+		com_id,
+		com_name,
+		SUBSTR(com_reg_date, 0, 10) as com_reg_date,
+		com_contract_name,
+		com_manager_phone,
+		com_contract_stat
+		FROM company where com_contract_type != '탈퇴' ORDER BY com_reg_date desc)
 		WHERE NUM BETWEEN #{pageStart} 
 		<choose>
 			<when test="#{perPageNum} == '10'">
 				AND #{perPageNum} - 1
-				AND com_contract_type != '탈퇴'
 			</when>
 			<when test="#{perPageNum} != '10'">
 				AND (#{perPageNum} + #{pageStart}) - 1
-				AND com_contract_type != '탈퇴'
 			</when>
 		</choose>
 		order by com_reg_date desc
@@ -103,7 +112,7 @@
 				com_contract_type, com_homePage, com_address, com_contract_agree, com_tel 
 			from company 
 		<choose>
-			<when test="searchType == 'name'">
+			<when test="searchType == 'name' or searchType == ''">
 				WHERE com_name LIKE '%' || #{searchText} || '%'
 				AND com_contract_type != '탈퇴'
 			</when>

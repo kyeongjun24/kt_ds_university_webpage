@@ -116,6 +116,15 @@ input:focus {
 			}
 		}).open();
 	}
+	
+	/* 취소 메소드 */
+	function cancel(){
+		if(confirm("정말 수정을 취소하시겠습니까?") == true){
+			history.back(-1);	
+		} else {
+			return false;
+		}
+	}
 </script>
 
 <body>
@@ -210,7 +219,7 @@ input:focus {
 		<!-- 등록, 취소 버튼 만들기 -->
 		<div class=buttonZip>
 			<input type="submit" value="등록" style="width: 5%;" id="add">
-			<button type="button" onclick="history.back()" style="width: 5%;">취소</button>
+			<button type="button" onclick="cancel()" style="width: 5%;">취소</button>
 		</div>
 	</form>
 </body>
