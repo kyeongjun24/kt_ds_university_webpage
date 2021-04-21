@@ -81,7 +81,7 @@
 	
 </script>
 <body>
-	<h1  class="text_center"> 상세 접수내용 페이지</h1>
+	<h4 align="left"> 수강신청내역 > 상세접수내역</h4>
 	<form method="post" action="${contextPath}/enrollment/modEnrollment.do">
 	<table  align="center" border="1">
 	   <tr>
@@ -107,7 +107,7 @@
 	       		<option value="." disabled selected>현재상태</option>
 	       		<option value="신청">신청</option>
 	       		<option value="승인">승인</option>
-	       		<option value="취소">취소</option>
+	       		<option value="취소">삭제</option>
 	       		<option value="수료">수료</option>
 	       </select></td>
 	    </tr>
@@ -119,7 +119,7 @@
 	       <br><a type="button" onclick="popup()" >회사 수정</a></td>  
 	       
 	       <td width="200" bgcolor="lightblue"><p align="center">수료일</td>
-	       <td colspan='2' width="400"><input type="text" name="completeDate" id="datepicker1" value="${enrollmentVO.completeDate }" readonly><br>
+	       <td colspan='2' width="400"><input type="text" name="completeDate" id="datepicker1" placeholder="수료일을 선택하세요." value="${enrollmentVO.completeDate }" readonly><br>
 	       <span id="pwCheck"></span></td>
 	    </tr>
 	</table>
@@ -167,9 +167,9 @@
 	   </tr> 
 	</table>
 	
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
 	<input type="submit" value="수정" style="width: 5%;">
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/modDeleteEnrollment.do?id=${enrollmentVO.id }&stat=취소'" style="width: 5%;">삭제</button>
+	<button type="button" onclick="location.href = '${contextPath}/enrollment/deleteEnrollment.do?id=${enrollmentVO.id }'" style="width: 5%;">삭제</button>
+	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">취소</button>
 	</form>
 </body>
 </html>

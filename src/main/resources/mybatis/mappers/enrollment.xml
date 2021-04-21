@@ -94,6 +94,9 @@
          	<when test="searchType == 'name'">
          		AND m.mem_name LIKE '%' || #{searchText} || '%'
          	</when>
+         	<when test="searchType == ''">
+         		AND m.mem_name LIKE '%' || #{searchText} || '%'
+         	</when>
          	<when test="searchType == 'companyName'">
          		AND m.mem_company_name LIKE '%' || #{searchText} || '%'
          	</when>
@@ -194,6 +197,9 @@
 			WHERE enrd_stat != '취소'
 			<choose>
 	         	<when test="searchType == 'name'">
+	         		AND m.mem_name LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == ''">
 	         		AND m.mem_name LIKE '%' || #{searchText} || '%'
 	         	</when>
 	         	<when test="searchType == 'companyName'">
@@ -342,7 +348,10 @@
 			INSERT INTO enrollment_detail
 				VALUES(
     			(SELECT NVL(MAX(enrd_id)+1,0) FROM enrollment_detail), 
-    			#{courseVO.id}, #{memberVO.id}, '신청', null, sysdate, sysdate)
+    			#{courseVO.id}, #{memberVO.id}, '신청', null, 
+    			to_char(sysdate, 'YYYY-MM-DD'), 
+                to_char(sysdate, 'YYYY-MM-DD')
+                )
     	]]>
 	</select>
 	

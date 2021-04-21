@@ -37,4 +37,6 @@ public interface EnrollmentController {
 	ModelAndView exceptEnrollmentForm(String id, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
+	ModelAndView deleteEnrollment(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 }

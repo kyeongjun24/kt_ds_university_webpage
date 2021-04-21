@@ -176,19 +176,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	}
 	
 	
-	// 여러개 상태 수정 (삭제)
-	@Override
-	@ResponseBody
-	@RequestMapping(value="/enrollment/modDeleteEnrollments.do", method = RequestMethod.POST)
-	public int updateDeleteEnrollments(String [] arr, 
-					  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		int result = 0;
-		for(int i = 0; i < arr.length; i++) { 
-			result = enrollmentService.updateDeleteEnrollments(Integer.parseInt(arr[i]));
-		 } 
-		return result;
-	}
 	
 	// 여러개 상태 수정 (승인)
 	@Override
@@ -218,7 +205,30 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return result;
 	}
 
+	// 여러개 상태 수정 (삭제)
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/enrollment/modDeleteEnrollments.do", method = RequestMethod.POST)
+	public int updateDeleteEnrollments(String [] arr, 
+					  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		for(int i = 0; i < arr.length; i++) { 
+			result = enrollmentService.updateDeleteEnrollments(Integer.parseInt(arr[i]));
+		 } 
+		return result;
+	}
 	
+	// 한개 삭제
+	@Override
+	@RequestMapping(value="/enrollment/deleteEnrollment.do" ,method = RequestMethod.GET)
+	public ModelAndView deleteEnrollment(@RequestParam String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = enrollmentService.updateDeleteEnrollments(Integer.parseInt(id));	
+		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
+		return mav;
+	}
 	
 //	//폼
 //	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
