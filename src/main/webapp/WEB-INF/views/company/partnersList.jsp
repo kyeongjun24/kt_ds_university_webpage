@@ -21,6 +21,10 @@ request.setCharacterEncoding("UTF-8");
 	color: black;
 }
 
+.cls1:hover {
+	color: #c2c2c2;
+}
+
 .cls2 {
 	text-align: center;
 	font-size: 30px;
@@ -36,10 +40,16 @@ request.setCharacterEncoding("UTF-8");
 
 #partners {
 	border-collapse: collapse;
+	line-height: 40px;
 }
 .process {
 	text-align: left;
-	margin-bottom: 1em;
+	margin-bottom: 2em;
+	color: #9C9D9D;
+}
+
+.par_search {
+	padding-left: 7px
 }
 </style>
 
@@ -86,18 +96,26 @@ request.setCharacterEncoding("UTF-8");
 				<c:if test="${perPage == '10' }">
 					<option value='10' selected>10개</option>
 					<option value='20'>20개</option>
-					<option value='30'>30개</option>
-
+					<option value='50'>50개</option>
+					<option value='100'>100개</option>
 				</c:if>
 				<c:if test="${perPage == '20' }">
 					<option value='10'>10개</option>
 					<option value='20' selected>20개</option>
-					<option value='30'>30개</option>
+					<option value='50'>50개</option>
+					<option value='100'>100개</option>
 				</c:if>
-				<c:if test="${perPage == '30' }">
+				<c:if test="${perPage == '50' }">
 					<option value='10'>10개</option>
 					<option value='20'>20개</option>
-					<option value='30' selected>30개</option>
+					<option value='50' selected>50개</option>
+					<option value='100'>100개</option>
+				</c:if>
+				<c:if test="${perPage == '100' }">
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='50'>50개</option>
+					<option value='100' selected>100개</option>
 				</c:if>
 			</select>
 		</div>
@@ -127,7 +145,7 @@ request.setCharacterEncoding("UTF-8");
 						id="searchText">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="searchText"
+					<input type="text" name="searchText" id="searchText" class="par_search"
 						placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
 						onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
@@ -148,10 +166,8 @@ request.setCharacterEncoding("UTF-8");
 		<c:choose>
 			<c:when test="${empty partnersList}">
 				<tr align="center">
-					<td class=line2 align='center' width="15%">
-						<p align="center">
+					<td class=line2 width="15%">
 							<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
-						</p>
 					</td>
 				</tr>
 			</c:when>

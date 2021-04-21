@@ -54,8 +54,6 @@ public class CompanyControllerImpl implements CompanyController {
 		} else {
 			perPage = 10; // 없으면 10 저장
 		}
-		System.out.println("전달 받은 페이지 번호 page:"+page); // 전달 받은 페이지 번호 page 
-		System.out.println("리스트 띄울 개수 Perpage:"+perPage); // 전달 받은 페이지 번호 page
 		
 		List companiesList = null;
 		ModelAndView mav = new ModelAndView(viewName);
@@ -66,9 +64,6 @@ public class CompanyControllerImpl implements CompanyController {
 		pageMaker.setCriteria(criteria); // 기준 값 설정
 
 		if (searchType != null && searchText != null) { // 검색 유형이랑 값을 받았으면
-			System.out.println(searchType);
-			System.out.println(searchText);
-			System.out.println("@@@@@@@@@검색필터 적용됨요");
 			companiesList = companyService.listBySearchCompanies(searchType, searchText);
 			criteria.setPage(page); // 페이지 설정
 			criteria.setSearchText(searchText); // 검색 값 설정
@@ -128,8 +123,6 @@ public class CompanyControllerImpl implements CompanyController {
 		} else {
 			perPage = 10; // 없으면 10 저장
 		}
-		System.out.println("전달 받은 페이지 번호 page:"+page); // 전달 받은 페이지 번호 page 
-		System.out.println("리스트 띄울 개수 Perpage:"+perPage); // 전달 받은 페이지 번호 page 
 		
 		List partnersList = null;
 		ModelAndView mav = new ModelAndView(viewName);
@@ -140,29 +133,21 @@ public class CompanyControllerImpl implements CompanyController {
 		pageMaker.setCriteria(criteria); // 기준 값 설정
 
 		if (searchType != null && searchText != null) {
-			System.out.println(searchType);
-			System.out.println(searchText);
-			System.out.println("@@@@@@@@@검색필터 적용됨요");
 			partnersList = companyService.listBySearchPartners(searchType, searchText);
-			System.out.println("@@@@@@@@@@서치된 리스트"+partnersList.size()); // 검색해서 받은 전체 리스트 사이즈
 			criteria.setPage(page); // 페이지 설정
 			criteria.setSearchText(searchText); // 검색 값 설정
 			criteria.setSearchType(searchType); // 검색 유형 설정
 			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수를 전체 리스트 크기로 설정
 			partnersList = companyService.partnerListCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
-			System.out.println("page@@@"+page+"번호에 해당하는 리스트 크기"+partnersList.size());
 			
 			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내고
 			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
 		} else { // 검색 유형이랑 값을 받지 않았다면
-			System.out.println("@@@@@@@@검색필터적용안됨요");
 			partnersList = companyService.listPartners();
-			System.out.println(partnersList.size()); //전체 사이즈
 			criteria.setPage(page); // 페이지 설정
 			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수 설정
 			partnersList = companyService.partnerListCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
 		}
-		System.out.println("perPage@@@@@@@@@@@@"+perPage);
 		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
 		mav.addObject("partnersList", partnersList);
@@ -190,8 +175,6 @@ public class CompanyControllerImpl implements CompanyController {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		result = companyService.addCompany(companyVO);
-		System.out.println(companyVO.getContractStat());
-		System.out.println(companyVO.getContractType());
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
 		return mav;
 	}

@@ -25,6 +25,7 @@
 		<![CDATA[
 			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
 			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel from company
+			where com_contract_type != '탈퇴'
 			order by com_reg_date desc
 			]]>
 	</select>
@@ -56,7 +57,7 @@
 		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
 		com_manager_phone, com_manager_email, com_contract_stat,
 		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel from company order by com_reg_date desc)
+		com_tel from company where com_contract_type != '탈퇴' order by com_reg_date desc)
 		where NUM between #{page} and 10
 	</select>
 	
@@ -73,14 +74,16 @@
 		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
 		com_manager_phone, com_manager_email, com_contract_stat,
 		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel from company ORDER BY com_reg_date desc)
+		com_tel from company where com_contract_type != '탈퇴' ORDER BY com_reg_date desc)
 		WHERE NUM BETWEEN #{pageStart} 
 		<choose>
 			<when test="#{perPageNum} == '10'">
 				AND #{perPageNum} - 1
+				AND com_contract_type != '탈퇴'
 			</when>
 			<when test="#{perPageNum} != '10'">
 				AND (#{perPageNum} + #{pageStart}) - 1
+				AND com_contract_type != '탈퇴'
 			</when>
 		</choose>
 		order by com_reg_date desc
@@ -89,22 +92,24 @@
 	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select -->
 	<select id="selectCriteriaBySearchCompanyList" resultMap="comResult">
 		SELECT 
-		com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
-		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
-		com_manager_phone, com_manager_email, com_contract_stat,
-		com_contract_type, com_homePage, com_address, com_contract_agree, com_tel
+			com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
+			SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
+			com_manager_phone, com_manager_email, com_contract_stat,
+			com_contract_type, com_homePage, com_address, com_contract_agree, com_tel
 		FROM (SELECT ROW_NUMBER() OVER (ORDER BY com_reg_date desc) NUM,
-		com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
-		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
-		com_manager_phone, com_manager_email, com_contract_stat,
-		com_contract_type, com_homePage, com_address, com_contract_agree, com_tel 
-		from company
+				com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
+				SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
+				com_manager_phone, com_manager_email, com_contract_stat,
+				com_contract_type, com_homePage, com_address, com_contract_agree, com_tel 
+			from company 
 		<choose>
 			<when test="searchType == 'name'">
 				WHERE com_name LIKE '%' || #{searchText} || '%'
+				AND com_contract_type != '탈퇴'
 			</when>
 			<when test="searchType == 'contractName'">
 				WHERE com_contract_name LIKE '%' || #{searchText} || '%'
+				AND com_contract_type != '탈퇴'
 			</when>
 		</choose>
 		ORDER BY com_reg_date desc)
@@ -192,27 +197,32 @@
 	<!-- 검색과 기준에 의해 나눠지는 협력회사 리스트 뽑기 select -->
 	<select id="selectCriteriaBySearchPartnerList" resultMap="comResult">
 		SELECT 
-		com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
-		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
-		com_manager_phone, com_manager_email, com_contract_stat,
-		com_contract_type, com_homePage, com_address, com_contract_agree, com_tel
-		FROM (SELECT ROW_NUMBER() OVER (ORDER BY com_reg_date desc) NUM,
-		com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date,
-		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
-		com_manager_phone, com_manager_email, com_contract_stat,
-		com_contract_type, com_homePage, com_address, com_contract_agree, com_tel 
-		from company WHERE com_contract_stat = '협력사'
+			com_id, 
+			com_name,
+			com_contract_type,
+			com_contract_name,
+			com_manager_phone, 
+			SUBSTR(com_reg_date, 0, 10) as com_reg_date
+		FROM (
+			SELECT 
+				com_id, 
+				com_name,
+				com_contract_type,  
+				com_contract_name,
+				com_manager_phone,
+				SUBSTR(com_reg_date, 0, 10) as com_reg_date,
+				ROW_NUMBER() OVER (ORDER BY com_reg_date desc) NUM 
+			FROM company 
+			WHERE com_contract_stat = '협력사'
 		<choose>
 			<when test="searchType == 'name'">
 				AND com_name LIKE '%' || #{searchText} || '%'
-				AND com_contract_stat = '협력사'
 			</when>
 			<when test="searchType == 'contractName'">
 				AND com_contract_name LIKE '%' || #{searchText} || '%'
-				AND com_contract_stat = '협력사'
 			</when>
 		</choose>
-		ORDER BY com_reg_date desc)
+		ORDER BY NUM)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
 			<when test="#{perPageNum} == '10'">
@@ -222,7 +232,6 @@
 				AND (#{perPageNum} + #{pageStart}) - 1
 			</when>
 		</choose>
-		order by com_reg_date desc
 	</select>
 	
 	
@@ -308,11 +317,10 @@
 	</update>
 	
 	<!-- 회사 삭제 쿼리 -->
-	<delete id="deleteCompany" parameterType="String">
+	<update id="deleteCompany" parameterType="String">
 		<![CDATA[
-		delete from company
-		where 
-		com_id=#{id}
+		update company set com_contract_type = '탈퇴'
+		where com_id=#{id}
 		]]>
-	</delete>
+	</update>
 </mapper>

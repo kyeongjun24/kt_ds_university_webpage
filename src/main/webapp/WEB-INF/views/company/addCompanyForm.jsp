@@ -13,7 +13,8 @@ request.setCharacterEncoding("UTF-8");
 <meta charset="UTF-8">
 <title>회사 등록창</title>
 <style>
-.text_center {
+
+.title {
 	padding-bottom: 30px;
 	border-bottom: 0.3px solid;
 	border-color: #9C9D9D;
@@ -27,25 +28,42 @@ input:focus {
 	text-align: left;
 	padding-bottom: 50px;
 	color: #9C9D9D;
-	font-weight: bold;
 }
 
-select {
+#sel1, #sel2 {
 	float: left;
 	margin-left: 4em;
+	width:40%;
 }
 
-#t1, #zipCode, #phoneNum {
+#t1, #phoneNum {
 	float: left;
 	margin-left: 4em;
+	width:40%;
+	padding-left: 7px;
+}
+#zipCode {
+	float: left;
+	margin-left: 4em;
+	width: 10%;
+	padding-left: 7px;
 }
 
 #search {
 	float: left;
+	width: 47px;
 }
 
-#address, #address2 {
+#address {
 	float: left;
+	margin-left: 4em;
+	padding-left: 7px;
+	width: 40%;
+}
+#address2 {
+	float: left;
+	padding-left: 7px;
+	width: 40%;
 }
 
 .td1 {
@@ -60,7 +78,7 @@ select {
 	margin-top: 70px;
 }
 
-p {
+#rd {
 	padding-left: 52px
 }
 
@@ -101,17 +119,14 @@ p {
 </script>
 
 <body>
-	<div class="process">
-		<a>회원관리>회사관리>회사등록</a>
-	</div>
+	<div class="process"><h4>회원관리>회사관리>회사등록</h4></div>
+	<h1 class="title">회사 등록</h1>
 	<form method="post" action="${contextPath}/company/addCompany.do"
 		id=registerCheck name=addFrm>
-		<h1 class="text_center">회사 등록</h1>
 		<table id="company_add">
 			<tr>
 				<td width="10%" class="td1"><p align="right">상태</p></td>
-				<td width="20%" class="td1"><select name="contractStat"
-					required>
+				<td width="20%" class="td1"><select name="contractStat" id="sel1" required>
 						<option value="">상태를 선택하세요</option>
 						<option value="협력사">협력사</option>
 						<option value="비협력사">비협력사</option>
@@ -135,13 +150,16 @@ p {
 			</tr>
 
 			<tr>
-				<td width="10%" class="td1"><p align="right">주소</p></td>
-				<td width="20%" class="td1" colspan="4">
+				<td width="10%" class="td1" rowspan="2"><p align="right">주소</p></td>
+				<td width="20%" class="td1" colspan="3">
 					<input type="text" id=zipCode name="zip" placeholder="우편번호" readonly>
 					<button type="button" id=search onclick="openZipSearch()">검색</button>
-				<input type="text" id=address name="address" placeholder="주소" readonly> 
-				<input type="text" id=address2 name="address" placeholder="상세 주소" required>
 				</td>
+			</tr>
+			
+			<tr>
+				<td width="20%" class="td1"><input type="text" id=address name="address" placeholder="주소" readonly> 
+					<input type="text" id=address2 name="address" placeholder="상세 주소" required></td>
 			</tr>
 
 			<tr>
@@ -173,12 +191,12 @@ p {
 			</tr>
 			<tr>
 				<td width="10%" class="td1"><p align="right">협약업체 동의 구분</p></td>
-				<td width="20%" class="td1" align="left"><p>
+				<td width="20%" class="td1" align="left"><p id=rd>
 						<input type="radio" name="contractAgree" value="컨소시엄 협약"
 							id="radio1" required> 컨소시엄 협약 <input type="radio"
 							name="contractAgree" value="컨소시엄 비협약" id="radio2"> 컨소시엄 비협약</td>
 				<td width="10%" class="td1"><p align="right">협약 상태 구분</p></td>
-				<td width="20%" class="td1"><select name="contractType"
+				<td width="20%" class="td1"><select name="contractType" id="sel2"
 					required>
 						<option value="">상태를 선택하세요</option>
 						<option value="협약서 없음">협약서없음</option>

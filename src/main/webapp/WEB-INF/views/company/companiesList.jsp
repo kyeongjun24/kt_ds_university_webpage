@@ -20,15 +20,22 @@ request.setCharacterEncoding("UTF-8");
 	text-decoration: none;
 	color: black;
 }
-
-.cls2 {
-	text-align: center;
-	font-size: 30px;
+.cls1:hover {
+	color: #c2c2c2;
 }
 
 .process {
 	text-align: left;
-	margin-bottom: 1em;
+	color: #9C9D9D;
+	margin-bottom: 2em;
+}
+
+.com_search {
+	padding-left: 7px;
+}
+
+#com_list {
+	line-height: 40px;
 }
 </style>
 
@@ -43,7 +50,7 @@ request.setCharacterEncoding("UTF-8");
 	//체크 된 걸 가져오는 함수
 	function getCheckList() {
 		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
-		alert(length);
+		alert(length+'개 선택하였습니다.');
 		var arr = new Array();
 		$("input:checkbox[type=checkbox]:checked").each(function(index) {
 			/* alert($(this).attr('id')); */
@@ -64,8 +71,7 @@ request.setCharacterEncoding("UTF-8");
 						},
 
 						success : function(data) {
-							alert('데이터 받기 성공');
-							alert(data);
+							alert(data+'개의 데이터가 삭제되었습니다.');
 							window.location.href = "${contextPath}/company/listCompanies.do";
 						},
 						error : function(data, request, status, error) {
@@ -127,18 +133,26 @@ request.setCharacterEncoding("UTF-8");
 				<c:if test="${perPage == '10' }">
 					<option value='10' selected>10개</option>
 					<option value='20'>20개</option>
-					<option value='30'>30개</option>
-
+					<option value='50'>50개</option>
+					<option value='100'>100개</option>
 				</c:if>
 				<c:if test="${perPage == '20' }">
 					<option value='10'>10개</option>
 					<option value='20' selected>20개</option>
-					<option value='30'>30개</option>
+					<option value='50'>50개</option>
+					<option value='100'>100개</option>
 				</c:if>
-				<c:if test="${perPage == '30' }">
+				<c:if test="${perPage == '50' }">
 					<option value='10'>10개</option>
 					<option value='20'>20개</option>
-					<option value='30' selected>30개</option>
+					<option value='50' selected>50개</option>
+					<option value='100'>100개</option>
+				</c:if>
+				<c:if test="${perPage == '100' }">
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='50'>50개</option>
+					<option value='100' selected>100개</option>
 				</c:if>
 			</select>
 		</div>
@@ -170,7 +184,7 @@ request.setCharacterEncoding("UTF-8");
 						value="${searchText }">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="searchText"
+					<input type="text" name="searchText" id="searchText" class="com_search"
 						placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
 						onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
@@ -179,7 +193,7 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 
-	<table align="center" border="0" width="80%">
+	<table border="0" id="com_list">
 		<tr height="15" align="center" style="border-bottom: solid;">
 			<td><input type="checkbox" id="selectAll"></td>
 			<td><b>상태</b></td>
@@ -202,7 +216,7 @@ request.setCharacterEncoding("UTF-8");
 			<c:when test="${not empty companiesList }">
 				<c:forEach var="company" items="${companiesList}"
 					varStatus="articleNum">
-					<tr align="center">
+					<tr>
 						<td><input type="checkbox" name="selectedCheckbox"
 							id="${company.id }"></td>
 						<td width="15%"><c:if test="${company.contractStat eq '협력사'}">
