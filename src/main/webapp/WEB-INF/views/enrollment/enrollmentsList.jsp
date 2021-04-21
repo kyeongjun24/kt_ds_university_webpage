@@ -282,9 +282,8 @@ request.setCharacterEncoding("UTF-8");
 						<td><input type="checkbox" name="selectedCheckbox"
 							id="${enrollment.id }"></td>
 						<td>${enrollment.memId }</td>
-						<td align='center'><span style="padding-right: 10px"></span>
-							<a id="herfId"
-							href="${contextPath}/enrollment/informationEnrollment.do?id=${enrollment.id }">${enrollment.memberVO.name }</a>
+						<td align='center'>	<a id="herfId" href="${contextPath}/enrollment/informationEnrollment.do?
+																id=${enrollment.id }">${enrollment.memberVO.name }</a>
 						</td>
 						<td>${enrollment.memberVO.companyName }</td>
 						<td>${enrollment.syllabusVO.name }</td>
@@ -309,11 +308,13 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }
+								&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }
+								&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>
@@ -324,7 +325,8 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
 							<a
-							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}
+								&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:when>
@@ -334,7 +336,8 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
 							<a
-							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}
+								&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:otherwise>
@@ -343,21 +346,18 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }
+								&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }
+								&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>
 		</ul>
 	</div>
-
-	<%-- <button type="button" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'" style="width: 5%;">등록</button>
-<button type="button" style="width: 5%;">승인</button>
-<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
-<button type="button" style="width: 5%;">수료</button> --%>
 
 	<!-- 버튼 모음집 -->
 	<div class="memberButton">
@@ -371,9 +371,5 @@ request.setCharacterEncoding("UTF-8");
 		<button type="button" onclick='getCheckList("delete")'
 			style="width: 5%;">삭제</button>
 	</div>
-	<!-- 등록 버튼 추가해서 함수 실행하게 만들어야함 -->
-	<%-- 
-      <td><a href="${contextPath}/member/removeMember.do?id=${member.id }">삭제</a></td> --%>
-
 </body>
 </html>
