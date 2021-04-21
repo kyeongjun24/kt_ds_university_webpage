@@ -38,6 +38,7 @@
 	<div style="width: 100%; height: 10%; background: red; text-align: center;">
 		회사 리스트
 	</div>
+	
 	<div style="width: 98%; height: 20%; background: green; margin: 2% 1%; ">
 		<form action="#">
 			<table>
@@ -50,6 +51,7 @@
 			</table>
 		</form>
 	</div>
+	
 	<div style="width: 98%; height: auto; background: yellow; margin: 2% 1%">
 		<table>
 		<tr height="15" align="center" style="border-bottom: solid;">
@@ -57,6 +59,7 @@
 		     <td ><b>사업자번호</b></td>
 		     <td><b>회사명</b></td>
 		  </tr>
+		  
 			<c:choose>
 				  <c:when test="${companiesList ==null }" >
 				    <tr  height="10">
@@ -82,6 +85,7 @@
 			    </c:choose>
 			</table>
 	</div>
+	
 	<div style="width: 98%; height: 10%; background: gray; margin: 2% 1%;">
 		<input type="button" value="창 닫기" onclick="window.close()">
 	</div>
