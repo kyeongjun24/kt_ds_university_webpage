@@ -3,11 +3,11 @@ package com.mySpring.springEx.common.paging;
 //리스트 개수에서 나누는 class
 public class Criteria {
 
-	private int page; // 
-	private int perPageNum; // 10 or 20 or 30
+	private int page;
+	private int perPageNum;
 	private String searchType;
 	private String searchText;
-	
+
 	public Criteria() {
 		this.page = 1;
 		this.perPageNum = 10;

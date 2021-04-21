@@ -9,4 +9,6 @@ public interface EnrollmentDAO {
 
 	public List selectAllEnrollmentList() throws DataAccessException;
 
+	public List selectAllCompletionList() throws DataAccessException;
+
 }

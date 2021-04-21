@@ -100,7 +100,7 @@
 	<input type="text" id="search" style="width: 100px; margin-right: 20px;"><input type="submit" value="검색" id="searchSubmit">
 </form>
 <table align="center" border="0"  width="80%" id="dynamicCompany" >
-  <tr height="15" align="center" style="border-bottom: solid;">
+  <tr height="15" align="center" id="attr">
      <td><input type="checkbox" id="selectAll"></td>    
      <td><b>번호</b></td>     
      <td ><b>상태</b></td>
