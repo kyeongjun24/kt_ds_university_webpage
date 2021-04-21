@@ -20,6 +20,7 @@ request.setCharacterEncoding("UTF-8");
 	text-decoration: none;
 	color: black;
 }
+
 .cls1:hover {
 	color: #c2c2c2;
 }
@@ -37,6 +38,15 @@ request.setCharacterEncoding("UTF-8");
 #com_list {
 	line-height: 40px;
 }
+
+#mem1 {
+	margin-bottom: 1em;
+}
+
+#type_color {
+	text-align: left;
+	margin-bottom: 1em;
+}
 </style>
 
 <meta charset="UTF-8">
@@ -50,7 +60,7 @@ request.setCharacterEncoding("UTF-8");
 	//체크 된 걸 가져오는 함수
 	function getCheckList() {
 		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
-		alert(length+'개 선택하였습니다.');
+		alert(length + '개 선택하였습니다.');
 		var arr = new Array();
 		$("input:checkbox[type=checkbox]:checked").each(function(index) {
 			/* alert($(this).attr('id')); */
@@ -71,7 +81,7 @@ request.setCharacterEncoding("UTF-8");
 						},
 
 						success : function(data) {
-							alert(data+'개의 데이터가 삭제되었습니다.');
+							alert(data + '개의 데이터가 삭제되었습니다.');
 							window.location.href = "${contextPath}/company/listCompanies.do";
 						},
 						error : function(data, request, status, error) {
@@ -123,9 +133,12 @@ request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
-	<div class="process"><h4>회원관리>회사관리</h4></div>
+	<div class="process">
+		<h4>회원관리>회사관리</h4>
+	</div>
+
 	<form method="get" action="${contextPath }/company/listCompanies.do"
-		id="searchFrm">
+		id="searchFrm" name="searchZip">
 
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
@@ -184,14 +197,24 @@ request.setCharacterEncoding("UTF-8");
 						value="${searchText }">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="searchText" class="com_search"
-						placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
+					<input type="text" name="searchText" id="searchText"
+						class="com_search" placeholder="검색어를 입력하세요."
+						onfocus="this.placeholder=''"
 						onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
 			</c:choose>
 			<input type="submit" value="검색">
 		</div>
 	</form>
+
+	<div class="memberButton" id="mem1">
+		<button type="button" id="enrollButton"
+			onclick="location.href='${contextPath}/company/addCompanyForm.do'"
+			style="width: 5%;">등록</button>
+		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
+	</div>
+
+	<p id="type_color" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span><span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>
 
 	<table border="0" id="com_list">
 		<tr height="15" align="center" style="border-bottom: solid;">
@@ -219,20 +242,23 @@ request.setCharacterEncoding("UTF-8");
 					<tr>
 						<td><input type="checkbox" name="selectedCheckbox"
 							id="${company.id }"></td>
-						<td width="15%"><c:if test="${company.contractStat eq '협력사'}">
-								<font color="blue">${company.contractStat }</font>
-							</c:if> <c:if test="${company.contractStat eq '비협력사'}">
-								<font color="red">${company.contractStat }</font>
-							</c:if> <c:if test="${company.contractStat eq '협약 진행중'}">
-								<font color="green">${company.contractStat }</font>
-							</c:if></td>
+						<td width="15%">${company.contractStat }</td>
 						<td align='center' width="15%"><a class='cls1'
-							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
-						</td>
+							href="${contextPath}/company/companyForm.do?id=${company.id}">
+							<c:if test="${company.contractType eq '협약서 없음'}">
+								<font color="red">${company.name }</font>
+							</c:if> <c:if test="${company.contractType eq '상호 변경'}">
+								<font color="green">${company.name }</font>
+							</c:if> <c:if test="${company.contractType eq '협약 완료'}">
+								<font color="black">${company.name }</font>
+							</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
+								<font color="blue">${company.name }</font>
+							</c:if></a></td>
 						<td width="15%">${company.contractName }</td>
 						<td width="15%">${company.managerPhone }</td>
 						<td width="15%">${company.id }</td>
 						<td width="15%">${company.regDate }</td>
+						
 					</tr>
 				</c:forEach>
 			</c:when>

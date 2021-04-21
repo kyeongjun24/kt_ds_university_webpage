@@ -51,6 +51,11 @@ request.setCharacterEncoding("UTF-8");
 .par_search {
 	padding-left: 7px
 }
+
+#type_color {
+	text-align: left;
+	margin-bottom: 1em;
+}
 </style>
 
 <meta charset="UTF-8">
@@ -154,6 +159,9 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 
+	<p id="type_color" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span><span style="color:black"> ●협약완료 </span>
+	<span style="color:blue"> ●협약서사본</span><span style="color:#dd42f5"> ●탈퇴</span></p>
+	
 	<table align="center" border="0" width="80%" id="partners">
 		<tr height="15" align="center" style="border-bottom: solid;">
 			<td class=line1><b>회사명</b></td>
@@ -177,7 +185,18 @@ request.setCharacterEncoding("UTF-8");
 						<td class=line2 align='center' width="15%"><a class='cls1'
 							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>
-						<td width="15%" class=line2>${company.contractType }</td>
+						<td width="15%" class=line2>
+						<c:if test="${company.contractType eq '협약서 없음'}">
+							<font color="red">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '상호 변경'}">
+								<font color="green">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '협약 완료'}">
+								<font color="black">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
+								<font color="blue">${company.contractType }</font>
+							</c:if><c:if test="${company.contractType eq '탈퇴'}">
+								<font color="#dd42f5">${company.contractType }</font>
+							</c:if></td>
 						<td width="15%" class=line2>${company.contractName }</td>
 						<td width="15%" class=line2>${company.managerPhone }</td>
 						<td width="15%" class=line2>${company.id }</td>
