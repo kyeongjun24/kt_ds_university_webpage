@@ -39,4 +39,7 @@ public interface EnrollmentController {
 
 	ModelAndView deleteEnrollment(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+	void excelDownload(HttpServletRequest request, HttpServletResponse response)
+			throws Exception;
+
 }

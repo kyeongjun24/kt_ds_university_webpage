@@ -252,13 +252,16 @@ request.setCharacterEncoding("UTF-8");
 			</c:choose>
 			<input type="submit" id="searchSubmit" value="검색">
 		</div>
-		
-
 	</form>
 	
-	<form>
 	
+	
+	<!-- 엑셀 다운로드 버튼 -->
+	<form action="${contextPath}/enrollment/excelDownload.do" method="post">
+		<input type="submit" value='엑셀 다운로드'>
 	</form>
+	
+	
 	
 	<p id="type_color" align="left" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span>
 											  <span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>

@@ -20,6 +20,13 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//¿¢¼¿ °ü·Ã
+	
+	
+	
+	
+////////////////////////////////////////////////
+	
 	@Override
 	public List selectBySearchEnrollmentList(String searchType, String searchText) throws DataAccessException {
 		List<EnrollmentVO> enrollmentsBySearchList = null;

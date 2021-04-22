@@ -43,6 +43,13 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	@Autowired
 	CourseVO courseVO;
 	
+	//엑셀 다운로드
+	@Override
+	@RequestMapping(value="/enrollment/excelDownload.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void excelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		enrollmentService.excelDownload(response);
+	}
 	
 	// 리스트 페이지
 	@Override
