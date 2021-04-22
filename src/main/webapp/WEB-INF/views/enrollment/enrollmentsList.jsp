@@ -199,7 +199,7 @@ request.setCharacterEncoding("UTF-8");
 				</c:if>
 			</select>
 		</div>
-
+		
 		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
 		<div class="searchType">
 			<select name="searchType" id="searchType">
@@ -258,11 +258,11 @@ request.setCharacterEncoding("UTF-8");
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
-			<td><b>아이디</b></td>
+			<td><b>과정명</b></td>
+			<td><b>교육기간</b></td>
 			<td><b>이름</b></td>
 			<td><b>소속회사</b></td>
-			<td><b>과정명</b></td>
-			<td><b>승인</b></td>
+			<td><b>상태</b></td>
 			<td><b>신청일</b></td>
 		</tr>
 		<c:choose>
@@ -279,20 +279,43 @@ request.setCharacterEncoding("UTF-8");
 				<c:forEach var="enrollment" items="${enrollmentsList }"
 					varStatus="enrdNum">
 					<tr align="center">
-						<td><input type="checkbox" name="selectedCheckbox"
-							id="${enrollment.id }"></td>
-						<td>${enrollment.memId }</td>
+						<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
+							
+						<td>${enrollment.syllabusVO.name }</td>
+						<td>${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
+						
 						<td align='center'>	<a id="herfId" href="${contextPath}/enrollment/informationEnrollment.do?
 																id=${enrollment.id }">${enrollment.memberVO.name }</a>
 						</td>
-						<td>${enrollment.memberVO.companyName }</td>
-						<td>${enrollment.syllabusVO.name }</td>
+						<%-- <td>${enrollment.memberVO.companyName }</td> --%>
+						
+						<c:choose>
+							<c:when test="${enrollment.memberVO.companyName == null }">
+								<td>
+									<font color="red">비협약회사</font></td>
+							</c:when>
+						
+							<c:when test="${enrollment.memberVO.companyName != null }">
+								<td>${enrollment.memberVO.companyName }</td>
+							</c:when>
+						
+						
+						
+						
+						
+						
+						
+						
+						</c:choose>
+						
+						
+						
 						<td><c:if test="${enrollment.stat == '신청' }">
-								<font color="red">${enrollment.stat }</font>
+								<font color="black">${enrollment.stat }</font>
 							</c:if> <c:if test="${enrollment.stat == '승인' }">
-								<font color="black">${enrollment.stat }</font>
+								<font color="blue">${enrollment.stat }</font>
 							</c:if> <c:if test="${enrollment.stat eq '수료' }">
-								<font color="black">${enrollment.stat }</font>
+								<font color="red">${enrollment.stat }</font>
 							</c:if></td>
 						<td>${enrollment.joinDate }</td>
 					</tr>

@@ -20,13 +20,13 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Autowired
 	private EnrollmentDAO enrollmentDAO;
 	
-	//ê¸°ì¤€ ë‚˜ëˆ„ëŠ” ë©”ì„œë“œ 
+	//±âÁØ ³ª´©´Â ¸Ş¼­µå 
 	@Override
 	public List listCriteria(Criteria criteria) throws DataAccessException {
 		return enrollmentDAO.listCriteria(criteria);
 	}
 	
-	//ê²€ìƒ‰ì— ì˜í•´ ë‚˜ëˆ ì§€ëŠ” ë©”ì„œë“œ
+	//°Ë»ö¿¡ ÀÇÇØ ³ª´²Áö´Â ¸Ş¼­µå
 	@Override
 	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException {
 		List enrollmentsBySearchList = null;
@@ -34,7 +34,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsBySearchList;
 	}
 	
-	//ê²€ìƒ‰ê³¼ ê¸°ì¤€ì— ì˜í•´ ë¦¬ìŠ¤íŠ¸ ë‚˜ëˆ ì§€ëŠ” ë©”ì„œë“œ
+	//°Ë»ö°ú ±âÁØ¿¡ ÀÇÇØ ¸®½ºÆ® ³ª´²Áö´Â ¸Ş¼­µå
 	@Override
 	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		List enrollmentsCriteriaBySearch = null;
@@ -42,14 +42,14 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsCriteriaBySearch;
 	}
 	
-	//(ë“±ë¡ê´€ë ¨) ìˆ˜ê°•ì‹ ì²­ ë˜ì–´ìˆëŠ”ì§€ ì²´í¬
+	//(µî·Ï°ü·Ã) ¼ö°­½ÅÃ» µÇ¾îÀÖ´ÂÁö Ã¼Å©
 	@Override
 	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException {
 		return enrollmentDAO.checkEnrollment(enrollment);
 	}
 
 	
-	//ë“±ë¡ í˜ì´ì§€ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥
+	//µî·Ï ÆäÀÌÁö ¸®½ºÆ® Ãâ·Â
 	@Override
 	public List listSylCrs() throws DataAccessException {
 		List sylCrsList = null;
@@ -57,7 +57,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return sylCrsList;
 	}
 	
-	//ë“±ë¡ í˜ì´ì§€ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ (ìˆ˜ì •ì¤‘)
+	//µî·Ï ÆäÀÌÁö ¸®½ºÆ® Ãâ·Â (¼öÁ¤Áß)
 	@Override
 	public List exceptListSylCrs(String id) throws DataAccessException {
 		List sylCrsList = null;
@@ -65,7 +65,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return sylCrsList;
 	}
 	
-	//ìˆ˜ê°•ì‹ ì²­ë‚´ì—­ ë¦¬ìŠ¤íŠ¸ë¡œ ì´ë™
+	//¼ö°­½ÅÃ»³»¿ª ¸®½ºÆ®·Î ÀÌµ¿
 	@Override
 	public List listEnrollments() throws DataAccessException {
 		List enrollmentsList = null;
@@ -73,19 +73,19 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsList;
 	}
 	
-	//ìˆ˜ê°•ì‹ ì²­ ë“±ë¡
+	//¼ö°­½ÅÃ» µî·Ï
 	@Override
 	public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException {
 		return enrollmentDAO.insertEnrollment(enrollment);
 	}
 	
-	//ìƒì„¸ ì ‘ìˆ˜ë‚´ì—­ í˜ì´ì§€ë¡œ ì´ë™
+	//»ó¼¼ Á¢¼ö³»¿ª ÆäÀÌÁö·Î ÀÌµ¿
 	@Override
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
 		return enrollmentDAO.selectEnrollment(id);
 	}
 	
-	// ìƒì„¸í˜ì´ì§€ ìƒíƒœ ìˆ˜ì •
+	// »ó¼¼ÆäÀÌÁö »óÅÂ ¼öÁ¤
 	@Override
 	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException {
 		
@@ -93,19 +93,19 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentDAO.modEnrollmentStat(enrollment);
 	}
 	
-	// ìƒíƒœ 'ì‚­ì œ' ë¡œ ìˆ˜ì •
+	// »óÅÂ '»èÁ¦' ·Î ¼öÁ¤
 	@Override 
 	public int updateDeleteEnrollments(int id) throws DataAccessException {
 		return enrollmentDAO.updateDeleteEnrollments(id);
 	}
 	
-	// ìƒíƒœ 'ìŠ¹ì¸' ìœ¼ë¡œ ìˆ˜ì •
+	// »óÅÂ '½ÂÀÎ' À¸·Î ¼öÁ¤
 	@Override 
 	public int updateApproveEnrollments(int id) throws DataAccessException {
 		return enrollmentDAO.updateApproveEnrollments(id);
 	}
 		
-	// ìƒíƒœ 'ìˆ˜ë£Œ' ë¡œ ìˆ˜ì •
+	// »óÅÂ '¼ö·á' ·Î ¼öÁ¤
 	@Override 
 	public int updateCompleteEnrollments(int id) throws DataAccessException {
 		return enrollmentDAO.updateCompleteEnrollments(id);

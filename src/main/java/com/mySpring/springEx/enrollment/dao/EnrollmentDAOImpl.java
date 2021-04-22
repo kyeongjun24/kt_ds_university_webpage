@@ -30,19 +30,19 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsBySearchList;
 	}
 	
-	// í˜ì´ì§€ ê¸°ì¤€ ì„¤ì • ë©”ì„œë“œ
+	// ÆäÀÌÁö ±âÁØ ¼³Á¤ ¸Ş¼­µå
 	@Override
 	public List<EnrollmentVO> listCriteria(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.listCriteria", criteria);
 	}
 	
-	//criteriaì— ì˜í•´ ë¦¬ìŠ¤íŠ¸ ë‚˜ëˆ„ëŠ” ë©”ì„œë“œ
+	//criteria¿¡ ÀÇÇØ ¸®½ºÆ® ³ª´©´Â ¸Ş¼­µå
 	@Override
 	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchEnrollmentList", criteria);
 	}
 	
-	//í˜ì´ì§• ë¦¬ìŠ¤íŠ¸ ë½‘ì•„ì˜¤ê¸° ë©”ì„œë“œ
+	//ÆäÀÌÂ¡ ¸®½ºÆ® »Ì¾Æ¿À±â ¸Ş¼­µå
 	@Override
 	public List<EnrollmentVO> listPaging(int page) throws DataAccessException {
 		if (page <= 0) {
@@ -54,7 +54,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	
 ////////////////////////////////////////////////	
 	
-	//ë“±ë¡ í˜ì´ì§€ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥
+	//µî·Ï ÆäÀÌÁö ¸®½ºÆ® Ãâ·Â
 	@Override
 	public List selectSylCrsList() throws DataAccessException {
 		List<EnrollmentVO> sylCrsList = null;
@@ -62,7 +62,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sylCrsList;
 	}
 	
-	//ë“±ë¡ í˜ì´ì§€ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ (ìˆ˜ì •)
+	//µî·Ï ÆäÀÌÁö ¸®½ºÆ® Ãâ·Â (¼öÁ¤)
 	@Override
 	public List selectExceptList(String id) throws DataAccessException {
 		List<EnrollmentVO> sylCrsList = null;
@@ -70,13 +70,13 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sylCrsList;
 	}
 	
-	//(ë“±ë¡ê´€ë ¨) ìˆ˜ê°•ì‹ ì²­ ë˜ì–´ìˆëŠ”ì§€ ì²´í¬
+	//(µî·Ï°ü·Ã) ¼ö°­½ÅÃ» µÇ¾îÀÖ´ÂÁö Ã¼Å©
 	public int checkEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.insert("mapper.enrollment.checkEnrollment", enrollmentVO);
 		return result;
 	}
 	
-	//ìˆ˜ê°•ì‹ ì²­ë‚´ì—­ ë¦¬ìŠ¤íŠ¸ë¡œ ì´ë™
+	//¼ö°­½ÅÃ»³»¿ª ¸®½ºÆ®·Î ÀÌµ¿
 	@Override
 	public List selectAllEnrollmentList() throws DataAccessException {
 		List<EnrollmentVO> enrollmentsList = null;
@@ -84,21 +84,21 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
-	//ìˆ˜ê°•ì‹ ì²­ ë“±ë¡
+	//¼ö°­½ÅÃ» µî·Ï
 	@Override
 	public int insertEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.insert("mapper.enrollment.addEnrollment", enrollmentVO);
 		return result;
 	}
 	
-	//ìƒì„¸ ì ‘ìˆ˜ë‚´ì—­ í˜ì´ì§€ë¡œ ì´ë™
+	//»ó¼¼ Á¢¼ö³»¿ª ÆäÀÌÁö·Î ÀÌµ¿
 	@Override
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
 		EnrollmentVO vo = sqlSession.selectOne("mapper.enrollment.selectEnrollment", id);
 		return vo;
 	}
 	
-	// ìƒì„¸í˜ì´ì§€ (íšŒì‚¬) ìˆ˜ì •
+	// »ó¼¼ÆäÀÌÁö (È¸»ç) ¼öÁ¤
 	@Override
 	public int modEnrollmentCompany(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.update("mapper.enrollment.modEnrollmentCompany", enrollmentVO);
@@ -108,28 +108,28 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return result;
 	}
 	
-	// ìƒì„¸í˜ì´ì§€ (ìƒíƒœ) ìˆ˜ì •
+	// »ó¼¼ÆäÀÌÁö (»óÅÂ) ¼öÁ¤
 	@Override
 	public int modEnrollmentStat(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.update("mapper.enrollment.modEnrollmentStat", enrollmentVO);
 		return result;
 	}
 	
-	// ìƒíƒœ 'ì‚­ì œ' ë¡œ ìˆ˜ì •
+	// »óÅÂ '»èÁ¦' ·Î ¼öÁ¤
 	@Override
 	public int updateDeleteEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateDeleteEnrollments", id);
 		return result;
 	}
 	
-	// ìƒíƒœ 'ìŠ¹ì¸' ìœ¼ë¡œ ìˆ˜ì •
+	// »óÅÂ '½ÂÀÎ' À¸·Î ¼öÁ¤
 	@Override
 	public int updateApproveEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateApproveEnrollments", id);
 		return result;
 	}
 		
-	// ìƒíƒœ 'ìˆ˜ë£Œ' ìœ¼ë¡œ ìˆ˜ì •
+	// »óÅÂ '¼ö·á' À¸·Î ¼öÁ¤
 	@Override
 	public int updateCompleteEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateCompleteEnrollments", id);

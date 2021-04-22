@@ -43,6 +43,8 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	@Autowired
 	CourseVO courseVO;
 	
+	
+	// 리스트 페이지
 	@Override
 	@RequestMapping(value="/enrollment/listEnrollments.do", method =  RequestMethod.GET)
 	public ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -72,7 +74,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		PageMaker pageMaker = new PageMaker();
 		
 		criteria.setPerPageNum(perPage); // 리스트 개수 설정
-		pageMaker.setCriteria(criteria); // 기준 값 설정
+		pageMaker.setCriteria(criteria); // 전달 받은 페이지 번호 page 
 		
 		if (searchType != null && searchText != null) { // 검색 유형이랑 값을 받았다면
 			enrollmentsList = enrollmentService.listBySearchEnrollments(searchType, searchText);
@@ -115,7 +117,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String)request.getAttribute("viewName");
 		int result = enrollmentService.checkEnrollment(enrollmentVO);
-		System.out.println("라멜라@@@@@@ :   " + result);
+		System.out.println("�씪硫쒕씪@@@@@@ :   " + result);
 		return result;
 	}
 	
@@ -131,7 +133,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav;
 	}
 
-	//수강 등록 - 강의 리스트 출력
+	// 상세페이지 상태 수정
 	@Override
 	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
 	public ModelAndView enrollmentForm(HttpServletRequest request,
@@ -146,7 +148,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav;
 	}
 	
-	//수강 등록 - 강의 리스트 출력 (수정중)
+	//수강 등록 - 강의 리스트 출력
 	@Override
 	@RequestMapping(value = "/enrollment/exceptEnrollmentForm.do", method = RequestMethod.GET)
 	public ModelAndView exceptEnrollmentForm(@RequestParam String id, HttpServletRequest request,
