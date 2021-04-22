@@ -60,15 +60,14 @@
 		<collection property="memberVO" resultMap="memResult"/>
 		<collection property="courseVO" resultMap="courseResult" />
 		<collection property="syllabusVO" resultMap="syllabusResult" />
+		<collection property="companyVO" resultMap="companyResult" />
 	</resultMap>
 	
-	
-	<!-- 리절트맵 수정중@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<resultMap id="companyResult" type="companyVO" >
-		<result property="id" column="slb_id" />
-		<result property="name" column="slb_name" />
+		<result property="name" column="com_name" />
+		<result property="contractStat" column="com_contract_stat" />
+		<result property="contractType" column="com_contract_type" />
 	</resultMap>
-	
 	
 <!-- ////////////////새로 추가한것 -->
 
@@ -81,7 +80,9 @@
         	slb_name, 
         	enrd_stat, 
         	enrd_join_date,
-        	crs_start_date, crs_end_date
+        	crs_start_date, crs_end_date,
+        	com_contract_stat,
+        	com_contract_type
    	]]>
    </sql>
 	
@@ -97,8 +98,10 @@
           	substr(e.enrd_join_date,1,10) as enrd_join_date,
           	
           	substr(c.crs_start_date, 1, 10) as crs_start_date, 
-          	substr(c.crs_end_date, 1, 10) as crs_end_date
-
+          	substr(c.crs_end_date, 1, 10) as crs_end_date,
+        	cc.com_contract_stat as com_contract_stat,
+			cc.com_contract_type as com_contract_type
+			
          FROM enrollment_detail E 
             LEFT JOIN member M
             ON
@@ -109,6 +112,9 @@
             LEFT JOIN syllabus S
             ON
                 c.slb_id = s.slb_id
+            LEFT JOIN company cc
+        	ON m.mem_company_name = cc.com_name
+        	
         WHERE enrd_stat != '취소'
 	     <choose>
          	<when test="searchType == 'name'">
@@ -146,7 +152,9 @@
         		substr(enrd_join_date,1,10) as enrd_join_date,
         		
         		substr(c.crs_start_date, 1, 10) as crs_start_date, 
-        		substr(c.crs_end_date, 1, 10) as crs_end_date
+        		substr(c.crs_end_date, 1, 10) as crs_end_date,
+            	cc.com_contract_stat as com_contract_stat,
+				cc.com_contract_type as com_contract_type
 			FROM 
 				enrollment_detail E 
 				LEFT JOIN member M
@@ -158,6 +166,8 @@
 				LEFT JOIN syllabus S
 				ON
 				    c.slb_id = s.slb_id
+				LEFT JOIN company cc
+       			ON m.mem_company_name = cc.com_name
 			
          	WHERE enrd_stat != '취소'
 			ORDER BY enrd_join_date desc)
@@ -181,7 +191,10 @@
         	substr(enrd_join_date,1,10) as enrd_join_date,
         	
         	substr(c.crs_start_date, 1, 10) as crs_start_date,
-			substr(c.crs_end_date, 1, 10) as crs_end_date
+			substr(c.crs_end_date, 1, 10) as crs_end_date,
+            cc.com_contract_stat as com_contract_stat,
+			cc.com_contract_type as com_contract_type
+            
 				FROM enrollment_detail E 
             LEFT JOIN member M
             ON
@@ -192,6 +205,9 @@
             LEFT JOIN syllabus S
             ON
                 c.slb_id = s.slb_id
+            LEFT JOIN company cc
+        	ON m.mem_company_name = cc.com_name
+        	
         WHERE enrd_stat != '취소'
       		ORDER BY enrd_join_date desc)
 
@@ -223,7 +239,9 @@
         		substr(enrd_join_date,1,10) as enrd_join_date,
         		
         		substr(c.crs_start_date, 1, 10) as crs_start_date, 
-        		substr(c.crs_end_date, 1, 10) as crs_end_date
+        		substr(c.crs_end_date, 1, 10) as crs_end_date,
+        		cc.com_contract_stat as com_contract_stat,
+			 	cc.com_contract_type as com_contract_type
 			FROM 
 				enrollment_detail E 
             	LEFT JOIN member M
@@ -232,6 +250,9 @@
             		ON e.crs_id = c.crs_id
             	LEFT JOIN syllabus S
             		ON c.slb_id = s.slb_id
+            	LEFT JOIN company cc
+       				ON m.mem_company_name = cc.com_name
+            		
 			WHERE enrd_stat != '취소'
 			<choose>
 	         	<when test="searchType == 'name'">
@@ -275,7 +296,9 @@
 			 	m.mem_name as mem_name,
 				m.mem_company_name as mem_company_name, 
 			 	e.enrd_stat as enrd_stat, 
-			 	substr(e.enrd_join_date, 1, 10) as enrd_join_date
+			 	substr(e.enrd_join_date, 1, 10) as enrd_join_date,
+        		cc.com_contract_stat as com_contract_stat,
+			 	cc.com_contract_type as com_contract_type
 			 	
 			 	
 			FROM enrollment_detail E 
@@ -285,6 +308,10 @@
 				ON e.crs_id = c.crs_id
 				LEFT JOIN syllabus S
 				ON c.slb_id = s.slb_id
+				
+				LEFT JOIN company cc
+        		ON m.mem_company_name = cc.com_name
+				
 			WHERE enrd_stat != '취소'
 			ORDER BY enrd_join_date desc
 		]]>

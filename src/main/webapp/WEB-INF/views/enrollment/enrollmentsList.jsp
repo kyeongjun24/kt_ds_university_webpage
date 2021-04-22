@@ -252,9 +252,17 @@ request.setCharacterEncoding("UTF-8");
 			</c:choose>
 			<input type="submit" id="searchSubmit" value="검색">
 		</div>
+		
 
 	</form>
-
+	
+	<form>
+	
+	</form>
+	
+	<p id="type_color" align="left" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span>
+											  <span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>
+	
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
@@ -287,28 +295,34 @@ request.setCharacterEncoding("UTF-8");
 						<td align='center'>	<a id="herfId" href="${contextPath}/enrollment/informationEnrollment.do?
 																id=${enrollment.id }">${enrollment.memberVO.name }</a>
 						</td>
-						<%-- <td>${enrollment.memberVO.companyName }</td> --%>
+						<td>
+							<!-- 회사가 없는 경우 -->
+							<c:if test="${enrollment.memberVO.companyName == null }">
+								<font color="red">비협력사</font>
+							</c:if>
+							
+							<!-- 회사가 있는 경우 -->
+							<c:if test="${enrollment.memberVO.companyName != null }">
 						
-						<c:choose>
-							<c:when test="${enrollment.memberVO.companyName == null }">
-								<td>
-									<font color="red">비협약회사</font></td>
-							</c:when>
-						
-							<c:when test="${enrollment.memberVO.companyName != null }">
-								<td>${enrollment.memberVO.companyName }</td>
-							</c:when>
-						
-						
-						
-						
-						
-						
-						
-						
-						</c:choose>
-						
-						
+								<c:choose>
+									<c:when test="${enrollment.companyVO.contractType eq '협약서 없음'}">
+	                        			<font color="red">${enrollment.memberVO.companyName }</font>
+	                        
+	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '상호 변경'}">
+	                        			<font color="green">${enrollment.memberVO.companyName }</font>
+	                        
+	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '협약 완료'}">
+	                        			<font color="black">${enrollment.memberVO.companyName }</font>
+	                        
+	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '협약서 사본'}">
+	                        			<font color="blue">${enrollment.memberVO.companyName }</font>
+	                    			 </c:when>
+	                    			 <c:otherwise>
+	                    			 	<font color="red">${enrollment.memberVO.companyName }</font>
+	                    			 </c:otherwise>
+                    			 </c:choose>
+                    		</c:if>
+						</td>
 						
 						<td><c:if test="${enrollment.stat == '신청' }">
 								<font color="black">${enrollment.stat }</font>
