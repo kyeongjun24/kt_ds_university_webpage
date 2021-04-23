@@ -80,14 +80,14 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 			criteria.setSearchText(searchText); // 검색 값 설정
 			criteria.setSearchType(searchType); // 검색 유형 설정
 			pageMaker.setTotalCount(enrollmentsList.size()); // 페이지 개수를 전체 리스트 크기로 설정
-			enrollmentsList = enrollmentService.listCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
+			enrollmentsList = enrollmentService.listEnrollmentCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
 			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내기
 			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
 		} else { // 검색 유형이랑 값을 받지 않았다면
 			enrollmentsList = enrollmentService.listEnrollments(); //전체 리스트 저장
 			criteria.setPage(page); //페이지 설정
 			pageMaker.setTotalCount(enrollmentsList.size()); //페이지 개수 설정
-			enrollmentsList = enrollmentService.listCriteria(criteria); //기준에 의해 나눠진 리스트 설정
+			enrollmentsList = enrollmentService.listEnrollmentCriteria(criteria); //기준에 의해 나눠진 리스트 설정
 		}
 		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기

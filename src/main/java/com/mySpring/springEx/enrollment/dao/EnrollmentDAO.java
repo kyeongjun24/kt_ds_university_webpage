@@ -25,13 +25,13 @@ public interface EnrollmentDAO {
 	
 	public int checkEnrollment(EnrollmentVO enrollment);
 
-	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException;
+	public List selectEnrollmentCriteriaBySearch(Criteria criteria) throws DataAccessException;
 
-	public List<EnrollmentVO> listCriteria(Criteria criteria) throws DataAccessException;
+	public List<EnrollmentVO> listEnrollmentCriteria(Criteria criteria) throws DataAccessException;
 
 	public List selectBySearchEnrollmentList(String searchType, String searchText) throws DataAccessException;
 
-	public List<EnrollmentVO> listPaging(int page) throws DataAccessException;
+	public List<EnrollmentVO> listEnrollmentPaging(int page) throws DataAccessException;
 
 	public int updateDeleteEnrollments(int id) throws DataAccessException;
 	

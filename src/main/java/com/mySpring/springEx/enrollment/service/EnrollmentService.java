@@ -22,11 +22,11 @@ public interface EnrollmentService {
 
 	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException;
 
-	public List listCriteria(Criteria criteria) throws DataAccessException;
+	public List listEnrollmentCriteria(Criteria criteria) throws DataAccessException;
 
 	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException;
 
-	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException;
+	public List listEnrollmentCriteriaBySearch(Criteria criteria) throws DataAccessException;
 	
 	public int updateDeleteEnrollments(int id) throws DataAccessException;
 

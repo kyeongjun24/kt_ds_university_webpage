@@ -32,19 +32,19 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	
 	// 페이지 기준 설정 메서드
 	@Override
-	public List<EnrollmentVO> listCriteria(Criteria criteria) throws DataAccessException {
-		return sqlSession.selectList("mapper.enrollment.listCriteria", criteria);
+	public List<EnrollmentVO> listEnrollmentCriteria(Criteria criteria) throws DataAccessException {
+		return sqlSession.selectList("mapper.enrollment.listEnrollmentCriteria", criteria);
 	}
 	
 	//criteria에 의해 리스트 나누는 메서드
 	@Override
-	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
+	public List selectEnrollmentCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchEnrollmentList", criteria);
 	}
 	
 	//페이징 리스트 뽑아오기 메서드
 	@Override
-	public List<EnrollmentVO> listPaging(int page) throws DataAccessException {
+	public List<EnrollmentVO> listEnrollmentPaging(int page) throws DataAccessException {
 		if (page <= 0) {
 			page = 1;
 		}
