@@ -22,8 +22,13 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	
 	//기준 나누는 메서드 
 	@Override
+<<<<<<< Updated upstream
 	public List listCriteria(Criteria criteria) throws DataAccessException {
 		return enrollmentDAO.listCriteria(criteria);
+=======
+	public List listEnrollmentCriteria(Criteria criteria) throws DataAccessException {
+		return enrollmentDAO.listEnrollmentCriteria(criteria);
+>>>>>>> Stashed changes
 	}
 	
 	//검색에 의해 나눠지는 메서드
@@ -110,5 +115,42 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	public int updateCompleteEnrollments(int id) throws DataAccessException {
 		return enrollmentDAO.updateCompleteEnrollments(id);
 	}
+<<<<<<< Updated upstream
 	
+=======
+
+	@Override
+	public EnrollmentVO selectCompletion(int id) throws DataAccessException {
+		return enrollmentDAO.selectCompletion(id);
+	}
+
+	// 검색에 의해 나눠지는 메서드
+	@Override
+	public List listCompletionBySearch(String searchType, String searchText) throws DataAccessException {
+		List membersBySearchList = null;
+		membersBySearchList = enrollmentDAO.selectBySearchCompletion(searchType, searchText);
+		return membersBySearchList;
+	}
+
+	// 검색과 기준에 의해 리스트 나눠지는 메서드
+	@Override
+	public List listMemberCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		List membersCriteriaBySearch = null;
+		membersCriteriaBySearch = enrollmentDAO.selectCriteriaBySearch(criteria);
+		return membersCriteriaBySearch;
+	}
+
+	@Override
+	public List listMemberCriteria(Criteria criteria) throws DataAccessException {
+		return enrollmentDAO.listMemberCriteria(criteria);
+	}
+
+	@Override
+	public List listCompletion() throws Exception {
+		List completionList = null;
+	    completionList = enrollmentDAO.selectAllCompletionList();
+	    return completionList;
+	}
+
+>>>>>>> Stashed changes
 }

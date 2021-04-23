@@ -39,4 +39,16 @@ public interface EnrollmentController {
 
 	ModelAndView deleteEnrollment(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+<<<<<<< Updated upstream
+=======
+	ModelAndView completionDoc(int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	ModelAndView listCompletion(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	/*
+	 * ModelAndView printCompletion(HttpServletRequest request, HttpServletResponse
+	 * response) throws Exception;
+	 */
+
+>>>>>>> Stashed changes
 }

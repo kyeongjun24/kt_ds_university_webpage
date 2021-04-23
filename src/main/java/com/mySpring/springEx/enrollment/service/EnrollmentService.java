@@ -36,4 +36,17 @@ public interface EnrollmentService {
 
 	public List exceptListSylCrs(String id) throws DataAccessException;
 
+<<<<<<< Updated upstream
+=======
+	public EnrollmentVO selectCompletion(int id) throws DataAccessException;
+
+	public List listMemberCriteria(Criteria criteria) throws DataAccessException;
+
+	public List listCompletionBySearch(String searchType, String searchText) throws DataAccessException;
+
+	public List listMemberCriteriaBySearch(Criteria criteria) throws DataAccessException;
+
+	public List listCompletion() throws Exception;
+
+>>>>>>> Stashed changes
 }

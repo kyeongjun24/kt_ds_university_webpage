@@ -141,7 +141,7 @@
 	
 	
 	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
-	<select id="listCriteria" resultMap="enrdResult">
+	<select id="listEnrollmentCriteria" resultMap="enrdResult">
 		SELECT
 			<include refid="enrollment-columns"></include>
 		FROM 
@@ -398,5 +398,165 @@
 				    c.slb_id = s.slb_id
 		]]>
 	</select> -->
+<<<<<<< Updated upstream
 	
+=======
+
+
+	<select id="selectCompletion" resultMap="enrdResult" parameterType="int">
+		<![CDATA[select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, s.slb_type as slb_type, 
+			substr(enrd_complete_date,1,4)||'년 '||substr(enrd_complete_date,6,2)||'월 '||substr(enrd_complete_date,9,2)||'일' as enrd_complete_date,
+			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, enrd_join_date as enrd_join_date,
+			 replace(substr(crs_start_date, 1, 10), '-', '.') as crs_start_date, replace(substr(crs_end_date, 1, 10), '-', '.') as crs_end_date
+				from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+				where e.enrd_id=#{id}
+	]]>
+
+	</select>
+
+	<select id="selectBySearchCompletion" resultMap="enrdResult" parameterType="java.util.Map">
+		select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, substr(enrd_complete_date,1,10) as enrd_complete_date,
+			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, substr(enrd_join_date,1,10) as enrd_join_date
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		<choose>
+			<when test="searchType == 'name'">
+				WHERE m.mem_name LIKE '%' || #{searchText} || '%'
+			</when>
+			<when test="searchType == 'companyName'">
+				WHERE m.mem_company_name LIKE '%' || #{searchText} ||
+				'%'
+			</when>
+		</choose>
+	</select>
+
+	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<select id="selectCompletionByPaging" resultMap="enrdResult">
+		SELECT
+		<include refid="enrollment-columns"></include>
+		FROM
+		(select ROW_NUMBER() OVER (ORDER BY enrd_id) NUM,
+		<include refid="enrollment-columns"></include>
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		ORDER BY enrd_id)
+		WHERE NUM BETWEEN #{page} AND 10
+	</select>
+
+	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<select id="listMemberCriteria" resultMap="enrdResult">
+		SELECT
+			*
+		FROM (
+		select 
+			ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
+			E.enrd_id, 
+			M.mem_id, M.mem_phone, M.mem_name, E.enrd_complete_date,
+        	M.mem_email, M.mem_company_name, S.slb_name, E.enrd_stat, E.enrd_join_date
+		
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		ORDER BY enrd_id)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart}) -1 
+			</when>
+		</choose>
+		order by enrd_id
+	</select>
+
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select -->
+	<select id="selectCriteriaBySearchCompletion" resultMap="enrdResult">
+		SELECT
+		enrd_id, mem_id , mem_phone, mem_name,
+			 mem_email, mem_company_name, slb_name, enrd_stat, enrd_join_date, enrd_complete_date
+		FROM (
+		SELECT ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
+		<include refid="enrollment-columns"></include>
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		<choose>
+			<when test="searchType == 'name'">
+				WHERE m.mem_name LIKE '%' || #{searchText} || '%'
+			</when>
+			<when test="searchType == 'companyName'">
+				WHERE m.mem_company_name LIKE '%' || #{searchText} || '%'
+			</when>
+		</choose>
+		ORDER BY enrd_id)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart}) -1
+			</when>
+		</choose>
+		order by enrd_id
+	</select>
+	
+	<select id="selectAllCompletionList" resultMap="enrdResult">
+      <![CDATA[
+         select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, substr(enrd_complete_date,1,10) as enrd_complete_date,
+          m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, substr(enrd_join_date,1,10) as enrd_join_date
+            from enrollment_detail E 
+            LEFT JOIN member M
+            ON
+                e.mem_id = m.mem_id
+            LEFT JOIN course C
+            ON
+                e.crs_id = c.crs_id
+            LEFT JOIN syllabus S
+            ON
+                c.slb_id = s.slb_id
+      ]]>
+   </select>
+
+>>>>>>> Stashed changes
 </mapper>
