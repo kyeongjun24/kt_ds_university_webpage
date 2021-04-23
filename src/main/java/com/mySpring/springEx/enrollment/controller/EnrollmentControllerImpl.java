@@ -225,9 +225,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		 } 
 		return result;
 	}
-<<<<<<< Updated upstream
-	
-=======
 
 	//수료관리 리스트 출력 메소드
 	@Override
@@ -299,7 +296,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 				mav.addObject("completionList", completionList); //설정된 리스트 보내기
 				return mav; //리스트 페이지로
 			}
->>>>>>> Stashed changes
 	// 한개 삭제
 	@Override
 	@RequestMapping(value="/enrollment/deleteEnrollment.do" ,method = RequestMethod.GET)
