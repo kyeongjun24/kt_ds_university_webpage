@@ -104,6 +104,24 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav; //리스트 페이지로
 	}
 
+	
+	
+	// Into detail page --> course
+	@Override
+	@RequestMapping(value="/enrollment/enrollmentCourse.do" ,method = RequestMethod.GET)
+	public ModelAndView enrollmentCourse(@RequestParam int id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("utf-8");
+		String viewName = (String)request.getAttribute("viewName");
+		List enrollmentsList = null;
+		enrollmentsList = enrollmentService.enrollmentCourse(id);	
+		 
+		ModelAndView mav = new ModelAndView();
+		//System.out.println("@@@@@@@@@" + enrollmentsList);
+		mav.addObject("enrollmentsList", enrollmentsList);
+		return mav;
+	}
+	
 	//수강신청 등록 
 	@Override
 	@RequestMapping(value="/enrollment/addEnrollment" ,method = {RequestMethod.POST, RequestMethod.GET})
@@ -114,18 +132,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		result = enrollmentService.addEnrollment(enrollmentVO);
 		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
 		return mav;
-	}
-	
-	//아이디 중복신청 체크
-	@Override
-	@RequestMapping(value="/enrollment/checkEnrollment.do", method = RequestMethod.POST)
-	public int checkEnrollment(@ModelAttribute("enrollment") EnrollmentVO enrollmentVO, 
-							HttpServletRequest request, HttpServletResponse response) throws Exception{
-		request.setCharacterEncoding("utf-8");
-		String viewName = (String)request.getAttribute("viewName");
-		int result = enrollmentService.checkEnrollment(enrollmentVO);
-		System.out.println("�씪硫쒕씪@@@@@@ :   " + result);
-		return result;
 	}
 	
 	// 상세페이지 상태 수정
@@ -170,7 +176,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav;
 	}
 		
-	//상세 접수내역 페이지로 이동
+	// Into detail page --> member
 	@Override
 	@RequestMapping(value="/enrollment/informationEnrollment.do" ,method = RequestMethod.GET)
 	public ModelAndView informationEnrollment(@RequestParam int id, HttpServletRequest request, HttpServletResponse response)
@@ -183,6 +189,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		mv.addObject("enrollmentVO", enrollmentVO);
 		return mv;
 	}
+	
 	
 	
 	
@@ -238,8 +245,29 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
 		return mav;
 	}
+
+	@Override
+	public int checkEnrollment(EnrollmentVO enrollmentVO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
-//	//폼
+
+//아이디 중복신청 체크
+//	@Override
+//	@RequestMapping(value="/enrollment/checkEnrollment.do", method = RequestMethod.POST)
+//	public int checkEnrollment(@ModelAttribute("enrollment") EnrollmentVO enrollmentVO, 
+//							HttpServletRequest request, HttpServletResponse response) throws Exception{
+//		request.setCharacterEncoding("utf-8");
+//		String viewName = (String)request.getAttribute("viewName");
+//		int result = enrollmentService.checkEnrollment(enrollmentVO);
+//		System.out.println("�씪硫쒕씪@@@@@@ :   " + result);
+//		return result;
+//	}
+	
+	
+//폼
 //	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
 //	private ModelAndView enrollmentForm(@RequestParam(value = "result", required = false) String result,
 //			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
@@ -254,7 +282,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 //		return mav;
 //	}
 	
-//	//수강신청내역 리스트로 이동 (백업)
+//수강신청내역 리스트로 이동 (백업)
 //	@Override
 //	@RequestMapping(value="/enrollment/listEnrollments.do" ,method = RequestMethod.GET)
 //	public ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception {

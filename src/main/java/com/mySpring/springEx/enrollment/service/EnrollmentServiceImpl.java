@@ -33,112 +33,228 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Autowired
 	private EnrollmentDAO enrollmentDAO;
 	
+
+	
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½ 
+	@Override
+	public List listCriteria(Criteria criteria) throws DataAccessException {
+		return enrollmentDAO.listCriteria(criteria);
+	}
+	
+	//ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½
+	@Override
+	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException {
+		List enrollmentsBySearchList = null;
+		enrollmentsBySearchList = enrollmentDAO.selectBySearchEnrollmentList(searchType, searchText);
+		return enrollmentsBySearchList;
+	}
+	
+	//ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½ï¿½
+	@Override
+	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		List enrollmentsCriteriaBySearch = null;
+		enrollmentsCriteriaBySearch = enrollmentDAO.selectCriteriaBySearch(criteria);
+		return enrollmentsCriteriaBySearch;
+	}
+	
+	//(ï¿½ï¿½Ï°ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©
+	@Override
+	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+		return enrollmentDAO.checkEnrollment(enrollment);
+	}
+
+	
+	//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
+	@Override
+	public List listSylCrs() throws DataAccessException {
+		List sylCrsList = null;
+		sylCrsList = enrollmentDAO.selectSylCrsList();
+		return sylCrsList;
+	}
+	
+	//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+	@Override
+	public List exceptListSylCrs(String id) throws DataAccessException {
+		List sylCrsList = null;
+		sylCrsList = enrollmentDAO.selectExceptList(id);
+		return sylCrsList;
+	}
+	
+	// List page
+	@Override
+	public List listEnrollments() throws DataAccessException {
+		List enrollmentsList = null;
+		enrollmentsList = enrollmentDAO.selectAllEnrollmentList();
+		return enrollmentsList;
+	}
+	
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½ï¿½ï¿½
+	@Override
+	public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+		return enrollmentDAO.insertEnrollment(enrollment);
+	}
+	
+	// Detail page --> member
+	@Override
+	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
+		return enrollmentDAO.enrollmentMember(id);
+	}
+	
+	// Detail page --> course
+	@Override
+	public List enrollmentCourse(int id) throws DataAccessException {
+		List enrollmentsList = null;
+		enrollmentsList = enrollmentDAO.enrollmentCourse(id);
+		return enrollmentsList;
+	}
+	
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	@Override
+	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+		
+		enrollmentDAO.modEnrollmentCompany(enrollment);
+		return enrollmentDAO.modEnrollmentStat(enrollment);
+	}
+	
+	// ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½' ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	@Override 
+	public int updateDeleteEnrollments(int id) throws DataAccessException {
+		return enrollmentDAO.updateDeleteEnrollments(id);
+	}
+	
+	// ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½' ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	@Override 
+	public int updateApproveEnrollments(int id) throws DataAccessException {
+		return enrollmentDAO.updateApproveEnrollments(id);
+	}
+		
+	// ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½' ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	@Override 
+	public int updateCompleteEnrollments(int id) throws DataAccessException {
+		return enrollmentDAO.updateCompleteEnrollments(id);
+	}
+	
+	// excel
 	@Override
 	public void excelDownload(HttpServletResponse response) throws Exception {
 		
 		List <EnrollmentVO> enrollmentList = enrollmentDAO.excelEnrollmentList();
 		
 		try {
-			//Excel Down ½ÃÀÛ
+			//Excel Down ì‹œì‘
             Workbook workbook = new HSSFWorkbook();
-            //½ÃÆ®»ı¼º
+          //ì‹œíŠ¸ìƒì„±
 			Sheet sheet = workbook.createSheet("list_excel");
 			
-			//Çà, ¿­, ¿­¹øÈ£
+			//í–‰, ì—´, ì—´ë²ˆí˜¸
             Row row = null;
             Cell cell = null;
             int rowNo = 0;
             
-            // Å×ÀÌºí Çì´õ¿ë ½ºÅ¸ÀÏ
+            // í…Œì´ë¸” í—¤ë”ìš© ìŠ¤íƒ€ì¼
             CellStyle headStyle = workbook.createCellStyle();
     
-            // °¡´Â °æ°è¼±À» °¡Áı´Ï´Ù.
+            // ê°€ëŠ” ê²½ê³„ì„ ì„ ê°€ì§‘ë‹ˆë‹¤.
             headStyle.setBorderTop(BorderStyle.THIN);
             headStyle.setBorderBottom(BorderStyle.THIN);
             headStyle.setBorderLeft(BorderStyle.THIN);
             headStyle.setBorderRight(BorderStyle.THIN);
     
-            // ¹è°æ»öÀº ³ë¶õ»öÀÔ´Ï´Ù.
+            // ë°°ê²½ìƒ‰ì€ ë…¸ë€ìƒ‰ì…ë‹ˆë‹¤.
             headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
             headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
     
-            // µ¥ÀÌÅÍ´Â °¡¿îµ¥ Á¤·ÄÇÕ´Ï´Ù.
+            // ë°ì´í„°ëŠ” ê°€ìš´ë° ì •ë ¬í•©ë‹ˆë‹¤.
             headStyle.setAlignment(HorizontalAlignment.CENTER);
     
-            // µ¥ÀÌÅÍ¿ë °æ°è ½ºÅ¸ÀÏ Å×µÎ¸®¸¸ ÁöÁ¤
+            // ë°ì´í„°ìš© ê²½ê³„ ìŠ¤íƒ€ì¼ í…Œë‘ë¦¬ë§Œ ì§€ì •
             CellStyle bodyStyle = workbook.createCellStyle();
             bodyStyle.setBorderTop(BorderStyle.THIN);
             bodyStyle.setBorderBottom(BorderStyle.THIN);
             bodyStyle.setBorderLeft(BorderStyle.THIN);
             bodyStyle.setBorderRight(BorderStyle.THIN);
 
-            // Çì´õ »ı¼º
+            // í—¤ë” ìƒì„±
             row = sheet.createRow(rowNo++);
     
             cell = row.createCell(0);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("¹øÈ£");
+            cell.setCellValue("ë²ˆí˜¸");
     
             cell = row.createCell(1);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("°­ÀÇ¸í");
+            cell.setCellValue("ì•„ì´ë””");
     
             cell = row.createCell(2);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("°­ÀÇ½ÃÀÛÀÏ");
+            cell.setCellValue("ì´ë¦„");
 
             cell = row.createCell(3);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("°­ÀÇÁ¾·áÀÏ");
+            cell.setCellValue("ì „í™”ë²ˆí˜¸");
     
             cell = row.createCell(4);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("ÀÌ¸§");
+            cell.setCellValue("ì´ë©”ì¼");
     
             cell = row.createCell(5);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("È¸»ç");
+            cell.setCellValue("íšŒì‚¬");
             
             cell = row.createCell(6);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("»óÅÂ");
+            cell.setCellValue("ê³¼ì •ëª…");
     
             cell = row.createCell(7);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("Çù¾à»óÅÂ");
+            cell.setCellValue("ì§„í–‰ì¼ì");
     
             cell = row.createCell(8);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("»óÅÂ");
+            cell.setCellValue("ìƒíƒœ");
             
             cell = row.createCell(9);
             cell.setCellStyle(headStyle);
-            cell.setCellValue("µî·ÏÀÏ");
+            cell.setCellValue("ì‹ ì²­ì¼");
 			
-            // µ¥ÀÌÅÍ ºÎºĞ »ı¼º
+            //ì—´ ë„ˆë¹„
+            sheet.setColumnWidth(0, 2000);
+            sheet.setColumnWidth(1, 3500);
+            sheet.setColumnWidth(2, 3500);
+            sheet.setColumnWidth(3, 3500);
+            sheet.setColumnWidth(4, 3500);
+            sheet.setColumnWidth(5, 3500);
+            sheet.setColumnWidth(6, 3500);
+            sheet.setColumnWidth(7, 3500);
+            sheet.setColumnWidth(8, 3500);
+            sheet.setColumnWidth(9, 3500);
+            
+            int i = 0;
+            // ë°ì´í„° ë¶€ë¶„ ìƒì„±
             for(EnrollmentVO excelData : enrollmentList) {
                 
                 row = sheet.createRow(rowNo++);
+                i = i + 1;
                 
                 cell = row.createCell(0);
                 cell.setCellStyle(bodyStyle);
-                cell.setCellValue(excelData.getId());
+                cell.setCellValue(i);
                 
                 cell = row.createCell(1);
                 cell.setCellStyle(bodyStyle);
-                cell.setCellValue(excelData.getSyllabusVO().getName());
+                cell.setCellValue(excelData.getMemberVO().getId());
                 
                 cell = row.createCell(2);
                 cell.setCellStyle(bodyStyle);
-                cell.setCellValue(excelData.getCourseVO().getStartDate());
+                cell.setCellValue(excelData.getMemberVO().getName());
                 
                 cell = row.createCell(3);
                 cell.setCellStyle(bodyStyle);
-                cell.setCellValue(excelData.getCourseVO().getEndDate());
+                cell.setCellValue(excelData.getMemberVO().getPhone());
                 
                 cell = row.createCell(4);
                 cell.setCellStyle(bodyStyle);
-                cell.setCellValue(excelData.getMemberVO().getName());
+                cell.setCellValue(excelData.getMemberVO().getEmail());
                 
                 cell = row.createCell(5);
                 cell.setCellStyle(bodyStyle);
@@ -146,11 +262,11 @@ public class EnrollmentServiceImpl implements EnrollmentService{
                 
                 cell = row.createCell(6);
                 cell.setCellStyle(bodyStyle);
-                cell.setCellValue(excelData.getCompanyVO().getContractStat());
+                cell.setCellValue(excelData.getSyllabusVO().getName());
                 
                 cell = row.createCell(7);
                 cell.setCellStyle(bodyStyle);
-                cell.setCellValue(excelData.getCompanyVO().getContractStat());
+                cell.setCellValue(excelData.getCourseVO().getStartDate() + " ~ " + excelData.getCourseVO().getStartDate());
                 
                 cell = row.createCell(8);
                 cell.setCellStyle(bodyStyle);
@@ -163,108 +279,17 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
             
             
-            // ÄÁÅÙÃ÷ Å¸ÀÔ°ú ÆÄÀÏ¸í ÁöÁ¤
+         // ì»¨í…ì¸  íƒ€ì…ê³¼ íŒŒì¼ëª… ì§€ì •
             response.setContentType("ms-vnd/excel");
             response.setHeader("Content-Disposition", "attachment;filename=enrollment_list.xls");
 
-            // ¿¢¼¿ Ãâ·Â
+         // ì—‘ì…€ ì¶œë ¥
             workbook.write(response.getOutputStream());
             workbook.close();
 		} catch (IOException e) {
             e.printStackTrace();
         }
 
-	}
-	
-	//±âÁØ ³ª´©´Â ¸Ş¼­µå 
-	@Override
-	public List listCriteria(Criteria criteria) throws DataAccessException {
-		return enrollmentDAO.listCriteria(criteria);
-	}
-	
-	//°Ë»ö¿¡ ÀÇÇØ ³ª´²Áö´Â ¸Ş¼­µå
-	@Override
-	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException {
-		List enrollmentsBySearchList = null;
-		enrollmentsBySearchList = enrollmentDAO.selectBySearchEnrollmentList(searchType, searchText);
-		return enrollmentsBySearchList;
-	}
-	
-	//°Ë»ö°ú ±âÁØ¿¡ ÀÇÇØ ¸®½ºÆ® ³ª´²Áö´Â ¸Ş¼­µå
-	@Override
-	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
-		List enrollmentsCriteriaBySearch = null;
-		enrollmentsCriteriaBySearch = enrollmentDAO.selectCriteriaBySearch(criteria);
-		return enrollmentsCriteriaBySearch;
-	}
-	
-	//(µî·Ï°ü·Ã) ¼ö°­½ÅÃ» µÇ¾îÀÖ´ÂÁö Ã¼Å©
-	@Override
-	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException {
-		return enrollmentDAO.checkEnrollment(enrollment);
-	}
-
-	
-	//µî·Ï ÆäÀÌÁö ¸®½ºÆ® Ãâ·Â
-	@Override
-	public List listSylCrs() throws DataAccessException {
-		List sylCrsList = null;
-		sylCrsList = enrollmentDAO.selectSylCrsList();
-		return sylCrsList;
-	}
-	
-	//µî·Ï ÆäÀÌÁö ¸®½ºÆ® Ãâ·Â (¼öÁ¤Áß)
-	@Override
-	public List exceptListSylCrs(String id) throws DataAccessException {
-		List sylCrsList = null;
-		sylCrsList = enrollmentDAO.selectExceptList(id);
-		return sylCrsList;
-	}
-	
-	//¼ö°­½ÅÃ»³»¿ª ¸®½ºÆ®·Î ÀÌµ¿
-	@Override
-	public List listEnrollments() throws DataAccessException {
-		List enrollmentsList = null;
-		enrollmentsList = enrollmentDAO.selectAllEnrollmentList();
-		return enrollmentsList;
-	}
-	
-	//¼ö°­½ÅÃ» µî·Ï
-	@Override
-	public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException {
-		return enrollmentDAO.insertEnrollment(enrollment);
-	}
-	
-	//»ó¼¼ Á¢¼ö³»¿ª ÆäÀÌÁö·Î ÀÌµ¿
-	@Override
-	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
-		return enrollmentDAO.selectEnrollment(id);
-	}
-	
-	// »ó¼¼ÆäÀÌÁö »óÅÂ ¼öÁ¤
-	@Override
-	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException {
-		
-		enrollmentDAO.modEnrollmentCompany(enrollment);
-		return enrollmentDAO.modEnrollmentStat(enrollment);
-	}
-	
-	// »óÅÂ '»èÁ¦' ·Î ¼öÁ¤
-	@Override 
-	public int updateDeleteEnrollments(int id) throws DataAccessException {
-		return enrollmentDAO.updateDeleteEnrollments(id);
-	}
-	
-	// »óÅÂ '½ÂÀÎ' À¸·Î ¼öÁ¤
-	@Override 
-	public int updateApproveEnrollments(int id) throws DataAccessException {
-		return enrollmentDAO.updateApproveEnrollments(id);
-	}
-		
-	// »óÅÂ '¼ö·á' ·Î ¼öÁ¤
-	@Override 
-	public int updateCompleteEnrollments(int id) throws DataAccessException {
-		return enrollmentDAO.updateCompleteEnrollments(id);
 	}
 	
 }

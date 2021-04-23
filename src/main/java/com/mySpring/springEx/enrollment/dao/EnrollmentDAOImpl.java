@@ -20,13 +20,6 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
-	//¿¢¼¿ °ü·Ã
-	
-	
-	
-	
-////////////////////////////////////////////////
-	
 	@Override
 	public List selectBySearchEnrollmentList(String searchType, String searchText) throws DataAccessException {
 		List<EnrollmentVO> enrollmentsBySearchList = null;
@@ -37,19 +30,19 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsBySearchList;
 	}
 	
-	// ÆäÀÌÁö ±âÁØ ¼³Á¤ ¸Þ¼­µå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 	@Override
 	public List<EnrollmentVO> listCriteria(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.listCriteria", criteria);
 	}
 	
-	//criteria¿¡ ÀÇÇØ ¸®½ºÆ® ³ª´©´Â ¸Þ¼­µå
+	//criteriaï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 	@Override
 	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchEnrollmentList", criteria);
 	}
 	
-	//ÆäÀÌÂ¡ ¸®½ºÆ® »Ì¾Æ¿À±â ¸Þ¼­µå
+	//ï¿½ï¿½ï¿½ï¿½Â¡ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ì¾Æ¿ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 	@Override
 	public List<EnrollmentVO> listPaging(int page) throws DataAccessException {
 		if (page <= 0) {
@@ -61,7 +54,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	
 ////////////////////////////////////////////////	
 	
-	//µî·Ï ÆäÀÌÁö ¸®½ºÆ® Ãâ·Â
+	//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
 	@Override
 	public List selectSylCrsList() throws DataAccessException {
 		List<EnrollmentVO> sylCrsList = null;
@@ -69,7 +62,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sylCrsList;
 	}
 	
-	//µî·Ï ÆäÀÌÁö ¸®½ºÆ® Ãâ·Â (¼öÁ¤)
+	//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½)
 	@Override
 	public List selectExceptList(String id) throws DataAccessException {
 		List<EnrollmentVO> sylCrsList = null;
@@ -77,13 +70,13 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sylCrsList;
 	}
 	
-	//(µî·Ï°ü·Ã) ¼ö°­½ÅÃ» µÇ¾îÀÖ´ÂÁö Ã¼Å©
+	//(ï¿½ï¿½Ï°ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©
 	public int checkEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.insert("mapper.enrollment.checkEnrollment", enrollmentVO);
 		return result;
 	}
 	
-	//¼ö°­½ÅÃ»³»¿ª ¸®½ºÆ®·Î ÀÌµ¿
+	// List page
 	@Override
 	public List selectAllEnrollmentList() throws DataAccessException {
 		List<EnrollmentVO> enrollmentsList = null;
@@ -91,7 +84,16 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
-	//¿¢¼¿ ´Ù¿Â·Îµå
+
+	// Detail page --> course
+	@Override
+	public List enrollmentCourse(int id) throws DataAccessException {
+		List<EnrollmentVO> enrollmentsList = null;
+		enrollmentsList = sqlSession.selectList("mapper.enrollment.enrollmentCourse", id);
+		return enrollmentsList;
+	}
+	
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿Â·Îµï¿½
 	@Override
 	public List excelEnrollmentList() throws DataAccessException {
 		List<EnrollmentVO> enrollmentsList = null;
@@ -101,21 +103,23 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	
 
 	
-	//¼ö°­½ÅÃ» µî·Ï
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã» ï¿½ï¿½ï¿½
 	@Override
 	public int insertEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.insert("mapper.enrollment.addEnrollment", enrollmentVO);
 		return result;
 	}
 	
-	//»ó¼¼ Á¢¼ö³»¿ª ÆäÀÌÁö·Î ÀÌµ¿
+	// Detail page --> member
 	@Override
-	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
-		EnrollmentVO vo = sqlSession.selectOne("mapper.enrollment.selectEnrollment", id);
+	public EnrollmentVO enrollmentMember(int id) throws DataAccessException {
+		EnrollmentVO vo = sqlSession.selectOne("mapper.enrollment.enrollmentMember", id);
 		return vo;
 	}
 	
-	// »ó¼¼ÆäÀÌÁö (È¸»ç) ¼öÁ¤
+	
+	
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (È¸ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public int modEnrollmentCompany(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.update("mapper.enrollment.modEnrollmentCompany", enrollmentVO);
@@ -125,28 +129,28 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return result;
 	}
 	
-	// »ó¼¼ÆäÀÌÁö (»óÅÂ) ¼öÁ¤
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public int modEnrollmentStat(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.update("mapper.enrollment.modEnrollmentStat", enrollmentVO);
 		return result;
 	}
 	
-	// »óÅÂ '»èÁ¦' ·Î ¼öÁ¤
+	// ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½' ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public int updateDeleteEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateDeleteEnrollments", id);
 		return result;
 	}
 	
-	// »óÅÂ '½ÂÀÎ' À¸·Î ¼öÁ¤
+	// ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½' ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public int updateApproveEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateApproveEnrollments", id);
 		return result;
 	}
 		
-	// »óÅÂ '¼ö·á' À¸·Î ¼öÁ¤
+	// ï¿½ï¿½ï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½' ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	@Override
 	public int updateCompleteEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateCompleteEnrollments", id);

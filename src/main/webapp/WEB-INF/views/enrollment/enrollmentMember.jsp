@@ -81,7 +81,7 @@
 	
 </script>
 <body>
-	<h4 align="left"> 수강신청내역 > 상세접수내역</h4>
+	<h4 align="left"> 수강신청내역 > 상세접수내역(학생)</h4>
 	<form method="post" action="${contextPath}/enrollment/modEnrollment.do">
 	<table  align="center" border="1">
 	   <tr>

@@ -292,12 +292,13 @@ request.setCharacterEncoding("UTF-8");
 					<tr align="center">
 						<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
 							
-						<td>${enrollment.syllabusVO.name }</td>
+						<td><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
+																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>
+																
 						<td>${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
 						
-						<td align='center'>	<a id="herfId" href="${contextPath}/enrollment/informationEnrollment.do?
-																id=${enrollment.id }">${enrollment.memberVO.name }</a>
-						</td>
+						<td><a id="herfId" href="${contextPath}/enrollment/informationEnrollment.do?
+																id=${enrollment.id }">${enrollment.memberVO.name }</a></td>
 						<td>
 							<!-- 회사가 없는 경우 -->
 							<c:if test="${enrollment.memberVO.companyName == null }">

@@ -40,4 +40,6 @@ public interface EnrollmentService {
 
 	public void excelDownload(HttpServletResponse response) throws Exception;
 
+	public List enrollmentCourse(int id) throws DataAccessException;
+
 }

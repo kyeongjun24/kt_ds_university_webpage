@@ -42,4 +42,6 @@ public interface EnrollmentController {
 	void excelDownload(HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
+	ModelAndView enrollmentCourse(int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 }
