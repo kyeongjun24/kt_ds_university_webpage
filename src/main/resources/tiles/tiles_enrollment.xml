@@ -23,8 +23,6 @@
       <put-attribute name="body" value="/WEB-INF/views/enrollment/enrollmentForm.jsp" />
    </definition>
    
-<<<<<<< Updated upstream
-=======
     <!-- 수료목록-->
    <definition name="/enrollment/listCompletion" extends="baseLayout">
       <put-attribute name="title" value="수료관리" />
@@ -39,6 +37,5 @@
       <put-attribute name="body" value="/WEB-INF/views/enrollment/completionDcmt.jsp" /> 
    </definition>
    
->>>>>>> Stashed changes
 </tiles-definitions>
 
