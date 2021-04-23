@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 		// 페이지 변수 선언
 		int page = 0;
-		
+
 		// 페이지 값이 있으면
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page")); // 페이지 값 저장
@@ -47,14 +48,14 @@ public class CompanyControllerImpl implements CompanyController {
 		}
 
 		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
-		
+
 		// perPage 값 있으면
 		if (request.getParameter("perPage") != null) {
 			perPage = Integer.parseInt(request.getParameter("perPage")); // 페이지 값 저장
 		} else {
 			perPage = 10; // 없으면 10 저장
 		}
-		
+
 		List companiesList = null;
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();
@@ -116,14 +117,14 @@ public class CompanyControllerImpl implements CompanyController {
 		}
 
 		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
-		
+
 		// perPage 값 있으면
 		if (request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt((String)request.getParameter("perPage")); // 페이지 값 저장
+			perPage = Integer.parseInt((String) request.getParameter("perPage")); // 페이지 값 저장
 		} else {
 			perPage = 10; // 없으면 10 저장
 		}
-		
+
 		List partnersList = null;
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();
@@ -139,7 +140,7 @@ public class CompanyControllerImpl implements CompanyController {
 			criteria.setSearchType(searchType); // 검색 유형 설정
 			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수를 전체 리스트 크기로 설정
 			partnersList = companyService.partnerListCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
-			
+
 			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내고
 			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
 		} else { // 검색 유형이랑 값을 받지 않았다면
@@ -173,6 +174,9 @@ public class CompanyControllerImpl implements CompanyController {
 	public ModelAndView addCompany(@ModelAttribute("company") CompanyVO companyVO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
+		// 아이디는 add.jsp에서 안넘어와서 컨트롤러에서 값을 합쳐줬다.
+		companyVO.setid(
+				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
 		int result = 0;
 		result = companyService.addCompany(companyVO);
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
@@ -228,6 +232,22 @@ public class CompanyControllerImpl implements CompanyController {
 			result = companyService.removeCompany(arr[i]);
 		}
 		return result;
+	}
+
+	// 전체 회사 엑셀 다운로드
+	@Override
+	@RequestMapping(value = "/company/excelDownload.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void excelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		companyService.excelDownload(response);
+	}
+
+	// 협력 회사 엑셀 다운로드
+	@Override
+	@RequestMapping(value = "/company/partnersExcelDownload.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void partnersExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		companyService.partnersExcelDownload(response);
 	}
 
 	// 학생관리의 수정창 안에 회사수정 팝업창

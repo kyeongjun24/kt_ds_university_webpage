@@ -63,7 +63,6 @@ request.setCharacterEncoding("UTF-8");
 		alert(length + '개 선택하였습니다.');
 		var arr = new Array();
 		$("input:checkbox[type=checkbox]:checked").each(function(index) {
-			/* alert($(this).attr('id')); */
 			arr.push($(this).attr('id'));
 		})
 
@@ -134,7 +133,12 @@ request.setCharacterEncoding("UTF-8");
 	String searchText = request.getParameter("searchType");
 	%>
 	<div class="process">
-		<h4>회원관리>회사관리</h4>
+		<h4>
+			<span onclick="location.href='${contextPath}/member/listMembers.do'"
+				style="cursor: pointer;">회원관리</span> <span
+				onclick="location.href='${contextPath}/company/listCompanies.do'"
+				style="cursor: pointer;">> 회사관리</span>
+		</h4>
 	</div>
 
 	<form method="get" action="${contextPath }/company/listCompanies.do"
@@ -214,7 +218,16 @@ request.setCharacterEncoding("UTF-8");
 		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
 	</div>
 
-	<p id="type_color" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span><span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>
+	<p id="type_color" style="font-size: 5px;">
+		<span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음
+		</span><span style="color: green"> ●상호변경 </span><span style="color: black">
+			●협약완료 </span><span style="color: blue"> ●협약서사본</span>
+	</p>
+
+	<!-- 엑셀 다운로드 버튼 -->
+	<form action="${contextPath}/company/excelDownload.do" method="post">
+		<input type="submit" value='엑셀 다운로드'>
+	</form>
 
 	<table border="0" id="com_list">
 		<tr height="15" align="center" style="border-bottom: solid;">
@@ -245,20 +258,21 @@ request.setCharacterEncoding("UTF-8");
 						<td width="15%">${company.contractStat }</td>
 						<td align='center' width="15%"><a class='cls1'
 							href="${contextPath}/company/companyForm.do?id=${company.id}">
-							<c:if test="${company.contractType eq '협약서 없음'}">
-								<font color="red">${company.name }</font>
-							</c:if> <c:if test="${company.contractType eq '상호 변경'}">
-								<font color="green">${company.name }</font>
-							</c:if> <c:if test="${company.contractType eq '협약 완료'}">
-								<font color="black">${company.name }</font>
-							</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
-								<font color="blue">${company.name }</font>
-							</c:if></a></td>
+								<c:if test="${company.contractType eq '협약서 없음'}">
+									<font color="red">${company.name }</font>
+								</c:if> <c:if test="${company.contractType eq '상호 변경'}">
+									<font color="green">${company.name }</font>
+								</c:if> <c:if test="${company.contractType eq '협약 완료'}">
+									<font color="black">${company.name }</font>
+								</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
+									<font color="blue">${company.name }</font>
+								</c:if>
+						</a></td>
 						<td width="15%">${company.contractName }</td>
 						<td width="15%">${company.managerPhone }</td>
 						<td width="15%">${company.id }</td>
 						<td width="15%">${company.regDate }</td>
-						
+
 					</tr>
 				</c:forEach>
 			</c:when>

@@ -121,9 +121,9 @@ request.setCharacterEncoding("UTF-8");
 	<!-- 회사 리스트 출력 -->
 	<table border="0" align="center" width="80%">
 		<tr height="15" align="center" style="border-bottom: solid;">
-			<td><b>번호</b></td>
 			<td><b>회사명</b></td>
 			<td><b>사업자번호</b></td>
+			<td><b>주소</b></td>		
 		</tr>
 		<c:choose>
 			<c:when test="${empty companiesList}">
@@ -139,11 +139,11 @@ request.setCharacterEncoding("UTF-8");
 				<c:forEach var="company" items="${companiesList }"
 					varStatus="companyNum">
 					<tr align="center">
-						<td>${companyNum.count }</td>
 						<td align='left' width="25%"><span
 							style="padding-right: 10px"></span> <a href='javascript:void(0);'
 							onclick="setCompanyName(this);">${company.name }</a></td>
 						<td>${company.id }</td>
+						<td>${company.address }</td>
 					</tr>
 				</c:forEach>
 			</c:when>

@@ -144,4 +144,5 @@ public class CompanyDAOImpl implements CompanyDAO {
 		page = (page - 1) * 10;
 		return sqlSession.selectList("mapper.company.selectPartnerListByPaging", page);
 	}
+	
 }

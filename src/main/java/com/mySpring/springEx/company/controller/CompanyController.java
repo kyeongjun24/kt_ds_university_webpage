@@ -40,5 +40,10 @@ public interface CompanyController {
 		
 	// 회사관리 리스트에 있는 삭제 버튼으로 회원을 체크해서 삭제할 수 있는 메소드
 	int removeCheckedCompanies(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
-		
+	
+	// 전체회사 엑셀 다운로드
+	void excelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
+	// 협력회사 엑셀 다운로드
+	void partnersExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

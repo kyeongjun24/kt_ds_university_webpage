@@ -16,6 +16,7 @@ request.setCharacterEncoding("UTF-8");
 	text-decoration: none;
 	color: black;
 }
+
 .cls1:visited {
 	text-decoration: none;
 	color: black;
@@ -42,6 +43,7 @@ request.setCharacterEncoding("UTF-8");
 	border-collapse: collapse;
 	line-height: 40px;
 }
+
 .process {
 	text-align: left;
 	margin-bottom: 2em;
@@ -92,9 +94,17 @@ request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
-	<div class="process"><h4>회원관리>협력회사</h4></div>
-	<form method="get" action="${contextPath }/company/listPartners.do" id="searchFrm">
-		
+	<div class="process">
+		<h4>
+			<span onclick="location.href='${contextPath}/member/listMembers.do'"
+				style="cursor: pointer;">회원관리</span> <span
+				onclick="location.href='${contextPath}/company/listPartners.do'"
+				style="cursor: pointer;">> 협력회사</span>
+		</h4>
+	</div>
+	<form method="get" action="${contextPath }/company/listPartners.do"
+		id="searchFrm">
+
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
 			<select name="perPage" id="listFilter">
@@ -150,8 +160,9 @@ request.setCharacterEncoding("UTF-8");
 						id="searchText">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="searchText" class="par_search"
-						placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
+					<input type="text" name="searchText" id="searchText"
+						class="par_search" placeholder="검색어를 입력하세요."
+						onfocus="this.placeholder=''"
 						onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
 			</c:choose>
@@ -159,9 +170,19 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 
-	<p id="type_color" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span><span style="color:black"> ●협약완료 </span>
-	<span style="color:blue"> ●협약서사본</span><span style="color:#dd42f5"> ●탈퇴</span></p>
-	
+	<p id="type_color" style="font-size: 5px;">
+		<span style="color: black">협약상태 구분: </span><span style="color: red">●협약서없음
+		</span><span style="color: green"> ●상호변경 </span><span style="color: black">
+			●협약완료 </span> <span style="color: blue"> ●협약서사본</span><span
+			style="color: #dd42f5"> ●탈퇴</span>
+	</p>
+
+	<!-- 엑셀 다운로드 버튼 -->
+	<form action="${contextPath}/company/partnersExcelDownload.do"
+		method="post">
+		<input type="submit" value='엑셀 다운로드'>
+	</form>
+
 	<table align="center" border="0" width="80%" id="partners">
 		<tr height="15" align="center" style="border-bottom: solid;">
 			<td class=line1><b>회사명</b></td>
@@ -174,27 +195,28 @@ request.setCharacterEncoding("UTF-8");
 		<c:choose>
 			<c:when test="${empty partnersList}">
 				<tr align="center">
-					<td class=line2 width="15%">
-							<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
-					</td>
+					<td class=line2 width="15%"><b><span
+							style="font-size: 9pt;">등록된 회사가 없습니다.</span></b></td>
 				</tr>
 			</c:when>
 			<c:when test="${not empty partnersList}">
-				<c:forEach var="company" items="${partnersList }" varStatus="articleNum">
+				<c:forEach var="company" items="${partnersList }"
+					varStatus="articleNum">
 					<tr align="center">
 						<td class=line2 align='center' width="15%"><a class='cls1'
 							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
 						</td>
-						<td width="15%" class=line2>
-						<c:if test="${company.contractType eq '협약서 없음'}">
-							<font color="red">${company.contractType }</font>
+						<td width="15%" class=line2><c:if
+								test="${company.contractType eq '협약서 없음'}">
+								<font color="red">${company.contractType }</font>
 							</c:if> <c:if test="${company.contractType eq '상호 변경'}">
 								<font color="green">${company.contractType }</font>
 							</c:if> <c:if test="${company.contractType eq '협약 완료'}">
 								<font color="black">${company.contractType }</font>
 							</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
 								<font color="blue">${company.contractType }</font>
-							</c:if><c:if test="${company.contractType eq '탈퇴'}">
+							</c:if>
+							<c:if test="${company.contractType eq '탈퇴'}">
 								<font color="#dd42f5">${company.contractType }</font>
 							</c:if></td>
 						<td width="15%" class=line2>${company.contractName }</td>

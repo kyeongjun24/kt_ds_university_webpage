@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <%
@@ -73,6 +74,19 @@ input:focus {
 	background-color: #E91B23;
 	color: #EFEFEF;
 	cursor: pointer;
+}
+#num {
+	width: 15%;	
+	padding-left: 7px;	
+}
+
+.oNum {
+	text-align: left;
+	padding-left: 3em;
+}
+
+.td2 {
+	border-bottom: none;
 }
 </style>
 </head>
@@ -149,10 +163,13 @@ input:focus {
 			return false;
 		}
 	}
+	
 </script>
 <body>
 	<div class="process">
-		<h4>회원관리>회사관리>회사수정</h4>
+		<h4><span onclick="location.href='${contextPath}/member/listMembers.do'" style=cursor:pointer;>회원관리</span>
+		<span onclick="location.href='${contextPath}/company/listCompanies.do'" style=cursor:pointer;>> 회사관리</span>
+		<span onclick="location.href='${contextPath}/company/companyForm.do?id=${companyVO.id }'" style=cursor:pointer;>> 회사수정</span></h4>
 	</div>
 	<h1 class="title">회사 관리</h1>
 	<form method="post" name="companyForm"
@@ -176,8 +193,11 @@ input:focus {
 
 			<tr>
 				<td width="10%" class="td1"><p align="right">대표번호</p></td>
-				<td width="20%" class="td1"><input type="text"
-					name="companyTel" id=t1 value="${companyVO.companyTel}"></td>
+				<td width="10%" class="td2">
+				<div class="oNum">
+				<input type="text" maxLength="3" name="companyTel" id=num value="${fn:split(companyVO.companyTel, '-')[0]}">-
+				<input type="text" maxLength="4" name="companyTel" id=num value="${fn:split(companyVO.companyTel, '-')[1]}">-
+				<input type="text" maxLength="4" name="companyTel" id=num value="${fn:split(companyVO.companyTel, '-')[2]}"></div></td>
 				<td width="10%" class="td1"><p align="right">홈페이지</p></td>
 				<td width="20%" class="td1"><input type="text" name="homePage"
 					id=t1 value="${companyVO.homePage }"></td>
@@ -188,8 +208,11 @@ input:focus {
 				<td width="20%" class="td1"><input type="text" name="address"
 					id=address value="${companyVO.address }"></td>
 				<td width="10%" class="td1"><p align="right">사업자등록번호</p></td>
-				<td width="20%" class="td1"><input type="text" name="id" id=t1
-					value="${companyVO.id }"></td>
+				<td width="20%" class="td2">
+				<div class="oNum">
+				<input type="text" maxLength="3" name="id" id=num value="${fn:split(companyVO.id, '-')[0]}">-
+				<input type="text" maxLength="2" name="id" id=num value="${fn:split(companyVO.id, '-')[1]}">-
+				<input type="text" maxLength="5" name="id" id=num value="${fn:split(companyVO.id, '-')[2]}"></div></td>
 			</tr>
 
 			<tr>
@@ -197,8 +220,11 @@ input:focus {
 				<td width="20%" class="td1"><input type="text"
 					name="contractName" id=t1 value="${companyVO.contractName }"></td>
 				<td width="10%" class="td1"><p align="right">담당자전화번호</p></td>
-				<td width="20%" class="td1"><input type="text"
-					name="managerPhone" id=t1 value="${companyVO.managerPhone }"></td>
+				<td width="10%" class="td2">
+				<div class="oNum">
+				<input type="text" maxLength="3" name="managerPhone" id=num value="${fn:split(companyVO.managerPhone, '-')[0]}">-
+				<input type="text" maxLength="4" name="managerPhone" id=num value="${fn:split(companyVO.managerPhone, '-')[1]}">-
+				<input type="text" maxLength="4" name="managerPhone" id=num value="${fn:split(companyVO.managerPhone, '-')[2]}"></div></td>
 			</tr>
 
 			<tr>
