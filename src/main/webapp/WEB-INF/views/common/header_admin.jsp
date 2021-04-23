@@ -7,29 +7,6 @@ a<%@ page language="java" contentType="text/html; charset=UTF-8"
   request.setCharacterEncoding("UTF-8");
 %> 
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-<style>
-    ul {
-        list-style-type: none;
-    }
-
-    li {
-        float: left;
-        margin: 0px 12px;
-    }
-
-    #layout_header{
-        height: 100px;  
-        margin: 0 20%;
-        padding-bottom: 30px;
-        float: left;
-    }
-
-    .header_menu{
-        margin-top: 30px;
-        font-size: 15px;
-    }
-
-</style>
 <body>
 <header>
     <div id="layout_header">
@@ -63,7 +40,7 @@ a<%@ page language="java" contentType="text/html; charset=UTF-8"
 	            <li class="header_menu"><a href="${contextPath}/course/listCourses.do">과정관리</a></li>
 	            <li class="header_menu"><a href="#">수강관리</a></li>
 	            <li class="header_menu"><a href="#">설문조사관리</a></li>
-	            <li class="header_menu"><a href="#">게시판관리</a></li>
+	            <li class="header_menu"><a href="${contextPath}/board/listArticles.do">게시판관리</a></li>
         	</ul>
           </c:when>
           <c:otherwise>

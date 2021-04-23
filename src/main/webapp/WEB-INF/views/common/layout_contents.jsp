@@ -8,47 +8,190 @@
 <head>
 <meta charset="UTF-8">
 <style>
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap')
+	;
 
-
-#container {
-	
+* {
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 #sidebar-left {
 	width: 200px;
-	height: 100vh;
-	padding: 5px;
-	margin-right: 5px;
-	margin-bottom: 5px;
 	float: left;
+	height : 88vh;
 	background-color: #e3e3e3;
-	border: 0px solid #bcbcbc;
+	border-right: 0.5px solid #bcbcbc;
 	font-size: 10px;
-	justify-content : center;
+	text-align: center;
+	justify-content: center;
+	background-color: #e3e3e3;
+	border-right: 0.5px solid #bcbcbc;
+	font-size: 10px;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+}
+
+h1 {
+	
+}
+
+.side ul {
+	margin-top: 30px;
+}
+
+.side ul li {
+	list-style: none;
+}
+
+.side ul li a {
+	font-size: 15px;
+	color: black;
+}
+
+.side_title {
+	padding: 30px;
+	width: 170px;
+	border-bottom: 0.5px solid #bcbcbc;
+}
+
+#container {
+	margin: 0px;
+	padding: 0px;
+	display: block;
 }
 
 #content {
-	width: 75%;
-	height: 700px;
-	padding: 5px;
-	float: left;
-	border: 0px solid #bcbcbc;
+	width: 85%;
+	position: absolute;
+	left: 250px;
+	top: 200px;
+	diplay: flex;
+	justify-content: center;
+	text-align: center;
 }
 
 #footer {
 	clear: both;
-	padding: 5px;
-	border: 0px solid #bcbcbc;
-	background-color: lightblue;
+	background-color: #F2F2F2;
+	text-align: center;
+	height: 5vh;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+}
+
+#attr {
+	border-bottom: 2px solid #bcbcbc;
 }
 
 a {
 	text-decoration: none;
 }
 
-a:hover {
-	color: red
+table {
+	width: 1500px;
+	border-collapse: collapse;
 }
+
+td {
+	padding-bottom: 5px;
+	border-bottom: 0.3px solid;
+	border-color: #9C9D9D;
+}
+
+.pageNumber {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	position : absolute;
+	left : 100px;
+	margin-top : 20px;
+}
+
+.pageNumber ul {
+	list-style-type: none;
+	display: flex;
+}
+
+/* .pageNumber ul li {
+   float: left;
+} */
+.pageNumber ul li a {
+	color: black;
+	font-weight: 400;
+	padding: 5px 15px;
+}
+
+
+
+input[type=submit], [type=reset], [type=button] {
+border : none;
+width : 60px;
+height : 35px;
+font-size: 15px;
+background-color : #969696;
+color : #EFEFEF;
+cursor: pointer;
+border-radius : 5px;
+margin : 5px;
+}
+
+input[type=text], [type=password],[type=tel],[type=email] {
+border : none;
+width : 200px;
+height : 35px;
+background-color: #ECECEC;
+margin-right: 10px;
+margin : 5px;
+border-radius : 5px;
+}
+select {
+border : none;
+width : 90px;
+height : 35px;
+background-color: #ECECEC;
+font-size: 13px;
+margin-right: 10px;
+cursor: pointer;
+border-radius : 5px;
+}
+
+#enrollButton {
+background-color: #E91B23;
+color : #EFEFEF;
+cursor: pointer;
+}
+
+button {
+margin-left : 20px;
+width : 90px;
+height : 35px;
+border : none;
+border-radius : 5px;
+background-color: #ECECEC;
+font-size: 15px;
+cursor: pointer;
+}
+
+.memberButton {
+position : relative;
+margin-top : 60px;
+width : 1500px;
+display : flex;
+justify-content: flex-end;
+cursor: pointer;
+}
+
+#searchFrm {
+display : flex;
+justify-content: space-between;
+width : 1500px;
+margin-bottom : 20px;
+}
+
 </style>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
@@ -57,11 +200,13 @@ a:hover {
 		<div id="header">
 			<tiles:insertAttribute name="header" />
 		</div>
-		<div id="sidebar-left">
-			<tiles:insertAttribute name="side" />
-		</div>
-		<div id="content">
-			<tiles:insertAttribute name="body" ignore="true"/>
+		<div>
+			<div id="sidebar-left">
+				<tiles:insertAttribute name="side" />
+			</div>
+			<div id="content">
+				<tiles:insertAttribute name="body" />
+			</div>
 		</div>
 		<div id="footer">
 			<tiles:insertAttribute name="footer" />

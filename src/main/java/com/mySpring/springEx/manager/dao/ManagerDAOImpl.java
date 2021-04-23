@@ -17,15 +17,13 @@ public class ManagerDAOImpl implements ManagerDAO{
 	@Override
 	public ManagerVO loginById(ManagerVO managerVO) throws DataAccessException {
 		ManagerVO vo = sqlSession.selectOne("mapper.manager.loginById", managerVO);
-		System.out.println(managerVO.getId());  //VO¿¡ Id¸¦ ºÒ·¯¿È
-		System.out.println(vo);
 		return vo;
 	}
 	
 	@Override
 	public int updateManager(ManagerVO managerVO) throws DataAccessException {
 		System.out.println("In DAO *********************" + managerVO.getId());
-		int result = sqlSession.update("mapper.manager.updateManager", managerVO);  //VO¿¡ ¼±¾ðµÈ º¯¼öÀÇ °ªÀ» ºÒ·Á¿È
+		int result = sqlSession.update("mapper.manager.updateManager", managerVO);  //VOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½
 		return result;
 	}
 	
