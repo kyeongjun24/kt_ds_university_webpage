@@ -398,10 +398,6 @@
 				    c.slb_id = s.slb_id
 		]]>
 	</select> -->
-<<<<<<< Updated upstream
-	
-=======
-
 
 	<select id="selectCompletion" resultMap="enrdResult" parameterType="int">
 		<![CDATA[select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, s.slb_type as slb_type, 
@@ -557,6 +553,4 @@
                 c.slb_id = s.slb_id
       ]]>
    </select>
-
->>>>>>> Stashed changes
 </mapper>
