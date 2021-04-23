@@ -41,8 +41,6 @@ public interface EnrollmentDAO {
 
 	public List selectExceptList(String id) throws DataAccessException;
 
-<<<<<<< Updated upstream
-=======
 	public EnrollmentVO selectCompletion(int id) throws DataAccessException;
 
 	public List selectBySearchCompletion(String searchType, String searchText) throws DataAccessException;
@@ -54,6 +52,4 @@ public interface EnrollmentDAO {
 	public List<EnrollmentVO> listMemberCriteria(Criteria criteria) throws DataAccessException;
 
 	public List selectAllCompletionList() throws DataAccessException;
-
->>>>>>> Stashed changes
 }
