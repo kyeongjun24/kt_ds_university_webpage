@@ -38,7 +38,7 @@ header ul li a {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 194.75px;
+	width: 200px;
 	border-right: 0.5px solid #969696;
 }
 

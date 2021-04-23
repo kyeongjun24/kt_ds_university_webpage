@@ -133,4 +133,18 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		mv.addObject("enrollmentVO", enrollmentVO);
 		return mv;
 	}
+	
+	/*
+	 * //수료증 출력 메소드2
+	 * 
+	 * @RequestMapping(value = "/enrollment/printCompletion.do", method =
+	 * RequestMethod.GET)
+	 * 
+	 * @Override public ModelAndView printCompletion(HttpServletRequest request,
+	 * HttpServletResponse response) throws Exception { String viewName =
+	 * (String)request.getAttribute("viewName"); System.out.println(viewName);
+	 * ModelAndView mav = new ModelAndView(); mav.setViewName(viewName); return mav;
+	 * }
+	 */
+	
 }

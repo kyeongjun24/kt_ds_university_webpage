@@ -106,6 +106,16 @@ request.setCharacterEncoding("UTF-8");
 	font-size: 23px;
 }
 
+.completionButton {
+	margin : 50px;
+}
+
+.completionButton > input {
+	width : 90px;
+	height: 40px;
+	font-size : 18px;
+}
+
 #compl_name {
 	letter-spacing: 73px;
 }
@@ -123,20 +133,6 @@ request.setCharacterEncoding("UTF-8");
 }
 </style>
 
-<script type="text/javascript">
-	function onPrint()
-	{
-		const html = document.querySelector('html');
-		const printContents = document.querySelector('.completionPrint').innerHTML;
-		const printDiv = document.createElement("DIV");
-		printDiv.className = "print-div";
-
-		html.appendChild(printDiv);
-		printDiv.innerHTML = printContents;
-		window.print();
-		printDiv.style.display = 'none';
-	}
-</script>
 </head>
 <body>
 	<div id="printme">
@@ -172,7 +168,7 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</div>
 	<div class="completionButton">
-		<input type="button" value="출력" onclick="window.print()" /> <input
+		<input style="background : #E91B23;"type="button" value="출력" onclick="window.print()" /> <input
 			type="button" onclick="history.back()" value="취소">
 	</div>
 </body>

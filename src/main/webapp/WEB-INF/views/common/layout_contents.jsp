@@ -29,6 +29,7 @@ request.setCharacterEncoding("UTF-8");
 
 #sidebar-left {
 	width: 200px;
+	min-height : 88.5vh;
 	overflow: hidden;
 	background-color: #e3e3e3;
 	border-right: 0.5px solid #bcbcbc;
@@ -107,9 +108,9 @@ table {
 }
 
 td {
-	padding: 8px;
+	padding: 12px 0px 12px 0px;
 	border-bottom: 0.3px solid;
-	border-color: #9C9D9D;
+	border-color: rgba(156,157,157,0.2);
 	font-size: 14px;
 }
 
@@ -143,7 +144,7 @@ input[type=submit], [type=reset], [type=button] {
 	color: #EFEFEF;
 	cursor: pointer;
 	border-radius: 5px;
-	margin: 5px;
+	margin: 0px;
 }
 
 input[type=text], [type=password], [type=tel], [type=email] {
@@ -151,8 +152,7 @@ input[type=text], [type=password], [type=tel], [type=email] {
 	width: 200px;
 	height: 35px;
 	background-color: #ECECEC;
-	margin-right: 10px;
-	margin: 5px;
+	margin-right: 5px;
 	border-radius: 5px;
 }
 
@@ -162,9 +162,13 @@ select {
 	height: 35px;
 	background-color: #ECECEC;
 	font-size: 13px;
-	margin-right: 10px;
+	margin-right: 5px;
 	cursor: pointer;
 	border-radius: 5px;
+	text-align-last: center;
+   text-align: center;
+   -ms-text-align-last: center;
+   -moz-text-align-last: center;
 }
 
 #enrollButton {
@@ -195,7 +199,7 @@ button {
 
 #searchFrm {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	align-items : center;
 	width: 1500px;
 	margin-bottom: 20px;

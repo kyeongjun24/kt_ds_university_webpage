@@ -24,17 +24,14 @@ request.setCharacterEncoding("UTF-8");
 	padding: 2px 4px;
 	border-radius: 5px;
 	background-color: #ECECEC;
-	font-size: 15px;
+	font-size: 13px;
+	font-weight : 800;
 	cursor: pointer;
 	width: 90px;
 	height: 35px;
 	padding : 5px;
 }
 
-
-#dynamicCompany {
-	
-}
 </style>
 <meta charset="UTF-8">
 <title>수료관리</title>
@@ -77,6 +74,7 @@ request.setCharacterEncoding("UTF-8");
 
 
 <body>
+	
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -84,31 +82,37 @@ request.setCharacterEncoding("UTF-8");
 	%>
 	<form method="get" action="${contextPath}/enrollment/listCompletion.do"
 		id="searchFrm">
-
+		<div class="searchType">
 		<!-- 리시트 필터 값 적용 -->
-		<div class="listFilter">
 			<select name="perPage" id="listFilter">
-				<c:if test="${perPage == '20' }">
-					<option value='10'>10</option>
-					<option value='20' selected>20</option>
-					<option value='30'>30</option>
-
-				</c:if>
-				<c:if test="${perPage == '30' }">
-					<option value='10'>10</option>
-					<option value='20'>20</option>
-					<option value='30' selected>30</option>
-				</c:if>
 				<c:if test="${perPage == '10' }">
-					<option value='10' selected>10</option>
-					<option value='20'>20</option>
-					<option value='30'>30</option>
+					<option value='10' selected>10개</option>
+					<option value='20'>20개</option>
+					<option value='50'>50개</option>
+					<option value='100'>100개</option>
+				</c:if>
+				<c:if test="${perPage == '20' }">
+					<option value='10'>10개</option>
+					<option value='20' selected>20개</option>
+					<option value='50'>50개</option>
+					<option value='100'>100개</option>
+				</c:if>
+				<c:if test="${perPage == '50' }">
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='50' selected>50개</option>
+					<option value='100'>100개</option>
+				</c:if>
+				<c:if test="${perPage == '100' }">
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='50'>50개</option>
+					<option value='100' selected>100개</option>
 				</c:if>
 			</select>
-		</div>
 
 		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
-		<div class="searchType">
+		
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'name'}">
 					<option value="">검색 종류</option>
@@ -140,7 +144,6 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 
-	<div id="print">
 		<table align="center" id="dynamicCompany">
 			<tr align="center" id="attr">
 				<td><input type="checkbox" id="selectAll"></td>
@@ -149,7 +152,7 @@ request.setCharacterEncoding("UTF-8");
 				<td><b>전화번호</b></td>
 				<td><b>이메일</b>
 				<td><b>소속회사</b></td>
-				<td><b>과정명</b></td>
+				<td width="37%"><b>과정명</b></td>
 				<td width="80px"><b>이수</b></td>
 				<td><b>이수일</b></td>
 				<td><b>신청일</b></td>
@@ -177,6 +180,7 @@ request.setCharacterEncoding("UTF-8");
 							<td>${enrollment.syllabusVO.name }</td>
 							<td><a id="button"
 								href="${contextPath}/enrollment/completionDoc.do?id=${enrollment.id }">출력</a></td>
+							<!-- <td><a id="button" onclick="popupCompletion()">출력</a></td> -->
 							<td>${enrollment.completeDate }</td>
 							<td>${enrollment.joinDate }</td>
 						</tr>
@@ -184,7 +188,6 @@ request.setCharacterEncoding("UTF-8");
 				</c:when>
 			</c:choose>
 		</table>
-	</div>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center">
@@ -238,6 +241,26 @@ request.setCharacterEncoding("UTF-8");
 		</ul>
 	</div>
 
+<!-- <script>
+function popupCompletion(){
+    var url = "${contextPath}/enrollment/printCompletion.do";
+    var name = "popup completionDcmt";
+    var option = "width = 720, height = 600, top = 230, left = 580, location = no"
+    window.open(url, name, option);
 
+	 var popupWindow =  window.open(url, name, option);
+	/* popupWindow.document.write( '<head>'); 
+	popupWindow.document.write( '<link href="/resources/completionPrint.css" type="text/css" rel="stylesheet">' );
+	popupWindow.document.write( '</head>' );
+	popupWindow.document.write( '<body>'); 
+	popupWindow.document.write( $("#printme").html());
+	popupWindow.document.write( '</body>');
+	popupWindow.document.close(); */
+	setTimeout(function() {
+		popupWindow.print();
+	}, 200); 
+	
+} 
+</script> -->
 </body>
 </html>
