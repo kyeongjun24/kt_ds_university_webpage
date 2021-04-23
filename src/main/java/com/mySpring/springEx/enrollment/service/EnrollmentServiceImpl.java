@@ -24,9 +24,6 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Override
 
 	public List listCriteria(Criteria criteria) throws DataAccessException {
-		return enrollmentDAO.listCriteria(criteria);
-
-	public List listEnrollmentCriteria(Criteria criteria) throws DataAccessException {
 		return enrollmentDAO.listEnrollmentCriteria(criteria);
 	}
 	
