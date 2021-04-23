@@ -101,7 +101,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 	// 협력회사 리스트 불러오는 메소드
 	@Override
-	@RequestMapping(value = "/company/listPartners.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/partner/listPartners.do", method = RequestMethod.GET)
 	public ModelAndView listPartners(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		String searchType = request.getParameter("searchType");
@@ -157,13 +157,13 @@ public class CompanyControllerImpl implements CompanyController {
 
 	// 협력회사 검색 할 수 있는 메소드
 	@Override
-	@RequestMapping(value = "/company/listBySearchPartners.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/partner/listBySearchPartners.do", method = RequestMethod.POST)
 	public ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType,
 			@RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		List partnersList = companyService.listBySearchPartners(searchType, searchText);
-		ModelAndView mav = new ModelAndView("/company/listPartners");
+		ModelAndView mav = new ModelAndView("/partner/listPartners");
 		mav.addObject("partnersList", partnersList);
 		return mav;
 	}
@@ -178,6 +178,7 @@ public class CompanyControllerImpl implements CompanyController {
 		companyVO.setid(
 				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
 		int result = 0;
+		System.out.println(request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
 		result = companyService.addCompany(companyVO);
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
 		return mav;
@@ -203,7 +204,11 @@ public class CompanyControllerImpl implements CompanyController {
 	public ModelAndView modCompany(@ModelAttribute("company") CompanyVO companyVO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
+		companyVO.setid(
+				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
+		System.out.println(companyVO.getid());
 		int result = 0;
+		
 		result = companyService.modCompany(companyVO);
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
 		return mav;
@@ -244,7 +249,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 	// 협력 회사 엑셀 다운로드
 	@Override
-	@RequestMapping(value = "/company/partnersExcelDownload.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/partner/partnersExcelDownload.do", method = RequestMethod.POST)
 	@ResponseBody
 	public void partnersExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		companyService.partnersExcelDownload(response);
@@ -300,6 +305,16 @@ public class CompanyControllerImpl implements CompanyController {
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
 		mav.addObject("companiesList", companiesList); // 설정된 리스트 보내기
 		return mav;
+	}
+
+	// 아이디 중복확인
+	@ResponseBody
+	@RequestMapping(value = "/company/idCheck.do", method = RequestMethod.POST)
+	public int idCheck(String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		CompanyVO vo = new CompanyVO();
+		vo.setid(id);
+		int result = companyService.idCheck(vo);
+		return result;
 	}
 
 	@RequestMapping(value = "/company/*Form.do", method = RequestMethod.GET)

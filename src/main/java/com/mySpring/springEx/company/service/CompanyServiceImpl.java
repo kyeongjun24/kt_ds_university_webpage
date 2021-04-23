@@ -356,4 +356,11 @@ public class CompanyServiceImpl implements CompanyService {
         }
 	}
 	
+	// 사업자 등록번호 중복 체크
+	@Override
+	public int idCheck(CompanyVO vo) throws DataAccessException {
+		int result = companyDAO.idCheck(vo);
+		return result;
+	}
+	
 }

@@ -80,7 +80,7 @@ request.setCharacterEncoding("UTF-8");
 									/* alert(perPage+"씩 리스트 출력");
 									alert(searchType);
 									alert(searchText); */
-									location.href = "${contextPath}/company/listPartners.do?perPage="
+									location.href = "${contextPath}/partner/listPartners.do?perPage="
 											+ perPage
 											+ "&searchType="
 											+ searchType
@@ -98,11 +98,11 @@ request.setCharacterEncoding("UTF-8");
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 				style="cursor: pointer;">회원관리</span> <span
-				onclick="location.href='${contextPath}/company/listPartners.do'"
+				onclick="location.href='${contextPath}/partner/listPartners.do'"
 				style="cursor: pointer;">> 협력회사</span>
 		</h4>
 	</div>
-	<form method="get" action="${contextPath }/company/listPartners.do"
+	<form method="get" action="${contextPath }/partner/listPartners.do"
 		id="searchFrm">
 
 		<!-- 리시트 필터 값 적용 -->
@@ -178,7 +178,7 @@ request.setCharacterEncoding("UTF-8");
 	</p>
 
 	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/company/partnersExcelDownload.do"
+	<form action="${contextPath}/partner/partnersExcelDownload.do"
 		method="post">
 		<input type="submit" value='엑셀 다운로드'>
 	</form>
@@ -236,11 +236,11 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/company/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/partner/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/company/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/partner/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>
@@ -251,7 +251,7 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
 							<a
-							href="${contextPath }/company/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/partner/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:when>
@@ -261,7 +261,7 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
 							<a
-							href="${contextPath }/company/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/partner/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:otherwise>
@@ -270,11 +270,11 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/company/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/partner/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/company/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/partner/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>

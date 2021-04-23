@@ -21,10 +21,10 @@
       <put-attribute name="body" value="/WEB-INF/views/company/popUp.jsp" />
    </definition>
    
-   <definition name="/company/listPartners" extends="baseLayout">
+   <definition name="/partner/listPartners" extends="baseLayout">
    	  <put-attribute name="title" value="협력회사 목록창" />
       <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/company/partnersList.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/partner/partnersList.jsp" />
    </definition>
    
    <definition name="/company/addCompanyForm" extends="baseLayout">

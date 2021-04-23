@@ -94,36 +94,35 @@ request.setCharacterEncoding("UTF-8");
 	}
 
 	// 전체 체크되게 하는 함수
-	$(
-			function() {
-				$('#selectAll').click(function() {
-					if ($("input:checkbox[id='selectAll']").prop("checked")) {
-						$("input[type=checkbox]").prop("checked", true);
-					} else {
-						$("input[type=checkbox]").prop("checked", false);
-					}
-				})
+	$(function() {
+		$('#selectAll').click(function() {
+			if ($("input:checkbox[id='selectAll']").prop("checked")) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else {
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		})
 
-				$('#listFilter')
-						.on(
-								'change',
-								function() {
-									var perPage = $(this).val();
-									var searchType = document
-											.getElementById('searchType').value;
-									var searchText = document
-											.getElementById('searchText').value;
-									/* alert(perPage+"씩 리스트 출력");
-									alert(searchType);
-									alert(searchText); */
-									location.href = "${contextPath}/company/listCompanies.do?perPage="
-											+ perPage
-											+ "&searchType="
-											+ searchType
-											+ "&searchText="
-											+ searchText;
-								})
-			}) //function
+		$('#listFilter')
+				.on(
+						'change',
+						function() {
+							var perPage = $(this).val();
+							var searchType = document
+									.getElementById('searchType').value;
+							var searchText = document
+									.getElementById('searchText').value;
+							/* alert(perPage+"씩 리스트 출력");
+							alert(searchType);
+							alert(searchText); */
+							location.href = "${contextPath}/company/listCompanies.do?perPage="
+									+ perPage
+									+ "&searchType="
+									+ searchType
+									+ "&searchText=" + searchText;
+						})
+	}) //function
+
 </script>
 
 <body>

@@ -145,4 +145,10 @@ public class CompanyDAOImpl implements CompanyDAO {
 		return sqlSession.selectList("mapper.company.selectPartnerListByPaging", page);
 	}
 	
+	// 사업자 등록번호 중복 체크
+	@Override
+	public int idCheck(CompanyVO vo) throws DataAccessException {
+		int result = sqlSession.selectOne("mapper.company.idCheckCompany", vo);
+		return result;
+	}
 }

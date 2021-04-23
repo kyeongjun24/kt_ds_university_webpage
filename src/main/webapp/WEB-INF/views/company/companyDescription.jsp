@@ -75,9 +75,10 @@ input:focus {
 	color: #EFEFEF;
 	cursor: pointer;
 }
+
 #num {
-	width: 15%;	
-	padding-left: 7px;	
+	width: 15%;
+	padding-left: 7px;
 }
 
 .oNum {
@@ -107,14 +108,16 @@ input:focus {
 		$("input[id=radio1]:radio").attr("disabled", "true");
 		$("input[id=radio2]:radio").attr("disabled", "true");
 		$('input').css('border', 'none');
+		$()
 	});
-	
+
 	/* 수정 메소드 */
 	function modify() {
 		count++;
 		if (count == 1) {
 			$('input').prop('readonly', false);
 			$('radio').prop('disabled', false);
+			$('.regNum').prop('readonly', true);
 			$('#sel1').prop('disabled', false);
 			$('#sel2').prop('disabled', false);
 			$("input[id=radio1]:radio").attr("disabled", "false");
@@ -123,22 +126,42 @@ input:focus {
 			$("input[id=radio2]:radio").removeAttr("disabled");
 			$("#mod").text("저장");
 			$('input').css('border', "solid 1px");
+			$('.regNum').css('border', 'none');
+			$('#sel1').css('border', "solid 1px");
+			$('#sel2').css('border', "solid 1px");
 		} else {
+
+			var registercheckfrm = document.companyForm;
+			var tel1 = registercheckfrm.companyTel1.value;
+			var tel2 = registercheckfrm.companyTel2.value;
+			var tel3 = registercheckfrm.companyTel3.value;
+			var companyTel = tel1 + '-' + tel2 + '-' + tel3;
+			var id1 = registercheckfrm.id1.value;
+			var id2 = registercheckfrm.id2.value;
+			var id3 = registercheckfrm.id3.value;
+			var mPhone1 = registercheckfrm.managerPhone1.value;
+			var mPhone2 = registercheckfrm.managerPhone2.value;
+			var mPhone3 = registercheckfrm.managerPhone3.value;
+			var managerPhone = mPhone1 + '-' + mPhone2 + '-' + mPhone3;
+
+			registercheckfrm.companyTel.value = companyTel;
+			registercheckfrm.managerPhone.value = managerPhone;
+
 			alert("저장되었습니다.");
 			document.companyForm.submit();
 		}
 	};
-	
+
 	function del() {
-		if(confirm("정말 삭제하시겠습니까?") == true) {
-			location.href='${contextPath}/company/removeCompany.do?id=${companyVO.id }';
+		if (confirm("정말 삭제하시겠습니까?") == true) {
+			location.href = '${contextPath}/company/removeCompany.do?id=${companyVO.id }';
 		} else {
 			return false;
 		}
 	}
-	
+
 	/* 취소 메소드 */
-	function cancel(){
+	function cancel() {
 		$('input').prop('readonly', true);
 		$('radio').prop('disabled', true);
 		$('#sel1').prop('disabled', true);
@@ -147,33 +170,28 @@ input:focus {
 		$("input[id=radio2]:radio").attr("disabled", "true");
 		$('input').css('border', 'none');
 		$("#mod").text("수정");
-		if(confirm("정말 수정을 취소하시겠습니까?") == true){
-			history.back(-1);	
+		if (confirm("정말 수정을 취소하시겠습니까?") == true) {
+			history.back(-1);
 		} else {
-			$('input').prop('readonly', false);
-			$('radio').prop('disabled', false);
-			$('#sel1').prop('disabled', false);
-			$('#sel2').prop('disabled', false);
-			$("input[id=radio1]:radio").attr("disabled", "false");
-			$("input[id=radio1]:radio").removeAttr("disabled");
-			$("input[id=radio2]:radio").attr("disabled", "false");
-			$("input[id=radio2]:radio").removeAttr("disabled");
-			$("#mod").text("저장");
-			$('input').css('border', "solid 1px");
+			history.go(0);
 			return false;
 		}
 	}
-	
 </script>
 <body>
 	<div class="process">
-		<h4><span onclick="location.href='${contextPath}/member/listMembers.do'" style=cursor:pointer;>회원관리</span>
-		<span onclick="location.href='${contextPath}/company/listCompanies.do'" style=cursor:pointer;>> 회사관리</span>
-		<span onclick="location.href='${contextPath}/company/companyForm.do?id=${companyVO.id }'" style=cursor:pointer;>> 회사수정</span></h4>
+		<h4>
+			<span onclick="location.href='${contextPath}/member/listMembers.do'"
+				style="cursor: pointer;">회원관리</span> <span
+				onclick="location.href='${contextPath}/company/listCompanies.do'"
+				style="cursor: pointer;">> 회사관리</span> <span
+				onclick="location.href='${contextPath}/company/companyForm.do?id=${companyVO.id }'"
+				style="cursor: pointer;">> 회사수정</span>
+		</h4>
 	</div>
 	<h1 class="title">회사 관리</h1>
 	<form method="post" name="companyForm"
-		action="${contextPath}/company/modCompany.do">
+		action="${contextPath}/company/modCompany.do" id=modCheck>
 		<table id="company_mod">
 			<tr>
 				<td width="10%" class="td1"><p align="right">상태</p></td>
@@ -184,7 +202,8 @@ input:focus {
 						<option value="비협력사"
 							<c:if test="${companyVO.contractStat eq '비협력사' }"> selected</c:if>>비협력사</option>
 						<option value="협약 진행중"
-							<c:if test="${companyVO.contractStat eq '협약 진행중' }"> selected</c:if>>협약 진행중</option>
+							<c:if test="${companyVO.contractStat eq '협약 진행중' }"> selected</c:if>>협약
+							진행중</option>
 				</select>
 				<td width="10%" class="td1"><p align="right">회사명</p></td>
 				<td width="20%" class="td1"><input type="text" name="name"
@@ -194,10 +213,16 @@ input:focus {
 			<tr>
 				<td width="10%" class="td1"><p align="right">대표번호</p></td>
 				<td width="10%" class="td2">
-				<div class="oNum">
-				<input type="text" maxLength="3" name="companyTel" id=num value="${fn:split(companyVO.companyTel, '-')[0]}">-
-				<input type="text" maxLength="4" name="companyTel" id=num value="${fn:split(companyVO.companyTel, '-')[1]}">-
-				<input type="text" maxLength="4" name="companyTel" id=num value="${fn:split(companyVO.companyTel, '-')[2]}"></div></td>
+					<div class="oNum">
+						<input type="text" maxLength="3" name="companyTel1" id=num
+							value="${fn:split(companyVO.companyTel, '-')[0]}">- <input
+							type="text" maxLength="4" name="companyTel2" id=num
+							value="${fn:split(companyVO.companyTel, '-')[1]}">- <input
+							type="text" maxLength="4" name="companyTel3" id=num
+							value="${fn:split(companyVO.companyTel, '-')[2]}"> <input
+							type="hidden" name="companyTel">
+					</div>
+				</td>
 				<td width="10%" class="td1"><p align="right">홈페이지</p></td>
 				<td width="20%" class="td1"><input type="text" name="homePage"
 					id=t1 value="${companyVO.homePage }"></td>
@@ -209,10 +234,16 @@ input:focus {
 					id=address value="${companyVO.address }"></td>
 				<td width="10%" class="td1"><p align="right">사업자등록번호</p></td>
 				<td width="20%" class="td2">
-				<div class="oNum">
-				<input type="text" maxLength="3" name="id" id=num value="${fn:split(companyVO.id, '-')[0]}">-
-				<input type="text" maxLength="2" name="id" id=num value="${fn:split(companyVO.id, '-')[1]}">-
-				<input type="text" maxLength="5" name="id" id=num value="${fn:split(companyVO.id, '-')[2]}"></div></td>
+					<div class="oNum">
+						<input type="text" maxLength="3" name="id1" id=num class=regNum
+							value="${fn:split(companyVO.id, '-')[0]}">- <input
+							type="text" maxLength="2" name="id2" id=num class=regNum
+							value="${fn:split(companyVO.id, '-')[1]}">- <input
+							type="text" maxLength="5" name="id3" id=num class=regNum
+							value="${fn:split(companyVO.id, '-')[2]}"> <input
+							type="hidden" name="id" id="userId">
+					</div>
+				</td>
 			</tr>
 
 			<tr>
@@ -221,10 +252,16 @@ input:focus {
 					name="contractName" id=t1 value="${companyVO.contractName }"></td>
 				<td width="10%" class="td1"><p align="right">담당자전화번호</p></td>
 				<td width="10%" class="td2">
-				<div class="oNum">
-				<input type="text" maxLength="3" name="managerPhone" id=num value="${fn:split(companyVO.managerPhone, '-')[0]}">-
-				<input type="text" maxLength="4" name="managerPhone" id=num value="${fn:split(companyVO.managerPhone, '-')[1]}">-
-				<input type="text" maxLength="4" name="managerPhone" id=num value="${fn:split(companyVO.managerPhone, '-')[2]}"></div></td>
+					<div class="oNum">
+						<input type="text" maxLength="3" name="managerPhone1" id=num
+							value="${fn:split(companyVO.managerPhone, '-')[0]}">- <input
+							type="text" maxLength="4" name="managerPhone2" id=num
+							value="${fn:split(companyVO.managerPhone, '-')[1]}">- <input
+							type="text" maxLength="4" name="managerPhone3" id=num
+							value="${fn:split(companyVO.managerPhone, '-')[2]}"> <input
+							type="hidden" name="managerPhone">
+					</div>
+				</td>
 			</tr>
 
 			<tr>

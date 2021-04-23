@@ -57,6 +57,9 @@ public interface CompanyService {
 	public void excelDownload(HttpServletResponse response) throws Exception;
 	
 	// 협력회사 엑셀 다운로드
-	public void partnersExcelDownload(HttpServletResponse response);
+	public void partnersExcelDownload(HttpServletResponse response) throws Exception;
+	
+	// 사업자 등록번호 중복체크
+	public int idCheck(CompanyVO vo) throws DataAccessException;
 		
 }
