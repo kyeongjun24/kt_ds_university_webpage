@@ -135,9 +135,6 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		int result = sqlSession.update("mapper.enrollment.updateCompleteEnrollments", id);
 		return result;
 	}
-<<<<<<< Updated upstream
-	
-=======
 
 	@Override
 	public EnrollmentVO selectCompletion(int id) throws DataAccessException {
@@ -183,6 +180,4 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	     completionList = sqlSession.selectList("mapper.enrollment.selectAllCompletionList");
 	     return completionList;
 	}
-
->>>>>>> Stashed changes
 }
