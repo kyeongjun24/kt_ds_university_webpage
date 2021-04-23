@@ -91,6 +91,16 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
+	//엑셀 다온로드
+	@Override
+	public List excelEnrollmentList() throws DataAccessException {
+		List<EnrollmentVO> enrollmentsList = null;
+		enrollmentsList = sqlSession.selectList("mapper.enrollment.excelEnrollmentList");
+		return enrollmentsList;
+	}
+	
+
+	
 	//수강신청 등록
 	@Override
 	public int insertEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{

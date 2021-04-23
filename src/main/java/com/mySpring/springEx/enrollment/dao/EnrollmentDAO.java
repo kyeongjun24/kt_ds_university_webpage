@@ -41,4 +41,6 @@ public interface EnrollmentDAO {
 
 	public List selectExceptList(String id) throws DataAccessException;
 
+	public List excelEnrollmentList() throws DataAccessException;
+
 }

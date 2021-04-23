@@ -442,21 +442,63 @@
 			where enrd_id=#{id} 	
 		]]>
   	</select>
-	
-	<!-- <select id="selectAllCompletionList" resultMap="enrdResult">
+  	
+  	<!-- 엑셀 다운로드 -->
+	<select id="excelEnrollmentList" resultMap="enrdResult"> 
 		<![CDATA[
-			SELECT 	e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, e.enrd_complete_date as enrd_complete_date,
-			 		m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, enrd_join_date as enrd_join_date
+			SELECT 
+				NVL(to_char(e.enrd_id), '.') as enrd_id,
+                NVL(s.slb_name, '.') as slb_name, 
+                NVL(substr(c.crs_start_date, 1, 10), '.') as crs_start_date, NVL(substr(c.crs_end_date, 1, 10), '.') as crs_end_date,
+                NVL(m.mem_name, '.') as mem_name,
+                NVL(m.mem_company_name, '.') as mem_company_name, 
+                NVL(cc.com_contract_stat, '.') as com_contract_stat,
+                NVL(cc.com_contract_type, '.') as com_contract_type,
+			 	NVL(e.enrd_stat, '.') as enrd_stat, 
+                NVL(substr(e.enrd_join_date, 1, 10), '.') as enrd_join_date
+			FROM      
+                enrollment_detail E 
+				LEFT JOIN member M
+				ON e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON c.slb_id = s.slb_id
+				
+				LEFT JOIN company cc
+        		ON m.mem_company_name = cc.com_name
+                
+                WHERE enrd_stat != '취소'
+                ORDER BY enrd_join_date desc
+		]]>
+	</select>
+	
+<!-- 	<select id="selectAllEnrollmentList" resultMap="enrdResult"> 
+		<![CDATA[
+			SELECT 
+				e.enrd_id as enrd_id, 
+			 	s.slb_name as slb_name, 
+				substr(c.crs_start_date, 1, 10) as crs_start_date, substr(c.crs_end_date, 1, 10) as crs_end_date,
+			 	m.mem_name as mem_name,
+				m.mem_company_name as mem_company_name, 
+        		cc.com_contract_stat as com_contract_stat,
+			 	cc.com_contract_type as com_contract_type,
+			 	e.enrd_stat as enrd_stat, 
+			 	substr(e.enrd_join_date, 1, 10) as enrd_join_date
+			 	
 			FROM enrollment_detail E 
 				LEFT JOIN member M
-				ON
-				    e.mem_id = m.mem_id
+				ON e.mem_id = m.mem_id
 				LEFT JOIN course C
-				ON
-				    e.crs_id = c.crs_id
+				ON e.crs_id = c.crs_id
 				LEFT JOIN syllabus S
-				ON
-				    c.slb_id = s.slb_id
+				ON c.slb_id = s.slb_id
+				
+				LEFT JOIN company cc
+        		ON m.mem_company_name = cc.com_name
+				
+			WHERE enrd_stat != '취소'
+			ORDER BY enrd_join_date desc
 		]]>
 	</select> -->
 	

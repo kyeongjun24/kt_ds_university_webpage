@@ -36,7 +36,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Override
 	public void excelDownload(HttpServletResponse response) throws Exception {
 		
-		List <EnrollmentVO> enrollmentList = enrollmentDAO.selectAllEnrollmentList();
+		List <EnrollmentVO> enrollmentList = enrollmentDAO.excelEnrollmentList();
 		
 		try {
 			//Excel Down 시작
@@ -165,7 +165,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
             
             // 컨텐츠 타입과 파일명 지정
             response.setContentType("ms-vnd/excel");
-            response.setHeader("Content-Disposition", "attachment;filename=test.xls");
+            response.setHeader("Content-Disposition", "attachment;filename=enrollment_list.xls");
 
             // 엑셀 출력
             workbook.write(response.getOutputStream());
