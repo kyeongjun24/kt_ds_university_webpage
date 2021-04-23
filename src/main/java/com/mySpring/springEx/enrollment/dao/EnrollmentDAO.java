@@ -41,4 +41,16 @@ public interface EnrollmentDAO {
 
 	public List selectExceptList(String id) throws DataAccessException;
 
+	public EnrollmentVO selectCompletion(int id) throws DataAccessException;
+
+	public List selectBySearchCompletion(String searchType, String searchText) throws DataAccessException;
+
+	public List<MemberVO> listCompletionPaging(int page) throws DataAccessException;
+
+	public List<EnrollmentVO> listCompletionCriteria(Criteria criteria) throws DataAccessException;
+
+	public List selectCompletionCriteriaBySearch(Criteria criteria) throws DataAccessException;
+
+	public List selectAllCompletionList() throws DataAccessException;
+
 }

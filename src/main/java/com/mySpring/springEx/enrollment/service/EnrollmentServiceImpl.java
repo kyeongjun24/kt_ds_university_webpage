@@ -28,6 +28,13 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsList;
 	}
 
+	@Override
+	public List listCompletion() throws DataAccessException {
+		List completionList = null;
+		completionList = enrollmentDAO.selectAllCompletionList();
+		return completionList;
+	}
+	
 	//상세 접수내역 페이지로 이동
 	@Override
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
@@ -111,13 +118,32 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return sylCrsList;
 	}
 	
+	@Override
+	public EnrollmentVO selectCompletion(int id) throws DataAccessException {
+		return enrollmentDAO.selectCompletion(id);
+	}
 	
+	//기준 나누는 메서드 
+	@Override
+	public List listCompletionCriteria(Criteria criteria) throws DataAccessException {
+		return enrollmentDAO.listCompletionCriteria(criteria);
+	}
 	
+	//검색에 의해 나눠지는 메서드
+	@Override
+	public List listBySearchCompletion(String searchType, String searchText) throws DataAccessException {
+		List membersBySearchList = null;
+		membersBySearchList = enrollmentDAO.selectBySearchCompletion(searchType, searchText);
+		return membersBySearchList;
+	}
 	
-	
-	
-	
-	
+	//검색과 기준에 의해 리스트 나눠지는 메서드
+	@Override
+	public List listCompletionCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		List membersCriteriaBySearch = null;
+		membersCriteriaBySearch = enrollmentDAO.selectCompletionCriteriaBySearch(criteria);
+		return membersCriteriaBySearch;
+	}
 	
 	
 }

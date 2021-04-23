@@ -95,7 +95,7 @@ request.setCharacterEncoding("UTF-8");
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
-	String searchText = request.getParameter("searchType");
+	String searchText = request.getParameter("searchText");
 	%>
 	<form method="get" action="${contextPath}/member/listMembers.do"
 		id="searchFrm">
@@ -158,7 +158,7 @@ request.setCharacterEncoding("UTF-8");
 
 
 
-	<table border="0" align="center" width="80%">
+	<table border="0" align="center">
 		<tr align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
 			<td><b>아이디</b></td>
@@ -191,7 +191,7 @@ request.setCharacterEncoding("UTF-8");
 	</table>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>

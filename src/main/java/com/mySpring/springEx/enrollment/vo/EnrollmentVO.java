@@ -127,6 +127,4 @@ public class EnrollmentVO {
 	public void setSyllabusVO(SyllabusVO syllabusVO) {
 		this.syllabusVO = syllabusVO;
 	}
-
-	
 }

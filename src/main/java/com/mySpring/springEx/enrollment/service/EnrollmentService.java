@@ -6,11 +6,14 @@ import org.springframework.dao.DataAccessException;
 
 import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
+import com.mySpring.springEx.member.vo.MemberVO;
 
 
 public interface EnrollmentService {
 
 	public List listEnrollments() throws DataAccessException;
+
+	public List listCompletion() throws DataAccessException;
 
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException;
 
@@ -35,5 +38,13 @@ public interface EnrollmentService {
 	public int updateCompleteEnrollments(int id) throws DataAccessException;
 
 	public List exceptListSylCrs(String id) throws DataAccessException;
+
+	public EnrollmentVO selectCompletion(int id) throws DataAccessException;
+
+	public List listCompletionCriteria(Criteria criteria) throws DataAccessException;
+
+	public List listBySearchCompletion(String searchType, String searchText) throws DataAccessException;
+
+	public List listCompletionCriteriaBySearch(Criteria criteria) throws DataAccessException;
 
 }

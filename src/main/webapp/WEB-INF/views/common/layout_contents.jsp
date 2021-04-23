@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ page language="java" import="java.util.*"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<%
+request.setCharacterEncoding("UTF-8");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,13 +18,19 @@
 	;
 
 * {
-	font-family: 'Noto Sans KR', sans-serif;
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+#sideContent {
+	display: flex;
 }
 
 #sidebar-left {
 	width: 200px;
-	float: left;
-	height : 88vh;
+	min-height : 88.5vh;
+	overflow: hidden;
 	background-color: #e3e3e3;
 	border-right: 0.5px solid #bcbcbc;
 	font-size: 10px;
@@ -31,6 +42,7 @@
 	text-align: center;
 	display: flex;
 	justify-content: center;
+	background-color: #e3e3e3;
 }
 
 h1 {
@@ -39,6 +51,7 @@ h1 {
 
 .side ul {
 	margin-top: 30px;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .side ul li {
@@ -63,17 +76,16 @@ h1 {
 }
 
 #content {
-	width: 85%;
-	position: absolute;
-	left: 250px;
-	top: 200px;
+	width: 1700px;
+	position: relative;
 	diplay: flex;
 	justify-content: center;
 	text-align: center;
+	padding-left: 80px;
+	padding-top: 100px;
 }
 
 #footer {
-	clear: both;
 	background-color: #F2F2F2;
 	text-align: center;
 	height: 5vh;
@@ -96,9 +108,10 @@ table {
 }
 
 td {
-	padding-bottom: 5px;
+	padding: 12px 0px 12px 0px;
 	border-bottom: 0.3px solid;
-	border-color: #9C9D9D;
+	border-color: rgba(156,157,157,0.2);
+	font-size: 14px;
 }
 
 .pageNumber {
@@ -106,9 +119,9 @@ td {
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	position : absolute;
-	left : 100px;
-	margin-top : 20px;
+	position: relative;
+	margin: 30px;
+	width: 1500px;
 }
 
 .pageNumber ul {
@@ -116,82 +129,81 @@ td {
 	display: flex;
 }
 
-/* .pageNumber ul li {
-   float: left;
-} */
 .pageNumber ul li a {
 	color: black;
 	font-weight: 400;
 	padding: 5px 15px;
 }
 
-
-
 input[type=submit], [type=reset], [type=button] {
-border : none;
-width : 60px;
-height : 35px;
-font-size: 15px;
-background-color : #969696;
-color : #EFEFEF;
-cursor: pointer;
-border-radius : 5px;
-margin : 5px;
+	border: none;
+	width: 60px;
+	height: 35px;
+	font-size: 15px;
+	background-color: #969696;
+	color: #EFEFEF;
+	cursor: pointer;
+	border-radius: 5px;
+	margin: 0px;
 }
 
-input[type=text], [type=password],[type=tel],[type=email] {
-border : none;
-width : 200px;
-height : 35px;
-background-color: #ECECEC;
-margin-right: 10px;
-margin : 5px;
-border-radius : 5px;
+input[type=text], [type=password], [type=tel], [type=email] {
+	border: none;
+	width: 200px;
+	height: 35px;
+	background-color: #ECECEC;
+	margin-right: 5px;
+	border-radius: 5px;
 }
+
 select {
-border : none;
-width : 90px;
-height : 35px;
-background-color: #ECECEC;
-font-size: 13px;
-margin-right: 10px;
-cursor: pointer;
-border-radius : 5px;
+	border: none;
+	width: 90px;
+	height: 35px;
+	background-color: #ECECEC;
+	font-size: 13px;
+	margin-right: 5px;
+	cursor: pointer;
+	border-radius: 5px;
+	text-align-last: center;
+   text-align: center;
+   -ms-text-align-last: center;
+   -moz-text-align-last: center;
 }
 
 #enrollButton {
-background-color: #E91B23;
-color : #EFEFEF;
-cursor: pointer;
+	background-color: #E91B23;
+	color: #EFEFEF;
+	cursor: pointer;
 }
 
 button {
-margin-left : 20px;
-width : 90px;
-height : 35px;
-border : none;
-border-radius : 5px;
-background-color: #ECECEC;
-font-size: 15px;
-cursor: pointer;
+	margin-left: 20px;
+	width: 90px;
+	height: 35px;
+	border: none;
+	border-radius: 5px;
+	background-color: #ECECEC;
+	font-size: 15px;
+	cursor: pointer;
 }
 
 .memberButton {
-position : relative;
-margin-top : 60px;
-width : 1500px;
-display : flex;
-justify-content: flex-end;
-cursor: pointer;
+	position: relative;
+	margin-top: 5px;
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: flex-end;
+	width: 1500px;
 }
 
 #searchFrm {
-display : flex;
-justify-content: space-between;
-width : 1500px;
-margin-bottom : 20px;
+	display: flex;
+	justify-content: flex-end;
+	align-items : center;
+	width: 1500px;
+	margin-bottom: 20px;
 }
-
 </style>
 <title><tiles:insertAttribute name="title" /></title>
 </head>
@@ -200,7 +212,7 @@ margin-bottom : 20px;
 		<div id="header">
 			<tiles:insertAttribute name="header" />
 		</div>
-		<div>
+		<div id="sideContent">
 			<div id="sidebar-left">
 				<tiles:insertAttribute name="side" />
 			</div>
@@ -208,6 +220,7 @@ margin-bottom : 20px;
 				<tiles:insertAttribute name="body" />
 			</div>
 		</div>
+
 		<div id="footer">
 			<tiles:insertAttribute name="footer" />
 		</div>
