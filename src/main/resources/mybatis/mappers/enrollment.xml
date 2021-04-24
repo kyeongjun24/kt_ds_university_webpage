@@ -515,22 +515,30 @@
 	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select -->
 	<select id="selectCriteriaBySearchCompletion"
 		resultMap="enrdResult">
-		SELECT
-		enrd_id, mem_id , mem_phone, mem_name,
-			 mem_email, mem_company_name, slb_name, enrd_stat, enrd_join_date, enrd_complete_date
+		SELECT *
 		FROM (
-		SELECT ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
-		<include refid="enrollment-columns"></include>
-		from enrollment_detail E 
-				LEFT JOIN member M
-				ON
-				    e.mem_id = m.mem_id
-				LEFT JOIN course C
-				ON
-				    e.crs_id = c.crs_id
-				LEFT JOIN syllabus S
-				ON
-				    c.slb_id = s.slb_id
+			select 
+				ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
+				E.enrd_id, 
+				M.mem_id , 
+				M.mem_phone, 
+				M.mem_name, 
+				M.mem_email, 
+				M.mem_company_name, 
+				S.slb_name, 
+				E.enrd_stat, 
+				E.enrd_join_date, 
+				E.enrd_complete_date 
+			from enrollment_detail E 
+					LEFT JOIN member M
+					ON
+						e.mem_id = m.mem_id
+					LEFT JOIN course C
+					ON
+						e.crs_id = c.crs_id
+					LEFT JOIN syllabus S
+					ON
+						c.slb_id = s.slb_id
 		<choose>
 			<when test="searchType == 'name'">
 				WHERE m.mem_name LIKE '%' || #{searchText} || '%'
