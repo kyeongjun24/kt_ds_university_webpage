@@ -17,13 +17,14 @@ public class CompanyVO {
 	private String address;
 	private String contractAgree;
 	private String companyTel;
+	private int zipCode;
 	
 	public CompanyVO() {
 		
 	}
 	
 	public CompanyVO(String id, String name, String regDate, String modDate, String contractName,
-			String managerPhone, String managerEmail, String contractStat, String contractType, String homePage, String address, String contractAgree, String companyTel) {
+			String managerPhone, String managerEmail, String contractStat, String contractType, String homePage, String address, String contractAgree, String companyTel, int zipCode) {
 		this.id = id;
 		this.name = name;
 		this.regDate = regDate;
@@ -37,6 +38,7 @@ public class CompanyVO {
 		this.address = address;
 		this.contractAgree = contractAgree;
 		this.companyTel = companyTel;
+		this.zipCode = zipCode;
 	}
 
 	public String getid() {
@@ -143,6 +145,12 @@ public class CompanyVO {
 	public void setCompanyTel(String companyTel) {
 		this.companyTel = companyTel;
 	}
-	
-	
+
+	public int getZipCode() {
+		return zipCode;
+	}
+
+	public void setZipCode(int zipCode) {
+		this.zipCode = zipCode;
+	}
 }

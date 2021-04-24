@@ -97,9 +97,9 @@ request.setCharacterEncoding("UTF-8");
 	<div class="process">
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
-				style="cursor: pointer;">회원관리</span> <span
+				style="cursor: pointer;">회원관리</span> > <span
 				onclick="location.href='${contextPath}/partner/listPartners.do'"
-				style="cursor: pointer;">> 협력회사</span>
+				style="cursor: pointer;"> 협력회사</span>
 		</h4>
 	</div>
 	<form method="get" action="${contextPath }/partner/listPartners.do"

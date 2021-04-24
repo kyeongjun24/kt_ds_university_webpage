@@ -174,11 +174,15 @@ public class CompanyControllerImpl implements CompanyController {
 	public ModelAndView addCompany(@ModelAttribute("company") CompanyVO companyVO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		// 아이디는 add.jsp에서 안넘어와서 컨트롤러에서 값을 합쳐줬다.
+		// 아이디랑 주소는 add.jsp에서 안넘어와서 컨트롤러에서 값을 합쳐줬다.
 		companyVO.setid(
 				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
+		companyVO.setAddress(
+				request.getParameter("address1") + "," + request.getParameter("address2"));
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(companyVO.getAddress());
+		System.out.println(companyVO.getZipCode());
 		int result = 0;
-		System.out.println(request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
 		result = companyService.addCompany(companyVO);
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
 		return mav;
@@ -206,6 +210,10 @@ public class CompanyControllerImpl implements CompanyController {
 		request.setCharacterEncoding("utf-8");
 		companyVO.setid(
 				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
+		companyVO.setAddress(
+				request.getParameter("address1") + "," + request.getParameter("address2"));
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println(companyVO.getAddress());
 		System.out.println(companyVO.getid());
 		int result = 0;
 		

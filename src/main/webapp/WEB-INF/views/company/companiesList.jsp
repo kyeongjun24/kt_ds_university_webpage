@@ -134,9 +134,9 @@ request.setCharacterEncoding("UTF-8");
 	<div class="process">
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
-				style="cursor: pointer;">회원관리</span> <span
+				style="cursor: pointer;">회원관리</span> > <span
 				onclick="location.href='${contextPath}/company/listCompanies.do'"
-				style="cursor: pointer;">> 회사관리</span>
+				style="cursor: pointer;"> 회사관리</span>
 		</h4>
 	</div>
 

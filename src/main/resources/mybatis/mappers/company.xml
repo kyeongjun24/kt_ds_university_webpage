@@ -18,14 +18,16 @@
 		<result property="address" column="com_address" />
 		<result property="contractAgree" column="com_contract_agree" />
 		<result property="companyTel" column="com_tel" />
+		<result property="zipCode" column="com_zipcode" />
 	</resultMap>
 
 	<!-- 전체 회사리스트 출력 -->
 	<select id="selectAllCompaniesList" resultMap="comResult">
 		<![CDATA[
 			SELECT 
-			com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
-			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel 
+			com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date,
+			com_contract_name, com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage,
+			com_address, com_contract_agree, com_tel
 			FROM company
 			WHERE com_contract_type != '탈퇴'
 			ORDER BY com_reg_date desc
@@ -156,7 +158,7 @@
 		<![CDATA[
 			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
 			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homePage, com_address, com_contract_agree, com_tel from company 
-			where com_contract_stat = '협력사'
+			where com_contract_stat = '협력사' AND com_contract_type != '탈퇴'
 			order by com_reg_date desc
 		]]>
 	</select>
@@ -192,8 +194,9 @@
 		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
 		com_manager_phone, com_manager_email, com_contract_stat,
 		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel from company WHERE com_contract_stat = '협력사' order by
-		com_reg_date desc)
+		com_tel from company WHERE com_contract_stat = '협력사' AND com_contract_type
+		!= '탈퇴'
+		order by com_reg_date desc)
 		where NUM between #{page} and 10
 	</select>
 
@@ -211,7 +214,7 @@
 		SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name,
 		com_manager_phone, com_manager_email, com_contract_stat,
 		com_contract_type, com_homePage, com_address, com_contract_agree,
-		com_tel from company WHERE com_contract_stat = '협력사' ORDER BY
+		com_tel from company WHERE com_contract_stat = '협력사' AND com_contract_type != '탈퇴' ORDER BY
 		com_reg_date desc)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
@@ -249,6 +252,7 @@
 		ROW_NUMBER() OVER (ORDER BY com_reg_date desc) NUM
 		FROM company
 		WHERE com_contract_stat = '협력사'
+		AND com_contract_type != '탈퇴'
 		<choose>
 			<when test="searchType == 'name'">
 				AND com_name LIKE '%' || #{searchText} || '%'
@@ -332,9 +336,9 @@
 	<insert id="insertCompany" parameterType="companyVO">
 	<![CDATA[
 		insert into company
-		(com_id, com_name, com_contract_name, com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homepage, com_address, com_contract_agree, com_tel) 
+		(com_id, com_name, com_contract_name, com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homepage, com_address, com_contract_agree, com_tel, com_zipcode) 
 		values
-		(#{id}, #{name}, #{contractName}, #{managerPhone}, #{managerEmail}, #{contractStat}, #{contractType}, #{homePage}, #{address}, #{contractAgree}, #{companyTel})
+		(#{id}, #{name}, #{contractName}, #{managerPhone}, #{managerEmail}, #{contractStat}, #{contractType}, #{homePage}, #{address}, #{contractAgree}, #{companyTel}, #{zipCode})
 	]]>
 	</insert>
 
@@ -343,7 +347,7 @@
 		parameterType="String">
 		<![CDATA[
 			select com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_reg_date, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
-			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homepage, com_address, com_contract_agree, com_tel from company 
+			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homepage, com_address, com_contract_agree, com_tel, com_zipcode from company 
 			where com_id = #{id}
 		]]>
 	</select>
@@ -355,7 +359,7 @@
 	     set 
 	     com_id=#{id}, com_name=#{name}, com_contract_name=#{contractName}, com_manager_phone=#{managerPhone}, 
 	     com_manager_email=#{managerEmail}, com_contract_stat=#{contractStat}, com_contract_type=#{contractType}, com_homepage=#{homePage}, com_mod_date=#{modDate},
-	     com_address=#{address}, com_contract_agree=#{contractAgree}, com_tel=#{companyTel} 
+	     com_address=#{address}, com_contract_agree=#{contractAgree}, com_tel=#{companyTel}, com_zipcode=#{zipCode}
 	     where com_id=#{id}
 	]]>
 	</update>

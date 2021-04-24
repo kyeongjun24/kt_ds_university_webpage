@@ -145,18 +145,24 @@ input:focus {
 		$(function(){
 				$('#registerCheck').submit(function() {
 					var registercheckfrm = document.addFrm;
+					
 					var tel1 = registercheckfrm.companyTel1.value;
 					var tel2 = registercheckfrm.companyTel2.value;
 					var tel3 = registercheckfrm.companyTel3.value;
 					var companyTel = tel1 + '-' + tel2 + '-' + tel3;
+					
 					var id1 = registercheckfrm.id1.value;
 					var id2 = registercheckfrm.id2.value;
 					var id3 = registercheckfrm.id3.value;
+					
 					var mPhone1 = registercheckfrm.managerPhone1.value;
 					var mPhone2 = registercheckfrm.managerPhone2.value;
 					var mPhone3 = registercheckfrm.managerPhone3.value;
 					var managerPhone = mPhone1 + '-' + mPhone2 + '-' + mPhone3;
-
+					
+					var address1 = registercheckfrm.address1.value;
+					var address2 = registercheckfrm.address2.value;
+					
 					registercheckfrm.companyTel.value = companyTel;
 					registercheckfrm.managerPhone.value = managerPhone;
 					return true;
@@ -198,11 +204,11 @@ input:focus {
 	<div class="process">
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
-				style="cursor: pointer;">회원관리</span> <span
+				style="cursor: pointer;">회원관리</span> > <span
 				onclick="location.href='${contextPath}/company/listCompanies.do'"
-				style="cursor: pointer;">> 회사관리</span> <span
+				style="cursor: pointer;"> 회사관리</span> > <span
 				onclick="location.href='${contextPath}/company/addCompanyForm.do'"
-				style="cursor: pointer;">> 회사등록</span>
+				style="cursor: pointer;"> 회사등록</span>
 		</h4>
 	</div>
 	<h1 class="title">회사 등록</h1>
@@ -219,20 +225,18 @@ input:focus {
 						<option value="협약 진행중">협약 진행중</option>
 				</select>
 				<td width="10%" class="td1"><p align="right">회사명</p></td>
-				<td width="20%" class="td1"><input type="text" name="name"
-					id=t1 required pattern="^[가-힣]+$"></td>
+				<td width="20%" class="td1">
+				<input type="text" name="name" id=t1 required pattern="^[가-힣]+$"></td>
 			</tr>
 
 			<tr>
 				<td width="10%" class="td1"><p align="right">대표번호</p></td>
 				<td width="10%" class="td2">
 					<div class="oNum">
-						<input type="text" id="num" name="companyTel1" maxLength="3"
-							pattern="\d{2,3}" required>- <input type="text" id="num"
-							name="companyTel2" maxLength="4" pattern="\d{3,4}" required>-
-						<input type="text" id="num" name="companyTel3" maxLength="4"
-							pattern="\d{4}" required> <input type="hidden"
-							name="companyTel">
+						<input type="text" id="num" name="companyTel1" maxLength="3" pattern="\d{2,3}" required>- 
+						<input type="text" id="num" name="companyTel2" maxLength="4" pattern="\d{3,4}" required>-
+						<input type="text" id="num" name="companyTel3" maxLength="4" pattern="\d{4}" required> 
+						<input type="hidden" name="companyTel">
 					</div>
 				</td>
 				<td width="10%" class="td1"><p align="right">홈페이지</p></td>
@@ -242,29 +246,28 @@ input:focus {
 
 			<tr>
 				<td width="10%" class="td1" rowspan="2"><p align="right">주소</p></td>
-				<td width="20%" class="td1" colspan="3"><input type="text"
-					id=zipCode name="zip" placeholder="우편번호" required>
+				<td width="20%" class="td1" colspan="3">
+				<input type="text" id=zipCode name="zipCode" placeholder="우편번호" required>
 					<button type="button" id=search onclick="openZipSearch()">검색</button>
 				</td>
 			</tr>
 
 			<tr>
-				<td width="20%" class="td1"><input type="text" id=address
-					name="address" placeholder="주소" required> <input
-					type="text" id=address2 name="address" placeholder="상세 주소" required></td>
+				<td width="20%" class="td1">
+				<input type="text" id=address name="address1" placeholder="주소" required>
+				<input type="text" id=address2 name="address2" placeholder="상세 주소" required>
+				<input type="hidden" name="address"> </td>
 			</tr>
 
 			<tr>
 				<td width="10%" class="td1"><p align="right">사업자등록번호</p></td>
 				<td width="10%" class="td2">
 					<div class="oNum">
-						<input type="text" id="id" name="id1" maxLength="3"
-							pattern="\d{3}" required>- <input type="text" id="id"
-							name="id2" maxLength="2" pattern="\d{2}" required>- <input
-							type="text" id="id" name="id3" maxLength="5" pattern="\d{5}"
-							required> <input type="hidden" name="id" id="userId">
-						<button class="idChk" type="button" id="idChk"
-							onclick="fn_idChk();" value="N">중복확인</button>
+						<input type="text" id="id" name="id1" maxLength="3" pattern="\d{3}" required>- 
+						<input type="text" id="id" name="id2" maxLength="2" pattern="\d{2}" required>- 
+						<input type="text" id="id" name="id3" maxLength="5" pattern="\d{5}" required> 
+						<input type="hidden" name="id" id="userId">
+						<button class="idChk" type="button" id="idChk" onclick="fn_idChk();" value="N">중복확인</button>
 					</div>
 				</td>
 				<td width="10%" class="td1"><p align="right">담당자</p></td>
