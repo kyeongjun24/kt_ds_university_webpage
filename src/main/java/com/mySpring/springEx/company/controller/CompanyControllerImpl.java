@@ -179,9 +179,6 @@ public class CompanyControllerImpl implements CompanyController {
 				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
 		companyVO.setAddress(
 				request.getParameter("address1") + "," + request.getParameter("address2"));
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println(companyVO.getAddress());
-		System.out.println(companyVO.getZipCode());
 		int result = 0;
 		result = companyService.addCompany(companyVO);
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
@@ -212,9 +209,6 @@ public class CompanyControllerImpl implements CompanyController {
 				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
 		companyVO.setAddress(
 				request.getParameter("address1") + "," + request.getParameter("address2"));
-		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-		System.out.println(companyVO.getAddress());
-		System.out.println(companyVO.getid());
 		int result = 0;
 		
 		result = companyService.modCompany(companyVO);

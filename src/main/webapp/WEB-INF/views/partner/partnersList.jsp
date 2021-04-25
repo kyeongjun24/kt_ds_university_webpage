@@ -54,9 +54,24 @@ request.setCharacterEncoding("UTF-8");
 	padding-left: 7px
 }
 
+#excelForm {
+	position: relative;
+	margin-top: 1%;
+	width: 1500px;
+	display: flex;
+	justify-content: flex-end;
+	cursor: pointer;
+}
+
 #type_color {
 	text-align: left;
-	margin-bottom: 1em;
+	padding-top: 0.8%;
+	font-size: 15px;
+	margin-right: 60.4%;
+}
+
+#excel {
+	width: 8%;
 }
 </style>
 
@@ -141,16 +156,25 @@ request.setCharacterEncoding("UTF-8");
 					<option value="name" selected>선택</option>
 					<option value="name">회사명</option>
 					<option value="contractName">담당자</option>
+					<option value="contractType">협약 상태</option>
 				</c:if>
 				<c:if test="${searchType == 'name' }">
 					<option value="name">선택</option>
 					<option value="name" selected>회사명</option>
 					<option value="contractName">담당자</option>
+					<option value="contractType">협약 상태</option>
 				</c:if>
 				<c:if test="${searchType == 'contractName' }">
 					<option value="name">선택</option>
 					<option value="name">회사명</option>
 					<option value="contractName" selected>담당자</option>
+					<option value="contractType">협약 상태</option>
+				</c:if>
+				<c:if test="${searchType == 'contractType' }">
+					<option value="name">선택</option>
+					<option value="name">회사명</option>
+					<option value="contractName">담당자</option>
+					<option value="contractType" selected>협약 상태</option>
 				</c:if>
 			</select>
 
@@ -170,17 +194,16 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 
-	<p id="type_color" style="font-size: 5px;">
+	<!-- 엑셀 다운로드 버튼 -->
+	<form action="${contextPath}/partner/partnersExcelDownload.do" id="excelForm"
+		method="post">
+		<p id="type_color">
 		<span style="color: black">협약상태 구분: </span><span style="color: red">●협약서없음
 		</span><span style="color: green"> ●상호변경 </span><span style="color: black">
 			●협약완료 </span> <span style="color: blue"> ●협약서사본</span><span
 			style="color: #dd42f5"> ●탈퇴</span>
 	</p>
-
-	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/partner/partnersExcelDownload.do"
-		method="post">
-		<input type="submit" value='엑셀 다운로드'>
+		<input type="submit" value='엑셀 다운로드' id="excel">
 	</form>
 
 	<table align="center" border="0" width="80%" id="partners">
@@ -280,5 +303,10 @@ request.setCharacterEncoding("UTF-8");
 			</c:if>
 		</ul>
 	</div>
+	
+	<form action="${contextPath}/partner/partnersExcelDownload.do" method="post" id="excelForm">
+		<input type="submit" value='엑셀 다운로드' id="excel">
+	</form>
+	
 </body>
 </html>

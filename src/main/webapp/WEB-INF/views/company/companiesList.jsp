@@ -43,9 +43,24 @@ request.setCharacterEncoding("UTF-8");
 	margin-bottom: 1em;
 }
 
+#excelForm {
+	position: relative;
+	margin-top: 1%;
+	width: 1500px;
+	display: flex;
+	justify-content: flex-end;
+	cursor: pointer;
+}
+
 #type_color {
 	text-align: left;
-	margin-bottom: 1em;
+	padding-top: 0.8%;
+	font-size: 15px;
+	margin-right: 63.5%;
+}
+
+#excel {
+	width: 8%;
 }
 </style>
 
@@ -94,35 +109,36 @@ request.setCharacterEncoding("UTF-8");
 	}
 
 	// 전체 체크되게 하는 함수
-	$(function() {
-		$('#selectAll').click(function() {
-			if ($("input:checkbox[id='selectAll']").prop("checked")) {
-				$("input[type=checkbox]").prop("checked", true);
-			} else {
-				$("input[type=checkbox]").prop("checked", false);
-			}
-		})
+	$(
+			function() {
+				$('#selectAll').click(function() {
+					if ($("input:checkbox[id='selectAll']").prop("checked")) {
+						$("input[type=checkbox]").prop("checked", true);
+					} else {
+						$("input[type=checkbox]").prop("checked", false);
+					}
+				})
 
-		$('#listFilter')
-				.on(
-						'change',
-						function() {
-							var perPage = $(this).val();
-							var searchType = document
-									.getElementById('searchType').value;
-							var searchText = document
-									.getElementById('searchText').value;
-							/* alert(perPage+"씩 리스트 출력");
-							alert(searchType);
-							alert(searchText); */
-							location.href = "${contextPath}/company/listCompanies.do?perPage="
-									+ perPage
-									+ "&searchType="
-									+ searchType
-									+ "&searchText=" + searchText;
-						})
-	}) //function
-
+				$('#listFilter')
+						.on(
+								'change',
+								function() {
+									var perPage = $(this).val();
+									var searchType = document
+											.getElementById('searchType').value;
+									var searchText = document
+											.getElementById('searchText').value;
+									/* alert(perPage+"씩 리스트 출력");
+									alert(searchType);
+									alert(searchText); */
+									location.href = "${contextPath}/company/listCompanies.do?perPage="
+											+ perPage
+											+ "&searchType="
+											+ searchType
+											+ "&searchText="
+											+ searchText;
+								})
+			}) //function
 </script>
 
 <body>
@@ -176,20 +192,29 @@ request.setCharacterEncoding("UTF-8");
 		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
 		<div class="searchType">
 			<select name="searchType" id="searchType">
+				<c:if test="${empty searchType}">
+					<option value="name" selected>선택</option>
+					<option value="name">회사명</option>
+					<option value="contractName">담당자</option>
+					<option value="contractStat">상태</option>
+				</c:if>
 				<c:if test="${searchType == 'name'}">
 					<option value="name">선택</option>
 					<option value="name" selected>회사명</option>
 					<option value="contractName">담당자</option>
+					<option value="contractStat">상태</option>
 				</c:if>
 				<c:if test="${searchType == 'contractName'}">
 					<option value="name">선택</option>
 					<option value="name">회사명</option>
 					<option value="contractName" selected>담당자</option>
+					<option value="contractStat">상태</option>
 				</c:if>
-				<c:if test="${empty searchType}">
-					<option value="name" selected>선택</option>
+				<c:if test="${searchType == 'contractStat'}">
+					<option value="name">선택</option>
 					<option value="name">회사명</option>
 					<option value="contractName">담당자</option>
+					<option value="contractStat" selected>상태</option>
 				</c:if>
 			</select>
 
@@ -217,15 +242,15 @@ request.setCharacterEncoding("UTF-8");
 		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
 	</div>
 
-	<p id="type_color" style="font-size: 5px;">
-		<span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음
-		</span><span style="color: green"> ●상호변경 </span><span style="color: black">
-			●협약완료 </span><span style="color: blue"> ●협약서사본</span>
-	</p>
-
 	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/company/excelDownload.do" method="post">
-		<input type="submit" value='엑셀 다운로드'>
+	<form action="${contextPath}/company/excelDownload.do" method="post"
+		id="excelForm">
+		<p id="type_color">
+			<span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음
+			</span><span style="color: green"> ●상호변경 </span><span style="color: black">
+				●협약완료 </span><span style="color: blue"> ●협약서사본</span>
+		</p>
+		<input type="submit" value='엑셀 다운로드' id="excel">
 	</form>
 
 	<table border="0" id="com_list">
@@ -329,6 +354,10 @@ request.setCharacterEncoding("UTF-8");
 			</c:if>
 		</ul>
 	</div>
+
+	<form action="${contextPath}/company/excelDownload.do" method="post" id="excelForm">
+		<input type="submit" value='엑셀 다운로드' id="excel">
+	</form>
 
 	<div class="memberButton">
 		<button type="button" id="enrollButton"

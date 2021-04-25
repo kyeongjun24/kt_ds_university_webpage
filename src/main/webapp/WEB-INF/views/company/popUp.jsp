@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <%
@@ -143,7 +144,7 @@ request.setCharacterEncoding("UTF-8");
 							style="padding-right: 10px"></span> <a href='javascript:void(0);'
 							onclick="setCompanyName(this);">${company.name }</a></td>
 						<td>${company.id }</td>
-						<td>${company.address }</td>
+						<td>${fn:split(companyVO.address, ',')[0] }+','${fn:split(companyVO.address, ',')[1] }</td>
 					</tr>
 				</c:forEach>
 			</c:when>
