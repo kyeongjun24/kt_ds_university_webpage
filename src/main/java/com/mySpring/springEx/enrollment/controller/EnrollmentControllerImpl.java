@@ -1,4 +1,4 @@
-package com.mySpring.springEx.enrollment.controller;
+				package com.mySpring.springEx.enrollment.controller;
 
 import java.util.List;
 
@@ -45,10 +45,48 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	
 	//엑셀 다운로드
 	@Override
-	@RequestMapping(value="/enrollment/excelDownload.do", method = RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(value="/enrollment/excelDownload.do", method = RequestMethod.POST)
 	public void excelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		enrollmentService.excelDownload(response);
+	}
+	
+	// excel download - course
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/enrollment/excelCourseDownload.do", method = {RequestMethod.POST, RequestMethod.GET})
+	public void excelCourseDownload(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("@@@@@@@@@@@" + id);
+		enrollmentService.excelCourseDownload(Integer.parseInt(id), response);
+	}
+	
+	// 여러개 상태 수정 (승인)
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/enrollment/modApproveEnrollments.do", method = RequestMethod.POST)
+	public int updateApproveEnrollments(String [] arr, 
+					  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		for(int i = 0; i < arr.length; i++) { 
+			result = enrollmentService.updateApproveEnrollments(Integer.parseInt(arr[i]));
+		 } 
+		return result;
+	}
+	
+	// Into detail page --> course
+	@Override
+	@RequestMapping(value="/enrollment/enrollmentCourse.do" ,method = RequestMethod.GET)
+	public ModelAndView enrollmentCourse(@RequestParam int id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("utf-8");
+		String viewName = (String)request.getAttribute("viewName");
+		List enrollmentsList = null;
+		enrollmentsList = enrollmentService.enrollmentCourse(id);	
+		 
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("enrollmentsList", enrollmentsList);
+		return mav;
 	}
 	
 	// 리스트 페이지
@@ -104,24 +142,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav; //리스트 페이지로
 	}
 
-	
-	
-	// Into detail page --> course
-	@Override
-	@RequestMapping(value="/enrollment/enrollmentCourse.do" ,method = RequestMethod.GET)
-	public ModelAndView enrollmentCourse(@RequestParam int id, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		request.setCharacterEncoding("utf-8");
-		String viewName = (String)request.getAttribute("viewName");
-		List enrollmentsList = null;
-		enrollmentsList = enrollmentService.enrollmentCourse(id);	
-		 
-		ModelAndView mav = new ModelAndView();
-		//System.out.println("@@@@@@@@@" + enrollmentsList);
-		mav.addObject("enrollmentsList", enrollmentsList);
-		return mav;
-	}
-	
 	//수강신청 등록 
 	@Override
 	@RequestMapping(value="/enrollment/addEnrollment" ,method = {RequestMethod.POST, RequestMethod.GET})
@@ -190,23 +210,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mv;
 	}
 	
-	
-	
-	
-	// 여러개 상태 수정 (승인)
-	@Override
-	@ResponseBody
-	@RequestMapping(value="/enrollment/modApproveEnrollments.do", method = RequestMethod.POST)
-	public int updateApproveEnrollments(String [] arr, 
-					  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		int result = 0;
-		for(int i = 0; i < arr.length; i++) { 
-			result = enrollmentService.updateApproveEnrollments(Integer.parseInt(arr[i]));
-		 } 
-		return result;
-	}
-		
 	// 여러개 상태 수정 (수료)
 	@Override
 	@ResponseBody
@@ -244,13 +247,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		int result = enrollmentService.updateDeleteEnrollments(Integer.parseInt(id));	
 		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
 		return mav;
-	}
-
-	@Override
-	public int checkEnrollment(EnrollmentVO enrollmentVO, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	
 

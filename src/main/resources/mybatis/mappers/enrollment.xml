@@ -177,7 +177,7 @@
 		<![CDATA[
 			INSERT INTO enrollment_detail
 				VALUES(
-    			(SELECT NVL(MAX(enrd_id)+1,0) FROM enrollment_detail), 
+    			enrd_seq.nextval, 
     			#{courseVO.id}, #{memberVO.id}, '신청', null, 
     			to_char(sysdate, 'YYYY-MM-DD HH24:MI:SS'), 
                 to_char(sysdate, 'YYYY-MM-DD')
@@ -259,7 +259,8 @@
 			s.slb_name as slb_name, 
 			substr(c.crs_start_date, 1, 10) as crs_start_date, substr(c.crs_end_date, 1, 10) as crs_end_date, 
 			e.enrd_stat as enrd_stat, 
-			substr(e.enrd_join_date, 1, 10) as enrd_join_date
+			substr(e.enrd_join_date, 1, 10) as enrd_join_date,
+			 	c.crs_id as crs_id
 			
 		FROM enrollment_detail E 
 			LEFT JOIN member M
@@ -306,6 +307,37 @@
 		]]>
 	</select>
 	
+	<!-- 엑셀 다운로드 (파라미터 존재) -->
+	<select id="excelCourseEnrollmentList" resultMap="enrdResult" parameterType="Int"> 
+		<![CDATA[
+			SELECT 
+				NVL(to_char(e.enrd_id), '.') as enrd_id,
+				NVL(m.mem_id, '.') as mem_id, 
+				NVL(m.mem_name, '.') as mem_name,
+				NVL(m.mem_phone, '.') as mem_phone,
+				NVL(m.mem_email, '.') as mem_email,
+               	NVL(m.mem_company_name, '.') as mem_company_name, 
+                NVL(s.slb_name, '.') as slb_name, 
+                NVL(substr(c.crs_start_date, 1, 10), '.') as crs_start_date, NVL(substr(c.crs_end_date, 1, 10), '.') as crs_end_date,
+			 	NVL(e.enrd_stat, '.') as enrd_stat, 
+                NVL(substr(e.enrd_join_date, 1, 10), '.') as enrd_join_date
+			FROM      
+                enrollment_detail E 
+				LEFT JOIN member M
+				ON e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON c.slb_id = s.slb_id
+				
+				LEFT JOIN company cc
+        		ON m.mem_company_name = cc.com_name
+                
+                WHERE enrd_stat != '취소' and c.crs_id = #{courseVO.id}
+                ORDER BY enrd_join_date desc
+		]]>
+	</select>
+	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 	
 		<!-- 검색 -->
@@ -344,7 +376,7 @@
          		AND upper(m.mem_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          	<when test="searchType == ''">
-         		AND upper(m.mem_name) LIKE '%' || upper(#{searchText}) || '%'
+         		AND upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          	<when test="searchType == 'companyName'">
          		AND upper(m.mem_company_name) LIKE '%' || upper(#{searchText}) || '%'
@@ -485,7 +517,7 @@
 	         		AND upper(m.mem_name) LIKE '%' || upper(#{searchText}) || '%'
 	         	</when>
 	         	<when test="searchType == ''">
-	         		AND upper(m.mem_name) LIKE '%' || upper(#{searchText}) || '%'
+	         		AND upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
 	         	</when>
 	         	<when test="searchType == 'companyName'">
 	         		AND upper(m.mem_company_name) LIKE '%' || upper(#{searchText}) || '%'

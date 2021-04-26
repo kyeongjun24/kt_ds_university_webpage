@@ -79,6 +79,17 @@
 		
 	}) */
 	
+	//삭제 안내창
+	function deleteConfirm(){
+		
+		if(!confirm("삭제 하시겠습니까?")){
+			return false;
+		}else{
+			location.href="${contextPath}/enrollment/deleteEnrollment.do?id=${enrollmentVO.id }";
+		}
+	}
+
+	
 </script>
 <body>
 	<h4 align="left"> 수강신청내역 > 상세접수내역(학생)</h4>
@@ -168,7 +179,8 @@
 	</table>
 	
 	<input type="submit" value="수정" style="width: 5%;">
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/deleteEnrollment.do?id=${enrollmentVO.id }'" style="width: 5%;">삭제</button>
+	<%-- <button type="button" onclick="location.href = '${contextPath}/enrollment/deleteEnrollment.do?id=${enrollmentVO.id }'" style="width: 5%;">삭제</button> --%>
+	<button type="button" onclick="deleteConfirm()" style="width: 5%;">삭제</button>
 	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">취소</button>
 	</form>
 </body>

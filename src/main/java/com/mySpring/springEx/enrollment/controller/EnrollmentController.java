@@ -22,9 +22,6 @@ public interface EnrollmentController {
 
 	ModelAndView enrollmentForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	int checkEnrollment(EnrollmentVO enrollmentVO, HttpServletRequest request, HttpServletResponse response)
-			throws Exception;
-	
 	int updateDeleteEnrollments(String [] arr, HttpServletRequest request, HttpServletResponse response) 
 			throws Exception;
 
@@ -43,5 +40,8 @@ public interface EnrollmentController {
 			throws Exception;
 
 	ModelAndView enrollmentCourse(int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	void excelCourseDownload(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 
 }

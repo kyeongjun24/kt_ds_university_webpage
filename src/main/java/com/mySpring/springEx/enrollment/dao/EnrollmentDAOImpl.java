@@ -93,7 +93,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
-	//���� �ٿ·ε�
+	// excel download
 	@Override
 	public List excelEnrollmentList() throws DataAccessException {
 		List<EnrollmentVO> enrollmentsList = null;
@@ -101,7 +101,13 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
-
+	// excel download - course
+	@Override
+	public List excelCourseEnrollmentList(int id) throws DataAccessException {
+		List<EnrollmentVO> enrollmentsList = null;
+		enrollmentsList = sqlSession.selectList("mapper.enrollment.excelCourseEnrollmentList", id);
+		return enrollmentsList;
+	}
 	
 	//������û ���
 	@Override

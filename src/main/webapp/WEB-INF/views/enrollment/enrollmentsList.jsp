@@ -70,6 +70,10 @@ request.setCharacterEncoding("UTF-8");
 						})
 	})
 
+		
+		
+	
+	
 	//체크 된 걸 가져오는 함수
 	function getCheckList(stat) {
 		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
@@ -87,15 +91,19 @@ request.setCharacterEncoding("UTF-8");
 			return false;
 		} else {
 			if (stat == "delete") { // 상태 '삭제' 로 변경
-				$
-						.ajax({
+				
+				if(!confirm("삭제 하시겠습니까?")){
+					return false;
+				}else{
+					
+						$.ajax({
 							type : 'post',
 							url : '${contextPath}/enrollment/modDeleteEnrollments.do',
 							traditional : true, //Array 형태로 보내려면 설정 해줘야함
 							data : {
 								arr : arr
 							},
-
+		
 							success : function(data) {
 								//alert('데이터 받기 성공');
 								//alert(data);
@@ -107,6 +115,9 @@ request.setCharacterEncoding("UTF-8");
 										+ "\n" + "error:" + error);
 							}
 						})
+				}
+						
+						
 			} else if (stat == "approve") { // 상태 '승인' 으로 변경
 				$
 						.ajax({

@@ -45,5 +45,7 @@ public interface EnrollmentDAO {
 
 	public List enrollmentCourse(int id) throws DataAccessException;
 
+	public List excelCourseEnrollmentList(int id) throws DataAccessException;
+
 
 }
