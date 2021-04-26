@@ -137,7 +137,7 @@ public class CompanyServiceImpl implements CompanyService {
 	
 	// 전체회사 엑셀 다운로드
 	@Override
-	public void excelDownload(HttpServletResponse response) throws Exception {
+	public void companyExcelDownload(HttpServletResponse response) throws Exception {
 		
 		@SuppressWarnings("unchecked")
 		List <CompanyVO> companiesList = companyDAO.selectAllCompanyList();

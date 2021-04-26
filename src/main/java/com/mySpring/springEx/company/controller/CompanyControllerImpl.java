@@ -268,8 +268,8 @@ public class CompanyControllerImpl implements CompanyController {
 	@Override
 	@RequestMapping(value = "/company/excelDownload.do", method = RequestMethod.POST)
 	@ResponseBody
-	public void excelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		companyService.excelDownload(response);
+	public void companyExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		companyService.companyExcelDownload(response);
 	}
 
 	// 협력 회사 엑셀 다운로드

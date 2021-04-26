@@ -54,7 +54,7 @@ public interface CompanyService {
 	public List listCriteriaBySearchFromPopUp(Criteria criteria) throws DataAccessException;
 	
 	// 전체 회사 엑셀 다운로드
-	public void excelDownload(HttpServletResponse response) throws Exception;
+	public void companyExcelDownload(HttpServletResponse response) throws Exception;
 	
 	// 협력회사 엑셀 다운로드
 	public void partnersExcelDownload(HttpServletResponse response) throws Exception;

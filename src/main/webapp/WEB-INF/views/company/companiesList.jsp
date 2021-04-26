@@ -242,7 +242,7 @@ request.setCharacterEncoding("UTF-8");
 	</div>
 
 	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/company/excelDownload.do" method="post"
+	<form action="${contextPath}/company/companyExcelDownload.do" method="post"
 		id="excelForm">
 		<p id="type_color">
 			<span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음

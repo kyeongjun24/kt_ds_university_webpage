@@ -45,7 +45,7 @@ public interface CompanyController {
 	int removeCheckedCompanies(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 전체회사 엑셀 다운로드
-	void excelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	void companyExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 협력회사 엑셀 다운로드
 	void partnersExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception;
