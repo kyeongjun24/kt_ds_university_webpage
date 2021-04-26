@@ -3,8 +3,8 @@ package com.mySpring.springEx.common.paging;
 //리스트 개수에서 나누는 class
 public class Criteria {
 
-	private int page;
-	private int perPageNum;
+	private Integer page;
+	private Integer perPageNum;
 	private String searchType;
 	private String searchText;
 
@@ -23,7 +23,7 @@ public class Criteria {
 		this.page = page;
 	}
 	
-	public int getPage() {
+	public Integer getPage() {
 		return page;
 	}
 	
@@ -37,11 +37,11 @@ public class Criteria {
 		this.perPageNum = perPageNum;
 	}
 	
-	public int getPerPageNum() {
+	public Integer getPerPageNum() {
 		return this.perPageNum;
 	}
 	
-	public int getPageStart() {
+	public Integer getPageStart() {
 		return (this.page - 1) * perPageNum + 1;
 	} 
 	

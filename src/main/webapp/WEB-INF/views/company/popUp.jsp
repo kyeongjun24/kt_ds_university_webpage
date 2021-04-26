@@ -144,7 +144,7 @@ request.setCharacterEncoding("UTF-8");
 							style="padding-right: 10px"></span> <a href='javascript:void(0);'
 							onclick="setCompanyName(this);">${company.name }</a></td>
 						<td>${company.id }</td>
-						<td>${fn:split(companyVO.address, ',')[0] }+','${fn:split(companyVO.address, ',')[1] }</td>
+						<td>${company.address }</td>
 					</tr>
 				</c:forEach>
 			</c:when>

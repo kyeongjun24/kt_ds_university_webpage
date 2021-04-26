@@ -156,8 +156,7 @@ request.setCharacterEncoding("UTF-8");
 		</h4>
 	</div>
 
-	<form method="get" action="${contextPath }/company/listCompanies.do"
-		id="searchFrm" name="searchZip">
+	<form method="get" action="${contextPath }/company/listCompanies.do" id="searchFrm" name="searchZip">
 
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
@@ -248,7 +247,7 @@ request.setCharacterEncoding("UTF-8");
 		<p id="type_color">
 			<span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음
 			</span><span style="color: green"> ●상호변경 </span><span style="color: black">
-				●협약완료 </span><span style="color: blue"> ●협약서사본</span>
+				●협약완료 </span><span style="color: blue"> ●협약서사본</span><span style="color: #dd42f5"> ●탈퇴</span>
 		</p>
 		<input type="submit" value='엑셀 다운로드' id="excel">
 	</form>
@@ -281,7 +280,7 @@ request.setCharacterEncoding("UTF-8");
 							id="${company.id }"></td>
 						<td width="15%">${company.contractStat }</td>
 						<td align='center' width="15%"><a class='cls1'
-							href="${contextPath}/company/companyForm.do?id=${company.id}">
+							href="${contextPath}/company/companyForm.do?id=${company.id}&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=company">
 								<c:if test="${company.contractType eq '협약서 없음'}">
 									<font color="red">${company.name }</font>
 								</c:if> <c:if test="${company.contractType eq '상호 변경'}">
@@ -290,13 +289,14 @@ request.setCharacterEncoding("UTF-8");
 									<font color="black">${company.name }</font>
 								</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
 									<font color="blue">${company.name }</font>
+								</c:if> <c:if test="${company.contractType eq '탈퇴'}">
+									<font color="#dd42f5">${company.name }</font>
 								</c:if>
 						</a></td>
 						<td width="15%">${company.contractName }</td>
 						<td width="15%">${company.managerPhone }</td>
 						<td width="15%">${company.id }</td>
 						<td width="15%">${company.regDate }</td>
-
 					</tr>
 				</c:forEach>
 			</c:when>

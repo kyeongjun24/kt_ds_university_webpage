@@ -121,25 +121,24 @@ input:focus {
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+	/* 주소 찾기 기능 사용하는 메소드 */
+	function openZipSearch() {
+		new daum.Postcode({
+			oncomplete : function(data) {
 
-/* 주소 찾기 기능 사용하는 메소드 */
-function openZipSearch() {
-	new daum.Postcode({
-		oncomplete : function(data) {
+				var roadAddr = data.roadAddress; // 도로명 주소 변수
+				var jibunAddr = data.jibunAddress; // 지번 주소 변수
 
-			var roadAddr = data.roadAddress; // 도로명 주소 변수
-			var jibunAddr = data.jibunAddress; // 지번 주소 변수
-
-			// 우편번호와 주소 정보를 해당 필드에 넣는다.
-			document.getElementById('zipCode').value = data.zonecode;
-			if (roadAddr !== '') {
-				document.getElementById("address").value = roadAddr;
-			} else if (jibunAddr !== '') {
-				document.getElementById("address").value = jibunAddr;
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('zipCode').value = data.zonecode;
+				if (roadAddr !== '') {
+					document.getElementById("address").value = roadAddr;
+				} else if (jibunAddr !== '') {
+					document.getElementById("address").value = jibunAddr;
+				}
 			}
-		}
-	}).open();
-}
+		}).open();
+	}
 
 	/* jquery로 상세창은 처음 들어왔을 땐 읽기 전용으로 만들고
 	 수정을 클릭하면 읽기 전용에서 수정이 가능하도록 만들기 */
@@ -181,34 +180,39 @@ function openZipSearch() {
 		} else {
 
 			var registercheckfrm = document.companyForm;
-			
+
 			var tel1 = registercheckfrm.companyTel1.value;
 			var tel2 = registercheckfrm.companyTel2.value;
 			var tel3 = registercheckfrm.companyTel3.value;
 			var companyTel = tel1 + '-' + tel2 + '-' + tel3;
-			
+
 			var id1 = registercheckfrm.id1.value;
 			var id2 = registercheckfrm.id2.value;
 			var id3 = registercheckfrm.id3.value;
-			
+
 			var mPhone1 = registercheckfrm.managerPhone1.value;
 			var mPhone2 = registercheckfrm.managerPhone2.value;
 			var mPhone3 = registercheckfrm.managerPhone3.value;
 			var managerPhone = mPhone1 + '-' + mPhone2 + '-' + mPhone3;
-			
+
 			var address1 = registercheckfrm.address1.value;
 			var address2 = registercheckfrm.address2.value;
-			
+
 			registercheckfrm.companyTel.value = companyTel;
-			registercheckfrm.managerPhone.value = managerPhone;
-			alert("저장되었습니다.");
-			document.companyForm.submit();
+			registercheckfrm.managerPhone.value = managerPhone;			
+			if (confirm("수정하시겠습니까?") == true){
+				document.companyForm.submit();
+			} else {
+				return false;
+			}
 		}
 	};
 
 	function del() {
 		if (confirm("정말 삭제하시겠습니까?") == true) {
 			location.href = '${contextPath}/company/removeCompany.do?id=${companyVO.id }';
+			self.location = "${contextPath}/company/listCompanies.do?"+"&perPageNum=${criteria.perPageNum}"+"&searchType=${criteria.searchType}"+"&searchText=${criteria.searchText}";
+			
 		} else {
 			return false;
 		}
@@ -216,8 +220,8 @@ function openZipSearch() {
 
 	/* 취소 메소드 */
 	function cancel() {
-		count ++;
-		if(count == 1){
+		count++;
+		if (count == 1) {
 			history.back(-1);
 		} else {
 			$('input').prop('readonly', true);
@@ -236,7 +240,7 @@ function openZipSearch() {
 				return false;
 			}
 		}
-		
+
 	}
 </script>
 <body>
@@ -252,11 +256,18 @@ function openZipSearch() {
 	</div>
 	<h1 class="title">회사 관리</h1>
 	<form method="post" name="companyForm"
-		action="${contextPath}/company/modCompany.do" id=modCheck>
+		action="${contextPath}/company/modCompany.do?type=${type}" id=modCheck>
+		
+		<input type="hidden" id="page" name="page" value="${criteria.page }"  />
+		<input type="hidden" id="searchType" name="searchType" value="${criteria.searchType }"  /> 
+		<input type="hidden" id="searchText" name="searchText" value="${criteria.searchText }"  />
+		<input type="hidden" id="perPageNum" name="perPageNum" value="${criteria.perPageNum }" />
+			
 		<table id="company_mod">
 			<tr>
 				<td width="10%" class="td1"><p align="right">상태</p></td>
-				<td width="20%" class="td1"><select name="contractStat" id=sel1 required="required">
+				<td width="20%" class="td1"><select name="contractStat" id=sel1
+					required="required">
 						<option value="">상태를 선택하세요</option>
 						<option value="협력사"
 							<c:if test="${companyVO.contractStat eq '협력사' }"> selected</c:if>>협력사</option>
@@ -291,29 +302,33 @@ function openZipSearch() {
 
 			<tr>
 				<td width="10%" class="td1" rowspan="2"><p align="right">주소</p></td>
-				<td width="20%" class="td1" colspan="1">
-				<input type="text" id=zipCode name="zipCode" value="${companyVO.zipCode }">
-					<button type="button" id=search name="search" onclick="openZipSearch()">검색</button>
-				</td>
+				<td width="20%" class="td1" colspan="1"><input type="text"
+					id=zipCode name="zipCode" value="${companyVO.zipCode }">
+					<button type="button" id=search name="search"
+						onclick="openZipSearch()">검색</button></td>
 				<td width="10%" class="td1" rowspan="2"><p align="right">사업자등록번호</p></td>
 				<td width="20%" class="td2" rowspan="2">
 					<div class="oNum">
-						<input type="text" maxLength="3" name="id1" id=num class=regNum value="${fn:split(companyVO.id, '-')[0]}">- 
-						<input type="text" maxLength="2" name="id2" id=num class=regNum value="${fn:split(companyVO.id, '-')[1]}">- 
-						<input type="text" maxLength="5" name="id3" id=num class=regNum value="${fn:split(companyVO.id, '-')[2]}"> 
-						<input type="hidden" name="id" id="userId">
+						<input type="text" maxLength="3" name="id1" id=num class=regNum
+							value="${fn:split(companyVO.id, '-')[0]}">- <input
+							type="text" maxLength="2" name="id2" id=num class=regNum
+							value="${fn:split(companyVO.id, '-')[1]}">- <input
+							type="text" maxLength="5" name="id3" id=num class=regNum
+							value="${fn:split(companyVO.id, '-')[2]}"> <input
+							type="hidden" name="id" id="userId">
 					</div>
 				</td>
 			</tr>
-			
+
 			<tr>
-				<td width="20%" class="td1">
-				<input type="text" id=address name="address1" value="${fn:split(companyVO.address, ',')[0] }"> 
-				<input type="text" id=address2 name="address2" value="${fn:split(companyVO.address, ',')[1] }">
-				<input type="hidden" name="address"></td>
+				<td width="20%" class="td1"><input type="text" id=address
+					name="address1" value="${fn:split(companyVO.address, ',')[0] }">
+					<input type="text" id=address2 name="address2"
+					value="${fn:split(companyVO.address, ',')[1] }"> <input
+					type="hidden" name="address"></td>
 			</tr>
-			
-			
+
+
 
 			<tr>
 				<td width="10%" class="td1"><p align="right">담당자</p></td>
