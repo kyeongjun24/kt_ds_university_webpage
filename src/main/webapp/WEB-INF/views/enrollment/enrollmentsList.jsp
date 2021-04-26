@@ -284,7 +284,7 @@ request.setCharacterEncoding("UTF-8");
 			<td><b>신청일</b></td>
 		</tr>
 		<c:choose>
-			<c:when test="${enrollmentsList == null }">
+			<c:when test="${empty enrollmentsList}">
 				<tr height="10">
 					<td colspan="4">
 						<p align="center">
@@ -300,9 +300,9 @@ request.setCharacterEncoding("UTF-8");
 						<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
 							
 						<!-- 과목별 상세 조회 / 인세 페이지 미구현 -->
-						<%-- <td><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
-																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td> --%>
-						<td>${enrollment.syllabusVO.name }</td>
+						<td><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
+																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>
+						<%-- <td>${enrollment.syllabusVO.name }</td> --%>
 																
 						<td>${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
 						

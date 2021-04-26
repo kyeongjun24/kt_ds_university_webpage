@@ -33,13 +33,13 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	@Autowired
 	private EnrollmentDAO enrollmentDAO;
 	
-	//기준 나누는 메서드
+	// 기준 나누는 메서드
 	@Override
 	public List listCriteria(Criteria criteria) throws DataAccessException {
 		return enrollmentDAO.listCriteria(criteria);
 	}
 	
-	//검색에 의해 나눠지는 메서드
+	// 검색에 의해 나눠지는 메서드
 	@Override
 	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException {
 		List enrollmentsBySearchList = null;
@@ -47,7 +47,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsBySearchList;
 	}
 	
-	//검색과 기준에 의해 리스트 나눠지는 메서드
+	// 검색과 기준에 의해 리스트 나눠지는 메서드
 	@Override
 	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		List enrollmentsCriteriaBySearch = null;
@@ -55,7 +55,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsCriteriaBySearch;
 	}
 	
-	//등록 페이지 리스트 출력
+	// 등록 페이지 리스트 출력
 	@Override
 	public List listSylCrs() throws DataAccessException {
 		List sylCrsList = null;
@@ -63,7 +63,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return sylCrsList;
 	}
 
-	//수강신청내역 리스트로 이동
+	// 수강신청내역 리스트로 이동
 	@Override
 	public List listEnrollments() throws DataAccessException {
 		List enrollmentsList = null;
@@ -71,19 +71,19 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsList;
 	}
 	
-	//수강신청 등록
+	// 수강신청 등록
 	@Override
 	public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException {
 		return enrollmentDAO.insertEnrollment(enrollment);
 	}
 	
-	// Detail page --> member
+	// 상세페이지(사람)
 	@Override
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException {
 		return enrollmentDAO.enrollmentMember(id);
 	}
 	
-	// Detail page --> course
+	// 상세페이지(강의)
 	@Override
 	public List enrollmentCourse(int id) throws DataAccessException {
 		List enrollmentsList = null;
@@ -91,10 +91,9 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentsList;
 	}
 	
-	// 상세페이지 상태 수정
+	// 상세페이지(사람) 상태 수정
 	@Override
 	public int modEnrollment(EnrollmentVO enrollment) throws DataAccessException {
-		
 		enrollmentDAO.modEnrollmentCompany(enrollment);
 		return enrollmentDAO.modEnrollmentStat(enrollment);
 	}
@@ -117,7 +116,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentDAO.updateCompleteEnrollments(id);
 	}
 	
-	// excel download
+	// 엑셀 다운로드
 	@Override
 	public void excelDownload(HttpServletResponse response) throws Exception {
 		
@@ -126,14 +125,12 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		try {
 			//Excel Down 시작
             Workbook workbook = new HSSFWorkbook();
-          //시트생성
+            //시트생성
 			Sheet sheet = workbook.createSheet("list_excel");
-			
 			//행, 열, 열번호
             Row row = null;
             Cell cell = null;
             int rowNo = 0;
-            
             // 테이블 헤더용 스타일
             CellStyle headStyle = workbook.createCellStyle();
     
@@ -259,7 +256,6 @@ public class EnrollmentServiceImpl implements EnrollmentService{
                 cell.setCellStyle(bodyStyle);
                 cell.setCellValue(excelData.getJoinDate());
             }
-
          // 컨텐츠 타입과 파일명 지정
             response.setContentType("ms-vnd/excel");
             response.setHeader("Content-Disposition", "attachment;filename=enrollment_list.xls");
@@ -270,13 +266,6 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		} catch (IOException e) {
             e.printStackTrace();
         }
-		
 	}
-
-	// (등록관련) 수강신청 되어있는지 체크
-//	@Override
-//	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException {
-//		return enrollmentDAO.checkEnrollment(enrollment);
-//	}
 	
 }

@@ -55,7 +55,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	@Override
 	@RequestMapping(value="/enrollment/listEnrollments.do", method =  RequestMethod.GET)
 	public ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		//EnrollmentList에서 보낸 name 받는다. (searchType : 검색 유형, searchText : 검색 텍스트)
 		String viewName = (String)request.getAttribute("viewName");
 		String searchType = (String)request.getParameter("searchType");
@@ -131,9 +130,8 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	// move - add enrollment page
 	@Override
 	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
-	public ModelAndView enrollmentForm(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		
+	public ModelAndView enrollmentForm(HttpServletRequest request, HttpServletResponse response) 
+			throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
@@ -166,7 +164,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		String viewName = (String)request.getAttribute("viewName");
 		List enrollmentsList = null;
 		enrollmentsList = enrollmentService.enrollmentCourse(id);	
-		 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("enrollmentsList", enrollmentsList);
 		return mav;
@@ -182,7 +179,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) { 
 			result = enrollmentService.updateCompleteEnrollments(Integer.parseInt(arr[i]));
-		 } 
+		} 
 		return result;
 	}
 
@@ -196,7 +193,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) { 
 			result = enrollmentService.updateDeleteEnrollments(Integer.parseInt(arr[i]));
-		 } 
+		} 
 		return result;
 	}
 	
@@ -210,7 +207,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) { 
 			result = enrollmentService.updateApproveEnrollments(Integer.parseInt(arr[i]));
-		 } 
+		}
 		return result;
 	}
 	

@@ -74,12 +74,6 @@
 	</table>
 	
 	
-	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/enrollment/excelCourseDownload.do?id=${enrollment.courseVO.id }" method="get">
-		<intput type="hidden" name="id" value="${enrollment.courseVO.id }" >
-		<input type="submit" value='엑셀 다운로드'>
-	</form>
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/excelCourseDownload.do?id=${enrollment.courseVO.id }'" style="width: 5%;">엑셀</button>
 	
 	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
 </body>

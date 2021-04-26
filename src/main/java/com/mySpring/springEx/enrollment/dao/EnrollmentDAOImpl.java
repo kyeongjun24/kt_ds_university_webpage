@@ -20,6 +20,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 검색에 의해 나눠지는 메서드
 	@Override
 	public List selectBySearchEnrollmentList(String searchType, String searchText) throws DataAccessException {
 		List<EnrollmentVO> enrollmentsBySearchList = null;
@@ -36,13 +37,13 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sqlSession.selectList("mapper.enrollment.listCriteria", criteria);
 	}
 	
-	//criteria에 의해 리스트 나누는 메서드
+	// criteria에 의해 리스트 나누는 메서드
 	@Override
 	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchEnrollmentList", criteria);
 	}
 	
-	//페이징 리스트 뽑아오기 메서드
+	// 페이징 리스트 뽑아오기 메서드
 	@Override
 	public List<EnrollmentVO> listPaging(int page) throws DataAccessException {
 		if (page <= 0) {
@@ -60,17 +61,22 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sylCrsList;
 	}
 	
-	
-	// List page
+	// 리스트 페이지
 	@Override
 	public List selectAllEnrollmentList() throws DataAccessException {
 		List<EnrollmentVO> enrollmentsList = null;
 		enrollmentsList = sqlSession.selectList("mapper.enrollment.selectAllEnrollmentList");
 		return enrollmentsList;
 	}
-	
 
-	// Detail page --> course
+	// 상세 페이지 (사람)
+	@Override
+	public EnrollmentVO enrollmentMember(int id) throws DataAccessException {
+		EnrollmentVO vo = sqlSession.selectOne("mapper.enrollment.enrollmentMember", id);
+		return vo;
+	}
+
+	// 상세 페이지 (강의)
 	@Override
 	public List enrollmentCourse(int id) throws DataAccessException {
 		List<EnrollmentVO> enrollmentsList = null;
@@ -78,7 +84,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsList;
 	}
 	
-	// excel download
+	// 엑셀 다운로드
 	@Override
 	public List excelEnrollmentList() throws DataAccessException {
 		List<EnrollmentVO> enrollmentsList = null;
@@ -93,20 +99,10 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return result;
 	}
 	
-	// Detail page --> member
-	@Override
-	public EnrollmentVO enrollmentMember(int id) throws DataAccessException {
-		EnrollmentVO vo = sqlSession.selectOne("mapper.enrollment.enrollmentMember", id);
-		return vo;
-	}
-	
 	// 상세페이지 (회사) 수정
 	@Override
 	public int modEnrollmentCompany(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.update("mapper.enrollment.modEnrollmentCompany", enrollmentVO);
-		
-		System.out.println(result);
-		System.out.println(enrollmentVO.getId());
 		return result;
 	}
 	
