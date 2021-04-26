@@ -80,6 +80,7 @@
 			<tr height="15" align="center" style="border-bottom: solid;">
 				<td><b>번호</b></td>     
 			    <td ><b>이름</b></td>
+			    <td ><b>회사</b></td>
 			    <td><b>아이디</b></td>
 			</tr>
 			
@@ -99,6 +100,7 @@
 						<tr align="center">
 							<td>${memberNum.count }</td>
 							<td>${member.name }</td>
+							<td>${member.companyName }</td>
 							<td align='left'  width="25%">
 								<span style="padding-right: 10px"></span>
 							  <a href='javascript:void(0);' onclick="setMemberId(this);">${member.id }</a>
