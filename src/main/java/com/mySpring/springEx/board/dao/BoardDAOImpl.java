@@ -30,11 +30,11 @@ public class BoardDAOImpl implements BoardDAO {
 		return articlesList;
 	}
 	
-	// 공지사항 리스트
+	// 중요 공지사항 리스트
 	@Override
 	public List selectImptArticlesList() throws DataAccessException {
-		List<ArticleVO> articlesList = sqlSession.selectList("mapper.board.selectImptArticlesList");
-		return articlesList;
+		List<ArticleVO> impArticlesList = sqlSession.selectList("mapper.board.selectImptArticlesList");
+		return impArticlesList;
 	}
 
 	// 공지사항 선택
@@ -97,12 +97,26 @@ public class BoardDAOImpl implements BoardDAO {
 	// search
 	@Override
 	public List selectBySearchArticlesList(String searchType, String searchText) throws DataAccessException {
-		List<ArticleVO> articlesBySearchList = null;
 		Map<String, String> mapSearch = new HashMap<String, String>();
 		mapSearch.put("searchType", searchType);
 		mapSearch.put("searchText", searchText);
-		articlesBySearchList = sqlSession.selectList("mapper.board.selectBySearchArticlesList", mapSearch);
-		return articlesBySearchList;
+		return sqlSession.selectList("mapper.board.selectBySearchArticlesList", mapSearch);
+		
+		/*
+		 * List<ArticleVO> articlesBySearchList = null; Map<String, String> mapSearch =
+		 * new HashMap<String, String>(); mapSearch.put("searchType", searchType);
+		 * mapSearch.put("searchText", searchText); articlesBySearchList =
+		 * sqlSession.selectList("mapper.board.selectBySearchArticlesList", mapSearch);
+		 * return articlesBySearchList;
+		 */
+		}
+	
+	@Override
+	public List selectBySearchImptArticlesList(String searchType, String searchText) throws DataAccessException {
+		Map<String, String> mapSearch = new HashMap<String, String>();
+		mapSearch.put("searchType", searchType);
+		mapSearch.put("searchText", searchText);
+		return sqlSession.selectList("mapper.board.selectBySearchImptArticlesList", mapSearch);
 	}
 	
 	@Override
@@ -135,6 +149,12 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.board.selectCriteriaBySearchArticleList", criteria);
+	}
+	
+	//criteria에 의해 리스트 나누는 메서드
+	@Override
+	public List selectCriteriaBySearchImpt(Criteria criteria) throws DataAccessException {
+		return sqlSession.selectList("mapper.board.selectCriteriaBySearchImptArticleList", criteria);
 	}
 	
 	//占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占싸듸옙

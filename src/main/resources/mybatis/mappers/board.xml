@@ -38,7 +38,7 @@
    <!-- 모든 공지사항 리스트 선택 -->
   <select id="selectImptArticlesList" resultMap="articlesResult"   >
     <![CDATA[
-     SELECT art_id, art_title, art_file, art_hits, SUBSTR(art_join_date,0,10) as art_join_date
+     SELECT art_id, art_title, art_file, art_hits, SUBSTR(art_join_date,0,10) as art_join_date, art_important
      from article	
      where art_important = '공지'
      order by art_id desc
@@ -64,7 +64,8 @@
 	<select id="selectArticle" resultMap="articlesResult" parameterType="int">
   <!-- <select id="selectArticle" resultType="articleVO"   parameterType="int"> -->
     <![CDATA[
-      SELECT * from article
+      SELECT art_id, art_title, art_file, art_hits, SUBSTR(art_join_date,0,10) as art_join_date, art_important, art_contents	
+       from article
       where art_id = #{id}		
     ]]>
   </select>
@@ -81,7 +82,23 @@
          SELECT * from article  
          <choose>
          	<when test="searchType == 'title'">       
-        	 	WHERE art_title LIKE '%' || #{searchText} || '%'
+        	 	WHERE UPPER(art_title) LIKE '%' || UPPER(#{searchText}) || '%'
+         	</when>
+         	<when test="searchType == 'contents'">       
+        	 	WHERE UPPER(art_contents) LIKE '%' || UPPER(#{searchText}) || '%'
+         	</when>
+         </choose>
+         order by art_id desc
+	</select>
+	
+	<select id="selectBySearchImptArticlesList" resultMap="articlesResult" parameterType="java.util.Map" >
+         SELECT * from ( select * from article where art_important = '공지')
+         <choose>
+         	<when test="searchType == 'title'">       
+        	 	WHERE UPPER(art_title) LIKE '%' || UPPER(#{searchText}) || '%'
+         	</when>
+         	<when test="searchType == 'contents'">       
+        	 	WHERE UPPER(art_contents) LIKE '%' || UPPER(#{searchText}) || '%'
          	</when>
          </choose>
          order by art_id desc
@@ -106,7 +123,7 @@
 		WHERE NUM BETWEEN #{pageStart} 
 		<choose>
 			<when test="#{perPageNum} == '10'">
-				AND #{perPageNum}
+				AND #{perPageNum} - 1
 			</when>
 			<when test="#{perPageNum} != '10'">
 				AND (#{perPageNum} + #{pageStart}) - 1
@@ -123,14 +140,45 @@
 			from article
 			 <choose>
          		<when test="searchType == 'title'">       
-        	 		WHERE art_title LIKE '%' || #{searchText} || '%'
+        	 		WHERE UPPER(art_title) LIKE '%' || UPPER(#{searchText}) || '%'
+         		</when>
+         		<when test="searchType == 'contents'">       
+        	 		WHERE UPPER(art_contents) LIKE '%' || UPPER(#{searchText}) || '%'
          		</when>
          	</choose>
 		ORDER BY art_id)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
 			<when test="#{perPageNum} == '10'">
-				AND #{perPageNum}
+				AND #{perPageNum} - 1
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart}) - 1
+			</when>
+		</choose>
+		order by art_id desc
+	</select>
+	
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select  -->
+	<select id="selectCriteriaBySearchImptArticleList" resultMap="articlesResult">
+		SELECT
+			<include refid="article-columns"></include>
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY art_id desc) NUM, art_id, art_title, SUBSTR(art_join_date,0,10) as art_join_date, art_contents, art_file, art_important, art_hits
+			from (select * from article where art_important = '공지')
+			 <choose>
+         		<when test="searchType == 'title'">       
+        	 		WHERE UPPER(art_title) LIKE '%' || UPPER(#{searchText}) || '%'
+         		</when>
+         		<when test="searchType == 'contents'">       
+        	 		WHERE UPPER(art_contents) LIKE '%' || UPPER(#{searchText}) || '%'
+         		</when>
+         	</choose>
+		ORDER BY art_id)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum} - 1
 			</when>
 			<when test="#{perPageNum} != '10'">
 				AND (#{perPageNum} + #{pageStart}) - 1

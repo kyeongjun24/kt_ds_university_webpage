@@ -23,29 +23,7 @@ import com.mySpring.springEx.board.vo.ArticleFileVO;
 
 @Controller
 public class FileDownloadController {
-	private static final String ARTICLE_FILE_REPO = "C:\\uploadtest";
-	@RequestMapping("/download.do")
-	protected void download(@RequestParam("name") String name,	//?��미�? ?��?��?���? ?��?��
-							@RequestParam("id") String id,
-			                 HttpServletResponse response)throws Exception {
-		OutputStream out = response.getOutputStream();
-		String downFile = ARTICLE_FILE_REPO + "\\" +id+"\\"+ name;	//?��?�� 경로 ?��?��
-		File file = new File(downFile);
-
-		response.setHeader("Cache-Control", "no-cache");
-		response.addHeader("Content-disposition", "attachment; fileName=" + name);
-		FileInputStream in = new FileInputStream(file);
-		byte[] buffer = new byte[1024 * 8];
-		while (true) {
-			int count = in.read(buffer); 
-			if (count == -1) 
-				break;
-			out.write(buffer, 0, count);
-		}
-		in.close();
-		out.close();
-	}
-	
+	private static final String ARTICLE_FILE_REPO = "C:\\Users\\lho16\\git workspace\\uni17_admin\\src\\main\\webapp\\resources\\articleFile";
 	@RequestMapping("fileDown.do")
 	   public ModelAndView filedown(HttpServletRequest request, String filename) throws Exception {
 	      

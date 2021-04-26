@@ -21,8 +21,10 @@ public interface BoardService {
 	public int modArticle(Map<String, Object> articleMap) throws Exception; 
 	public int modArticleFile(Map<String, Object> articleMap) throws Exception;
 	public List listBySearchArticles(String searchType, String searchText) throws DataAccessException;
+	public List listBySearchImptArticles(String searchType, String searchText) throws DataAccessException;
 	public List listCriteria(Criteria criteria) throws DataAccessException;
 	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException;
+	public List listCriteriaBySearchImpt(Criteria criteria) throws DataAccessException;
 	
 	/*public ArticleVO viewArticle(int articleNO) throws Exception;
 		public Map viewArticle(int id) throws Exception;

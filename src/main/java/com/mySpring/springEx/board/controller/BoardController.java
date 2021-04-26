@@ -18,11 +18,12 @@ public interface BoardController {
 	public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView selectArticle(@ModelAttribute("id") int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView selectArticleFile(@ModelAttribute("id") int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView addNewArticle(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
+	public ModelAndView addNewArticle(MultipartHttpServletRequest multipartRequest, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView removeArticle(@RequestParam("id") int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	int removeCheckedArticles(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView modArticle(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception; 
-	ModelAndView updateArticleForm(@RequestParam("id") int id, HttpServletRequest request, HttpServletResponse response) throws Exception; 
+	public ModelAndView modArticle(MultipartHttpServletRequest multipartRequest, HttpServletRequest request, HttpServletResponse response) throws Exception; 
+	ModelAndView addArticleForm(HttpServletRequest request, HttpServletResponse response) throws Exception; 
+	ModelAndView modArticleForm(@RequestParam("id") int id, HttpServletRequest request, HttpServletResponse response) throws Exception; 
 	ModelAndView listBySearchArticles(@RequestParam("searchType") String searchType, @RequestParam("searchText")String searchText, HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
 	/*

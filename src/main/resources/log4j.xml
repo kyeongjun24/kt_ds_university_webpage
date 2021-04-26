@@ -10,6 +10,8 @@
 		</layout>
 	</appender>
 	
+	
+	<!-- sql문 안나와서 추가  -->
 	<appender name="console-infolog" class="org.apache.log4j.ConsoleAppender">
 	<layout class="org.apache.log4j.PatternLayout">
 	<param name="ConversionPattern" value="%d %5p %m%n" />
@@ -38,6 +40,8 @@
 		<level value="debug" />
 	</logger>
 	
+	
+	<!-- 쿼리 안나와서 추가 -->
 	<!-- Query Loggers -->
 	<logger name="jdbc.sqlonly" additivity="false">
 	<level value="INFO"/>
