@@ -24,8 +24,8 @@ import com.mySpring.springEx.board.vo.ArticleFileVO;
 @Controller
 public class FileDownloadController {
 	private static final String ARTICLE_FILE_REPO = "C:\\Users\\lho16\\git workspace\\uni17_admin\\src\\main\\webapp\\resources\\articleFile";
-	@RequestMapping("fileDown.do")
-	   public ModelAndView filedown(HttpServletRequest request, String filename) throws Exception {
+	@RequestMapping("articlefileDown.do")
+	   public ModelAndView articlefiledown(HttpServletRequest request, String filename) throws Exception {
 	      
 		 String id = request.getParameter("id");
 		 System.out.println(id);

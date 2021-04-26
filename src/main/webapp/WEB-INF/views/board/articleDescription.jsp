@@ -137,7 +137,7 @@ width: 85%;
 			<tr>
 				<td style="border:none;"></td>
 				<c:if test="${filevo.name != null}">
-					<td class ="articleDes_fileDown"> 파일 : <a href="${contextPath}/fileDown.do?filename=${filevo.name}&id=${vo.id}" > ${filevo.name }</a></td>
+					<td class ="articleDes_fileDown"> 파일 : <a href="${contextPath}/articlefileDown.do?filename=${filevo.name}&id=${vo.id}" > ${filevo.name }</a></td>
 				</c:if>
 				<c:if test="${filevo.name == null}">
 					<td class ="articleDes_fileDown"></td>
