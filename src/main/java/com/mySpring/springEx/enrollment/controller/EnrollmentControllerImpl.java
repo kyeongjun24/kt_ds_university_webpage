@@ -1,4 +1,4 @@
-				package com.mySpring.springEx.enrollment.controller;
+package com.mySpring.springEx.enrollment.controller;
 
 import java.util.List;
 
