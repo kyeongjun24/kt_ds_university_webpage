@@ -22,7 +22,6 @@ public class ManagerDAOImpl implements ManagerDAO{
 	
 	@Override
 	public int updateManager(ManagerVO managerVO) throws DataAccessException {
-		System.out.println("In DAO *********************" + managerVO.getId());
 		int result = sqlSession.update("mapper.manager.updateManager", managerVO);  //VO�� ����� ������ ��� �ҷ��
 		return result;
 	}
@@ -32,4 +31,26 @@ public class ManagerDAOImpl implements ManagerDAO{
 		int result = sqlSession.update("mapper.manager.updateManger", id);
 		return result;
 	}
+
+	@Override
+	public int logLoginInfo(ManagerVO managerVO) throws DataAccessException {
+		int logLoginInfo = 0;
+		logLoginInfo = sqlSession.insert("mapper.manager.logLoginInfo", managerVO);
+		return logLoginInfo;
+	}
+
+	@Override
+	public int logLoginFailInfo(ManagerVO managerVO) throws DataAccessException {
+		int logLoginFailInfo = 0;
+		logLoginFailInfo = sqlSession.insert("mapper.manager.logLoginFailInfo", managerVO);
+		return logLoginFailInfo;
+	}
+
+	@Override
+	public int logLogoutInfo(ManagerVO managerVO) throws DataAccessException {
+		int logLogoutInfo = 0;
+		logLogoutInfo = sqlSession.insert("mapper.manager.logLogoutInfo", managerVO);
+		return logLogoutInfo;
+	}
+
 }

@@ -9,3 +9,4 @@ src/test
 src/main/webapp/WEB-INF/config
 src/main/webapp/WEB-INF/lib
 bin
+src/main/resources/log4j.xml

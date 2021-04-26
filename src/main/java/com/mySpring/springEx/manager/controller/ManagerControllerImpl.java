@@ -22,6 +22,7 @@ public class ManagerControllerImpl implements ManagerController{
 
 	@Autowired
 	private ManagerService managerService;
+	
 	@Autowired
 	ManagerVO managerVO;
 	
@@ -33,16 +34,17 @@ public class ManagerControllerImpl implements ManagerController{
 	
 	
 	@Override
-	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST) //loginForm.jspÀÇ Á¤º¸¸¦ Åä´ë·Î login.do·Î ½ÇÇà
+	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST) //loginForm.jspï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ login.doï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public ModelAndView login(@ModelAttribute("manager") ManagerVO manager,
 				              RedirectAttributes rAttr, 
 		                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 	ModelAndView mav = new ModelAndView();
-	managerVO = managerService.login(manager); //ServiceimplÀÇ ¸Å´ÏÀúÀÇ ·Î±×ÀÎ °´Ã¼¸¦ ºÒ·¯¿È
+	managerVO = managerService.login(manager); //Serviceimplï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½
 	if(managerVO != null) {
-	    HttpSession session = request.getSession();		//
-	    session.setAttribute("manager", managerVO);		// ¸Å´ÏÀúÀÇ Á¤º¸¸¦ Set½ÃÄÑ Á¤º¸Ç¥½Ã
-	    session.setAttribute("isLogOn", true);			//
+		int loginSuccess = managerService.logLoginInfo(manager);
+	    HttpSession session = request.getSession();
+	    session.setAttribute("manager", managerVO);
+	    session.setAttribute("isLogOn", true);
 	    //mav.setViewName("redirect:/member/listMembers.do");
 	    String action = (String)session.getAttribute("action");
 	    System.out.println(action);
@@ -50,11 +52,12 @@ public class ManagerControllerImpl implements ManagerController{
 	    if(action!= null) {
 	       mav.setViewName("redirect:"+action);
 	    }else {
-	       mav.setViewName("redirect:/main.do");	
+	       mav.setViewName("redirect:/member/adminMain.do");	
 	    }
 
 	}else {
-	   rAttr.addAttribute("result","loginFailed");	//·Î±×ÀÎÀÌ ½ÇÆÐÇÏ¿´À»°æ¿ì ´Ù½Ã ·Î±×ÀÎÃ¢À¸·Î ÀÌµ¿
+		int loginFail = managerService.logLoginFailInfo(manager);
+	   rAttr.addAttribute("result","loginFailed");
 	   mav.setViewName("redirect:/");
 	}
 	return mav;
@@ -64,10 +67,12 @@ public class ManagerControllerImpl implements ManagerController{
 	@RequestMapping(value = "/manager/logout.do", method =  RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
-		session.removeAttribute("manager");		//·Î±×¾Æ¿ô½Ã ¼¼¼ÇÀ» Áö¿ö ¸Å´ÏÀúÀÇ Á¤º¸¸¦ ¾ø¾Ö´Â ±â´É
+		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
+		int logout = managerService.logLogoutInfo(managerVO);
+		session.removeAttribute("manager");
 		session.removeAttribute("isLogOn");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/");			//·Î±×ÀÎ Ã¢À¸·Î ÀÌµ¿
+		mav.setViewName("redirect:/");			//ï¿½Î±ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 		return mav;
 	}
 	
@@ -79,7 +84,7 @@ public class ManagerControllerImpl implements ManagerController{
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		result = managerService.updateManager(manager);
-		HttpSession session = request.getSession();		//È¸¿ø Á¤º¸¸¦ ¼öÁ¤ÇÏ¿´À»°æ¿ì ¼¼¼ÇÀ» Áö¿ö ·Î±×ÀÎÃ¢¿¡¼­ ´Ù½Ã ·Î±×ÀÎÇÏ°ÔµÇ´Â±â´É
+		HttpSession session = request.getSession();		//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½Ï°ÔµÇ´Â±ï¿½ï¿½
 		session.removeAttribute("manager");
 		session.removeAttribute("isLogOn");
 		ModelAndView mav = new ModelAndView("redirect:/");
@@ -99,7 +104,7 @@ public class ManagerControllerImpl implements ManagerController{
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println(viewName);
 		HttpSession session = request.getSession();
-		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager"); //ÇöÀç ·Î±×ÀÎµÈ ¸Å´ÏÀúÀÇ Á¤º¸¸¦ °¡Á®¿È
+		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager"); //ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½Îµï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		ModelAndView mv = new ModelAndView();	
 		mv.setViewName(viewName);

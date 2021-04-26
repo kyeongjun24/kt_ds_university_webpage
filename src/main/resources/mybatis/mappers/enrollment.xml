@@ -561,4 +561,11 @@
 	</select>
 
 
+
+	<select id="selectNumberOfApplicants" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM enrollment_detail where enrd_stat = '신청'
+		]]>
+	</select>
+	
 </mapper>

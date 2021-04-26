@@ -20,7 +20,6 @@ import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.common.paging.PageMaker;
 import com.mySpring.springEx.company.service.CompanyService;
 import com.mySpring.springEx.company.vo.CompanyVO;
-import com.mySpring.springEx.course.vo.CourseVO;
 
 @Controller("companyController")
 public class CompanyControllerImpl implements CompanyController {

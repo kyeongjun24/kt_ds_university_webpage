@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.courseCategory">
+	<resultMap id="crscResult" type="CourseCategoryVO">
+		<result property="id" column="crs_category_id" />
+		<result property="name" column="crs_category_name" />
+	</resultMap>
+	
+	<select id="selectAllCourseCategory" resultMap="crscResult">
+	<![CDATA[
+		SELECT * FROM course_category order by crs_category_id
+	]]>
+	</select>
+	
+	<insert id="insertCourseCategory" parameterType="CourseCategoryVO">
+	  <![CDATA[
+	  	INSERT INTO course_category VALUES (crsc_seq.NEXTVAL, #{name})
+	  ]]>
+	</insert>
+	
+	<select id="selectCourseCategory" resultMap="crscResult" parameterType="int">
+		<![CDATA[
+			SELECT * FROM course_category
+			WHERE crs_category_id = #{id}
+		]]>
+	</select>
+	
+	<update id="updateCourseCategory" parameterType="CourseCategoryVO">
+		<![CDATA[
+			UPDATE course_category 
+			SET crs_category_name = #{name}
+			WHERE crs_category_id = #{id} 
+		]]>
+	</update>
+	
+	<delete id="deleteCourseCategory" parameterType="int">
+		<![CDATA[
+			DELETE FROM course_category WHERE crs_category_id = #{id}
+		]]>
+	</delete>
+	
+</mapper>

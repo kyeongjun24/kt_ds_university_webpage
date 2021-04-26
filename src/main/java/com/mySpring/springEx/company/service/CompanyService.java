@@ -47,6 +47,8 @@ public interface CompanyService {
 	
 	// 팝업에서 검색 메소드
 	public List searchFromPopUp(String searchType, String searchText) throws DataAccessException;
+	
+	public int numberOfCompanies() throws DataAccessException;
 
 	// 팝업에서 기준 설정에 의해 새로 받는 리스트 설정
 	public List listCriteriaBySearchFromPopUp(Criteria criteria) throws DataAccessException;

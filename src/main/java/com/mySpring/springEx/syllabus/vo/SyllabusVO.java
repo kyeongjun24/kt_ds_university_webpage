@@ -3,6 +3,8 @@ package com.mySpring.springEx.syllabus.vo;
 
 import org.springframework.stereotype.Component;
 
+import com.mySpring.springEx.courseCategory.vo.CourseCategoryVO;
+
 @Component("syllabusVO")
 public class SyllabusVO {
 	
@@ -17,16 +19,20 @@ public class SyllabusVO {
 	private String contents;
 	private String joinDate;
 	private String modDate;
+	private String bannerImg;
 	private int days;
 	private int time;
+	
+	private CourseCategoryVO courseCategoryVO;
 	
 	
 	public SyllabusVO() {
 	}
 	
+	
 	public SyllabusVO(int id, String name, String reportName, String type, String category, String overview,
-			String objectives, String target, String contents, String joinDate, String modDate, int days,
-			int time) {
+			String objectives, String target, String contents, String joinDate, String modDate, String bannerImg,int days, int time,
+			CourseCategoryVO courseCategoryVO) {
 		this.id = id;
 		this.name = name;
 		this.reportName = reportName;
@@ -38,10 +44,13 @@ public class SyllabusVO {
 		this.contents = contents;
 		this.joinDate = joinDate;
 		this.modDate = modDate;
+		this.bannerImg = bannerImg;
 		this.days = days;
 		this.time = time;
+		this.courseCategoryVO = courseCategoryVO;
 	}
-	
+
+
 	public int getId() {
 		return id;
 	}
@@ -145,6 +154,22 @@ public class SyllabusVO {
 	public void setTime(int time) {
 		this.time = time;
 	}
-	
-	
+
+
+	public CourseCategoryVO getCourseCategoryVO() {
+		return courseCategoryVO;
+	}
+
+
+	public void setCourseCategoryVO(CourseCategoryVO courseCategoryVO) {
+		this.courseCategoryVO = courseCategoryVO;
+	}
+
+	public String getBannerImg() {
+		return bannerImg;
+	}
+
+	public void setBannerImg(String bannerImg) {
+		this.bannerImg = bannerImg;
+	}
 }

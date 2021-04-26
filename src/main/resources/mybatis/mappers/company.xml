@@ -323,4 +323,11 @@
 		where com_id=#{id}
 		]]>
 	</update>
+
+	
+	<select id="selectNumberOfCompanies" resultType="int">
+		<![CDATA[
+			SELECT count(*) from company where com_contract_stat = '협약 진행중'
+		]]>
+	</select>
 </mapper>

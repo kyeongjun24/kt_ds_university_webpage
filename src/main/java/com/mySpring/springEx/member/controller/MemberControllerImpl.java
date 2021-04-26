@@ -1,6 +1,8 @@
 package com.mySpring.springEx.member.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.common.paging.PageMaker;
+import com.mySpring.springEx.company.service.CompanyService;
+import com.mySpring.springEx.course.service.CourseService;
+import com.mySpring.springEx.enrollment.service.EnrollmentService;
+import com.mySpring.springEx.manager.vo.ManagerVO;
 import com.mySpring.springEx.member.service.MemberService;
 import com.mySpring.springEx.member.vo.MemberVO;
 
@@ -30,16 +36,35 @@ public class MemberControllerImpl implements MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
 	@Autowired
-	MemberVO memberVO;
-
-	@RequestMapping(value = { "/main.do" }, method = RequestMethod.GET)
-	private String main(HttpServletRequest request, HttpServletResponse response) {
-//		String viewName = (String)request.getAttribute("viewName");
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName(viewName);
-		return "main";
+	CourseService courseService;
+	
+	@Autowired
+	EnrollmentService enrollmentService;
+	
+	@Autowired
+	CompanyService companyService;
+	
+	@Autowired
+	MemberVO memberVO ;
+	
+	
+	@Override
+	@RequestMapping(value="/member/adminMain.do" ,method = RequestMethod.GET)
+	public ModelAndView adminMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView(viewName);
+		int courseCount = courseService.numberOfCourses();
+		int numberOfApplicants = enrollmentService.numberOfApplicants();
+		int numberOfCompanies = companyService.numberOfCompanies();
+		mav.addObject("numberOfCourses", courseCount );
+		mav.addObject("numberOfApplicants", numberOfApplicants);
+		mav.addObject("numberOfCompanies", numberOfCompanies);
+		return mav;
 	}
+
 	
 	//아이디 검색 팝업 (원본)
 //	@RequestMapping(value = "/member/memberSearchPopUp.do", method = {RequestMethod.GET, RequestMethod.POST})
@@ -127,7 +152,7 @@ public class MemberControllerImpl implements MemberController {
 		} else {
 			perPage = 10; // 기본 10개로 지정
 		}
-		System.out.println("전달 받은 페이지 번호 page:"+page); // 전달 받은 페이지 번호 page 
+		System.out.println("전달 받은 페이지 번호 page:" + page); // 전달 받은 페이지 번호 page 
 		System.out.println("리스트 띄울 개수 Perpage:"+perPage); // 전달 받은 페이지 번호 page 
 
 		List membersList = null; 
@@ -163,9 +188,11 @@ public class MemberControllerImpl implements MemberController {
 			membersList = memberService.listCriteria(criteria); //기준에 의해 나눠진 리스트 설정
 		}
 		System.out.println("perPage@@@@@@@@@@@@"+perPage);
+		mav.addObject("page", page);
 		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
 		mav.addObject("membersList", membersList); //설정된 리스트 보내기
+		mav.addObject("viewName", viewName);
 		return mav; //리스트 페이지로
 	}
 	
@@ -175,8 +202,8 @@ public class MemberControllerImpl implements MemberController {
 		model.addAttribute("members", memberService.listCriteria(criteria));
 		return "/member/list_criteria";
 		
-	} 
-	
+	}
+
 	//페이지 개수가 어떻게 나눠지는지 확인해보며 연습할 페이지로 -> 실제 구현할 때는 필요없을 예정
 	@RequestMapping(value = "/member/listPaging.do", method = RequestMethod.GET)
 	public String listPaging(Model model, Criteria criteria) throws Exception {
@@ -189,15 +216,28 @@ public class MemberControllerImpl implements MemberController {
 		model.addAttribute("pageMaker", pageMaker);
 		return "/member/list_paging";
 	}
-	
 
 	@Override
 	@RequestMapping(value="/member/addMember.do" ,method = RequestMethod.POST)
 	public ModelAndView addMember(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
+		String searchType = (String)request.getParameter("searchType");
+		String searchText = (String)request.getParameter("searchText");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		int result = 0;
 		result = memberService.addMember(member);
-		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
+		if (result > 0) {
+			HttpSession session = request.getSession();
+			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
+			System.out.println(managerVO.getId());
+			String managerId = managerVO.getId();
+			Map<String, String> map = new HashMap();
+			map.put("manager", managerId);
+			map.put("id", member.getId());
+			memberService.addMemberLog(map);
+		}
+		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do?page="+page+"&searchText="+searchText+"&searchType="+searchType+"&perPage="+perPage);
 		return mav;
 	}
 
@@ -220,8 +260,23 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView removeMember(@RequestParam("id") String id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		memberService.removeMember(id);
-		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
+		int result = memberService.updateMemberDelYN(id);
+		String searchType = (String)request.getParameter("searchType");
+		String searchText = (String)request.getParameter("searchText");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
+		if (result > 0) {
+			HttpSession session = request.getSession();
+			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
+			System.out.println(managerVO.getId());
+			String managerId = managerVO.getId();
+			Map<String, String> map = new HashMap();
+			map.put("manager", managerId);
+			map.put("id", id);
+			memberService.removeMemberLog(map);
+		}
+		
+		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do?page="+page+"&searchText="+searchText+"&searchType="+searchType+"&perPage="+perPage);
 		return mav;
 	}
 
@@ -231,10 +286,19 @@ public class MemberControllerImpl implements MemberController {
 	public int removeCheckedMembers(String[] arr, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
-		System.out.println("============================" + arr.length);
 		int result = 0;
-		for (int i = 0; i < arr.length; i++) {
-			result = memberService.removeMember(arr[i]);
+		for(int i = 0; i < arr.length; i++) {
+			System.out.println(arr[i]);
+			result = memberService.updateMemberDelYN(arr[i]);
+			if(result > 0) {
+				HttpSession session = request.getSession();
+				ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
+				String managerId = managerVO.getId();
+				Map<String, String> map = new HashMap();
+				map.put("manager", managerId);
+				map.put("id", arr[i]);
+				memberService.removeMemberLog(map);
+			}
 		}
 		return result;
 	}
@@ -244,9 +308,23 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView updateMember(@ModelAttribute("member") MemberVO member, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
+		String searchType = (String)request.getParameter("searchType");
+		String searchText = (String)request.getParameter("searchText");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		int result = 0;
 		result = memberService.updateMember(member);
-		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
+		if (result > 0) {
+			HttpSession session = request.getSession();
+			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
+			System.out.println(managerVO.getId());
+			String managerId = managerVO.getId();
+			Map<String, String> map = new HashMap();
+			map.put("manager", managerId);
+			map.put("id", member.getId());
+			memberService.updateMemberLog(map);
+		}
+		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do?page="+page+"&searchText="+searchText+"&searchType="+searchType+"&perPage="+perPage);
 		return mav;
 	}
 
@@ -255,10 +333,18 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView updateMemberForm(@RequestParam String id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		String viewName = (String) request.getAttribute("viewName");
+		String viewName = (String)request.getAttribute("viewName");
+		String searchType = (String)request.getParameter("searchType");
+		String searchText = (String)request.getParameter("searchText");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName(viewName);
 		MemberVO vo = memberService.selectMember(id);
+		mv.addObject("searchType", searchType);
+		mv.addObject("searchText", searchText);
+		mv.addObject("page", page);
+		mv.addObject("perPage", perPage);
 		mv.addObject("vo", vo);
 		return mv;
 	}
@@ -268,13 +354,41 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView informationMemberForm(@RequestParam String id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		String viewName = (String) request.getAttribute("viewName");
+		String viewName = (String)request.getAttribute("viewName");
+		String searchType = (String)request.getParameter("searchType");
+		String searchText = (String)request.getParameter("searchText");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		ModelAndView mv = new ModelAndView();
+		MemberVO vo = memberService.selectMember(id);
 		mv.setViewName(viewName);
-		MemberVO vo = memberService.selectMember(id);	
+		mv.addObject("searchType", searchType);
+		mv.addObject("searchText", searchText);
+		mv.addObject("page", page);
+		mv.addObject("perPage", perPage);
 		mv.addObject("vo", vo);
 		return mv;
 	}
+	
+	@Override
+	@ResponseBody
+	@RequestMapping(value="/member/insertLogByInformationInquiry.do", method = RequestMethod.POST)
+	public int insertLogByInformationInquiry(String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("utf-8");
+		String viewName = (String)request.getAttribute("viewName");
+		System.out.println(id+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		HttpSession session = request.getSession();
+		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
+		String managerId = managerVO.getId();
+		Map<String, String> map = new HashMap();
+		map.put("manager", managerId);
+		map.put("id", id);
+		int result = 0;
+		result = memberService.insertLogByInformationInquiry(map);
+		return result;
+	}
+						
 
 	/*
 	 * @RequestMapping(value = { "/member/loginForm.do", "/member/memberForm.do" },
@@ -324,17 +438,25 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/member/*Form.do", method = RequestMethod.GET)
-	private ModelAndView form(@RequestParam(value = "result", required = false) String result,
-			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
-		String viewName = (String) request.getAttribute("viewName");
-//		System.out.println(viewName);
+	@RequestMapping(value = "/member/*Form.do", method =  RequestMethod.GET)
+	private ModelAndView form(@RequestParam(value= "result", required=false) String result,
+							  @RequestParam(value= "action", required=false) String action,
+						       HttpServletRequest request, 
+						       HttpServletResponse response) throws Exception {
+		
+		String viewName = (String)request.getAttribute("viewName");
+		String searchType = (String)request.getParameter("searchType");
+		String searchText = (String)request.getParameter("searchText");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		HttpSession session = request.getSession();
 		session.setAttribute("action", action);
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("result", result);
+		mav.addObject("searchType", searchType);
+		mav.addObject("searchText", searchText);
+		mav.addObject("page", page);
+		mav.addObject("perPage", perPage);
+		mav.addObject("result",result);
 		mav.setViewName(viewName);
 		return mav;
 	}

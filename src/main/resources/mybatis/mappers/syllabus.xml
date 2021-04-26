@@ -16,30 +16,124 @@
         <result property="contents" column="slb_contents" />
         <result property="joinDate" column="slb_join_date" />
         <result property="modDate" column="slb_mod_date" />
+        <result property="bannerImg" column="slb_banner_img" />
         <result property="days" column="slb_days" />
         <result property="time" column="slb_time" />
+        <collection property="courseCategoryVO" resultMap="crscResult" />
 	</resultMap> 
 	
-	<select id="selectAllSyllabusList" resultMap="syllabusResult">
-      <![CDATA[
-         SELECT slb_id, slb_name, slb_report_name, slb_type, slb_category, 
+	<resultMap id="crscResult" type="CourseCategoryVO">
+		<result property="id" column="crs_category_id" />
+		<result property="name" column="crs_category_name" />
+	</resultMap>
+	
+	 <sql id="syllabus-columns">
+   	<![CDATA[
+   		S.slb_id as slb_id, S.slb_name as slb_name, S.slb_report_name as slb_report_name, S.slb_type as slb_type, S.slb_category as slb_category, 
+         S.slb_overview as slb_overview, S.slb_objectives as slb_objectives, S.slb_target as slb_target, S.slb_contents as slb_contents, SUBSTR(S.slb_join_date, 0, 10) as slb_join_date,
+          SUBSTR(S.slb_mod_date, 0, 10) as slb_mod_date, S.slb_days as slb_days, S.slb_time as slb_time, S.slb_banner_img as slb_banner_img, C.crs_category_id as crs_category_id, C.crs_category_name as crs_category_name FROM syllabus S
+          LEFT JOIN course_category C
+          ON s.crs_category_id = c.crs_category_id
+   	]]>
+   </sql>
+   
+   <sql id="List-columns">
+   <![CDATA[
+   		slb_id, slb_name, slb_report_name, slb_type, slb_category, 
          slb_overview, slb_objectives, slb_target, slb_contents, SUBSTR(slb_join_date, 0, 10) as slb_join_date,
-          SUBSTR(slb_mod_date, 0, 10) as slb_mod_date, slb_days, slb_time FROM syllabus
-      ]]>
+          SUBSTR(slb_mod_date, 0, 10) as slb_mod_date, slb_days, slb_time, slb_banner_img, crs_category_id, crs_category_name 
+   ]]>
+   </sql>
+	
+	<select id="selectAllSyllabusList" resultMap="syllabusResult">
+         SELECT  <include refid="syllabus-columns"></include> 
+         ORDER BY slb_id desc
 	</select>
 	
+	<select id="selectBySearchSyllabusesList" resultMap="syllabusResult" parameterType="java.util.Map" >
+         select <include refid="syllabus-columns"></include>  
+	     <choose>
+         	<when test="searchType == 'nameOfLecture'">
+         		WHERE UPPER(slb_name) LIKE '%' || UPPER(#{searchText}) || '%'
+         	</when>
+         	<!-- <when test="searchType == 'companyName'">
+         		WHERE mem_company_name LIKE '%' || #{searchText} || '%'
+         	</when> -->
+         </choose>
+	</select>
+	
+	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<select id="selectSyllabusesListByPaging" resultMap="syllabusResult">
+		SELECT <include refid="List-columns"></include> FROM
+				(select ROW_NUMBER() OVER (ORDER BY slb_id desc) NUM, <include refid="syllabus-columns"></include>
+				ORDER BY slb_id desc)
+		WHERE NUM BETWEEN #{page} AND 10
+
+	</select>
+	
+	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<select id="listCriteria" resultMap="syllabusResult">
+		SELECT
+			<include refid="List-columns"></include>
+		FROM (select ROW_NUMBER() OVER (ORDER BY slb_id desc) NUM, <include refid="syllabus-columns"></include>
+				ORDER BY slb_id desc)
+		WHERE NUM BETWEEN #{pageStart} 
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum} - 1
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart}) - 1
+			</when>
+		</choose>
+		order by slb_id desc
+	</select>
+	
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select  -->
+	<select id="selectCriteriaBySearchSyllabusesList" resultMap="syllabusResult">
+		SELECT
+			<include refid="List-columns"></include>
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY slb_id desc) NUM, <include refid="syllabus-columns"></include>
+			<choose>
+	         	<when test="searchType == 'nameOfLecture'">
+	         		WHERE UPPER(slb_name) LIKE '%' || UPPER(#{searchText}) || '%'
+	         	</when>
+	         	<!-- <when test="searchType == 'companyName'">
+	         		WHERE mem_company_name LIKE '%' || #{searchText} || '%'
+	         	</when> -->
+         	</choose>
+		ORDER BY slb_id desc)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart}) - 1
+			</when>
+		</choose>
+		order by slb_id desc
+	</select>
+	
+		
 	<select id="selectSyllabus" parameterType="int" resultMap="syllabusResult">
-	 <![CDATA[
-	 	select * from syllabus where slb_id = #{id }
-	 ]]>
+	 	SELECT  <include refid="syllabus-columns"></include>
+	 	WHERE slb_id = #{id}
+	</select>
+	
+	<select id="selectMaxSyllabusId" resultType="int">
+		<![CDATA[
+		SELECT MAX(slb_id) from syllabus
+		]]>
 	</select>
 	
 	<insert id="insertSyllabus" parameterType="SyllabusVO">
 	  <![CDATA[
 	  	insert into syllabus(slb_id, slb_name, slb_report_name, slb_type, slb_category, 
-	  	slb_overview, slb_objectives, slb_target, slb_contents, slb_days, slb_time)
-	  	values(slb_seq.NEXTVAL, #{name}, #{reportName}, #{type}, #{category}, 
-	  	#{overview}, #{objectives}, #{target}, #{contents}, #{days}, #{time})
+	  	slb_overview, slb_objectives, slb_target, slb_contents, slb_days, slb_time, slb_banner_img, crs_category_id)
+	  	values(slb_seq.NEXTVAL, #{name}, #{reportName}, #{type}, #{courseCategoryVO.name}, 
+	  	#{overview}, #{objectives}, #{target}, #{contents}, #{days}, #{time}, #{bannerImg}, #{courseCategoryVO.id})
 	  ]]>
 	</insert>
 	
@@ -47,8 +141,8 @@
 	 <![CDATA[
 	 	update syllabus set slb_name = #{name}, slb_report_name = #{reportName}, slb_type = #{type},
 		slb_category = #{category}, slb_overview = #{overview}, slb_objectives = #{objectives},
-		slb_mod_date = TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MM:SS'), slb_target = #{target}, slb_contents = #{contents},
-		slb_days = #{days}, slb_time = #{time}
+		slb_target = #{target}, slb_contents = #{contents}, slb_mod_date = TO_CHAR(SYSDATE, 'YYYY-MM-DD '),
+		slb_days = #{days}, slb_time = #{time}, slb_banner_img = #{bannerImg} ,crs_category_id = #{courseCategoryVO.id}
 		where slb_id = #{id}
 	 ]]> 
 	</update>

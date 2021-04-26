@@ -1,6 +1,8 @@
 package com.mySpring.springEx.course.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.course.dao.CourseDAO;
 import com.mySpring.springEx.course.vo.CourseVO;
 
@@ -46,4 +49,42 @@ public class CourseServiceImpl implements CourseService {
 		return courseDAO.updateCourse(courseVO);
 	}
 
+	@Override
+	public int numberOfCourses() throws DataAccessException {
+		return courseDAO.selectNumberOfCourses();
+	}
+
+	@Override
+	public List listBySearchCourses(String searchType, String searchText) throws DataAccessException {
+		List cousesBySearchList = null;
+		cousesBySearchList = courseDAO.selectBySearchCoursesList(searchType, searchText);
+		return cousesBySearchList;
+	}
+
+	@Override
+	public List listCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		List coursesCriteriaBySearch = null;
+		coursesCriteriaBySearch = courseDAO.selectCriteriaBySearch(criteria);
+		return coursesCriteriaBySearch;
+	}
+
+	@Override
+	public List listCriteria(Criteria criteria) throws DataAccessException {
+		return courseDAO.listCriteria(criteria);
+	}
+
+	@Override
+	public int updateByButtonCourse(Map<String, Object> map) throws DataAccessException {
+		return courseDAO.updateByButtonCourse(map);
+	}
+
+	@Override
+	public int checkClassRoomOfCourses(HashMap<String, String> param) throws DataAccessException {
+		return courseDAO.checkClassRoomOfCourses(param);
+	}
+
+	@Override
+	public int checkClassRoomOfCoursesById(HashMap<String, String> param) throws DataAccessException {
+		return courseDAO.checkClassRoomOfCoursesById(param);
+	}
 }

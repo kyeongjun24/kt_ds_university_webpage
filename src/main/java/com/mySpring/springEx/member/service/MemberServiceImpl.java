@@ -1,6 +1,7 @@
 package com.mySpring.springEx.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -76,8 +77,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int removeMember(String id) throws DataAccessException {
-		return memberDAO.deleteMember(id);
+	public int updateMemberDelYN(String id) throws DataAccessException {
+		return memberDAO.updateMemberDelYN(id);
 	}
 	
 	@Override
@@ -99,6 +100,25 @@ public class MemberServiceImpl implements MemberService {
 	public List enrollmentsList(Criteria criteria) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public int removeMemberLog(Map<String, String> map) {
+		return memberDAO.insertMemberLog(map);
+	}
+
+	@Override
+	public int insertLogByInformationInquiry(Map<String, String> map) throws DataAccessException {
+		return memberDAO.insertLogByInformationInquiry(map);
+	}
+
+	@Override
+	public int updateMemberLog(Map<String, String> map) throws DataAccessException {
+		return memberDAO.updateMemberLog(map);
+	}
+
+	@Override
+	public int addMemberLog(Map<String, String> map) throws DataAccessException {
+		return memberDAO.addMemberLog(map);
 	}
 
 

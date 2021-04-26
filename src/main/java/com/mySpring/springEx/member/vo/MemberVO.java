@@ -15,13 +15,14 @@ public class MemberVO {
 	private String delYN;
 	private String joinDate;
 	private String modDate;
+	private String tel;
 	private int loginFail;
 	
 	
 	public MemberVO() {}
 	
 	public MemberVO(String id, String name, String pw, String phone, String email, String subscription,
-			String companyName, String delYN, String joinDate, String modDate, int loginFail) {
+			String companyName, String delYN, String joinDate, String modDate, String tel, int loginFail) {
 		this.id = id;
 		this.name = name;
 		this.pw = pw;
@@ -32,6 +33,7 @@ public class MemberVO {
 		this.delYN = delYN;
 		this.joinDate = joinDate;
 		this.modDate = modDate;
+		this.tel = tel;
 		this.loginFail = loginFail;
 	}
 
@@ -114,6 +116,14 @@ public class MemberVO {
 
 	public void setModDate(String modDate) {
 		this.modDate = modDate;
+	}
+	
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
 	public int getLoginFail() {

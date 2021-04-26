@@ -59,12 +59,18 @@ public class MemberDAOImpl implements MemberDAO {
 	// 페이지 기준 설정 메서드
 	@Override
 	public List<MemberVO> listCriteria(Criteria criteria) throws DataAccessException {
+		System.out.println("@@ page 번호 : " + criteria.getPage());
+		System.out.println("@@ 페이지 스타트" + criteria.getPageStart());
+		System.out.println("@@ 개당 페이지 개수" + criteria.getPerPageNum());
 		return sqlSession.selectList("mapper.member.listCriteria", criteria);
 	}
 	
 	//criteria에 의해 리스트 나누는 메서드
 	@Override
 	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println("pageStart" + criteria.getPageStart());
+		System.out.println("perPageNum:" + criteria.getPerPageNum());
 		return sqlSession.selectList("mapper.member.selectCriteriaBySearchMemberList", criteria);
 	}
 	
@@ -81,8 +87,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public int deleteMember(String id) throws DataAccessException {
-		int result = sqlSession.delete("mapper.member.deleteMember", id);
+	public int updateMemberDelYN(String id) throws DataAccessException {
+		int result = sqlSession.update("mapper.member.updateMemberDelYN", id);
 		return result;
 	}
 	
@@ -108,6 +114,27 @@ public class MemberDAOImpl implements MemberDAO {
 	public int selectCheckMember(String id) throws DataAccessException {
 		int result = sqlSession.selectOne("mapper.member.selectCheckMember", id);
 		return result;
+	}
+
+	@Override
+	public int insertMemberLog(Map<String, String> map) throws DataAccessException {
+		int result = sqlSession.insert("mapper.member.insertMemberLog", map);
+		return result;
+	}
+
+	@Override
+	public int insertLogByInformationInquiry(Map<String, String> map) throws DataAccessException {
+		return sqlSession.insert("mapper.member.insertLogByInformationInquiry", map);
+	}
+
+	@Override
+	public int updateMemberLog(Map<String, String> map) throws DataAccessException {
+		return sqlSession.insert("mapper.member.updateMemberLog", map);
+	}
+
+	@Override
+	public int addMemberLog(Map<String, String> map) throws DataAccessException {
+		return sqlSession.insert("mapper.member.addMemberLog", map);
 	}
 
 	

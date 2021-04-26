@@ -144,4 +144,9 @@ public class CompanyDAOImpl implements CompanyDAO {
 		page = (page - 1) * 10;
 		return sqlSession.selectList("mapper.company.selectPartnerListByPaging", page);
 	}
+	
+	@Override
+	public int selectNumberOfCompanies() throws DataAccessException {
+		return sqlSession.selectOne("mapper.company.selectNumberOfCompanies");
+	}
 }

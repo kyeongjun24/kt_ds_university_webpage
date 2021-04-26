@@ -146,4 +146,9 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	}
 	
 	
+
+	@Override
+	public int numberOfApplicants() throws DataAccessException {
+		return enrollmentDAO.selectNumberOfApplicants();
+	}
 }

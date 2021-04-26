@@ -12,6 +12,7 @@ import com.mySpring.springEx.member.vo.MemberVO;
 
 
 public interface MemberController {
+	ModelAndView adminMain(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	ModelAndView addMember(@ModelAttribute("info") MemberVO memberVO,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	int idCheckMember(@RequestParam("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -24,6 +25,7 @@ public interface MemberController {
 	ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	int removeCheckedMembers(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	ModelAndView informationMemberForm(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
+	int insertLogByInformationInquiry(String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception;
 	
 }

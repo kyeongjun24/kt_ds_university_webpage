@@ -1,14 +1,15 @@
 package com.mySpring.springEx.syllabus.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 
-import com.mySpring.springEx.course.vo.CourseVO;
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.syllabus.vo.SyllabusVO;
 
 
@@ -23,6 +24,39 @@ public class SyllabusDAOImpl implements SyllabusDAO{
 		List<SyllabusVO> syllabusesList = null;
 		syllabusesList = sqlSession.selectList("mapper.syllabus.selectAllSyllabusList");
 		return syllabusesList;
+	}
+	
+	@Override
+	public List selectBySearchSyllabusesList(String searchType, String searchText) {
+		List<SyllabusVO> syllabusesBySearchList = null;
+		Map<String, String> mapSearch = new HashMap<String, String>();
+		mapSearch.put("searchType", searchType);
+		mapSearch.put("searchText", searchText);
+		syllabusesBySearchList = sqlSession.selectList("mapper.syllabus.selectBySearchSyllabusesList", mapSearch);
+		return syllabusesBySearchList;
+	}
+	
+	@Override
+	public List<SyllabusVO> listPaging(int page) throws DataAccessException {
+		if (page <= 0) {
+			page = 1;
+		} 
+		
+		page = (page - 1) * 10;
+		return sqlSession.selectList("mapper.syllabus.selectSyllabusesListByPaging", page);
+	}
+	
+	@Override
+	public List<SyllabusVO> listCriteria(Criteria criteria) {
+		return sqlSession.selectList("mapper.syllabus.listCriteria", criteria);
+	}
+
+	@Override
+	public List selectCriteriaBySearch(Criteria criteria) {
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println("pageStart" + criteria.getPageStart());
+		System.out.println("Perpage" + criteria.getPerPageNum());
+		return sqlSession.selectList("mapper.syllabus.selectCriteriaBySearchSyllabusesList", criteria);
 	}
 
 	@Override
@@ -48,4 +82,10 @@ public class SyllabusDAOImpl implements SyllabusDAO{
 		int result = sqlSession.update("mapper.syllabus.updateSyllabus", syllabusVO);
 		return result;
 	}
+
+	@Override
+	public int selectMaxSyllabusId() throws DataAccessException {
+		return sqlSession.selectOne("mapper.syllabus.selectMaxSyllabusId");
+	}
+
 }

@@ -52,5 +52,6 @@ public interface EnrollmentDAO {
 	public List selectCompletionCriteriaBySearch(Criteria criteria) throws DataAccessException;
 
 	public List selectAllCompletionList() throws DataAccessException;
+	public int selectNumberOfApplicants() throws DataAccessException;
 
 }

@@ -4,7 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
-request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
+	String result = (String)request.getParameter("result");
 %>
 <!DOCTYPE html>
 <html>
@@ -20,7 +21,29 @@ request.setCharacterEncoding("UTF-8");
 		</script>
 	</c:when>
 </c:choose>
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+	$(function() {
+		$('.adminLoginForm').submit(function(){
+			
+			var frm = document.frmLogin;
+			var id = frm.id.value;
+			var pw = frm.pw.value;
+			
+			if (id == '') {
+				alert('아이디를 선택해주세요.');
+     			frm.id.focus();
+     			return false;
+			} else if (pw == '') {
+				alert('비밀번호를 입력해주세요.');
+				frm.pw.focus();
+				return false;
+			}
+			
+			return true;
+		}) 
+	})
+</script>
 <style type="text/css">
 @import
 	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap')

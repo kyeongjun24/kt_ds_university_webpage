@@ -1,18 +1,30 @@
+<%@page import="com.mySpring.springEx.manager.vo.ManagerVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <%
-request.setCharacterEncoding("UTF-8");
+	request.setCharacterEncoding("UTF-8");
+	String searchType = request.getParameter("searchType");
+	String searchText = request.getParameter("searchType");
 %>
 
 
 <html>
 <head>
-<meta charset=UTF-8">
+<meta charset="UTF-8">
 <title>회원 정보 목록창</title>
 </head>
+<style>
+	.menuCategory{
+		height: 5%;
+		 width: 100%;
+		  margin-bottom: 1%;
+		   text-align: left;
+	}
+</style>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
@@ -21,9 +33,8 @@ request.setCharacterEncoding("UTF-8");
 	//체크 된 걸 가져오는 함수
 	function getCheckList() {
 		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
-		alert(length);
 		var arr = new Array();
-		$("input:checkbox[type=checkbox]:checked").each(function(index) {
+		$("input:checkbox[name='selectedCheckbox']:checked").each(function(index) {
 			/* alert($(this).attr('id')); */
 			arr.push($(this).attr('id'));
 		})
@@ -32,27 +43,28 @@ request.setCharacterEncoding("UTF-8");
 			alert("선택된 값이 없습니다.");
 			return false;
 		} else {
-			$
-					.ajax({
-						type : 'post',
-						url : '${contextPath}/member/removeCheckedMembers.do',
-						traditional : true, //Array 형태로 보내려면 설정 해줘야함
-						data : {
-							arr : arr
-						},
-
-						success : function(data) {
-							alert('데이터 받기 성공');
-							alert(data);
-							window.location.href = "${contextPath}/member/listMembers.do";
-						},
-						error : function(data, request, status, error) {
-							alert("code:" + request.status + "\n" + "message:"
-									+ request.responseText + "\n" + "error:"
-									+ error);
-
-						}
-					})
+			if (confirm('회원 탈퇴하시겠습니까?')) {
+				
+				$.ajax({
+					type : 'post',
+					url : '${contextPath}/member/removeCheckedMembers.do',
+					traditional : true, //Array 형태로 보내려면 설정 해줘야함
+					data : {
+						arr : arr
+					},
+				
+					success : function(data) {
+						alert('회원 탈퇴 되었습니다.');
+						window.location.href = "${contextPath}/member/listMembers.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
+					},
+					error : function(data, request, status, error) {
+						alert("잠시 후 다시 시도해주세요.");
+				
+					}
+				})// ajax
+			} else{
+				return false;
+			}
 		}
 	}
 
@@ -91,52 +103,56 @@ request.setCharacterEncoding("UTF-8");
 </script>
 
 <body>
-
+<%
+	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
+	Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
+	
+	if (manager != null && isLogOn == true) {
+		
+	
+%>
+	<div class='menuCategory' >
+	<h5>회원 관리</h5>
+	</div>
 	<!-- controller에서 보낸 값 받아서 저장 -->
-	<%
-	String searchType = request.getParameter("searchType");
-	String searchText = request.getParameter("searchText");
-	%>
 	<form method="get" action="${contextPath}/member/listMembers.do"
 		id="searchFrm">
 
 		<!-- 리시트 필터 값 적용 -->
-		<div class="listFilter">
+		<div class="searchType">
 			<select name="perPage" id="listFilter">
 				<c:if test="${perPage == '20' }">
 					<option value='10'>10</option>
 					<option value='20' selected>20</option>
-					<option value='30'>30</option>
+					<option value='50'>50</option>
 
 				</c:if>
-				<c:if test="${perPage == '30' }">
+				<c:if test="${perPage == '50' }">
 					<option value='10'>10</option>
 					<option value='20'>20</option>
-					<option value='30' selected>30</option>
+					<option value='50' selected>50</option>
 				</c:if>
 				<c:if test="${perPage == '10' }">
 					<option value='10' selected>10</option>
 					<option value='20'>20</option>
-					<option value='30'>30</option>
+					<option value='50'>50</option>
 				</c:if>
 			</select>
-		</div>
 
 		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
-		<div class="searchType">
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'name'}">
-					<option value="">검색 종류</option>
+					<option value="name">검색 종류</option>
 					<option value="name" selected>이름</option>
 					<option value="companyName">회사명</option>
 				</c:if>
 				<c:if test="${searchType == 'companyName' }">
-					<option value="">검색 종류</option>
+					<option value="name">검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName" selected>회사명</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
+					<option value="name" selected>검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName">회사명</option>
 				</c:if>
@@ -155,17 +171,23 @@ request.setCharacterEncoding("UTF-8");
 			<input type="submit" id="searchSubmit" value="검색">
 		</div>
 	</form>
+	
+	<div class="memberButton">
+		<button type="button" id="enrollButton"
+			onclick="location.href='${contextPath}/member/memberForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">등록</button>
+		<button type="button" onclick='getCheckList()'>탈퇴</button>
+	</div>
 
-
-
-	<table border="0" align="center">
-		<tr align="center" id="attr">
-			<td><input type="checkbox" id="selectAll"></td>
-			<td><b>아이디</b></td>
-			<td><b>회사명</b></td>
-			<td><b>이름</b></td>
-			<td><b>이메일</b></td>
-			<td><b>가입일</b></td>
+	<table>
+		<tr>
+			<td width="5%"><input type="checkbox" id="selectAll"></td>
+			<td width="10%"><b>아이디</b></td>
+			<td width="10%"><b>이름</b></td>
+			<td width="15%"><b>회사명</b></td>
+			<td width="15"><b>연락처</b></td>
+			<td width="20%"><b>이메일</b></td>
+			<td width="10%"><b>탈퇴 여부</b></td>
+			<td width="15%"><b>가입일</b></td>
 		</tr>
 		<c:choose>
 			<c:when test="${not empty membersList}">
@@ -173,19 +195,39 @@ request.setCharacterEncoding("UTF-8");
 					<tr align="center">
 						<td><input type="checkbox" name="selectedCheckbox"
 							id="${member.id }"></td>
-						<td><a
-							href="${contextPath}/member/informationMemberForm.do?id=${member.id }">${member.id}</a></td>
+						<td align="left" style="padding-left: 30px;"><a
+							href="${contextPath}/member/informationMemberForm.do?id=${member.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${fn:substring(member.id, 0, fn:length(member.id) - 3)}***</a></td>
+						<td>${fn:substring(member.name, 0, fn:length(member.name) - 1)}*</td>
 						<td>${member.companyName}</td>
-						<td>${member.name}</td>
-						<td>${member.email}</td>
-						<td>${member.joinDate}</td>
+	       				<td>
+	       					<c:set var="memberPhone" value="${fn:split(member.phone, '-')}"/>
+	       					<c:forEach var="phoneNumber" items="${memberPhone }" varStatus="phone">
+	       						<c:if test="${phone.count == 1 }">${fn:substring(phoneNumber, 0, 2)}*</c:if>
+	       						<c:if test="${phone.count == 2 }">- ${fn:substring(phoneNumber, 2, 4)}**</c:if>
+	       						<c:if test="${phone.count == 3 }">- ${fn:substring(phoneNumber, 2, 4)}**</c:if>
+	       					</c:forEach>
+	       				</td>
+	       				<td align="left" style="padding-left: 45px;"><c:set var="email" value="${fn:split(member.email, '@')}"/>
+	       				<c:forEach var="eamil" items="${email }" varStatus="a">
+				       		<c:if test="${a.count == 1 }">${fn:replace(eamil, fn:substring(eamil, 0, 3), '***')}</c:if>
+				       		<c:if test="${a.count == 2 }">@${eamil }</c:if>
+				       </c:forEach></td>
+	       				<td>
+	       				<c:if test="${member.delYN eq 'T'}">
+	       					가입
+	       				</c:if>
+	       				<c:if test="${member.delYN eq 'F'}">
+	       					탈퇴
+	       				</c:if>
+	       				</td>
+						<td>${fn:substring(member.joinDate, 0, 10)}</td>
 					</tr>
 				</c:forEach>
 			</c:when>
 			<c:when test="${empty membersList}">
-				<c:forEach var="member" items="${membersList}" varStatus="memberNum">
-					<h1>데이터가 없습니다.</h1>
-				</c:forEach>
+				<tr>
+					<td colspan="8">찾으시는 데이터가 없습니다.</td>
+				</tr>
 			</c:when>
 		</c:choose>
 	</table>
@@ -244,8 +286,13 @@ request.setCharacterEncoding("UTF-8");
 
 	<div class="memberButton">
 		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/member/memberForm.do'">등록</button>
-		<button type="button" onclick='getCheckList()'>삭제</button>
+			onclick="location.href='${contextPath}/member/memberForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">등록</button>
+		<button type="button" onclick='getCheckList()'>탈퇴</button>
 	</div>
+	<%} else {  %>
+	<script>
+		window.location.href="${contextPath}";
+	</script>
+	<% } %>
 </body>
 </html>

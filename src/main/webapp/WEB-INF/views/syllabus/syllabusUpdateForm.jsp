@@ -1,3 +1,4 @@
+<%@page import="com.mySpring.springEx.manager.vo.ManagerVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
@@ -12,87 +13,263 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Insert title here</title>
+<title></title>
 </head>
 <style>
-.input_text {
-	width: 200px;
-	height: 20px;
-	font-size: 20px;
-	border: 1px solid #ff0000;
-}
+	.text_center{
+  	padding-bottom: 30px;
+  	border-bottom: 0.3px solid;
+	border-color: #9C9D9D;
+  }
+  
+  table {
+	margin-top: 60px;
+	position: absolute;
+	left: 250px;
+	width: 1100px;
+  }
+  
+  td {
+  	border-bottom: none;
+  	height: 40px;
+  	padding: 10px 0;
+  }
+
+	select {
+	width: 120px;
+	vertical-align: middle;
+	text-align: center;
+	text-align-last: center;
+		}
+		
+		
+	.input_text{
+		width: 75%; 
+		height: auto;
+		 resize: none; 
+		 background-color: #ECECEC; 
+		 border: none; 
+		 border-radius: 5px; 
+		 padding: 10px 20px;
+	}
+	
+	.menuCategory{
+		height: 5%; 
+		width: 100%; 
+		margin-bottom: 1%; 
+		text-align: left;
+	}
+	
+	#imgViewArea{
+		height: 140px; 
+		padding-top: 10px;
+	}
+	
+	#imgArea{
+		position : relative; transform : translateX(-220px);
+	}
+	
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
-$(function() {
-	$("#type").val("${syllabusVO.type}").attr("selected", "selected");
-	$("#category").val("${syllabusVO.category}").attr("selected", "selected"); 
-});
+
+	$(function() {
+		$("#courseCategory option[value='${syllabusVO.courseCategoryVO.id}']").prop("selected", "selected");
+		
+		$('#syllabusRegister').submit(function(){
+			if (confirm('최종 수정하시겠습니까?') == true) {
+				
+				var frm = document.slbFrm;
+				var type = frm.type.value;
+				var days = frm.days.value;
+				var courseCategory = document.getElementById("courseCategory").value;
+				var name = frm.name.value;
+				var time = frm.time.value;
+				var reportName = frm.reportName.value;
+				var overview = frm.overview.value;
+				var objectives = frm.objectives.value;
+				var target = frm.target.value;
+				var contents = frm.contents.value;
+				
+				
+				if (type == "") {
+					alert("1차 분류를 선택해 주세요.");
+					frm.type.focus();
+					return false;
+				} else if (courseCategory == "") {
+					alert("2차 분류를 선택해 주세요.");
+					document.getElementById("courseCategory").focus();
+					return false;
+				} else if (days == "") {
+					alert("교육 일을 입력해 주세요.")
+					frm.days.focus();
+					return false;
+				} else if (name == "") {
+					alert("강의명을 입력해주세요.");
+					frm.name.focus();
+					return false;
+				} else if (time == "") {
+					alert("교육 시간을 입력해주세요.");
+					frm.time.focus();
+					return false;
+				} else if (reportName == "") {
+					alert("보고용 강의명을 입력해주세요.");
+					frm.reportName.focus();
+					return false;
+				} else if (overview == "") {
+					alert("학습 개요를 입력해주세요.");
+					frm.overview.focus();
+					return false;
+				} else if (objectives == "") {
+					alert("학습 목표를 입력해주세요.");
+					frm.objectives.focus();
+					return false;
+				} else if (target == "") {
+					alert("학습 대상을 입력해주세요.");
+					frm.target.focus();
+					return false;
+				} else if (contents == "") {
+					alert("학습 내용을 입력해주세요.");
+					frm.contents.focus();
+					return false;
+				}
+				
+				return true;
+			} else {
+				return false;
+			}
+		})
+		
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					$('#imgArea').attr('src', e.target.result); 
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$(":input[name='uploadFile']").change(function() {
+			if( $(":input[name='uploadFile']").val() == '' ) {
+				$('#imgArea').attr('src' , '');  
+			}
+			$('#imgViewArea').css({ 'display' : '' });
+			readURL(this);
+		});
+
+		// 이미지 에러 시 미리보기영역 미노출
+		function imgAreaError(){
+			$('#imgViewArea').css({ 'display' : 'none' });
+		}
+	});
 </script>
 	  
 <body>
-<form method="post"   action="${contextPath}/syllabus/updateSyllabus.do" id="syllabusUpdater">
-	<h1  class="text_center">강의 계획서 수정</h1>
-	<input type="hidden" name="id" value="${syllabusVO.id }">
-	<table  align="center">
-	   <tr>
-	      <td width="200"><p align="right">강의명</td>
-	      <td width="600"><p><input type="text" name="name" class="input_text" value="${syllabusVO.name }"></td>
-	   </tr>
-	   <tr>
-	      <td width="200"><p align="right">보고용 강의명</td>
-	      <td width="400"><p><input type="text" name="reportName" class="input_text" value="${syllabusVO.reportName }"></td>
-	    </tr>
-	    <tr>
-	      <td width="200"><p align="right">교육 시간</td>
-	      <td width="400"><p><input type="text" name="time" class="input_text" value="${syllabusVO.time }"></td>
-	    </tr>
-	    <tr>
-	      <td width="200"><p align="right">교육 일수</td>
-	      <td width="400"><p><input type="text" name="days" class="input_text" value="${syllabusVO.days }"></td>
-	    </tr>
-	    <tr>
-	      <td width="200"><p align="right">1차 분류</td>
-	      <td width="400"><p>
-	      <select name="type" id="type">
-	        <option value="">유형 선택</option>
-	      	<option value="재직자">재직자</option>
-	      	<option value="채용예정자">채용예정자</option>
-	      	<option value="구직자">구직자</option>
-	      </select>
-	      </td>
-	    </tr>
-	    <tr>
-	      <td width="200"><p align="right">2차 분류</td>
-	      <td width="400"><p>
-	      <select name="category" id="category">
-	        <option value="">유형 선택</option>
-	      	<option value="DATA ANALSYS">DATA ANALSYS</option>
-	      	<option value="WEB APPLICATION">WEB APPLICATION</option>
-	      	<option value="DATABASE">DATABASE</option>
-	      </select></td>
-	    </tr>
-	    <tr>
-	      <td width="200"><p align="right">학습 개요</td>
-	      <td width="400"><p><input type="text" name="overview" class="input_text" value="${syllabusVO.overview }"></td>
-	    </tr>
-	    <tr>
-	      <td width="200"><p align="right">학습 목표</td>
-	      <td width="400"><p><input type="text" name="objectives" class="input_text" value="${syllabusVO.objectives }"></td>
-	   </tr>
-	    <tr>
-	       <td width="200"><p align="right">학습 대상</td>
-	       <td width="400"><p><input type="text" name="target" class="input_text" value="${syllabusVO.target }"></td>
-	    </tr>
-	    <tr>
-	       <td width="200"><p align="right">학습 내용</td>
-	       <td width="400"><p><input type="text" name="contents" class="input_text" value="${syllabusVO.contents }"></td>
-	    </tr>
-	    <tr>
-	       <td width="200"><p>&nbsp;</p></td>
-	       <td width="400"><input type="submit" value="수정하기"><input type="button" onclick="history.back()" value="취소"></td>
-	    </tr>
-	</table>
-	</form>
+<%
+	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
+	Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
+	
+	if (manager != null && isLogOn == true) {
+		
+	
+%>
+	<div class="menuCategory">
+		<h5>과정 관리 > 강의 계획서 수정</h5>
+	</div>
+	<div style="width: 85%;">
+		<h1 class="text_center">강의 계획서 수정</h1>
+	</div>
+	<form method="post"   action="${contextPath}/syllabus/updateSyllabus.do?page=${page}&searchText=${searchText}&searchType=
+			${searchType}&perPage=${perPage}" id="syllabusRegister" name="slbFrm" enctype="multipart/form-data" >
+		
+		<input type="hidden" name="id" value="${syllabusVO.id }">
+		<table  align="center" >
+		   <tr>
+		      <td width="7%"><p align="left">1차 분류</td>
+		      <td width="40%" style="text-align:left; padding-left: 20px;">
+			      <select name="type">
+			      	<c:if test="${syllabusVO.type == '채용예정자' }">
+				        <option value="">유형 선택</option>
+				      	<option value="채용예정자" selected>채용예정자</option>
+				      	<option value="재직자향상">재직자향상</option>
+			      	</c:if>
+			      	<c:if test="${syllabusVO.type == '재직자향상' }">
+				        <option value="">유형 선택</option>
+				      	<option value="채용예정자">채용예정자</option>
+				      	<option value="재직자향상" selected>재직자향상</option>
+			      	</c:if>
+			      	<c:if test="${empty syllabusVO.type }">
+				        <option value="">유형 선택</option>
+				      	<option value="채용예정자">채용예정자</option>
+				      	<option value="재직자향상">재직자향상</option>
+			      	</c:if>
+			      </select>
+		            2차 분류
+			      <select name="courseCategoryVO.id" id="courseCategory">
+			      	<option value="" >유형 선택</option>
+			      	<c:forEach var="courseCategory" items="${courseCategoryList }" >
+			      		<option value="${courseCategory.id }">${courseCategory.name }</option>
+			      	</c:forEach>
+			      </select>
+		      </td>
+		      <td width="7%"><p align="left">교육 일수</td>
+		      <td width="40%" style="text-align:left; padding-left: 20px;"><input type="text" name="days" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  value="${syllabusVO.days }" style="width:30%;">일</td>
+		   </tr>
+		   <tr>
+		      <td ><p align="left">강의명</td>
+		      <td style="text-align:left; padding-left: 20px;"><input type="text" name="name" value="${syllabusVO.name }" style="width:60%;"></td>
+		      <td ><p align="left">교육 시간</td>
+		      <td style="text-align:left; padding-left: 20px;"><input type="text" name="time" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  value="${syllabusVO.time}" style="width:30%;">시간</td>
+		   </tr>
+		   <tr>
+		      <td ><p align="left">보고용 강의명</td>
+		      <td style="text-align:left; padding-left: 20px;"><input type="text" name="reportName" value="${syllabusVO.reportName }" style="width:60%;"></td>
+		      <td ><p align="left">파일 업로드</td>
+		      <td style="text-align:left; padding-left: 20px;"><input type="file" name="uploadFile" accept="image/png, image/jpeg">${syllabusVO.bannerImg }<input type="hidden" name="bannerImg" value="${syllabusVO.bannerImg }"><input type="hidden" name="uploadName" value="kt_ds_university"></td>
+		   </tr>
+		   <tr>
+		   	<td></td>
+		   	<td></td>
+		   	<td  height="150"></td>
+		   	<td ><div id="imgViewArea" ><img id="imgArea" width="120" height="120" onerror="imgAreaError()" ></div></td>
+		   </tr>
+		    <tr>
+		      <td colspan="4"><p align="left">학습 개요</td>
+		    </tr>
+		    <tr>
+		      <td colspan="4" ><p align="left"><textarea cols="50" rows="10" WRAP = "hard" name="overview" class='input_text'>${syllabusVO.overview }</textarea></td>
+		    </tr>
+		    <tr>
+		      <td colspan="4" ><p align="left">학습 목표</td>
+		   </tr>
+		   <tr>
+		      <td colspan="4" ><p align="left"><textarea cols="50" rows="10" WRAP = "hard" name="objectives" class='input_text'>${syllabusVO.objectives }</textarea></td>
+		   </tr>
+		    <tr>
+		       <td colspan="4" ><p align="left">학습 대상</td>
+		    </tr>
+		    <tr>
+		       <td colspan="4" ><p align="left"><textarea cols="50" rows="10" WRAP = "hard"  name="target" class='input_text'>${syllabusVO.target }</textarea></td>
+		    </tr>
+		    <tr>
+		       <td colspan="4" ><p align="left">학습 내용</td>
+		    </tr>
+		    <tr>
+		       <td colspan="4" ><p align="left"><textarea cols="50" rows="10" WRAP = "hard"  name="contents" class='input_text'>${syllabusVO.contents }</textarea></td>
+		    </tr>
+		    <tr>
+		    	<td></td>
+		       	<td style="text-align: right; padding-right: 30px;"><input type="submit" id="enrollButton" value="수정"><input type="button" onclick="history.back()" value="취소"></td>
+		    	<td></td>
+		    	<td></td>
+		    </tr>
+		</table>
+		</form>
+<%} else {  %>
+<script>
+	window.location.href="${contextPath}";
+</script>
+<% } %>	
 </body>
 </html>

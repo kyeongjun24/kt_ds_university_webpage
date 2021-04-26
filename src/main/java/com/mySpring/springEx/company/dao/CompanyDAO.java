@@ -11,6 +11,8 @@ public interface CompanyDAO {
 
 	// 전체 회사 출력 메소드
 	public List selectAllCompanyList() throws DataAccessException;
+	
+	public int selectNumberOfCompanies() throws DataAccessException;
 
 	// 회사 검색 메소드
 	public List selectBySearchCompanyList(String searchType, String searchText) throws DataAccessException;

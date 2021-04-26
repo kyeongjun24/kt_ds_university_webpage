@@ -10,19 +10,13 @@
       <put-attribute name="body" value="" />
       <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
    </definition>
-
-   <definition name="main" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
-      <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
+   
+   <definition name="/member/adminMain" extends="baseLayout">
+      <put-attribute name="title" value="관리자메인페이지" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideMain.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/member/adminMain.jsp" />
    </definition>
    
-   <!-- <definition name="" extends="baseLayout">
-      <put-attribute name="title" value="메인페이지" />
-      <put-attribute name="body" value="/WEB-INF/views/main.jsp" />
-   </definition> -->
-
-
    <definition name="/member/listMembers" extends="baseLayout">
       <put-attribute name="title" value="회원목록창" />
       <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />

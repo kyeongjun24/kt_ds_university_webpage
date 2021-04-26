@@ -30,4 +30,25 @@
 	     mgr_id=#{id}
 	]]>
 	</update> 
+	<insert id="logLoginInfo" parameterType="managerVO" >
+	<![CDATA[
+		INSERT INTO event_security_log(esl_id, user_id, esl_type, esl_log_text)
+		VALUES(esl_seq.nextval, #{id}, 'login_success', '로그인에 성공')
+	]]>
+	</insert>
+	
+	<insert id="logLoginFailInfo" parameterType="managerVO" >
+	<![CDATA[
+		INSERT INTO event_security_log(esl_id, user_id, esl_type, esl_log_text)
+		VALUES(esl_seq.nextval, #{id}, 'login_fail', '로그인에 실패')
+	]]>
+	</insert>
+	
+	<insert id="logLogoutInfo" parameterType="managerVO" >
+	<![CDATA[
+		INSERT INTO event_security_log(esl_id, user_id, esl_type, esl_log_text)
+		VALUES(esl_seq.nextval, #{id}, 'logout', '로그아웃')
+	]]>
+	</insert>
+	
 </mapper>

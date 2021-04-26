@@ -18,21 +18,32 @@ public class ManagerServiceImpl implements ManagerService{
 	
 	@Override
 	public ManagerVO login(ManagerVO managerVO) throws DataAccessException {
-		return managerDAO.loginById(managerVO); //DAO¿¡ loginById°´Ã¼¸¦ ³Ñ°Ü¹ÞÀ½
+		return managerDAO.loginById(managerVO); //DAOï¿½ï¿½ loginByIdï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ñ°Ü¹ï¿½ï¿½ï¿½
 	}
 
 	@Override
 	public ManagerVO selectManager(String id)  {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int updateManager(ManagerVO manager) {
-		// TODO Auto-generated method stub
-		return managerDAO.updateManager(manager); //DAO¿¡ updateManager°´Ã¼¸¦ ³Ñ°Ü¹ÞÀ½
+		return managerDAO.updateManager(manager); //DAOï¿½ï¿½ updateManagerï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ñ°Ü¹ï¿½ï¿½ï¿½
 	}
 	
-	
-	
+	public int logLoginInfo(ManagerVO managerVO) throws DataAccessException {
+		return managerDAO.logLoginInfo(managerVO);
+		
+	}
+
+	@Override
+	public int logLoginFailInfo(ManagerVO managerVO) throws DataAccessException {
+		return managerDAO.logLoginFailInfo(managerVO);
+	}
+
+	@Override
+	public int logLogoutInfo(ManagerVO managerVO) throws DataAccessException {
+		return managerDAO.logLogoutInfo(managerVO);
+	}
+
 }

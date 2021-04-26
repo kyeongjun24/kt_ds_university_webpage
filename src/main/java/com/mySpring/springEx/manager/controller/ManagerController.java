@@ -10,10 +10,10 @@ import com.mySpring.springEx.manager.vo.ManagerVO;
 
 public interface ManagerController {
 
-	public ModelAndView login(ManagerVO manager, RedirectAttributes rAttr, HttpServletRequest request,
+	ModelAndView login(ManagerVO manager, RedirectAttributes rAttr, HttpServletRequest request,
 			HttpServletResponse response ) throws Exception;
-
-	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 
 	
 

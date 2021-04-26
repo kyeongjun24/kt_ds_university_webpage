@@ -121,4 +121,9 @@ public class CompanyServiceImpl implements CompanyService {
 		companiesCriteriaBySearch = companyDAO.selectCriteriaBySearchFromPopUp(criteria);
 		return companiesCriteriaBySearch;
 	}
+
+	@Override
+	public int numberOfCompanies() throws DataAccessException {
+		return companyDAO.selectNumberOfCompanies();
+	}
 }

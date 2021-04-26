@@ -12,8 +12,8 @@ import com.mySpring.springEx.member.vo.MemberVO;
 public interface EnrollmentService {
 
 	public List listEnrollments() throws DataAccessException;
-
 	public List listCompletion() throws DataAccessException;
+	public int numberOfApplicants() throws DataAccessException;
 
 	public EnrollmentVO selectEnrollment(int id) throws DataAccessException;
 

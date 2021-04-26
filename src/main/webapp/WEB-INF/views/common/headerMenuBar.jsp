@@ -48,7 +48,7 @@ header ul li a {
 	top : 19px;
 }
 
-img {
+.mainLogoImg {
 	width: 140px;
 	height: 23px;
 	object-fit: cover;
@@ -58,7 +58,7 @@ img {
 
 	<header>
 		<div class="logo">
-			<a href="${contextPath}/member/listMembers.do"><img
+			<a href="${contextPath}/member/adminMain.do"><img class="mainLogoImg"
 				src="${contextPath}/resources/image/adminLogo2.png"></a>
 			<!-- 로고 클릭 시 회원리스트로 이동 -->
 		</div>

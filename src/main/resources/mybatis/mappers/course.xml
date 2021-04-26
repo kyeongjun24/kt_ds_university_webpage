@@ -16,9 +16,15 @@
         <result property="contents" column="slb_contents" />
         <result property="joinDate" column="slb_join_date" />
         <result property="modDate" column="slb_mod_date" />
+        <result property="bannerImg" column="slb_banner_img" />
         <result property="days" column="slb_days" />
         <result property="time" column="slb_time" />
 	</resultMap> 
+	
+	<resultMap id="crscResult" type="CourseCategoryVO">
+		<result property="id" column="crs_category_id" />
+		<result property="name" column="crs_category_name" />
+	</resultMap>
 
 	<resultMap id="courseResult" type="courseVO">
 		<result property="id" column="crs_id" />
@@ -29,48 +35,274 @@
 		<result property="capacity" column="crs_capacity" />
 		<result property="classroom" column="crs_classroom" />
 		<result property="joinDate" column="crs_join_date" />
-		<result property="bannerImg" column="crs_banner_img" />
+		<result property="rsDate" column="crs_rs_date" />
+		<result property="reDate" column="crs_re_date" />
+		<result property="stat" column="crs_stat" />
+		<result property="applyNum" column="crs_apply_num"/>
 		<result property="slbId" column="slb_id" />	
 		<collection property="syllabusVO" resultMap="syllabusResult" />
+		<collection property="courseCategoryVO" resultMap="crscResult" />
 	</resultMap>
 	
+	<sql id="list-columns">
+		crs_id, slb_id, slb_name, slb_type, slb_category, crs_start_date, crs_end_date, crs_join_date,
+		 crs_rs_date, crs_re_date, crs_stat, crs_category_name, crs_capacity, crs_classroom, crs_apply_num 
+	</sql>
 	
-	<select id="selectAllCoursesList" resultMap="courseResult">
-		<![CDATA[
-			select c.crs_id as crs_id, c.slb_id as slb_id , s.slb_name as slb_name,
-			SUBSTR(c.crs_start_date, 0, 10) as crs_start_date, SUBSTR(c.crs_end_date, 0, 10) as crs_end_date, SUBSTR(c.crs_join_date, 0, 10) as crs_join_date
+	<sql id="course-columns">
+		c.crs_id as crs_id,
+		c.slb_id as slb_id,
+		s.slb_name as slb_name,
+		s.slb_type as slb_type,
+		s.slb_category as slb_category,
+		SUBSTR(c.crs_start_date, 0, 10) as crs_start_date,
+		SUBSTR(c.crs_end_date, 0, 10) as crs_end_date,
+		SUBSTR(c.crs_join_date, 0, 10) as crs_join_date,
+		SUBSTR(c.crs_rs_date, 0, 10) as crs_rs_date,
+		SUBSTR(c.crs_re_date, 0, 10) as crs_re_date,
+		c.crs_stat as crs_stat,
+		c.crs_capacity as crs_capacity,
+		c.crs_classroom as crs_classroom,
+		c.crs_apply_num as crs_apply_num,
+		cc.crs_category_name as crs_category_name
+		
+		from course C
+		
+		LEFT JOIN syllabus S
+		ON
+		c.slb_id = s.slb_id
+		LEFT JOIN course_category CC
+        ON
+        s.crs_category_id = cc.crs_category_id
+	</sql>
+	
+	<sql id="selectCourse">
+		c.crs_id as crs_id, c.slb_id as slb_id, s.slb_name as slb_name, s.slb_type as slb_type, s.slb_category as slb_category,
+			s.slb_report_name as slb_report_name, s.slb_banner_img as slb_banner_img,
+			c.crs_start_time as crs_start_time, c.crs_end_time as crs_end_time,
+			SUBSTR(c.crs_start_date, 0, 4) ||  SUBSTR(c.crs_start_date, 6, 2) ||  SUBSTR(c.crs_start_date, 9, 2) as crs_start_date,
+			SUBSTR(c.crs_end_date, 0, 4) || SUBSTR(c.crs_end_date, 6, 2) || SUBSTR(c.crs_end_date, 9, 2) as crs_end_date,
+			SUBSTR(c.crs_join_date, 0, 10) as crs_join_date,
+			SUBSTR(c.crs_rs_date, 0, 4) || SUBSTR(c.crs_rs_date, 6, 2) || SUBSTR(c.crs_rs_date, 9, 2) as crs_rs_date,
+			SUBSTR(c.crs_re_date, 0, 4) || SUBSTR(c.crs_re_date, 6, 2) || SUBSTR(c.crs_re_date, 9, 2) as crs_re_date,
+			c.crs_stat as crs_stat, c.crs_capacity as crs_capacity, c.crs_classroom as crs_classroom, cc.crs_category_name as crs_category_name
 			from course C
-				LEFT JOIN syllabus S
-				ON
-				c.slb_id = s.slb_id
-			order by crs_id
-		]]>
+			LEFT JOIN syllabus S
+			ON
+			c.slb_id = s.slb_id
+			LEFT JOIN course_category CC
+            ON
+            s.crs_category_id = cc.crs_category_id
+	</sql>
+	<select id="selectAllCoursesList" resultMap="courseResult">
+			select <include refid="course-columns"></include>
+			order by crs_id desc
+	</select>
+	
+	<select id="selectBySearchCoursesList" resultMap="courseResult" parameterType="java.util.Map" >
+         select <include refid="course-columns"></include>  
+	     <choose>
+         	<when test="searchType == 'nameOfCourse'">
+         		WHERE UPPER(slb_name) LIKE '%' || UPPER(#{searchText}) || '%'
+         	</when>
+         	<when test="searchType == 'status'">
+         		WHERE crs_stat LIKE '%' || #{searchText} || '%'
+         	</when> 
+         </choose>
+         order by crs_id desc
+	</select>
+	
+	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<select id="listCriteria" resultMap="courseResult">
+		SELECT
+			<include refid="list-columns"></include>
+		FROM (select ROW_NUMBER() OVER (ORDER BY crs_id desc) NUM, <include refid="course-columns"></include>
+		order by crs_id desc)
+		WHERE NUM BETWEEN #{pageStart} 
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum} - 1
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart}) - 1
+			</when>
+		</choose>
+		order by crs_id desc
+	</select>
+	
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select  -->
+	<select id="selectCriteriaBySearchCoursesList" resultMap="courseResult">
+		SELECT
+			<include refid="list-columns"></include>
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY crs_id desc) NUM, <include refid="course-columns"></include>
+			<choose>
+	         	<when test="searchType == 'nameOfCourse'">
+	         		WHERE UPPER(slb_name) LIKE '%' || UPPER(#{searchText}) || '%'
+	         	</when>
+	         	<when test="searchType == 'status'">
+	         		WHERE crs_stat LIKE '%' || #{searchText} || '%'
+	         	</when>
+         	</choose>
+		ORDER BY crs_id )
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart}) - 1
+			</when>
+		</choose>
+		order by crs_id desc
 	</select>
 	
 	<select id="selectCourse" resultMap="courseResult" parameterType="int">
+			SELECT <include refid="selectCourse"></include>
+			WHERE crs_id = #{id}
+	</select>
+	
+	<select id="selectNumberOfCourses" resultType="int">
 		<![CDATA[
-			select * from course
-			where crs_id = #{id}
+			SELECT COUNT(*) FROM COURSE WHERE crs_stat = '신청가능'
 		]]>
 	</select>
 	
+	<select id="checkClassRoomOfCourses" parameterType="java.util.Map" resultType="int">
+		<![CDATA[
+		select count(*) 
+		from (
+			select crs_id, crs_start_date, crs_end_date, crs_classroom, crs_start_time, crs_end_time, (CASE 
+                WHEN SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) >= #{startDate} AND SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) <= #{endDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) >= #{endDate}
+                    AND crs_classroom = #{classroom} AND 
+                        ((SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime}))
+                    THEN '겹침'
+                WHEN SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) <= #{startDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) >= #{startDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) <= #{endDate} 
+                    AND crs_classroom = #{classroom} AND 
+                        ((SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime}))
+                    
+                    THEN '겹침'
+                WHEN SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) >= #{startDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) <= #{endDate}
+                    AND crs_classroom = #{classroom} AND 
+                        ((SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime}))
+                    
+                    THEN '겹침'
+                WHEN SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) <= #{startDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) >= #{endDate} 
+                    AND crs_classroom = #{classroom} AND 
+                        ((SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= '21' AND SUBSTR(crs_end_time, 0, 2) >= #{endTime}))
+                    THEN '겹침'
+                else '안겹침'
+            	END) AS abc
+        	from course 
+        	)
+        where abc = '겹침'
+        ]]>
+	</select>
+	<!-- <if test='#{id} != null'>
+        	 WHERE course_id != #{id}
+        	</if> -->
+        	
+    <select id="checkClassRoomOfCoursesById" parameterType="java.util.Map" resultType="int">
+    	<![CDATA[
+    		select count(*) 
+		from (
+			select crs_id, crs_start_date, crs_end_date, crs_classroom, crs_start_time, crs_end_time, (CASE 
+                WHEN SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) >= #{startDate} AND SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) <= #{endDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) >= #{endDate}
+                    AND crs_classroom = #{classroom} AND 
+                        ((SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime}))
+                    THEN '겹침'
+                WHEN SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) <= #{startDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) >= #{startDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) <= #{endDate} 
+                    AND crs_classroom = #{classroom} AND 
+                        ((SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime}))
+                    
+                    THEN '겹침'
+                WHEN SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) >= #{startDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) <= #{endDate}
+                    AND crs_classroom = #{classroom} AND 
+                        ((SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime}))
+                    
+                    THEN '겹침'
+                WHEN SUBSTR(crs_start_date, 0, 4) || SUBSTR(crs_start_date, 6, 2) || SUBSTR(crs_start_date, 9, 2) <= #{startDate} AND SUBSTR(crs_end_date, 0, 4) || SUBSTR(crs_end_date, 6, 2) || SUBSTR(crs_end_date, 9, 2) >= #{endDate} 
+                    AND crs_classroom = #{classroom} AND 
+                        ((SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= #{endTime} AND SUBSTR(crs_end_time, 0, 2) >= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) >= #{startTime} AND SUBSTR(crs_end_time, 0, 2) <= #{endTime})
+                        or (SUBSTR(crs_start_time, 0,2) <= #{startTime} AND SUBSTR(crs_start_time, 0, 2) <= '21' AND SUBSTR(crs_end_time, 0, 2) >= #{endTime}))
+                    THEN '겹침'
+                else '안겹침'
+            	END) AS abc
+        	from course where crs_id != #{id}
+        	)
+        where abc = '겹침'
+    	]]>
+    </select>
+	
 	<insert id="insertCourse" parameterType="courseVO">
 		<![CDATA[
-			insert into course(crs_id, crs_start_date, crs_end_date, crs_start_time, crs_end_time, crs_capacity, crs_classroom, crs_banner_img, slb_id) values 
-			(crs_seq.NEXTVAL, #{startDate}, #{endDate}, #{startTime}, #{endTime}, TO_NUMBER(#{capacity}), #{classroom}, #{bannerImg}, #{slbId})
+			insert into course(crs_id, crs_start_date, crs_end_date, crs_start_time, crs_end_time, crs_capacity, crs_classroom, crs_rs_date, crs_re_date, slb_id) values 
+			(crs_seq.NEXTVAL, substr(#{startDate}, 0, 4) || '-' || substr(#{startDate},5 , 2) || '-' || substr(#{startDate},7 , 2), substr(#{endDate}, 0, 4) || '-' || substr(#{endDate},5 , 2) || '-' || substr(#{endDate},7 , 2),
+			 #{startTime}, #{endTime}, TO_NUMBER(#{capacity}), #{classroom}, substr(#{rsDate}, 0, 4) || '-' || substr(#{rsDate},5 , 2) || '-' || substr(#{rsDate},7 , 2), substr(#{reDate}, 0, 4) || '-' || substr(#{reDate},5 , 2) || '-' || substr(#{reDate},7 , 2), #{slbId}) 
 		]]>
 	</insert>
 	
 	<update id="updateCourse" parameterType="courseVO">
 		<![CDATA[
-			update course 
-			set crs_start_date = #{startDate}, crs_end_date = #{endDate}, crs_start_time = #{startTime}, crs_end_time = #{endTime},
-			crs_capacity = #{capacity}, crs_classroom = #{classroom}, crs_banner_img = #{bannerImg}, slb_id = #{slb_id}
+			UPDATE course SET
+			crs_start_time = #{startTime},
+			crs_end_time = #{endTime},
+			crs_start_date = SUBSTR(#{startDate}, 0, 4) || '-' || SUBSTR(#{startDate}, 5, 2) || '-' || SUBSTR(#{startDate}, 7, 2),
+			crs_end_date = SUBSTR(#{endDate}, 0, 4) || '-' || SUBSTR(#{endDate}, 5, 2) || '-' || SUBSTR(#{endDate}, 7, 2),
+			crs_rs_date = SUBSTR(#{rsDate}, 0, 4) || '-' || SUBSTR(#{rsDate}, 5, 2) || '-' || SUBSTR(#{rsDate}, 7, 2),
+			crs_re_date = SUBSTR(#{reDate}, 0, 4) || '-' || SUBSTR(#{reDate}, 5, 2) || '-' || SUBSTR(#{reDate}, 7, 2),
+			crs_capacity = #{capacity},
+			crs_classroom = #{classroom}
 			where crs_id = #{id}
 		]]>
 	</update>
 	
+	<update id="updateCourseStatus">
+		<![CDATA[
+			UPDATE course SET
+			    crs_stat = '마감'
+			WHERE crs_re_date <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')		
+		]]>
+	</update>
 	
+	<update id="updateByButtonCourse" parameterType="java.util.Map">
+		<![CDATA[
+		UPDATE course SET
+			crs_stat = #{stat}
+		WHERE crs_id = #{id}
+		]]>
+	</update>
+	
+	<update id="updateCourseStatusByNumOfApplicants">
+		<![CDATA[
+			UPDATE course SET
+				crs_stat = '마감'
+			WHERE crs_apply_num >= crs_capacity
+		]]>
+	</update>
 	
 	<delete id="deleteCourse" parameterType="int">
 		<![CDATA[

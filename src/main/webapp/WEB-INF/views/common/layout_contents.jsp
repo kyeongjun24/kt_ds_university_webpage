@@ -105,6 +105,7 @@ a {
 table {
 	width: 1500px;
 	border-collapse: collapse;
+	margin: 20px 0;
 }
 
 td {

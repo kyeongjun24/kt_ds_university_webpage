@@ -142,6 +142,11 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		completionList = sqlSession.selectList("mapper.enrollment.selectAllCompletionList");
 		return completionList;
 	}
+
+	@Override
+	public int selectNumberOfApplicants() throws DataAccessException {
+		return sqlSession.selectOne("mapper.enrollment.selectNumberOfApplicants");
+	}
 	
 	@Override
 	public EnrollmentVO selectCompletion(int id) throws DataAccessException {

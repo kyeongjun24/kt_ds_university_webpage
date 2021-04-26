@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.syllabus.dao.SyllabusDAO;
 import com.mySpring.springEx.syllabus.vo.SyllabusVO;
@@ -24,6 +25,25 @@ public class SyllabusServiceImpl implements SyllabusService{
 		List syllabusesList = null;
 		syllabusesList = syllabusDAO.selectAllSyllabusList();
 		return syllabusesList;
+	}
+	
+	@Override
+	public List listCriteria(Criteria criteria) {
+		return syllabusDAO.listCriteria(criteria);
+	}
+	
+	@Override
+	public List listBySearchSyllabuses(String searchType, String searchText) {
+		List syllabusesBySearchList = null;
+		syllabusesBySearchList = syllabusDAO.selectBySearchSyllabusesList(searchType, searchText);
+		return syllabusesBySearchList;
+	}
+
+	@Override
+	public List listCriteriaBySearch(Criteria criteria) {
+		List syllabusesCriteriaBySearch = null;
+		syllabusesCriteriaBySearch = syllabusDAO.selectCriteriaBySearch(criteria);
+		return syllabusesCriteriaBySearch;
 	}
 
 	@Override
@@ -45,5 +65,12 @@ public class SyllabusServiceImpl implements SyllabusService{
 	public int updateSyllabus(SyllabusVO syllabusVO) throws DataAccessException {
 		return syllabusDAO.updateSyllabus(syllabusVO);
 	}
+
+	@Override
+	public int selectMaxSyllabusId() throws DataAccessException {
+		return syllabusDAO.selectMaxSyllabusId();
+	}
+
+	
 
 }
