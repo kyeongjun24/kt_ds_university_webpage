@@ -22,7 +22,7 @@ public interface EnrollmentService {
 
 	public List listSylCrs() throws DataAccessException;
 
-	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException;
+	//public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException;
 
 	public List listCriteria(Criteria criteria) throws DataAccessException;
 
@@ -36,12 +36,9 @@ public interface EnrollmentService {
 
 	public int updateCompleteEnrollments(int id) throws DataAccessException;
 
-	public List exceptListSylCrs(String id) throws DataAccessException;
-
 	public void excelDownload(HttpServletResponse response) throws Exception;
 
 	public List enrollmentCourse(int id) throws DataAccessException;
 
-	public void excelCourseDownload(int id, HttpServletResponse response) throws Exception;
 
 }

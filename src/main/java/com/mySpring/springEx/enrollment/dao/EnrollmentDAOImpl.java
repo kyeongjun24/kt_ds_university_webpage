@@ -30,19 +30,19 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return enrollmentsBySearchList;
 	}
 	
-	// ������ ���� ���� �޼���
+	// 페이지 기준 설정 메서드
 	@Override
 	public List<EnrollmentVO> listCriteria(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.listCriteria", criteria);
 	}
 	
-	//criteria�� ���� ����Ʈ ������ �޼���
+	//criteria에 의해 리스트 나누는 메서드
 	@Override
 	public List selectCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchEnrollmentList", criteria);
 	}
 	
-	//����¡ ����Ʈ �̾ƿ��� �޼���
+	//페이징 리스트 뽑아오기 메서드
 	@Override
 	public List<EnrollmentVO> listPaging(int page) throws DataAccessException {
 		if (page <= 0) {
@@ -52,9 +52,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sqlSession.selectList("mapper.enrollment.selectEnrollmentListByPaging", page);
 	}
 	
-////////////////////////////////////////////////	
-	
-	//��� ������ ����Ʈ ���
+	//등록 페이지 리스트 출력
 	@Override
 	public List selectSylCrsList() throws DataAccessException {
 		List<EnrollmentVO> sylCrsList = null;
@@ -62,19 +60,6 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return sylCrsList;
 	}
 	
-	//��� ������ ����Ʈ ��� (����)
-	@Override
-	public List selectExceptList(String id) throws DataAccessException {
-		List<EnrollmentVO> sylCrsList = null;
-		sylCrsList = sqlSession.selectList("mapper.enrollment.exceptEnrollment", id);
-		return sylCrsList;
-	}
-	
-	//(��ϰ���) ������û �Ǿ��ִ��� üũ
-	public int checkEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
-		int result = sqlSession.insert("mapper.enrollment.checkEnrollment", enrollmentVO);
-		return result;
-	}
 	
 	// List page
 	@Override
@@ -100,16 +85,8 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		enrollmentsList = sqlSession.selectList("mapper.enrollment.excelEnrollmentList");
 		return enrollmentsList;
 	}
-	
-	// excel download - course
-	@Override
-	public List excelCourseEnrollmentList(int id) throws DataAccessException {
-		List<EnrollmentVO> enrollmentsList = null;
-		enrollmentsList = sqlSession.selectList("mapper.enrollment.excelCourseEnrollmentList", id);
-		return enrollmentsList;
-	}
-	
-	//������û ���
+
+	//수강신청 등록
 	@Override
 	public int insertEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.insert("mapper.enrollment.addEnrollment", enrollmentVO);
@@ -123,9 +100,7 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return vo;
 	}
 	
-	
-	
-	// �������� (ȸ��) ����
+	// 상세페이지 (회사) 수정
 	@Override
 	public int modEnrollmentCompany(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.update("mapper.enrollment.modEnrollmentCompany", enrollmentVO);
@@ -135,32 +110,37 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return result;
 	}
 	
-	// �������� (����) ����
+	// 상세페이지 (상태) 수정
 	@Override
 	public int modEnrollmentStat(EnrollmentVO enrollmentVO)  throws DataAccessException{
 		int result = sqlSession.update("mapper.enrollment.modEnrollmentStat", enrollmentVO);
 		return result;
 	}
 	
-	// ���� '����' �� ����
+	// 상태 '삭제' 로 수정
 	@Override
 	public int updateDeleteEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateDeleteEnrollments", id);
 		return result;
 	}
-	
-	// ���� '����' ���� ����
+
+	// 상태 '승인' 으로 수정
 	@Override
 	public int updateApproveEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateApproveEnrollments", id);
 		return result;
 	}
 		
-	// ���� '����' ���� ����
+	// 상태 '수료' 로 수정
 	@Override
 	public int updateCompleteEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateCompleteEnrollments", id);
 		return result;
 	}
-	
+
+	//(등록관련) 수강신청 되어있는지 체크
+	public int checkEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
+		int result = sqlSession.insert("mapper.enrollment.checkEnrollment", enrollmentVO);
+		return result;
+	}
 }

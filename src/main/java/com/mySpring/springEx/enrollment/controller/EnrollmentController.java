@@ -31,17 +31,11 @@ public interface EnrollmentController {
 	int updateCompleteEnrollments(String[] arr, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
-	ModelAndView exceptEnrollmentForm(String id, HttpServletRequest request, HttpServletResponse response)
-			throws Exception;
-
 	ModelAndView deleteEnrollment(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	void excelDownload(HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
 	ModelAndView enrollmentCourse(int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-	void excelCourseDownload(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
-
 
 }

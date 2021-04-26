@@ -39,13 +39,8 @@ public interface EnrollmentDAO {
 
 	public int updateCompleteEnrollments(int id) throws DataAccessException;
 
-	public List selectExceptList(String id) throws DataAccessException;
-
 	public List excelEnrollmentList() throws DataAccessException;
 
 	public List enrollmentCourse(int id) throws DataAccessException;
-
-	public List excelCourseEnrollmentList(int id) throws DataAccessException;
-
 
 }

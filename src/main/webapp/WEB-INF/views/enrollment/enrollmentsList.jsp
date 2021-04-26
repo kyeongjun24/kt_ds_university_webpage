@@ -265,14 +265,10 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 	
-	
-	
 	<!-- 엑셀 다운로드 버튼 -->
 	<form action="${contextPath}/enrollment/excelDownload.do" method="post">
 		<input type="submit" value='엑셀 다운로드'>
 	</form>
-	
-	
 	
 	<p id="type_color" align="left" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span>
 											  <span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>
@@ -303,8 +299,10 @@ request.setCharacterEncoding("UTF-8");
 					<tr align="center">
 						<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
 							
-						<td><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
-																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>
+						<!-- 과목별 상세 조회 / 인세 페이지 미구현 -->
+						<%-- <td><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
+																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td> --%>
+						<td>${enrollment.syllabusVO.name }</td>
 																
 						<td>${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
 						
