@@ -16,10 +16,10 @@
       <put-attribute name="body" value="/WEB-INF/views/board/articleDescription.jsp" />
    </definition>
    
-    <definition name="/board/articleForm" extends="baseLayout">
+    <definition name="/board/addArticleForm" extends="baseLayout">
       <put-attribute name="title" value="공지사항등록창" />
       <put-attribute name="side" value="/WEB-INF/views/common/sideBoard.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/board/articleForm.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/board/addArticle.jsp" />
    </definition>
    
    <definition name="/board/modArticleForm" extends="baseLayout">

@@ -5,8 +5,6 @@
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 
-
-
 <%
   request.setCharacterEncoding("UTF-8");
 %>    
@@ -15,11 +13,74 @@
 <html>
 <head>
 
+
 <style>
-.article_category{
+
+td{
+text-align: left;
+}
+
+.articleDes_category{
 text-align : left;
 margin-bottom : 3em;
 color : grey
+}
+
+.articleDes_BigTitle{
+text-align : center;
+margin-bottom : 50px;
+}
+
+.articleDes_table{
+width: 70%; 
+margin-left: auto; 
+margin-right: auto;
+} 
+
+.articleDes_important{
+width: 10%;
+}
+
+.articleDes_id{
+text-align: left;
+width: 150%;
+}
+
+.articleDes_joinDate{
+}
+
+.articleDes_title{
+padding-top : 10px;
+padding-bottom : 10px;
+}
+
+.articleDes_fileDown a{
+color : black;
+}
+
+.articleDes_fileDown a:hover{
+color : blue;
+}
+.articleDes_fileDown{
+float: right;
+border : none ;
+padding-top : 10px;
+}
+
+.articleDes_joinDate {
+margin-left : 45em;
+}
+
+.articleDes_contents{
+padding-top: 10px;
+white-space: pre-line;
+}
+
+.articleDes_buttons{
+display:flex;
+justify-content: flex-end;
+ margin-top: 20px;
+width: 85%;
 }
 </style>
 
@@ -27,46 +88,72 @@ color : grey
 <title >게시판 상세 설명</title>
 </head>
 
+<script type="text/javascript">
+
+	//제거할 때 되묻는 함수
+	function ask_removeArticle() {
+		
+		/* var obj = document.frmSubmit; */
+
+		if (confirm('정말 삭제하시겠습니까?') == true ){
+			window.location.href = "${contextPath}/board/removeArticle.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
+		} else {
+			return ;
+		}
+	}
+
+</script>
+
 <body>
 
-<div class= "article_category">
-	<h4>게시판관리 > 공지사항 > ${vo.id}</h4>
-</div>
-
-	<h1 class="text_center">공지사항</h1>
-	<br></br>
-	<table align="center">
-		<tr>
-			<td width="200">번호 : </td>
-			<td width="400"><p align="left">${vo.id}</td>
-		</tr>
-		<tr>
-			<td width="200">중요도 : </td>
-			<td width="400"><p align="left">${vo.important}</td>
-		</tr>
-		<tr>
-			<td width="200">제목 : </td>
-			<td width="400"><p align="left">${vo.title}</td>
-		</tr>
-		<tr>
-			<td width="200">내용 : </td>
-			<td width="400"><p align="left">${vo.contents}</td>
-		</tr>
-		<tr>
-			<td width="200">파일 : </td>
-			<td width="400"><p align="left"><a href="${contextPath}/fileDown.do?filename=${filevo.name}&id=${vo.id}">${filevo.name }</a></td>
-		</tr>
-		<tr>
-			<td width="200">작성일 : </td>
-			<td width="400"><p align="left">${vo.joinDate}</td>
-		</tr>
+	<div class= "articleDes_category">
+		<h4>게시판관리 > 공지사항 > ${vo.id}</h4>
+	</div>
+	
+	<div class="articleDes_BigTitle">
+		<h1>공지사항</h1>
+	</div>
+ 	
+ 	<input type="hidden" name="id" value="${vo.id }">
+	
+	<table class = "articleDes_table">
+			<tr>
+				<td class="articleDes_important">
+				<c:if test="${vo.important == '공지'}">
+	      			<a style="color: red;">${vo.important}</a>
+	      		</c:if>
+	      		<c:if test="${vo.important == null}">
+	      			<a>일반</a>
+	      		</c:if>
+	      		</td>
+				<td class="articleDes_id">번호 : <a style="text-align: left;"> ${vo.id}</a><a class="articleDes_joinDate">작성일 : ${vo.joinDate}</a></td>
+	      	</tr>
+	      	
+	      	<tr>
+	      		<td><a>제목</a></td>
+	      		<td class="articleDes_title">${vo.title}</td>
+			</tr>
+			
+			<tr>
+				<td style="border:none;"></td>
+				<c:if test="${filevo.name != null}">
+					<td class ="articleDes_fileDown"> 파일 : <a href="${contextPath}/articleFileDown.do?filename=${filevo.name}&id=${vo.id}" > ${filevo.name }</a></td>
+				</c:if>
+				<c:if test="${filevo.name == null}">
+					<td class ="articleDes_fileDown"></td>
+				</c:if>	
+			</tr>
+			<tr>	
+				<td style="border:none; padding-line: 0px;">내용</td>
+				<td class="articleDes_contents" style="border:none;">${vo.contents}</td>
+			</tr>
 	</table>
-		<tr>
-	 		<td>
-		 		<button onclick="location.href='${contextPath}/board/modArticleForm.do?id=${vo.id }'">수정</button>&nbsp;&nbsp;&nbsp;
-		 		<button onclick="location.href='${contextPath}/board/removeArticle.do?id=${vo.id }'">삭제</button>&nbsp;&nbsp;&nbsp;
-				<input type="button" onclick="history.back()" value="취소">
-	 		</td>
-		</tr>
+			
+			<div class="articleDes_buttons">
+		 		<button type="button" onclick="location.href='${contextPath}/board/modArticleForm.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%;">수정</button>&nbsp;&nbsp;&nbsp;
+		 		<button type="button" onclick="ask_removeArticle()" style="width: 8%;">삭제</button>&nbsp;&nbsp;&nbsp;
+				<button type="button" onclick="location.href='${contextPath}/board/listArticles.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%;">목록</button>
+			</div>
+			
 </body>
 </html>

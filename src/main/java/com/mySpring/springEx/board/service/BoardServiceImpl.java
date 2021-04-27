@@ -30,8 +30,8 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 공지인것만 리스트 출력
 		public List<ArticleVO> listImptArticles() throws Exception {
-			List<ArticleVO> articlesList = boardDAO.selectImptArticlesList();
-			return articlesList;
+			List<ArticleVO> impArticlesList = boardDAO.selectImptArticlesList();
+			return impArticlesList;
 		}
 
 	// 공지사항 글 선택 
@@ -82,9 +82,18 @@ public class BoardServiceImpl implements BoardService {
 	// 제목 검색
 	@Override
 	public List listBySearchArticles(String searchType, String searchText) throws DataAccessException {
-		List articlesBySearchList = null;
+		return boardDAO.selectBySearchArticlesList(searchType, searchText);
+		
+/*		List articlesBySearchList = null;
 		articlesBySearchList = boardDAO.selectBySearchArticlesList(searchType, searchText);
 		return articlesBySearchList;
+	*/
+	}
+	
+	// 제목 검색
+	@Override
+	public List listBySearchImptArticles(String searchType, String searchText) throws DataAccessException {
+		return boardDAO.selectBySearchImptArticlesList(searchType, searchText);
 	}
 	
 	//기준 나누는 메서드 
@@ -100,6 +109,14 @@ public class BoardServiceImpl implements BoardService {
 		articlesCriteriaBySearch = boardDAO.selectCriteriaBySearch(criteria);
 		return articlesCriteriaBySearch;
 	}
+	
+	//검색과 기준에 의해 리스트 나눠지는 메서드
+		@Override
+		public List listCriteriaBySearchImpt(Criteria criteria) throws DataAccessException {
+			List articlesCriteriaBySearch = null;
+			articlesCriteriaBySearch = boardDAO.selectCriteriaBySearchImpt(criteria);
+			return articlesCriteriaBySearch;
+		}
 	 
 }
 	

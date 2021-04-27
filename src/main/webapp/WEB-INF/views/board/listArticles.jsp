@@ -1,3 +1,4 @@
+<%@page import="com.mySpring.springEx.manager.vo.ManagerVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
@@ -18,16 +19,51 @@ margin-bottom : 3em;
 color : grey
 }
 
-.listArticle_button {
+.listArticles_listFilter{
 display : flex;
-justify-content: flex-end;
+justify-content : flex-end;
+width: 100%;
 }
 
-.listArticles_title{
+#listArticles_searchFrm{
+display: flex;
+justify-content : space-between;
+width: 95%;
+}
+
+select {
+margin : 5px;
+}
+
+.listArticles_table{
+border: 0px; 
+align: center;  
+width : 95%;
+}
+
+.listArticles_titleValue{
 text-align : left;
 padding-top : 10px;
 padding-bottom : 10px;
 }
+
+.listArticles_titleValue a{
+color : black;
+}
+
+.listArticles_titleValue a:hover{
+color : blue;
+}
+
+.listArticle_button {
+display : flex;
+justify-content: flex-end;
+margin-top : 5px;
+margin-bottom : 5px;
+width: 95%;
+}
+
+
 
 </style>
 <meta charset="UTF-8">
@@ -37,25 +73,14 @@ padding-bottom : 10px;
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
 
-/* 	function fn_articleForm(isLogOn,articleForm,loginForm){
-	  if(isLogOn != '' && isLogOn != 'false'){
-	    location.href=articleForm;
-	  }else{
-	    alert("로그인 후 글쓰기가 가능합니다.")
-	    location.href=loginForm+'?action=/board/articleForm.do';
-	  }
-	} */
-
 	//체크 된 걸 가져오는 함수
 	function getCheckList() {
-		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
-		/* alert(length); */
- 		var arr = new Array();
-		$("input:checkbox[type=checkbox]:checked").each(function(index) {
-			/* alert($(this).attr('id')); */
+		if (confirm('삭제하시겠습니까?') == true ){
+			var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
+ 			var arr = new Array();
+			$("input:checkbox[type=checkbox]:checked").each(function(index) {
  			arr.push($(this).attr('id'));
 		})
-		
 		if(length == 0){
 			alert("선택된 값이 없습니다.");
 			return false;
@@ -64,18 +89,17 @@ padding-bottom : 10px;
 				type: 'post',
 				url: '${contextPath}/board/removeCheckedArticles.do',
 				traditional : true, //Array 형태로 보내려면 설정 해줘야함 */
-				data: {arr: arr},
-
-				
+				data: {arr: arr},			
 				success: function(data) {
-					alert('데이터 받기 성공');
-					alert(data+"개의 데이터가 삭제됩니다.");
-					window.location.href = "${contextPath}/board/listArticles.do";
+					window.location.href = "${contextPath}/board/listArticles.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
 				}, error:function(data,request,status,error){
 		             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		             
-		        }
-			})
+		        	}
+				})
+			}
+		} else {
+		return;
 		}
 	}
 	
@@ -89,106 +113,123 @@ padding-bottom : 10px;
 			}
 		})	
 		
+		// searchType 과 searchText에 따른 page 수 
 		$('#listFilter')
 						.on(
 								'change',
 								function() {
 									var perPage = $(this).val();
-									var searchType = document
-											.getElementById('searchType').value;
-									var searchText = document
-											.getElementById('searchText').value;
-									/* alert(perPage+"씩 리스트 출력");
-									alert(searchType);
-									alert(searchText); */
-									location.href = "${contextPath}/board/listArticles.do?perPage="
-											+ perPage
+									var searchType = document.getElementById('searchType').value;
+									var searchText = document.getElementById('searchText').value;
+									location.href = "${contextPath}/board/listArticles.do?&perPage="
+											+perPage
 											+ "&searchType="
 											+ searchType
 											+ "&searchText="
 											+ searchText;
 								})
-		
-	}) //function
+	})
+	
 </script>
 	
 <body>
-<%
-String searchType = request.getParameter("searchType");
- String searchText = request.getParameter("searchText");
+
+<% 
+	String searchType = request.getParameter("searchType");
+	String searchText = request.getParameter("searchText");
+%>
+<!-- 로그인 세션 처리 -->
+<% 
+	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
+	Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
+	if (manager != null && isLogOn == true){
 %>
 
 <div class= "article_category">
 	<h4>게시판관리 > 공지사항</h4>
 </div>
 
-<form method="get" action="${contextPath}/board/listArticles.do" id="searchFrm" >
+	<form method="get" action="${contextPath}/board/listArticles.do" id="listArticles_searchFrm" >
 	
-	<!-- 리시트 필터 값 적용 -->
-	<div class="listFilter">
-		<select name="perPage" id="listFilter">
-		
-			<c:if test="${perPage == '10' }">
-				<option value='10' selected>10</option>
-				<option value='20'>20</option>
-				<option value='30'>30</option>
-			</c:if>
-			<c:if test="${perPage == '20' }">
-				<option value='10'>10</option>
-				<option value='20' selected>20</option>
-				<option value='30'>30</option>
-
-			</c:if>
-			<c:if test="${perPage == '30' }">
-				<option value='10'>10</option>
-				<option value='20'>20</option>
-				<option value='30' selected>30</option>
-			</c:if>
+		<!-- 리시트 필터 값 적용 -->
+		<div class="listArticles_listFilter">
+			<select name="perPage" id="listFilter">
 			
-		</select>
-	</div>
+				<c:if test="${perPage == '10' }">
+					<option value='10' selected>10개</option>
+					<option value='20'>20개</option>
+					<option value='50'>50개</option>
+					<option value='100'>100개</option>
+				</c:if>
+				<c:if test="${perPage == '20' }">
+					<option value='10'>10개</option>
+					<option value='20' selected>20개</option>
+					<option value='50'>50개</option>
+					<option value='100'>100개</option>
+				</c:if>
+				<c:if test="${perPage == '50' }">
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='50' selected>50개</option>
+					<option value='100'>100개</option>
+				</c:if>
+				<c:if test="${perPage == '100' }">
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='50'>50개</option>
+					<option value='100' selected>100개</option>
+				</c:if>
+				
+			</select>
 	
-	<!-- 검색 유형 값(title만)에 따라 셀렉트 띄우는 값 설정 -->
-	<div class="searchType" align="right">
-		<select name="searchType" id="searchType">
-			<c:if test="${searchType == 'title'}">
-				<option value="">검색 종류</option>
-				<option value="title" selected>제목</option>
-			</c:if>
-			<c:if test="${empty searchType }">
-				<option value="" selected>검색 종류</option>
-				<option value="title">제목</option>
-			</c:if>
-		</select>
-	
-	<!-- 검색 값이 있냐 없냐에 따라 값 뛰우는거 설정 -->
-	<c:choose>
-		<c:when test="${searchText != null }">
-			<input type="text" name="searchText" id="searchText" value="${searchText }" style="width: 200px; margin-right: 10px;">
-		</c:when>
-		<c:otherwise>
-			<input type="text" name="searchText" id="searchText" style="width: 200px; margin-right: 10px;">
-		</c:otherwise>
-	</c:choose>
-	<input type="submit" value="검색" >
-	</div>
-</form>
+			<!-- 검색 유형 값(title만)에 따라 셀렉트 띄우는 값 설정 -->
+			<select class= "listArticles_searchType" name="searchType" id="searchType">
+				<c:if test="${searchType == 'title'}">
+					<option value="">검색 종류</option>
+					<option value="title" selected>제목</option>
+					<option value="contents">내용</option>
+				</c:if>
+				<c:if test="${searchType == 'contents'}">
+					<option value="">검색 종류</option>
+					<option value="title">제목</option>
+					<option value="contents" selected>내용</option>
+				</c:if>
+				<c:if test="${empty searchType }">
+					<option value="" selected>검색 종류</option>
+					<option value="title">제목</option>
+					<option value="contents">내용</option>
+				</c:if>
+			</select>
+		
+			<!-- 검색 값이 있냐 없냐에 따라 값 뛰우는거 설정 -->
+			<c:choose>
+				<c:when test="${searchText != null }">
+					<input class="listArticles_searchBox" type="text" name="searchText" id="searchText" value="${searchText }">
+				</c:when>
+				<c:otherwise>
+					<input class="listArticles_searchBox" type="text" name="searchText" id="searchText">
+				</c:otherwise>
+			</c:choose>
+			<input type="submit" value="검색">
+		</div>
+	</form>
 
-<table border="0" align="center"  width="80%">
+<table class = "listArticles_table">
 	<tr>
 		<td><input type="checkbox" id="selectAll"></td>
      	<td><b>번호</b></td>
-     	<td style="text-align: center;"><b>제목</b></td>  
+     	<td class="listArticles_title"><b>제목</b></td>  
      	<td><b>조회수</b></td>
      	<td><b>등록일</b></td>
      </tr>
      
      <c:choose>
-      <c:when test="${articlesList == null }" >
+  			
+     	 <c:when test="${empty articlesList}" >
     		<tr  height="10">
-      			<td colspan="4">
+      			<td colspan="5">
          			<p align="center">
-            		<b><span style="font-size:9pt;">등록된 글이 없습니다.</span></b>
+            		<b><span style="font-size:12pt;">등록된 글이 없습니다.</span></b>
         			</p>
       			</td>  
     		</tr>
@@ -198,11 +239,11 @@ String searchType = request.getParameter("searchType");
   				<tr align="center">
   					<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
   					
-  					<td width="10%"><h4 style="color: red;">공지</h4>${board.important}</td>
+  					<td width="10%"><h4 style="color: red;">${board.important}</h4></td>
   					
-      					<td class='listArticles_title'><a href="${contextPath}/board/selectArticle.do?id=${board.id}">${board.title}</a>
+      					<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
       						<c:if test="${board.file == 'T'}">
-      							<a href="${contextPath}/board/selectArticle.do?id=${board.id}"><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
+      							<a href="${contextPath}/board/selectArticle.do?id=${board.id}" ><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
       						</c:if>
       						<c:if test="${board.file == 'F'}">
       						</c:if>
@@ -216,40 +257,25 @@ String searchType = request.getParameter("searchType");
   			
    			<c:forEach 	var="board" items="${articlesList }" varStatus="boardNum" >  
    				<tr align="center">
-   				<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
-      				<td width="10%">${board.id}</td>
-      				
-      					<td class='listArticles_title'><a href="${contextPath}/board/selectArticle.do?id=${board.id}">${board.title}</a>
-      						<c:if test="${board.file == 'T'}">
-      							<a href="${contextPath}/board/selectArticle.do?id=${board.id}"><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
-      						</c:if>
-      						<c:if test="${board.file == 'F'}">
-      						</c:if>
-      					</td>
+   					<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
+      				<td width="10%">${board.id - 69999}</td>
 
+     				
+      				<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
+      					<c:if test="${board.file == 'T'}">
+      							<a href="${contextPath}/board/selectArticle.do?id=${board.id}"><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
+      					</c:if>
+      					<c:if test="${board.file == 'F'}">
+      					</c:if>
+      				</td>
+      				
       				<td>${board.hits}</td>
       				<td>${board.joinDate}</td>
-    		</tr>
+    			</tr>
   			</c:forEach>  
   		</c:when>
 	</c:choose>
 </table>
-     	
-     	<%-- 
-     	      				<td align='center' width="30%">
-	  					<span style="padding-right:10px" ></span>
-      					<a class='cls1' href="${contextPath}/board/selectArticle.do?id=${board.id}">${board.title}</a>
-      				</td>
-      					<c:if test="${board.file == 'T'}">
-      						<td><a href="${contextPath}/board/selectArticle.do?id=${board.id}"><img src="${contextPath}/resources/image/diskette.png" style="max-width: 6%; height: auto;" ></a></td>
-      					</c:if>
-      					<c:if test="${board.file == 'F'}">
-      						<td></td>
-      					</c:if> --%>
-     	
-     	
-     	
-     	
      	
      <!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
@@ -304,60 +330,15 @@ String searchType = request.getParameter("searchType");
 	</div>
      	
      <div class="listArticle_button">
-     	<button type="button" onclick="location.href='${contextPath}/board/articleForm.do'">글쓰기</button>
-     	<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
+     	<button type="button" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%;" >등록</button>
+     	<button type="button" onclick='getCheckList()'style="width: 8%;" >삭제</button>
      </div>
+     
+<% } else { %>
+     <script>
+     	window.location.href="${contextPath}";
+     </script>
+<% } %>  
+     
 </body>
 </html>
-
-
-<%-- <body>
-<table align="center" border="0"  width="80%"  >
-  <tr height="10" align="center"  bgcolor="lightgreen">
-     <td ><b>글번호</b></td>
-     <td ><b>작성자</b></td>              
-     <td ><b>제목</b></td>
-     <td ><b>작성일</b></td>
-  </tr>
-<c:choose>
-  <c:when test="${articlesList ==null }" >
-    <tr  height="10">
-      <td colspan="4">
-         <p align="center">
-            <b><span style="font-size:9pt;">등록된 글이 없습니다.</span></b>
-        </p>
-      </td>  
-    </tr>
-  </c:when>
-  <c:when test="${articlesList !=null }" >
-    <c:forEach  var="article" items="${articlesList }" varStatus="articleNum" >
-     <tr align="center">
-	<td width="5%">${articleNum.count}</td>
-	<td width="10%">${article.title }</td>
-	<td width="10%">${article.hits }</td>
-	<td width="10%">${article.joinDate }</td>
-	<td align='left'  width="35%">
-	  <span style="padding-right:30px"></span>
-	   <c:choose>
-	      <c:when test='${article.level > 1 }'>  
-	         <c:forEach begin="1" end="${article.level }" step="1">
-	              <span style="padding-left:20px"></span>    
-	         </c:forEach>
-	         <span style="font-size:12px;">[답변]</span>
-                   <a class='cls1' href="${contextPath}/board/viewArticle.do?id=${article.id}">${article.title}</a>
-	          </c:when>
-	          <c:otherwise>
-	            <a class='cls1' href="${contextPath}/board/viewArticle.do?id=${article.id}">${article.title }</a>
-	          </c:otherwise>
-	        </c:choose>
-	  </td>
-	</tr>
-    </c:forEach>
-     </c:when>
-    </c:choose>
-</table>
-<!-- <a  class="cls1"  href="#"><p class="cls2">글쓰기</p></a> -->
-<a  class="cls1"  href="javascript:fn_articleForm('${isLogOn}','${contextPath}/board/articleForm.do', 
-                                                    '${contextPath}/member/loginForm.do')"><p class="cls2">글쓰기</p></a>
-</body>
-</html> --%>
