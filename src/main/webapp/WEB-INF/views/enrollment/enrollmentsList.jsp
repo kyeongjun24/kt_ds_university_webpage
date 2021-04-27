@@ -33,6 +33,24 @@ request.setCharacterEncoding("UTF-8");
 	#herfId:hover {
 		color: #c2c2c2;
 	}
+	
+	.menuCategory{
+		height: 5%;
+		width: 100%;
+		margin-bottom: 1%;
+		text-align: left;
+	}
+	
+	#enrollmentButton {
+		position: relative;
+		margin-top: 5px;
+		margin-bottom: 20px;
+		display: flex;
+		justify-content: flex-end;
+		width: 1500px;
+		margin-right: 5px;
+	}
+	
 </style>
 <meta charset="UTF-8">
 <title>글목록창</title>
@@ -50,29 +68,21 @@ request.setCharacterEncoding("UTF-8");
 			}
 		})
 
-		$('#listFilter')
-				.on(
-						'change',
-						function() {
-							var perPage = $(this).val();
-							var searchType = document
-									.getElementById('searchType').value;
-							var searchText = document
-									.getElementById('searchText').value;
-							/* alert(perPage+"씩 리스트 출력");
-							alert(searchType);
-							alert(searchText); */
-							location.href = "${contextPath}/enrollment/listEnrollments.do?perPage="
-									+ perPage
-									+ "&searchType="
-									+ searchType
-									+ "&searchText=" + searchText;
-						})
+		$('#listFilter').on(
+			'change',
+			function() {
+				var perPage = $(this).val();
+				var searchType = document
+						.getElementById('searchType').value;
+				var searchText = document
+						.getElementById('searchText').value;
+				location.href = "${contextPath}/enrollment/listEnrollments.do?perPage="
+						+ perPage
+						+ "&searchType="
+						+ searchType
+						+ "&searchText=" + searchText;
+			})
 	})
-
-		
-		
-	
 	
 	//체크 된 걸 가져오는 함수
 	function getCheckList(stat) {
@@ -80,11 +90,9 @@ request.setCharacterEncoding("UTF-8");
 		//alert(length);
 		var arr = new Array();
 		$("input:checkbox[name='selectedCheckbox']:checked").each(
-				function(index) {
-					/* alert($(this).attr('id')); */
-					arr.push($(this).attr('id'));
-					//alert($(this).attr('id'));	
-				})
+			function(index) {
+				arr.push($(this).attr('id'));
+			})
 
 		if (length == 0) {
 			alert("선택된 값이 없습니다.");
@@ -95,67 +103,62 @@ request.setCharacterEncoding("UTF-8");
 				if(!confirm("삭제 하시겠습니까?")){
 					return false;
 				}else{
-					
-						$.ajax({
-							type : 'post',
-							url : '${contextPath}/enrollment/modDeleteEnrollments.do',
-							traditional : true, //Array 형태로 보내려면 설정 해줘야함
-							data : {
-								arr : arr
-							},
-		
-							success : function(data) {
-								//alert('데이터 받기 성공');
-								//alert(data);
-								window.location.href = "${contextPath}/enrollment/listEnrollments.do";
-							},
-							error : function(data, request, status, error) {
-								alert("code:" + request.status + "\n"
-										+ "message:" + request.responseText
-										+ "\n" + "error:" + error);
-							}
-						})
+					$.ajax({
+						type : 'post',
+						url : '${contextPath}/enrollment/modDeleteEnrollments.do',
+						traditional : true, //Array 형태로 보내려면 설정 해줘야함
+						data : {
+							arr : arr
+						},
+	
+						success : function(data) {
+							window.location.href = "${contextPath}/enrollment/listEnrollments.do";
+						},
+						error : function(data, request, status, error) {
+							alert("code:" + request.status + "\n"
+									+ "message:" + request.responseText
+									+ "\n" + "error:" + error);
+						}
+					})
 				}
 						
-						
 			} else if (stat == "approve") { // 상태 '승인' 으로 변경
-				$
-						.ajax({
-							type : 'post',
-							url : '${contextPath}/enrollment/modApproveEnrollments.do',
-							traditional : true,
-							data : {
-								arr : arr
-							},
+				$.ajax({
+					type : 'post',
+					url : '${contextPath}/enrollment/modApproveEnrollments.do',
+					traditional : true,
+					data : {
+						arr : arr
+					},
 
-							success : function(data) {
-								window.location.href = "${contextPath}/enrollment/listEnrollments.do";
-							},
-							error : function(data, request, status, error) {
-								alert("code:" + request.status + "\n"
-										+ "message:" + request.responseText
-										+ "\n" + "error:" + error);
-							}
-						})
+					success : function(data) {
+						window.location.href = "${contextPath}/enrollment/listEnrollments.do";
+					},
+					error : function(data, request, status, error) {
+						alert("code:" + request.status + "\n"
+								+ "message:" + request.responseText
+								+ "\n" + "error:" + error);
+					}
+				})
+						
 			} else if (stat == "complete") { // 상태 '수료' 로 변경
-				$
-						.ajax({
-							type : 'post',
-							url : '${contextPath}/enrollment/modCompleteEnrollments.do',
-							traditional : true,
-							data : {
-								arr : arr
-							},
+				$.ajax({
+					type : 'post',
+					url : '${contextPath}/enrollment/modCompleteEnrollments.do',
+					traditional : true,
+					data : {
+						arr : arr
+					},
 
-							success : function(data) {
-								window.location.href = "${contextPath}/enrollment/listEnrollments.do";
-							},
-							error : function(data, request, status, error) {
-								alert("code:" + request.status + "\n"
-										+ "message:" + request.responseText
-										+ "\n" + "error:" + error);
-							}
-						})
+					success : function(data) {
+						window.location.href = "${contextPath}/enrollment/listEnrollments.do";
+					},
+					error : function(data, request, status, error) {
+						alert("code:" + request.status + "\n"
+								+ "message:" + request.responseText
+								+ "\n" + "error:" + error);
+					}
+				})
 			}
 		}
 	}
@@ -176,8 +179,11 @@ request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
+	
+	<div class="menuCategory">
+		<h5>수강 관리</h5>
+	</div>
 
-	<h4 align="left"> 수강신청내역</h4>
 	<form method="get"
 		action="${contextPath}/enrollment/listEnrollments.do" id="searchFrm">
 
@@ -265,12 +271,22 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 	
-	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/enrollment/excelDownload.do" method="post">
-		<input type="submit" value='엑셀 다운로드'>
-	</form>
+	<div id="enrollmentButton">
+		<button type="button" id="enrollButton"
+			onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
+			style="width: 5%;">등록</button>
+		<button type="button" onclick='getCheckList("approve")'
+			style="width: 5%;">승인</button>
+		<button type="button" onclick='getCheckList("complete")'
+			style="width: 5%;">수료</button>
+		<button type="button" onclick='getCheckList("delete")'
+			style="width: 5%;">삭제</button>
+		<form action="${contextPath}/enrollment/excelDownload.do" method="post">
+			<input type="submit" value='엑셀 다운로드'>
+		</form>
+	</div>
 	
-	<p id="type_color" align="left" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span>
+	<p id="type_color" align="left" style="font-size:5px;">협약상태 구분: <span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span>
 											  <span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>
 	
 	<table align="center" border="0" width="80%" id="dynamicCompany">
@@ -283,6 +299,7 @@ request.setCharacterEncoding("UTF-8");
 			<td><b>상태</b></td>
 			<td><b>신청일</b></td>
 		</tr>
+	<!-- 리스트 반복문 -->
 		<c:choose>
 			<c:when test="${empty enrollmentsList}">
 				<tr height="10">
@@ -410,7 +427,7 @@ request.setCharacterEncoding("UTF-8");
 	</div>
 
 	<!-- 버튼 모음집 -->
-	<div class="memberButton">
+	<div id="enrollmentButton">
 		<button type="button" id="enrollButton"
 			onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
 			style="width: 5%;">등록</button>
@@ -420,6 +437,9 @@ request.setCharacterEncoding("UTF-8");
 			style="width: 5%;">수료</button>
 		<button type="button" onclick='getCheckList("delete")'
 			style="width: 5%;">삭제</button>
+		<form action="${contextPath}/enrollment/excelDownload.do" method="post">
+			<input type="submit" value='엑셀 다운로드'>
+		</form>
 	</div>
 </body>
 </html>

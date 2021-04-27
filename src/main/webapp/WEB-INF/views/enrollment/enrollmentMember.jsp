@@ -17,6 +17,61 @@
    .text_center{
      text-align:center;
    }
+   
+   .menuCategory{
+		height: 5%;
+		width: 100%;
+		margin-bottom: 1%;
+		text-align: left;
+	}
+	
+	td:nth-child(2n-1) {
+		background-color: #b3b3b3;
+        color: #f2f2f2;
+	}
+	
+	td:nth-child(2n) {
+        color: #4d4d4d;
+        text-align: left;
+        padding-left:60px;
+	}
+	
+	#lastTd {
+		border-style: hidden;
+		background-color: #ffffff;
+	}
+	
+	.erollmentMember_table {
+		border-bottom: 0.3px solid;
+		border-color: rgba(156, 157, 157, 0.2);
+		width : 75%;
+	}
+	
+	.searchButton {
+	  background-color: #969696;
+	  border: none;
+	  border-radius: 5px;
+	  color: #EFEFEF;
+	  padding: 5px 12px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 15px;
+	  cursor: pointer; 
+	}
+	
+	#stat {
+		background-color: #ffffff;
+	  	border: none;
+	  	width : 100px;
+	}
+	
+	#companyName, #datepicker1 {
+		width : 180px;
+	}
+	
+		
+	
 </style>
 </head>
 
@@ -38,22 +93,22 @@
 	$(function() {
         //모든 datepicker에 대한 공통 옵션 설정
         $.datepicker.setDefaults({
-            dateFormat: 'yy-mm-dd' //Input Display Format 변경
-            ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-            ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
-            ,changeYear: true //콤보박스에서 년 선택 가능
-            ,changeMonth: true //콤보박스에서 월 선택 가능                
-            ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-            ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-            ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-            ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-            ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
-            ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
-            ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
-            ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
-            ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
-            ,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-            ,maxDate: "+5Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                    
+        	dateFormat: 'yymmdd' //Input Display Format 변경
+           ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+           ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
+           ,changeYear: true //콤보박스에서 년 선택 가능
+           ,changeMonth: true //콤보박스에서 월 선택 가능                
+           ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+           ,buttonImage: "${contextPath}/resources/image/calendar.png" //버튼 이미지 경로
+           ,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
+           ,buttonText: "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
+           ,yearSuffix: "년" //달력의 년도 부분 뒤에 붙는 텍스트
+           ,monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'] //달력의 월 부분 텍스트
+           ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip 텍스트
+           ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 부분 텍스트
+           ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 부분 Tooltip 텍스트
+           ,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+           ,maxDate: "+5Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                        
         });
 
         //datepicker로 선언
@@ -88,32 +143,38 @@
 			location.href="${contextPath}/enrollment/deleteEnrollment.do?id=${enrollmentVO.id }";
 		}
 	}
-
 	
 </script>
 <body>
-	<h4 align="left"> 수강신청내역 > 상세접수내역(학생)</h4>
+
+	<div class="menuCategory">
+		<h5>수강 관리 > 상세 내역(회원)</h5>
+	</div>
+	
 	<form method="post" action="${contextPath}/enrollment/modEnrollment.do">
-	<table  align="center" border="1">
+	<table class="erollmentMember_table" align="center" border="1">
 	   <tr>
-	      <td width="200" bgcolor="lightblue"><p align="center">성명</td>
-	      <td width="400"><p align="center">${enrollmentVO.memberVO.name }</td>
-	      <td width="200" bgcolor="lightblue"><p align="center">아이디</td>
-	      <td colspan='2' width="400"><p align="center">${enrollmentVO.memId }</td>
+	      <td width="200"><p align="center">성명</td>
+	      <td width="400">${enrollmentVO.memberVO.name }</td>
+	      <td width="200"><p align="center">아이디</td>
+	      <td colspan='2' width="400">${enrollmentVO.memId }</td>
 	   </tr>
 	   
 	    <tr>
-	      <td width="200" bgcolor="lightblue"><p align="center">연락처</td>
-	      <td width="400"><p align="center">${enrollmentVO.memberVO.phone }</td>
-	      <td width="200" bgcolor="lightblue"><p align="center">이메일</td>
-	      <td colspan='2' width="400"><p align="center">${enrollmentVO.memberVO.email }</td>
+	      <td width="200"><p align="center">연락처</td>
+	      <td width="400">${enrollmentVO.memberVO.phone }</td>
+	      <td width="200"><p align="center">이메일</td>
+	      <td colspan='2' width="400">${enrollmentVO.memberVO.email }</td>
 	    </tr>
 	    <tr> 
-	      <td width="200" bgcolor="lightblue"><p align="center">접수일</td>
-	      <td width="400"><p align="center">${enrollmentVO.joinDate }</td>
-	      <td width="200" bgcolor="lightblue"><p align="center">현재상태</td>
-	      <td width="200"><p align="center"><input type="text"  id="stat" value="${enrollmentVO.stat }" readonly></td>
-	      <td width="200">     변경 : 
+	      <td width="200"><p align="center">접수일</td>
+	      <td width="400">${enrollmentVO.joinDate }</td>
+	      <td width="200"><p align="center">현재상태</td>
+	      <td width="400">
+	      
+	      <input type="text" id="stat" value="${enrollmentVO.stat }" readonly>
+	      
+	      
 	       <select name="stat" onchange="document.getElementById('stat').value = this.options[this.selectedIndex].value" >
 	       		<option value="." disabled selected>현재상태</option>
 	       		<option value="신청">신청</option>
@@ -123,65 +184,64 @@
 	       </select></td>
 	    </tr>
 	    <tr>
-	       <td width="200" bgcolor="lightblue"><p align="center">회사정보</td>
+	       <td width="200" ><p align="center">회사정보</td>
 	       
-	       <td width="400" ><p align="center"><input type="text" name="memberVO.companyName" id="companyName" value="${enrollmentVO.memberVO.companyName }" readonly>
-	       <br>*새로운 회사명 선택시 변경됩니다.
-	       <br><a type="button" onclick="popup()" >회사 수정</a></td>  
+	       <td width="400" >
+	       <input type="text" name="memberVO.companyName" id="companyName" value="${enrollmentVO.memberVO.companyName }" readonly>
+	       <a class="searchButton" 	type="button" onclick="popup()" >수정</a></td>  
 	       
-	       <td width="200" bgcolor="lightblue"><p align="center">수료일</td>
-	       <td colspan='2' width="400"><input type="text" name="completeDate" id="datepicker1" placeholder="수료일을 선택하세요." value="${enrollmentVO.completeDate }" readonly><br>
+	       <td width="200"><p align="center">수료일</td>
+	       <td colspan='2' width="400">
+	       <input type="text" name="completeDate" id="datepicker1" placeholder="수료일을 선택하세요." value="${enrollmentVO.completeDate }" readonly><br>
 	       <span id="pwCheck"></span></td>
 	    </tr>
 	</table>
 	
-	<h6> .</h6>
-	<table  align="center" border="1">
-	   <tr>
-	      <td width="200" bgcolor="lightblue"><p align="center">강좌유형</td>
-	      <td width="400"><p align="center">${enrollmentVO.syllabusVO.type }</td>
-	      <td width="200" bgcolor="lightblue"><p align="center">강좌분류</td>
-	      <td width="400"><p align="center">${enrollmentVO.syllabusVO.category }</td>
-	   </tr>
-	   
-	    <tr>
-	      <td width="200" bgcolor="lightblue"><p align="center">강좌명</td>
-	      <td colspan='3' width="1000"><p align="left">${enrollmentVO.syllabusVO.name }</td>
+	<table class="erollmentMember_table" align="center" border="1">
+		<tr>
+	      <td width="200"><p align="center">강좌명</td>
+	      <td colspan='3' width="1000">${enrollmentVO.syllabusVO.name }</td>
 	    </tr>
 	    <tr>
-	       <td width="200" bgcolor="lightblue"><p align="center">보고용 강좌명</td>
-	      <td colspan='3' width="1000"><p align="left">${enrollmentVO.syllabusVO.reportName }</td>
+	       <td width="200"><p align="center">보고용 강좌명</td>
+	      <td colspan='3' width="1000">${enrollmentVO.syllabusVO.reportName }</td>
 	    </tr>
 	    <tr>
-	      <td width="200" bgcolor="lightblue"><p align="center">강의실 정보</td>
-	      <td width="400"><p align="center">${enrollmentVO.courseVO.classroom } 호</td>
-	      <td width="200" bgcolor="lightblue"><p align="center">수강신청일</td>
-	      <td width="400"><p align="center">${enrollmentVO.courseVO.crsrsdate } ~ ${enrollmentVO.courseVO.crsredate }</td>
-	   </tr>
-	   <tr>
-	      <td width="200" bgcolor="lightblue"><p align="center">교육기간</td>
-	      <td width="400"><p align="center">${enrollmentVO.courseVO.startDate } ~ ${enrollmentVO.courseVO.endDate }</td>
-	      <td width="200" bgcolor="lightblue"><p align="center">강의시간</td>
-	      <td width="400"><p align="center">${enrollmentVO.courseVO.startTime } ~ ${enrollmentVO.courseVO.endTime }</td>
-	   </tr>
-	   <tr>
-	      <td width="200" bgcolor="lightblue"><p align="center">수강인원수</td>
-	      <td width="400"><p align="center">${enrollmentVO.courseVO.capacity } 명</td> 
-	      <td width="200" bgcolor="lightblue"><p align="center">교육일수</td>
-	      <td width="400"><p align="center">${enrollmentVO.syllabusVO.days } 일</td>
-	   </tr>
-	   <tr>
-	      <td width="200" bgcolor="lightblue"><p align="center">교육시간</td>
-	      <td width="400"><p align="center">${enrollmentVO.syllabusVO.time } 시간</td>
+	      <td width="200"><p align="center">강좌유형 / 분류</td>
+	      <td width="400">${enrollmentVO.syllabusVO.type } / ${enrollmentVO.syllabusVO.category }</td>
+	      <td width="200"><p align="center">수강신청일</td>
+	      <td width="400">${enrollmentVO.courseVO.crsrsdate } ~ ${enrollmentVO.courseVO.crsredate }</td>
+	   	</tr>
+	    <tr>
+	      <td width="200"><p align="center">교육기간</td>
+	      <td width="400">${enrollmentVO.courseVO.startDate } ~ ${enrollmentVO.courseVO.endDate }</td>
+	      <td width="200"><p align="center">강의시간</td>
+	      <td width="400">${enrollmentVO.courseVO.startTime } ~ ${enrollmentVO.courseVO.endTime }</td>
+	   	</tr>
+	   	<tr>
+	      <td width="200"><p align="center">강의실 정보</td>
+	      <td width="400">${enrollmentVO.courseVO.classroom } 호</td>
+	      <td width="200"><p align="center">수강인원수</td>
+	      <td width="400">${enrollmentVO.courseVO.capacity } 명</td> 
+	   	</tr>
+	   	<tr>
+	      <td width="200"><p align="center">교육일수</td>
+	      <td width="400">${enrollmentVO.syllabusVO.days } 일</td>
+	      <td width="200"><p align="center">교육시간</td>
+	      <td width="400">${enrollmentVO.syllabusVO.time } 시간</td>
+	   	</tr>
+		<tr>
 	      <td style="display:none;"><input type="text" name="id" id="id" value="${enrollmentVO.id }"  readonly></td>
 	      <td style="display:none;"><input type="text" name="memberVO.id" id="memberVO.id" value="${enrollmentVO.memberVO.id }"  readonly></td>
-	   </tr> 
+	   	</tr>
+		<tr>
+			<td id="lastTd" colspan="4" width="250">
+				<input type="submit" id="enrollButton" value="수정">&nbsp;&nbsp;&nbsp;
+				<button type="button" onclick="deleteConfirm()">삭제</button>&nbsp;&nbsp;&nbsp;
+				<input type="button" onclick="location.href='${contextPath}/enrollment/listEnrollments.do'" value="취소"></td>
+		</tr>
 	</table>
 	
-	<input type="submit" value="수정" style="width: 5%;">
-	<%-- <button type="button" onclick="location.href = '${contextPath}/enrollment/deleteEnrollment.do?id=${enrollmentVO.id }'" style="width: 5%;">삭제</button> --%>
-	<button type="button" onclick="deleteConfirm()" style="width: 5%;">삭제</button>
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">취소</button>
 	</form>
 </body>
 </html>

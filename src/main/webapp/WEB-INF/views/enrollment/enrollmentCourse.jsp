@@ -17,6 +17,13 @@
    .text_center{
      text-align:center;
    }
+   
+   .menuCategory{
+		height: 5%;
+		 width: 100%;
+		  margin-bottom: 1%;
+		   text-align: left;
+	}
 </style>
 </head>
 
@@ -28,6 +35,10 @@
 	
 </script>
 <body>
+	
+	<div class="menuCategory">
+		<h5>수강 관리 > 상세 내역(과정)</h5>
+	</div>
 	
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" id="attr">
