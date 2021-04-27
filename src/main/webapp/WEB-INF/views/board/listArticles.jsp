@@ -31,8 +31,8 @@ justify-content : space-between;
 width: 95%;
 }
 
-.listArticles_searchBox{
-width: 200px; 
+select {
+margin : 5px;
 }
 
 .listArticles_table{
@@ -123,14 +123,10 @@ width: 95%;
 									var searchText = document.getElementById('searchText').value;
 									location.href = "${contextPath}/board/listArticles.do?&perPage="
 											+perPage
-											/* &page="
-											+ page */
 											+ "&searchType="
 											+ searchType
 											+ "&searchText="
-											+ searchText
-											/* +"&perPage="
-											+ perPage */;
+											+ searchText;
 								})
 	})
 	
@@ -214,7 +210,7 @@ width: 95%;
 					<input class="listArticles_searchBox" type="text" name="searchText" id="searchText">
 				</c:otherwise>
 			</c:choose>
-			<input type="submit" value="검색" >
+			<input type="submit" value="검색">
 		</div>
 	</form>
 
@@ -245,7 +241,7 @@ width: 95%;
   					
   					<td width="10%"><h4 style="color: red;">${board.important}</h4></td>
   					
-      					<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}">${board.title}</a>
+      					<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
       						<c:if test="${board.file == 'T'}">
       							<a href="${contextPath}/board/selectArticle.do?id=${board.id}" ><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
       						</c:if>

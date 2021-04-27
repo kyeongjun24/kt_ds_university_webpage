@@ -137,7 +137,7 @@ width: 85%;
 			<tr>
 				<td style="border:none;"></td>
 				<c:if test="${filevo.name != null}">
-					<td class ="articleDes_fileDown"> 파일 : <a href="${contextPath}/articlefileDown.do?filename=${filevo.name}&id=${vo.id}" > ${filevo.name }</a></td>
+					<td class ="articleDes_fileDown"> 파일 : <a href="${contextPath}/articleFileDown.do?filename=${filevo.name}&id=${vo.id}" > ${filevo.name }</a></td>
 				</c:if>
 				<c:if test="${filevo.name == null}">
 					<td class ="articleDes_fileDown"></td>
@@ -152,7 +152,7 @@ width: 85%;
 			<div class="articleDes_buttons">
 		 		<button type="button" onclick="location.href='${contextPath}/board/modArticleForm.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%;">수정</button>&nbsp;&nbsp;&nbsp;
 		 		<button type="button" onclick="ask_removeArticle()" style="width: 8%;">삭제</button>&nbsp;&nbsp;&nbsp;
-				<button type="button" onclick="location.href='${contextPath}/board/listArticles.do?id=${vo.id }'" style="width: 8%;">목록</button>
+				<button type="button" onclick="location.href='${contextPath}/board/listArticles.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%;">목록</button>
 			</div>
 			
 </body>
