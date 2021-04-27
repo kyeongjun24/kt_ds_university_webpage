@@ -2,6 +2,8 @@ package com.mySpring.springEx.company.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.dao.DataAccessException;
 
 import com.mySpring.springEx.common.paging.Criteria;
@@ -52,5 +54,14 @@ public interface CompanyService {
 
 	// 팝업에서 기준 설정에 의해 새로 받는 리스트 설정
 	public List listCriteriaBySearchFromPopUp(Criteria criteria) throws DataAccessException;
+	
+	// 전체 회사 엑셀 다운로드
+	public void companyExcelDownload(HttpServletResponse response) throws Exception;
+	
+	// 협력회사 엑셀 다운로드
+	public void partnersExcelDownload(HttpServletResponse response) throws Exception;
+	
+	// 사업자 등록번호 중복체크
+	public int idCheck(CompanyVO vo) throws DataAccessException;
 		
 }

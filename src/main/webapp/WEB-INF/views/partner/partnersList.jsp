@@ -16,6 +16,7 @@ request.setCharacterEncoding("UTF-8");
 	text-decoration: none;
 	color: black;
 }
+
 .cls1:visited {
 	text-decoration: none;
 	color: black;
@@ -42,6 +43,7 @@ request.setCharacterEncoding("UTF-8");
 	border-collapse: collapse;
 	line-height: 40px;
 }
+
 .process {
 	text-align: left;
 	margin-bottom: 2em;
@@ -50,6 +52,26 @@ request.setCharacterEncoding("UTF-8");
 
 .par_search {
 	padding-left: 7px
+}
+
+#excelForm {
+	position: relative;
+	margin-top: 1%;
+	width: 1500px;
+	display: flex;
+	justify-content: flex-end;
+	cursor: pointer;
+}
+
+#type_color {
+	text-align: left;
+	padding-top: 0.8%;
+	font-size: 15px;
+	margin-right: 60.4%;
+}
+
+#excel {
+	width: 8%;
 }
 </style>
 
@@ -73,7 +95,7 @@ request.setCharacterEncoding("UTF-8");
 									/* alert(perPage+"씩 리스트 출력");
 									alert(searchType);
 									alert(searchText); */
-									location.href = "${contextPath}/company/listPartners.do?perPage="
+									location.href = "${contextPath}/partner/listPartners.do?perPage="
 											+ perPage
 											+ "&searchType="
 											+ searchType
@@ -87,9 +109,17 @@ request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
-	<div class="process"><h4>회원관리>협력회사</h4></div>
-	<form method="get" action="${contextPath }/company/listPartners.do" id="searchFrm">
-		
+	<div class="process">
+		<h4>
+			<span onclick="location.href='${contextPath}/member/listMembers.do'"
+				style="cursor: pointer;">회원관리</span> > <span
+				onclick="location.href='${contextPath}/partner/listPartners.do'"
+				style="cursor: pointer;"> 협력회사</span>
+		</h4>
+	</div>
+	<form method="get" action="${contextPath }/partner/listPartners.do"
+		id="searchFrm">
+
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
 			<select name="perPage" id="listFilter">
@@ -126,16 +156,25 @@ request.setCharacterEncoding("UTF-8");
 					<option value="name" selected>선택</option>
 					<option value="name">회사명</option>
 					<option value="contractName">담당자</option>
+					<option value="contractType">협약 상태</option>
 				</c:if>
 				<c:if test="${searchType == 'name' }">
 					<option value="name">선택</option>
 					<option value="name" selected>회사명</option>
 					<option value="contractName">담당자</option>
+					<option value="contractType">협약 상태</option>
 				</c:if>
 				<c:if test="${searchType == 'contractName' }">
 					<option value="name">선택</option>
 					<option value="name">회사명</option>
 					<option value="contractName" selected>담당자</option>
+					<option value="contractType">협약 상태</option>
+				</c:if>
+				<c:if test="${searchType == 'contractType' }">
+					<option value="name">선택</option>
+					<option value="name">회사명</option>
+					<option value="contractName">담당자</option>
+					<option value="contractType" selected>협약 상태</option>
 				</c:if>
 			</select>
 
@@ -145,13 +184,26 @@ request.setCharacterEncoding("UTF-8");
 						id="searchText">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="searchText" class="par_search"
-						placeholder="검색어를 입력하세요." onfocus="this.placeholder=''"
+					<input type="text" name="searchText" id="searchText"
+						class="par_search" placeholder="검색어를 입력하세요."
+						onfocus="this.placeholder=''"
 						onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
 			</c:choose>
 			<input type="submit" value="검색">
 		</div>
+	</form>
+
+	<!-- 엑셀 다운로드 버튼 -->
+	<form action="${contextPath}/partner/partnersExcelDownload.do"
+		id="excelForm" method="post">
+		<p id="type_color">
+			<span style="color: black">협약상태 구분: </span><span style="color: red">●협약서없음
+			</span><span style="color: green"> ●상호변경 </span><span style="color: black">
+				●협약완료 </span> <span style="color: blue"> ●협약서사본</span><span
+				style="color: #dd42f5"> ●탈퇴</span>
+		</p>
+		<input type="submit" value='엑셀 다운로드' id="excel">
 	</form>
 
 	<table align="center" border="0" width="80%" id="partners">
@@ -166,18 +218,29 @@ request.setCharacterEncoding("UTF-8");
 		<c:choose>
 			<c:when test="${empty partnersList}">
 				<tr align="center">
-					<td class=line2 width="15%">
-							<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
-					</td>
+					<td class=line2 width="15%"><b><span
+							style="font-size: 9pt;">등록된 회사가 없습니다.</span></b></td>
 				</tr>
 			</c:when>
 			<c:when test="${not empty partnersList}">
-				<c:forEach var="company" items="${partnersList }" varStatus="articleNum">
+				<c:forEach var="company" items="${partnersList }"
+					varStatus="articleNum">
 					<tr align="center">
 						<td class=line2 align='center' width="15%"><a class='cls1'
-							href="${contextPath}/company/companyForm.do?id=${company.id}">${company.name }</a>
+							href="${contextPath}/company/companyForm.do?id=${company.id}&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=partner">${company.name }</a>
 						</td>
-						<td width="15%" class=line2>${company.contractType }</td>
+						<td width="15%" class=line2><c:if
+								test="${company.contractType eq '협약서 없음'}">
+								<font color="red">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '상호 변경'}">
+								<font color="green">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '협약 완료'}">
+								<font color="black">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
+								<font color="blue">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '탈퇴'}">
+								<font color="#dd42f5">${company.contractType }</font>
+							</c:if></td>
 						<td width="15%" class=line2>${company.contractName }</td>
 						<td width="15%" class=line2>${company.managerPhone }</td>
 						<td width="15%" class=line2>${company.id }</td>
@@ -195,11 +258,11 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/company/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/partner/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/company/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/partner/listPartners.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>
@@ -210,7 +273,7 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
 							<a
-							href="${contextPath }/company/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/partner/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:when>
@@ -220,7 +283,7 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
 							<a
-							href="${contextPath }/company/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/partner/listPartners.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:otherwise>
@@ -229,15 +292,21 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/company/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/partner/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/company/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/partner/listPartners.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>
 		</ul>
 	</div>
+
+	<form action="${contextPath}/partner/partnersExcelDownload.do"
+		method="post" id="excelForm">
+		<input type="submit" value='엑셀 다운로드' id="excel">
+	</form>
+
 </body>
 </html>

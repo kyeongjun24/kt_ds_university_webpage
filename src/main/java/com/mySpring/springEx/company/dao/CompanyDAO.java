@@ -57,4 +57,7 @@ public interface CompanyDAO {
 	public List<CompanyVO> listPaging(int page) throws DataAccessException;
 
 	public List<CompanyVO> partnerListPaging(int page) throws DataAccessException;
+	
+	// 사업자 등록번호 중복 체크
+	public int idCheck(CompanyVO vo) throws DataAccessException;
 }

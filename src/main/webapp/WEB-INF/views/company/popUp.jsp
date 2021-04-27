@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <%
@@ -61,7 +62,7 @@ request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
-	<h1 style= text-align:center;>회사 리스트</h1>
+	<h1 style="text-align: center;">회사 리스트</h1>
 	<form method="get" action="${contextPath }/company/popUp.do"
 		id="searchFrm">
 
@@ -105,8 +106,7 @@ request.setCharacterEncoding("UTF-8");
 						<option value="name">회사명</option>
 						<option value="id">사업번호</option>
 					</c:if>
-			</select></label> 
-			<label>단어 검색 <c:choose>
+			</select></label> <label>단어 검색 <c:choose>
 					<c:when test="${not empty searchText }">
 						<input type="text" name="searchText" id="searchText"
 							value="${searchText }" style="width: 100px; margin-right: 20px;">
@@ -118,37 +118,38 @@ request.setCharacterEncoding("UTF-8");
 				</c:choose></label> <input type="submit" value="검색">
 		</div>
 	</form>
-		
-		<!-- 회사 리스트 출력 -->
-		<table border="0" align="center" width="80%">
-			<tr height="15" align="center" style="border-bottom: solid;">
-				<td><b>번호</b></td>
-				<td><b>사업자번호</b></td>
-				<td><b>회사명</b></td>
-			</tr>
-			<c:choose>
-				<c:when test="${empty companiesList}">
-					<tr height="10">
-						<td>
-							<p align="center">
-								<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
-							</p>
-						</td>
+
+	<!-- 회사 리스트 출력 -->
+	<table border="0" align="center" width="80%">
+		<tr height="15" align="center" style="border-bottom: solid;">
+			<td><b>회사명</b></td>
+			<td><b>사업자번호</b></td>
+			<td><b>주소</b></td>		
+		</tr>
+		<c:choose>
+			<c:when test="${empty companiesList}">
+				<tr height="10">
+					<td>
+						<p align="center">
+							<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
+						</p>
+					</td>
+				</tr>
+			</c:when>
+			<c:when test="${not empty companiesList }">
+				<c:forEach var="company" items="${companiesList }"
+					varStatus="companyNum">
+					<tr align="center">
+						<td align='left' width="25%"><span
+							style="padding-right: 10px"></span> <a href='javascript:void(0);'
+							onclick="setCompanyName(this);">${company.name }</a></td>
+						<td>${company.id }</td>
+						<td>${company.address }</td>
 					</tr>
-				</c:when>
-				<c:when test="${not empty companiesList }">
-					<c:forEach var="company" items="${companiesList }" varStatus="companyNum">
-						<tr align="center">
-							<td>${companyNum.count }</td>
-							<td>${company.id }</td>
-							<td align='left' width="25%">
-								<span style="padding-right: 10px"></span> 
-								<a href='javascript:void(0);' onclick="setCompanyName(this);">${company.name }</a></td>
-						</tr>
-					</c:forEach>
-				</c:when>
-			</c:choose>
-		</table>
+				</c:forEach>
+			</c:when>
+		</c:choose>
+	</table>
 
 	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center">

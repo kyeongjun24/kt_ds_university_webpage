@@ -143,8 +143,7 @@
 	    <tr>
 	    	<td></td>
 	       	<td style="text-align: right; padding-right: 20px;">
-		       <button onclick="location.href='${contextPath}/syllabus/updateSyllabusForm.do?id=${syllabusVO.id }&page=${page}
-		       		&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" id="enrollButton">수정하기</button>
+		       <button onclick="location.href='${contextPath}/syllabus/updateSyllabusForm.do?id=${syllabusVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" id="enrollButton">수정하기</button>
 		       <button onclick="syllabusRemove()">삭제</button>
 		       <button type="button" onclick="history.back()">뒤로</button>
 	       	</td>

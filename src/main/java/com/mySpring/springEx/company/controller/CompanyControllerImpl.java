@@ -9,12 +9,15 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.common.paging.PageMaker;
@@ -37,7 +40,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 		// 페이지 변수 선언
 		int page = 0;
-		
+
 		// 페이지 값이 있으면
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt(request.getParameter("page")); // 페이지 값 저장
@@ -46,14 +49,14 @@ public class CompanyControllerImpl implements CompanyController {
 		}
 
 		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
-		
+
 		// perPage 값 있으면
 		if (request.getParameter("perPage") != null) {
 			perPage = Integer.parseInt(request.getParameter("perPage")); // 페이지 값 저장
 		} else {
 			perPage = 10; // 없으면 10 저장
 		}
-		
+
 		List companiesList = null;
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();
@@ -77,6 +80,7 @@ public class CompanyControllerImpl implements CompanyController {
 			pageMaker.setTotalCount(companiesList.size()); // 페이지 개수 설정
 			companiesList = companyService.listCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
 		}
+		mav.addObject("criteria", criteria);
 		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
 		mav.addObject("companiesList", companiesList); // 설정된 리스트 보내기
@@ -99,7 +103,7 @@ public class CompanyControllerImpl implements CompanyController {
 
 	// 협력회사 리스트 불러오는 메소드
 	@Override
-	@RequestMapping(value = "/company/listPartners.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/partner/listPartners.do", method = RequestMethod.GET)
 	public ModelAndView listPartners(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		String searchType = request.getParameter("searchType");
@@ -115,14 +119,14 @@ public class CompanyControllerImpl implements CompanyController {
 		}
 
 		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
-		
+
 		// perPage 값 있으면
 		if (request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt((String)request.getParameter("perPage")); // 페이지 값 저장
+			perPage = Integer.parseInt((String) request.getParameter("perPage")); // 페이지 값 저장
 		} else {
 			perPage = 10; // 없으면 10 저장
 		}
-		
+
 		List partnersList = null;
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();
@@ -138,7 +142,6 @@ public class CompanyControllerImpl implements CompanyController {
 			criteria.setSearchType(searchType); // 검색 유형 설정
 			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수를 전체 리스트 크기로 설정
 			partnersList = companyService.partnerListCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
-			
 			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내고
 			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
 		} else { // 검색 유형이랑 값을 받지 않았다면
@@ -147,6 +150,7 @@ public class CompanyControllerImpl implements CompanyController {
 			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수 설정
 			partnersList = companyService.partnerListCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
 		}
+		mav.addObject("criteria", criteria);
 		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
 		mav.addObject("partnersList", partnersList);
@@ -155,13 +159,13 @@ public class CompanyControllerImpl implements CompanyController {
 
 	// 협력회사 검색 할 수 있는 메소드
 	@Override
-	@RequestMapping(value = "/company/listBySearchPartners.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/partner/listBySearchPartners.do", method = RequestMethod.POST)
 	public ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType,
 			@RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		List partnersList = companyService.listBySearchPartners(searchType, searchText);
-		ModelAndView mav = new ModelAndView("/company/listPartners");
+		ModelAndView mav = new ModelAndView("/partner/listPartners");
 		mav.addObject("partnersList", partnersList);
 		return mav;
 	}
@@ -172,6 +176,11 @@ public class CompanyControllerImpl implements CompanyController {
 	public ModelAndView addCompany(@ModelAttribute("company") CompanyVO companyVO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
+		// 아이디랑 주소는 add.jsp에서 안넘어와서 컨트롤러에서 값을 합쳐줬다.
+		companyVO.setid(
+				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
+		companyVO.setAddress(
+				request.getParameter("address1") + "," + request.getParameter("address2"));
 		int result = 0;
 		result = companyService.addCompany(companyVO);
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
@@ -181,13 +190,17 @@ public class CompanyControllerImpl implements CompanyController {
 	// 협력회사, 회사관리 리스트의 회사명을 클릭하면 그 회사의 정보가 띄어지는 메소드
 	@Override
 	@RequestMapping(value = "/company/companyForm.do", method = { RequestMethod.POST, RequestMethod.GET })
-	public ModelAndView selectCompany(@RequestParam("id") String id, HttpServletRequest request,
+	public ModelAndView selectCompany(@RequestParam("id") String id, @RequestParam("type") String type, @ModelAttribute("criteria") Criteria criteria, Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
+		CompanyVO companyVO = new CompanyVO();
 		mav.setViewName(viewName);
-		CompanyVO companyVO = companyService.selectCompany(id);
+		companyVO = companyService.selectCompany(id);
+		model.addAttribute("type", type);
+		model.addAttribute("criteria", criteria);
+		model.addAttribute("companyVO", companyVO);
 		mav.addObject("companyVO", companyVO);
 		return mav;
 	}
@@ -195,22 +208,43 @@ public class CompanyControllerImpl implements CompanyController {
 	// 회사 수정할 수 있는 메소드
 	@Override
 	@RequestMapping(value = "/company/modCompany.do", method = RequestMethod.POST)
-	public ModelAndView modCompany(@ModelAttribute("company") CompanyVO companyVO, HttpServletRequest request,
+	public ModelAndView modCompany(@ModelAttribute("company") CompanyVO companyVO, @RequestParam("type") String type, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr,  HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
+		companyVO.setid(
+				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
+		companyVO.setAddress(
+				request.getParameter("address1") + "," + request.getParameter("address2"));
+		
 		int result = 0;
 		result = companyService.modCompany(companyVO);
-		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
+		
+		// 검색 후 회사 선택하고 수정한 후에 다시 검색 페이지로 돌아오게
+		rttr.addAttribute("page", criteria.getPage());
+		rttr.addAttribute("perPageNum", criteria.getPerPageNum());
+		rttr.addAttribute("searchType", criteria.getSearchType());
+		rttr.addAttribute("searchText", criteria.getSearchText());
+		ModelAndView mav = new ModelAndView();
+		if (type.equals("partner")) {
+			mav.setViewName("redirect:/partner/listPartners.do");
+		} else {
+			mav.setViewName("redirect:/company/listCompanies.do");
+		}
 		return mav;
 	}
 
 	// 회사명을 선택하면 회사 상세창에서 회사를 삭제할 수 있는 메소드
 	@Override
 	@RequestMapping(value = "/company/removeCompany.do", method = RequestMethod.GET)
-	public ModelAndView removeCompany(@RequestParam("id") String id, HttpServletRequest request,
+	public ModelAndView removeCompany(@RequestParam("id") String id, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		companyService.removeCompany(id);
+		
+		rttr.addAttribute("page", criteria.getPage());
+		rttr.addAttribute("perPageNum", criteria.getPerPageNum());
+		rttr.addAttribute("searchType", criteria.getSearchType());
+		rttr.addAttribute("searchText", criteria.getSearchText());
 		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
 		return mav;
 	}
@@ -227,6 +261,22 @@ public class CompanyControllerImpl implements CompanyController {
 			result = companyService.removeCompany(arr[i]);
 		}
 		return result;
+	}
+
+	// 전체 회사 엑셀 다운로드
+	@Override
+	@RequestMapping(value = "/company/excelDownload.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void companyExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		companyService.companyExcelDownload(response);
+	}
+
+	// 협력 회사 엑셀 다운로드
+	@Override
+	@RequestMapping(value = "/partner/partnersExcelDownload.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void partnersExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		companyService.partnersExcelDownload(response);
 	}
 
 	// 학생관리의 수정창 안에 회사수정 팝업창
@@ -279,6 +329,16 @@ public class CompanyControllerImpl implements CompanyController {
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
 		mav.addObject("companiesList", companiesList); // 설정된 리스트 보내기
 		return mav;
+	}
+
+	// 아이디 중복확인
+	@ResponseBody
+	@RequestMapping(value = "/company/idCheck.do", method = RequestMethod.POST)
+	public int idCheck(String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		CompanyVO vo = new CompanyVO();
+		vo.setid(id);
+		int result = companyService.idCheck(vo);
+		return result;
 	}
 
 	@RequestMapping(value = "/company/*Form.do", method = RequestMethod.GET)
