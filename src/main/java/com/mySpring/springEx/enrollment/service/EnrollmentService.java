@@ -2,8 +2,6 @@ package com.mySpring.springEx.enrollment.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.dao.DataAccessException;
 
 import com.mySpring.springEx.common.paging.Criteria;
@@ -25,7 +23,7 @@ public interface EnrollmentService {
 
 	public List listSylCrs() throws DataAccessException;
 
-	//public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException;
+	public int checkEnrollment(EnrollmentVO enrollment) throws DataAccessException;
 
 	public List listEnrollmentCriteria(Criteria criteria) throws DataAccessException;
 
@@ -39,10 +37,7 @@ public interface EnrollmentService {
 
 	public int updateCompleteEnrollments(int id) throws DataAccessException;
 
-	public void excelDownload(HttpServletResponse response) throws Exception;
-
-	public List enrollmentCourse(int id) throws DataAccessException;
-
+	public List exceptListSylCrs(String id) throws DataAccessException;
 
 	public EnrollmentVO selectCompletion(int id) throws DataAccessException;
 

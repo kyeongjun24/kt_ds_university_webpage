@@ -16,6 +16,50 @@ request.setCharacterEncoding("UTF-8");
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 	
+ 	/* $(function() {
+		$('#id').on('keyup', function(){
+			var courseId = this.value;
+			var memberId = 
+			alert
+				$.ajax({
+					type:'post',
+					url:'${contextPath}/enrollment/checkEnrollment.do',
+					data: 'memberVO.id='+memberId+'courseVO.id='+courseId,
+			//뒤가 jsp id 데이터값
+					success: function(result){
+						if(result == 1){
+							$('#idCheck').html('과목 중복').css('color','red');
+							alert("중복");
+						}else {
+							$('#idCheck').html('적절한 과목').css('color','blue');
+							alert("중복 아님");
+						}
+						
+					}, error:function(result,request,status,error){
+			             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        }
+				})
+		})
+		
+		$('#registerFrm').submit(function() {
+			var idCheck = document.getElementById("idCheck").innerHTML;
+			
+			if (idCheck == "적절한 과목") {
+				return true;
+			} else if(idCheck == "과목 중복") {
+				alert("과목 중복 확인 해주세요.");
+				return false;
+			}
+			
+			return false;
+		})
+		
+		$('#reset').on('click', function() {
+			$('#idCheck').html('');
+		})
+	
+	})  */
+			
 	
 	
 	//아이디 검색 팝업
@@ -53,6 +97,10 @@ request.setCharacterEncoding("UTF-8");
 						</c:forEach>
 				</select></td>
 			</tr>
+			<tr>
+	      <td width="200"><p align="right">과목 중복확인</td>
+	      <td><span id="idCheck"></span></td>
+	   	</tr>
 	   
 		</table>
 

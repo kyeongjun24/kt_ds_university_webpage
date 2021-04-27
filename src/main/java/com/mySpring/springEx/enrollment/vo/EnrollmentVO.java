@@ -2,7 +2,6 @@ package com.mySpring.springEx.enrollment.vo;
 
 import org.springframework.stereotype.Component;
 
-import com.mySpring.springEx.company.vo.CompanyVO;
 import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.member.vo.MemberVO;
 import com.mySpring.springEx.syllabus.vo.SyllabusVO;
@@ -22,13 +21,12 @@ public class EnrollmentVO {
 	private MemberVO memberVO;
 	private CourseVO courseVO;
 	private SyllabusVO syllabusVO;
-	private CompanyVO companyVO;
 	
 	public EnrollmentVO() {
 	}
 
 	public EnrollmentVO(int id, int crsId, String memId, String slbName, String stat, String joinDate, String modDate, String completeDate,
-			MemberVO memberVO, CourseVO courseVO, SyllabusVO syllabusVO, CompanyVO companyVO) {
+			MemberVO memberVO, CourseVO courseVO, SyllabusVO syllabusVO) {
 		this.id = id;
 		this.crsId = crsId;
 		this.memId = memId;
@@ -40,7 +38,6 @@ public class EnrollmentVO {
 		this.memberVO = memberVO;
 		this.courseVO = courseVO;
 		this.syllabusVO = syllabusVO;
-		this.companyVO = companyVO;
 	}
 
 	public int getId() {
@@ -130,13 +127,4 @@ public class EnrollmentVO {
 	public void setSyllabusVO(SyllabusVO syllabusVO) {
 		this.syllabusVO = syllabusVO;
 	}
-
-	public CompanyVO getCompanyVO() {
-		return companyVO;
-	}
-
-	public void setCompanyVO(CompanyVO companyVO) {
-		this.companyVO = companyVO;
-	}
-	
 }

@@ -70,10 +70,6 @@ request.setCharacterEncoding("UTF-8");
 						})
 	})
 
-		
-		
-	
-	
 	//체크 된 걸 가져오는 함수
 	function getCheckList(stat) {
 		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
@@ -91,19 +87,15 @@ request.setCharacterEncoding("UTF-8");
 			return false;
 		} else {
 			if (stat == "delete") { // 상태 '삭제' 로 변경
-				
-				if(!confirm("삭제 하시겠습니까?")){
-					return false;
-				}else{
-					
-						$.ajax({
+				$
+						.ajax({
 							type : 'post',
 							url : '${contextPath}/enrollment/modDeleteEnrollments.do',
 							traditional : true, //Array 형태로 보내려면 설정 해줘야함
 							data : {
 								arr : arr
 							},
-		
+
 							success : function(data) {
 								//alert('데이터 받기 성공');
 								//alert(data);
@@ -115,9 +107,6 @@ request.setCharacterEncoding("UTF-8");
 										+ "\n" + "error:" + error);
 							}
 						})
-				}
-						
-						
 			} else if (stat == "approve") { // 상태 '승인' 으로 변경
 				$
 						.ajax({
@@ -210,7 +199,7 @@ request.setCharacterEncoding("UTF-8");
 				</c:if>
 			</select>
 		</div>
-		
+
 		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
 		<div class="searchType">
 			<select name="searchType" id="searchType">
@@ -263,28 +252,21 @@ request.setCharacterEncoding("UTF-8");
 			</c:choose>
 			<input type="submit" id="searchSubmit" value="검색">
 		</div>
+
 	</form>
-	
-	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/enrollment/excelDownload.do" method="post">
-		<input type="submit" value='엑셀 다운로드'>
-	</form>
-	
-	<p id="type_color" align="left" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span>
-											  <span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>
-	
+
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
-			<td><b>과정명</b></td>
-			<td><b>교육기간</b></td>
+			<td><b>아이디</b></td>
 			<td><b>이름</b></td>
 			<td><b>소속회사</b></td>
-			<td><b>상태</b></td>
+			<td><b>과정명</b></td>
+			<td><b>승인</b></td>
 			<td><b>신청일</b></td>
 		</tr>
 		<c:choose>
-			<c:when test="${empty enrollmentsList}">
+			<c:when test="${enrollmentsList == null }">
 				<tr height="10">
 					<td colspan="4">
 						<p align="center">
@@ -297,52 +279,21 @@ request.setCharacterEncoding("UTF-8");
 				<c:forEach var="enrollment" items="${enrollmentsList }"
 					varStatus="enrdNum">
 					<tr align="center">
-						<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
-							
-						<!-- 과목별 상세 조회 / 인세 페이지 미구현 -->
-						<td><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
-																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>
-						<%-- <td>${enrollment.syllabusVO.name }</td> --%>
-																
-						<td>${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
-						
-						<td><a id="herfId" href="${contextPath}/enrollment/informationEnrollment.do?
-																id=${enrollment.id }">${enrollment.memberVO.name }</a></td>
-						<td>
-							<!-- 회사가 없는 경우 -->
-							<c:if test="${enrollment.memberVO.companyName == null }">
-								<font color="red">비협력사</font>
-							</c:if>
-							
-							<!-- 회사가 있는 경우 -->
-							<c:if test="${enrollment.memberVO.companyName != null }">
-						
-								<c:choose>
-									<c:when test="${enrollment.companyVO.contractType eq '협약서 없음'}">
-	                        			<font color="red">${enrollment.memberVO.companyName }</font>
-	                        
-	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '상호 변경'}">
-	                        			<font color="green">${enrollment.memberVO.companyName }</font>
-	                        
-	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '협약 완료'}">
-	                        			<font color="black">${enrollment.memberVO.companyName }</font>
-	                        
-	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '협약서 사본'}">
-	                        			<font color="blue">${enrollment.memberVO.companyName }</font>
-	                    			 </c:when>
-	                    			 <c:otherwise>
-	                    			 	<font color="red">${enrollment.memberVO.companyName }</font>
-	                    			 </c:otherwise>
-                    			 </c:choose>
-                    		</c:if>
+						<td><input type="checkbox" name="selectedCheckbox"
+							id="${enrollment.id }"></td>
+						<td>${enrollment.memId }</td>
+						<td align='center'><span style="padding-right: 10px"></span>
+							<a id="herfId"
+							href="${contextPath}/enrollment/informationEnrollment.do?id=${enrollment.id }">${enrollment.memberVO.name }</a>
 						</td>
-						
+						<td>${enrollment.memberVO.companyName }</td>
+						<td>${enrollment.syllabusVO.name }</td>
 						<td><c:if test="${enrollment.stat == '신청' }">
-								<font color="black">${enrollment.stat }</font>
-							</c:if> <c:if test="${enrollment.stat == '승인' }">
-								<font color="blue">${enrollment.stat }</font>
-							</c:if> <c:if test="${enrollment.stat eq '수료' }">
 								<font color="red">${enrollment.stat }</font>
+							</c:if> <c:if test="${enrollment.stat == '승인' }">
+								<font color="black">${enrollment.stat }</font>
+							</c:if> <c:if test="${enrollment.stat eq '수료' }">
+								<font color="black">${enrollment.stat }</font>
 							</c:if></td>
 						<td>${enrollment.joinDate }</td>
 					</tr>
@@ -358,13 +309,11 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }
-								&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }
-								&searchText=${searchText}&searchType=${searchType}">이전</a></li>
+							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>
@@ -375,8 +324,7 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>
 							<a
-							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}
-								&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:when>
@@ -386,8 +334,7 @@ request.setCharacterEncoding("UTF-8");
 						<li
 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
 							<a
-							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}
-								&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
 						</li>
 					</c:forEach>
 				</c:otherwise>
@@ -396,18 +343,21 @@ request.setCharacterEncoding("UTF-8");
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
 						<li><a
-							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }
-								&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a
-							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }
-								&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:if>
 		</ul>
 	</div>
+
+	<%-- <button type="button" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'" style="width: 5%;">등록</button>
+<button type="button" style="width: 5%;">승인</button>
+<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
+<button type="button" style="width: 5%;">수료</button> --%>
 
 	<!-- 버튼 모음집 -->
 	<div class="memberButton">
@@ -421,5 +371,9 @@ request.setCharacterEncoding("UTF-8");
 		<button type="button" onclick='getCheckList("delete")'
 			style="width: 5%;">삭제</button>
 	</div>
+	<!-- 등록 버튼 추가해서 함수 실행하게 만들어야함 -->
+	<%-- 
+      <td><a href="${contextPath}/member/removeMember.do?id=${member.id }">삭제</a></td> --%>
+
 </body>
 </html>
