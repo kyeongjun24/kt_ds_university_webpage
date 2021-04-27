@@ -195,7 +195,7 @@
 	    <tr>
 	       <td style="padding-right: 3%;"><p align="right">회사명</td>
 	       <td align="left" style="padding-left: 2%;"><p><input type="text" name="companyName" id="companyName" value="${vo.companyName }" readonly>&nbsp;&nbsp;&nbsp;
-	       <a onclick="popup()" >검색</a></td>
+	       <a onclick="popup()" style="cursor:pointer">검색</a></td>
 	    </tr>
 	    <tr>
 	       <td ><p>&nbsp;</p></td>

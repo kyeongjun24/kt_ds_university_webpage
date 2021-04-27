@@ -31,7 +31,7 @@ input:focus {
 
 #sel1, #sel2 {
 	float: left;
-	margin-left: 4em;
+	margin-left: 14%;
 	width: 40%;
 }
 
@@ -99,7 +99,7 @@ input:focus {
 
 #num, #id {
 	width: 15%;
-	padding-left: 7px;
+	padding-left: ;
 }
 
 .oNum {

@@ -32,7 +32,7 @@ input:focus {
 
 #sel1, #sel2 {
 	float: left;
-	margin-left: 4em;
+	margin-left: 14%;
 	width: 40%;
 }
 
@@ -83,7 +83,7 @@ input:focus {
 
 .oNum {
 	text-align: left;
-	padding-left: 3em;
+	padding-left: 14%;
 }
 
 .td2 {

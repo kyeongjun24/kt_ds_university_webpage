@@ -65,13 +65,16 @@ request.setCharacterEncoding("UTF-8");
 
 #type_color {
 	text-align: left;
-	padding-top: 0.8%;
-	font-size: 15px;
-	margin-right: 60.4%;
+	font-size: 80%;
+	margin-right: 63.55%;
 }
 
 #excel {
 	width: 8%;
+}
+
+#pageNum {
+	margin-bottom: 5%;
 }
 </style>
 
@@ -207,7 +210,7 @@ request.setCharacterEncoding("UTF-8");
 	</form>
 
 	<table align="center" border="0" width="80%" id="partners">
-		<tr height="15" align="center" style="border-bottom: solid;">
+		<tr height="15" align="center">
 			<td class=line1><b>회사명</b></td>
 			<td class=line1><b>협약 상태</b></td>
 			<td class=line1><b>담당자</b></td>
@@ -251,9 +254,14 @@ request.setCharacterEncoding("UTF-8");
 		</c:choose>
 	</table>
 
+	<form action="${contextPath}/partner/partnersExcelDownload.do"
+		method="post" id="excelForm">
+		<input type="submit" value='엑셀 다운로드' id="excel">
+	</form>
+
 	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
-		<ul>
+		<ul id="pageNum">
 			<c:if test="${pageMaker.prev }">
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
@@ -302,11 +310,6 @@ request.setCharacterEncoding("UTF-8");
 			</c:if>
 		</ul>
 	</div>
-
-	<form action="${contextPath}/partner/partnersExcelDownload.do"
-		method="post" id="excelForm">
-		<input type="submit" value='엑셀 다운로드' id="excel">
-	</form>
 
 </body>
 </html>
