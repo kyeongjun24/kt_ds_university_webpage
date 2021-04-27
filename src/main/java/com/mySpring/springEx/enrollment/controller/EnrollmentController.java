@@ -22,9 +22,6 @@ public interface EnrollmentController {
 
 	ModelAndView enrollmentForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	int checkEnrollment(EnrollmentVO enrollmentVO, HttpServletRequest request, HttpServletResponse response)
-			throws Exception;
-	
 	int updateDeleteEnrollments(String [] arr, HttpServletRequest request, HttpServletResponse response) 
 			throws Exception;
 
@@ -34,10 +31,12 @@ public interface EnrollmentController {
 	int updateCompleteEnrollments(String[] arr, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
-	ModelAndView exceptEnrollmentForm(String id, HttpServletRequest request, HttpServletResponse response)
+	ModelAndView deleteEnrollment(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+	void excelDownload(HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
-	ModelAndView deleteEnrollment(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	ModelAndView enrollmentCourse(int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	ModelAndView listCompletion(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	

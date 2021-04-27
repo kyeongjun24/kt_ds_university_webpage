@@ -13,7 +13,7 @@ public interface EnrollmentDAO {
 
 	public List selectAllEnrollmentList() throws DataAccessException;
 
-	public EnrollmentVO selectEnrollment(int id) throws DataAccessException;
+	public EnrollmentVO enrollmentMember(int id) throws DataAccessException;
 
 	public int insertEnrollment(EnrollmentVO enrollmentVO) throws DataAccessException;
 
@@ -39,7 +39,9 @@ public interface EnrollmentDAO {
 
 	public int updateCompleteEnrollments(int id) throws DataAccessException;
 
-	public List selectExceptList(String id) throws DataAccessException;
+	public List excelEnrollmentList() throws DataAccessException;
+
+	public List enrollmentCourse(int id) throws DataAccessException;
 
 	public EnrollmentVO selectCompletion(int id) throws DataAccessException;
 

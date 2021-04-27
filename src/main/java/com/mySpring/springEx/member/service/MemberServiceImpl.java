@@ -96,11 +96,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.selectMember(id);
 	}
 
-	@Override
-	public List enrollmentsList(Criteria criteria) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public int removeMemberLog(Map<String, String> map) {
 		return memberDAO.insertMemberLog(map);

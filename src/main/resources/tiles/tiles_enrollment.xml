@@ -11,16 +11,22 @@
       <put-attribute name="body" value="/WEB-INF/views/enrollment/enrollmentsList.jsp" />
    </definition>
    
-   <definition name="/enrollment/informationEnrollment" extends="baseLayout">
-      <put-attribute name="title" value="수강신청상세창" />
-      <put-attribute name="side" value="/WEB-INF/views/common/sideEnrollment.jsp" />
-      <put-attribute name="body" value="/WEB-INF/views/enrollment/enrollmentInformation.jsp" />
-   </definition>
-   
    <definition name="/enrollment/enrollmentForm" extends="baseLayout">
       <put-attribute name="title" value="수강신청등록" />
       <put-attribute name="side" value="/WEB-INF/views/common/sideEnrollment.jsp" />
       <put-attribute name="body" value="/WEB-INF/views/enrollment/enrollmentForm.jsp" />
+   </definition>
+   
+   <definition name="/enrollment/informationEnrollment" extends="baseLayout">
+      <put-attribute name="title" value="수강신청_회원상세창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideEnrollment.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/enrollment/enrollmentMember.jsp" />
+   </definition>
+   
+   <definition name="enrollment/enrollmentCourse" extends="baseLayout">
+      <put-attribute name="title" value="수강신청_강의상세창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideEnrollment.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/enrollment/enrollmentCourse.jsp" />
    </definition>
    
    <definition name="/enrollment/listCompletion" extends="baseLayout">
