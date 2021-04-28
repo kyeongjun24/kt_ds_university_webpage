@@ -116,7 +116,7 @@ request.setCharacterEncoding("UTF-8");
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 				style="cursor: pointer;">회원관리</span> > <span
-				onclick="location.href='${contextPath}/partner/listPartners.do'"
+				onclick="location.href='${contextPath}/partner/listPartners.do?&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=company'"
 				style="cursor: pointer;"> 협력회사</span>
 		</h4>
 	</div>

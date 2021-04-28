@@ -30,6 +30,151 @@ request.setCharacterEncoding("UTF-8");
 #popup_searchFrm {
 	width: 92%;
 }
+
+.pageNumber ul {
+   display: flex;
+   justify-content: center;
+   list-style: none;
+   padding : 0px;
+}
+
+.pageNumber ul li {
+   margin: 8px;
+}
+
+.pageNumber ul li a:link {
+color : black;
+text-decoration: none;
+}
+
+.searchType {
+   display: flex;
+   justify-content: flex-end;
+   margin: 30px 0px 30px 0px;
+}
+
+#listFilter {
+   background: #ECECEC;
+   margin: 0px 0px 10px 10px;
+   height: 35px;
+   border: none;
+   border-radius: 6px;
+}
+
+#popup_searchType {
+   background: #ECECEC;
+   margin: 0px 0px 10px 10px;
+   height: 35px;
+   border: none;
+   border-radius: 6px;
+}
+
+#popup_searchText {
+   background: #ECECEC;
+   width: 200px;
+   height: 35px;
+   border-radius: 6px;
+   margin: 0px 0px 10px 10px;
+   border: none;
+}
+
+#popup_Search {
+   background: #969696;
+   width: 50px;
+   height: 35px;
+   border-radius: 6px;
+   margin: 0px 0px 10px 5px;
+   color: #EFEFEF;
+   cursor: pointer;
+   font-size: 16px;
+   border: none;
+}
+
+.popup_table {
+   border-collapse: collapse;
+   width: 90%;
+   margin : 0px;
+}
+
+#popup_title {
+   border-bottom: 2px solid;
+}
+
+.popup_tr > td {
+   padding: 8px 0px 8px 0px;
+   border-bottom: 0.3px solid;
+   border-color: rgba(156, 157, 157, 0.2);
+   font-size: 14px;
+}
+
+.syllabusNotFound {
+font-size : 23px;
+font-weight: 700;
+}
+
+.popup_syllabusNotFound {
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#inputSyllabusName {
+background: #ECECEC;
+   width: 200px;
+   height: 35px;
+   border-radius: 6px;
+   border: none;
+}
+
+#inputSyllabusName_button {
+background: #ED1C24;
+   width: 50px;
+   height: 35px;
+   border-radius: 6px;
+   margin: 0px 0px 0px 8px;
+   color: #EFEFEF;
+   cursor: pointer;
+   font-size: 16px;
+   border: none;
+}
+#popup_td1 {
+width : 25%;
+align : center;
+}
+
+#popup_td1 a:link {
+color : black;
+text-decoration: none;
+}
+
+#popup_td1 a:hover {
+color : #e91b23;
+}
+
+#popup_td2 {
+width : 50%;
+align : center;
+}
+
+#popup_td3 {
+width : 25%;
+}
+
+.popup_close {
+display : flex;
+justify-content: center;
+}
+
+.popup_close > input{
+   background: #969696;
+   width: 70px;
+   height: 35px;
+   border-radius: 6px;
+   color: #EFEFEF;
+   cursor: pointer;
+   font-size: 16px;
+   border: none;
+}
 </style>
 </head>
 <script type="text/javascript"
@@ -160,8 +305,8 @@ request.setCharacterEncoding("UTF-8");
 				</c:when>
 				<c:when test="${not empty syllabusesList }">
 					<tr>
-						<td id="popup_title"><b>2차 분류</b></td>
-						<td id="popup_title"><b>강의명</b></td>
+						<td id="popup_title" align='left'><b>2차 분류</b></td>
+						<td id="popup_title" align='left'><b>강의명</b></td>
 						<td id="popup_title"><b>등록일</b></td>
 					</tr>
 					<c:forEach var="syllabus" items="${syllabusesList }"
@@ -169,7 +314,7 @@ request.setCharacterEncoding("UTF-8");
 						<tr class="popup_tr">
 							<td id="popup_td1" align='left'><a
 								href='javascript:void(0);' onclick="setSyllabusName(this);">${syllabus.courseCategoryVO.name }</a></td>
-							<td id="popup_td2"><a href='javascript:void(0);'
+							<td id="popup_td2" align='left'><a href='javascript:void(0);'
 								onclick="setSyllabusName(this, ${statusNum.index});">${syllabus.name}</a>
 								<input type="hidden" id="slbId${statusNum.index }"
 								value="${syllabus.id }"> <input type="hidden"

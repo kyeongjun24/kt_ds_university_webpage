@@ -104,7 +104,7 @@ input:focus {
 
 .oNum {
 	text-align: left;
-	padding-left: 3em;
+	padding-left: 14%;
 }
 </style>
 </head>

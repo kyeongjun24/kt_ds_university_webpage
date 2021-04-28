@@ -1,3 +1,4 @@
+<%@page import="com.mySpring.springEx.manager.vo.ManagerVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ page language="java" import="java.util.*"%>
@@ -209,6 +210,14 @@ button {
 <title><tiles:insertAttribute name="title" /></title>
 </head>
 <body>
+<%
+	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
+	Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
+	
+	if (manager != null && isLogOn == true) {
+		
+	
+%>
 	<div id="container">
 		<div id="header">
 			<tiles:insertAttribute name="header" />
@@ -226,5 +235,10 @@ button {
 			<tiles:insertAttribute name="footer" />
 		</div>
 	</div>
+	<%} else {  %>
+	<script>
+		window.location.href="${contextPath}";
+	</script>
+	<% } %>
 </body>
 </html>

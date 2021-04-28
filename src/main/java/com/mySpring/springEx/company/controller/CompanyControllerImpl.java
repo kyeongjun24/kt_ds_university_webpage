@@ -1,5 +1,6 @@
 package com.mySpring.springEx.company.controller;
 
+import java.io.File;
 import java.text.Normalizer.Form;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,6 +82,7 @@ public class CompanyControllerImpl implements CompanyController {
 			pageMaker.setTotalCount(companiesList.size()); // 페이지 개수 설정
 			companiesList = companyService.listCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
 		}
+		mav.addObject("page", page);
 		mav.addObject("criteria", criteria);
 		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
@@ -176,6 +179,10 @@ public class CompanyControllerImpl implements CompanyController {
 	public ModelAndView addCompany(@ModelAttribute("company") CompanyVO companyVO, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
+		String searchType = (String) request.getParameter("searchType");
+		String searchText = (String) request.getParameter("searchText");
+		int page = Integer.parseInt(request.getParameter("page")); // page 변수에 값을 저장
+		int perPage = Integer.parseInt(request.getParameter("perPage")); // perPage 변수에 리스트 띄울 개수 저장
 		// 아이디랑 주소는 add.jsp에서 안넘어와서 컨트롤러에서 값을 합쳐줬다.
 		companyVO.setid(
 				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
@@ -183,7 +190,7 @@ public class CompanyControllerImpl implements CompanyController {
 				request.getParameter("address1") + "," + request.getParameter("address2"));
 		int result = 0;
 		result = companyService.addCompany(companyVO);
-		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
+		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do?&page="+page+"&searchType="+searchType+"&searchText="+searchText+"&perPage="+perPage);
 		return mav;
 	}
 
@@ -225,6 +232,7 @@ public class CompanyControllerImpl implements CompanyController {
 		rttr.addAttribute("searchType", criteria.getSearchType());
 		rttr.addAttribute("searchText", criteria.getSearchText());
 		ModelAndView mav = new ModelAndView();
+		// type이 파트너일 경우 협력회사로 오게, 아니면 컴퍼니로 가게
 		if (type.equals("partner")) {
 			mav.setViewName("redirect:/partner/listPartners.do");
 		} else {

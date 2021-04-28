@@ -102,8 +102,7 @@ request.setCharacterEncoding("UTF-8");
 						},
 
 						success : function(data) {
-							alert(data + '개의 데이터가 삭제되었습니다.');
-							window.location.href = "${contextPath}/company/listCompanies.do";
+							window.location.href = "${contextPath}/company/listCompanies.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
 						},
 						error : function(data, request, status, error) {
 							alert("code:" + request.status + "\n" + "message:"
@@ -158,7 +157,7 @@ request.setCharacterEncoding("UTF-8");
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 				style="cursor: pointer;">회원관리</span> > <span
-				onclick="location.href='${contextPath}/company/listCompanies.do'"
+				onclick="location.href='${contextPath}/company/listCompanies.do?&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=company'"
 				style="cursor: pointer;"> 회사관리</span>
 		</h4>
 	</div>
@@ -254,7 +253,7 @@ request.setCharacterEncoding("UTF-8");
 				style="color: #dd42f5"> ●탈퇴</span>
 		</p>
 		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/company/addCompanyForm.do'"
+			onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="width: 5%;">등록</button>
 		<button type="button" id="cancelButton" onclick='getCheckList()'
 			style="width: 5%;">삭제</button>
@@ -314,7 +313,7 @@ request.setCharacterEncoding("UTF-8");
 
 	<form action="${contextPath}/company/excelDownload.do" method="post"
 		id="excelForm">
-		<button type="button" id="enrollButton" onclick="location.href='${contextPath}/company/addCompanyForm.do'" style="width: 5%;">등록</button>
+		<button type="button" id="enrollButton" onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 5%;">등록</button>
 		<button type="button" id="cancelButton" onclick='getCheckList()' style="width: 5%;">삭제</button>
 		<input type="submit" value='엑셀 다운로드' id="excel">
 	</form>
