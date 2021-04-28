@@ -576,31 +576,31 @@
 	
 	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
 	<select id="listCompletionCriteria" resultMap="enrdResult">
-		SELECT *
-		FROM (
-			select 
-				ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
-				E.enrd_id, 
-				M.mem_id , 
-				M.mem_phone, 
-				M.mem_name, 
-				M.mem_email, 
-				M.mem_company_name, 
-				S.slb_name, 
-				E.enrd_stat, 
-				E.enrd_join_date, 
-				E.enrd_complete_date 
-			from enrollment_detail E 
-					LEFT JOIN member M
-					ON
-						e.mem_id = m.mem_id
-					LEFT JOIN course C
-					ON
-						e.crs_id = c.crs_id
-					LEFT JOIN syllabus S
-					ON
-						c.slb_id = s.slb_id
-			ORDER BY enrd_id)
+		SELECT
+		enrd_id, mem_id , mem_phone, mem_name,
+			 mem_email, mem_company_name, slb_name, enrd_stat, enrd_join_date, enrd_complete_date
+		FROM (select ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
+			E.enrd_id 				as enrd_id, 
+			M.mem_id				as mem_id,
+			M.mem_phone				as mem_phone,
+			M.mem_name				as mem_name,
+			M.mem_email				as mem_email, 
+			M.mem_company_name		as mem_company_name, 
+			S.slb_name				as slb_name, 
+			E.enrd_stat				as enrd_stat, 
+			E.enrd_join_date		as enrd_join_date,
+			E.enrd_complete_date 	as enrd_complete_date
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		ORDER BY enrd_id)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
 			<when test="#{perPageNum} == '10'">
@@ -608,6 +608,55 @@
 			</when>
 			<when test="#{perPageNum} != '10'">
 				AND (#{perPageNum} + #{pageStart}) -1 
+			</when>
+		</choose>
+		order by enrd_id
+	</select>
+
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select -->
+	<select id="selectCriteriaBySearchCompletion"
+		resultMap="enrdResult">
+		SELECT
+			enrd_id, mem_id , mem_phone, mem_name,
+			 mem_email, mem_company_name, slb_name, enrd_stat, enrd_join_date, enrd_complete_date
+		FROM (
+		SELECT ROW_NUMBER() OVER (ORDER BY m.mem_join_date) NUM,
+			E.enrd_id 				as enrd_id, 
+			M.mem_id				as mem_id,
+			M.mem_phone				as mem_phone,
+			M.mem_name				as mem_name,
+			M.mem_email				as mem_email, 
+			M.mem_company_name		as mem_company_name, 
+			S.slb_name				as slb_name, 
+			E.enrd_stat				as enrd_stat, 
+			E.enrd_join_date		as enrd_join_date,
+			E.enrd_complete_date 	as enrd_complete_date
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		<choose>
+			<when test="searchType == 'name'">
+				WHERE m.mem_name LIKE '%' || #{searchText} || '%'
+			</when>
+			<when test="searchType == 'companyName'">
+				WHERE m.mem_company_name LIKE '%' || #{searchText} || '%'
+			</when>
+		</choose>
+		ORDER BY enrd_id)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart}) -1
 			</when>
 		</choose>
 		order by enrd_id
