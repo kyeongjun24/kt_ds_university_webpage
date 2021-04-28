@@ -179,11 +179,11 @@ justify-content: flex-start;
 				<c:forEach var="event_security_log" items="${event_security_logsList}" varStatus="event_security_logNum">
 					<tr align="center">
 						
-						<td>${event_security_log.id-89999}</td>
+						<td align="left">${event_security_log.id-89999}</td>
 						<td>${event_security_log.user}</td>
-						<td>${event_security_log.type}</td>
+						<td align="left">${event_security_log.type}</td>
 						<td>${event_security_log.date}</td>
-						<td>${event_security_log.text}</td>
+						<td align="left">${event_security_log.text}</td>
 						
 					</tr>
 				</c:forEach>
