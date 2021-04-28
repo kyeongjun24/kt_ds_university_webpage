@@ -18,11 +18,10 @@
      text-align:center;
    }
    
-   .menuCategory{
-		height: 5%;
-		width: 100%;
-		margin-bottom: 1%;
-		text-align: left;
+   .process {
+	text-align: left;
+	color: #9C9D9D;
+	margin-bottom: 2em;
 	}
 	
 	td:nth-child(2n-1) {
@@ -147,8 +146,15 @@
 </script>
 <body>
 
-	<div class="menuCategory">
-		<h5>수강 관리 > 상세 내역(회원)</h5>
+	<div class="process">
+		<h4>
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;">수강관리</span> > 
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;"> 수강신청내역</span> >
+			<span onclick="window.location.reload()"
+				style="cursor: pointer;"> 상세내역(회원)</span>
+		</h4>
 	</div>
 	
 	<form method="post" action="${contextPath}/enrollment/modEnrollment.do">
@@ -157,20 +163,20 @@
 	      <td width="200"><p align="center">성명</td>
 	      <td width="400">${enrollmentVO.memberVO.name }</td>
 	      <td width="200"><p align="center">아이디</td>
-	      <td colspan='2' width="400">${enrollmentVO.memId }</td>
+	      <td width="400" colspan='2'>${enrollmentVO.memId }</td>
 	   </tr>
 	   
 	    <tr>
-	      <td width="200"><p align="center">연락처</td>
-	      <td width="400">${enrollmentVO.memberVO.phone }</td>
-	      <td width="200"><p align="center">이메일</td>
+	      <td><p align="center">연락처</td>
+	      <td>${enrollmentVO.memberVO.phone }</td>
+	      <td><p align="center">이메일</td>
 	      <td colspan='2' width="400">${enrollmentVO.memberVO.email }</td>
 	    </tr>
 	    <tr> 
-	      <td width="200"><p align="center">접수일</td>
-	      <td width="400">${enrollmentVO.joinDate }</td>
-	      <td width="200"><p align="center">현재상태</td>
-	      <td width="400">
+	      <td><p align="center">접수일</td>
+	      <td>${enrollmentVO.joinDate }</td>
+	      <td><p align="center">현재상태</td>
+	      <td>
 	      
 	      <input type="text" id="stat" value="${enrollmentVO.stat }" readonly>
 	      
@@ -184,14 +190,14 @@
 	       </select></td>
 	    </tr>
 	    <tr>
-	       <td width="200" ><p align="center">회사정보</td>
+	       <td><p align="center">회사정보</td>
 	       
-	       <td width="400" >
+	       <td>
 	       <input type="text" name="memberVO.companyName" id="companyName" value="${enrollmentVO.memberVO.companyName }" readonly>
 	       <a class="searchButton" 	type="button" onclick="popup()" >수정</a></td>  
 	       
-	       <td width="200"><p align="center">수료일</td>
-	       <td colspan='2' width="400">
+	       <td><p align="center">수료일</td>
+	       <td colspan='2'>
 	       <input type="text" name="completeDate" id="datepicker1" placeholder="수료일을 선택하세요." value="${enrollmentVO.completeDate }" readonly><br>
 	       <span id="pwCheck"></span></td>
 	    </tr>
@@ -208,27 +214,45 @@
 	    </tr>
 	    <tr>
 	      <td width="200"><p align="center">강좌유형 / 분류</td>
-	      <td width="400">${enrollmentVO.syllabusVO.type } / ${enrollmentVO.syllabusVO.category }</td>
+	      <td width="400">${enrollmentVO.syllabusVO.type } / 
+	      		<c:choose>
+	      			<c:when test="${empty enrollmentVO.syllabusVO.category }">
+	      				<font color="red">미기재</font>
+	      			</c:when>
+	      			<c:otherwise>
+	      				${enrollmentVO.syllabusVO.category }
+	      			</c:otherwise>
+	      		</c:choose>
+	      </td>
 	      <td width="200"><p align="center">수강신청일</td>
 	      <td width="400">${enrollmentVO.courseVO.crsrsdate } ~ ${enrollmentVO.courseVO.crsredate }</td>
 	   	</tr>
 	    <tr>
-	      <td width="200"><p align="center">교육기간</td>
-	      <td width="400">${enrollmentVO.courseVO.startDate } ~ ${enrollmentVO.courseVO.endDate }</td>
-	      <td width="200"><p align="center">강의시간</td>
-	      <td width="400">${enrollmentVO.courseVO.startTime } ~ ${enrollmentVO.courseVO.endTime }</td>
+	      <td ><p align="center">교육기간</td>
+	      <td>${enrollmentVO.courseVO.startDate } ~ ${enrollmentVO.courseVO.endDate }</td>
+	      <td><p align="center">강의시간</td>
+	      <td>
+	      		<c:choose>
+	      			<c:when test="${empty enrollmentVO.courseVO.startTime || empty enrollmentVO.courseVO.endTime }">
+	      				<font color="red">미기재</font>
+	      			</c:when>
+	      			<c:otherwise>
+	      				${enrollmentVO.courseVO.startTime } ~ ${enrollmentVO.courseVO.endTime }
+	      			</c:otherwise>
+	      		</c:choose>
+	      </td>
 	   	</tr>
 	   	<tr>
-	      <td width="200"><p align="center">강의실 정보</td>
-	      <td width="400">${enrollmentVO.courseVO.classroom } 호</td>
-	      <td width="200"><p align="center">수강인원수</td>
-	      <td width="400">${enrollmentVO.courseVO.capacity } 명</td> 
+	      <td><p align="center">강의실 정보</td>
+	      <td>${enrollmentVO.courseVO.classroom } 호</td>
+	      <td><p align="center">수강인원수</td>
+	      <td>${enrollmentVO.courseVO.capacity } 명</td> 
 	   	</tr>
 	   	<tr>
-	      <td width="200"><p align="center">교육일수</td>
-	      <td width="400">${enrollmentVO.syllabusVO.days } 일</td>
-	      <td width="200"><p align="center">교육시간</td>
-	      <td width="400">${enrollmentVO.syllabusVO.time } 시간</td>
+	      <td><p align="center">교육일수</td>
+	      <td>${enrollmentVO.syllabusVO.days } 일</td>
+	      <td><p align="center">교육시간</td>
+	      <td>${enrollmentVO.syllabusVO.time } 시간</td>
 	   	</tr>
 		<tr>
 	      <td style="display:none;"><input type="text" name="id" id="id" value="${enrollmentVO.id }"  readonly></td>
@@ -238,7 +262,7 @@
 			<td id="lastTd" colspan="4" width="250">
 				<input type="submit" id="enrollButton" value="수정">&nbsp;&nbsp;&nbsp;
 				<button type="button" onclick="deleteConfirm()">삭제</button>&nbsp;&nbsp;&nbsp;
-				<input type="button" onclick="location.href='${contextPath}/enrollment/listEnrollments.do'" value="취소"></td>
+				<input type="button" onclick="location.href='${contextPath}/enrollment/listEnrollments.do'" value="목록"></td>
 		</tr>
 	</table>
 	

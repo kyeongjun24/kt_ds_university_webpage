@@ -34,12 +34,11 @@ request.setCharacterEncoding("UTF-8");
 		color: #c2c2c2;
 	}
 	
-	.menuCategory{
-		height: 5%;
-		width: 100%;
-		margin-bottom: 1%;
-		text-align: left;
-	}
+	.process {
+	text-align: left;
+	color: #9C9D9D;
+	margin-bottom: 2em;
+}
 	
 	#enrollmentButton {
 		position: relative;
@@ -49,6 +48,19 @@ request.setCharacterEncoding("UTF-8");
 		justify-content: flex-end;
 		width: 1500px;
 		margin-right: 5px;
+	}
+	
+	#enrollButton, #approveButton, #completeButton, #cancelButton {
+   		margin-right: 0.7%;
+	}
+	
+	#typeColor {
+		position: absolute;
+		left: 0;
+	}
+	
+	#excel {
+		width: 100px;
 	}
 	
 </style>
@@ -98,9 +110,9 @@ request.setCharacterEncoding("UTF-8");
 			alert("선택된 값이 없습니다.");
 			return false;
 		} else {
-			if (stat == "delete") { // 상태 '삭제' 로 변경
+			if (stat == "delete") { // 상태 '취소완료' 로 변경
 				
-				if(!confirm("삭제 하시겠습니까?")){
+				if(!confirm("취소 하시겠습니까?")){
 					return false;
 				}else{
 					$.ajax({
@@ -180,8 +192,13 @@ request.setCharacterEncoding("UTF-8");
 	String searchText = request.getParameter("searchType");
 	%>
 	
-	<div class="menuCategory">
-		<h5>수강 관리</h5>
+	<div class="process">
+		<h4>
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;">수강관리</span> > <span
+				onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;"> 수강신청내역</span>
+		</h4>
 	</div>
 
 	<form method="get"
@@ -271,23 +288,26 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 	
-	<div id="enrollmentButton">
-		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
-			style="width: 5%;">등록</button>
-		<button type="button" onclick='getCheckList("approve")'
-			style="width: 5%;">승인</button>
-		<button type="button" onclick='getCheckList("complete")'
-			style="width: 5%;">수료</button>
-		<button type="button" onclick='getCheckList("delete")'
-			style="width: 5%;">삭제</button>
-		<form action="${contextPath}/enrollment/excelDownload.do" method="post">
-			<input type="submit" value='엑셀 다운로드'>
-		</form>
-	</div>
 	
-	<p id="type_color" align="left" style="font-size:5px;">협약상태 구분: <span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span>
-											  <span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>
+	<div id="enrollmentButton">
+      <p id="typeColor">
+         <span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음
+         </span><span style="color: green"> ●상호변경 </span><span style="color: black">
+            ●협약완료 </span><span style="color: blue"> ●협약서사본</span><span
+            style="color: #dd42f5"> ●탈퇴</span>
+      </p>
+      <button type="button" id="enrollButton" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
+         style="width: 5%;">등록</button>
+      <button type="button" id="approveButton" onclick='getCheckList("approve")'
+			style="width: 5%;">승인</button>
+		<button type="button" id="completeButton" onclick='getCheckList("complete")'
+			style="width: 5%;">수료</button>
+      <button type="button" id="cancelButton" onclick='getCheckList("delete")'
+         style="width: 5%;">취소</button>
+	   <form action="${contextPath}/enrollment/excelDownload.do" method="post" id="excelForm">
+	      <input type="submit" value='엑셀 다운로드' id="excel">
+	   </form>
+   </div> 
 	
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" id="attr">
@@ -299,6 +319,7 @@ request.setCharacterEncoding("UTF-8");
 			<td><b>상태</b></td>
 			<td><b>신청일</b></td>
 		</tr>
+		
 	<!-- 리스트 반복문 -->
 		<c:choose>
 			<c:when test="${empty enrollmentsList}">
@@ -311,13 +332,12 @@ request.setCharacterEncoding("UTF-8");
 				</tr>
 			</c:when>
 			<c:when test="${enrollmentsList !=null }">
-				<c:forEach var="enrollment" items="${enrollmentsList }"
-					varStatus="enrdNum">
+				<c:forEach var="enrollment" items="${enrollmentsList }" varStatus="enrdNum">
 					<tr align="center">
 						<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
 							
 						<!-- 과목별 상세 조회 / 인세 페이지 미구현 -->
-						<td><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
+						<td align="left" style="padding-left:20px"><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
 																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>
 						<%-- <td>${enrollment.syllabusVO.name }</td> --%>
 																
@@ -354,13 +374,35 @@ request.setCharacterEncoding("UTF-8");
                     		</c:if>
 						</td>
 						
-						<td><c:if test="${enrollment.stat == '신청' }">
+						<td>
+							
+							<c:choose>
+								
+								<c:when test="${enrollment.stat == '신청' }">
+	                       			<font color="black">${enrollment.stat }</font></c:when>
+	                       
+	                    			 <c:when test="${enrollment.stat == '승인' }">
+	                       			<font color="blue">${enrollment.stat }</font> </c:when>
+	                   			 <c:otherwise>
+	                   			 	<font color="red">${enrollment.stat }</font>
+	                   			 </c:otherwise>
+							</c:choose>
+						
+						
+						
+							<%-- <c:if test="${enrollment.stat == '신청' }">
 								<font color="black">${enrollment.stat }</font>
 							</c:if> <c:if test="${enrollment.stat == '승인' }">
 								<font color="blue">${enrollment.stat }</font>
 							</c:if> <c:if test="${enrollment.stat eq '수료' }">
 								<font color="red">${enrollment.stat }</font>
-							</c:if></td>
+							</c:if></td> --%>
+							
+							
+							
+							
+							
+							
 						<td>${enrollment.joinDate }</td>
 					</tr>
 				</c:forEach>
@@ -428,18 +470,18 @@ request.setCharacterEncoding("UTF-8");
 
 	<!-- 버튼 모음집 -->
 	<div id="enrollmentButton">
-		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
-			style="width: 5%;">등록</button>
-		<button type="button" onclick='getCheckList("approve")'
+      <button type="button" id="enrollButton" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
+         style="width: 5%;">등록</button>
+      <button type="button" id="approveButton" onclick='getCheckList("approve")'
 			style="width: 5%;">승인</button>
-		<button type="button" onclick='getCheckList("complete")'
+		<button type="button" id="completeButton" onclick='getCheckList("complete")'
 			style="width: 5%;">수료</button>
-		<button type="button" onclick='getCheckList("delete")'
-			style="width: 5%;">삭제</button>
-		<form action="${contextPath}/enrollment/excelDownload.do" method="post">
-			<input type="submit" value='엑셀 다운로드'>
-		</form>
-	</div>
+      <button type="button" id="cancelButton" onclick='getCheckList("delete")'
+         style="width: 5%;">취소</button>
+	   <form action="${contextPath}/enrollment/excelDownload.do" method="post" id="excelForm">
+	      <input type="submit" value='엑셀 다운로드' id="excel">
+	   </form>
+   </div> 
+   
 </body>
 </html>

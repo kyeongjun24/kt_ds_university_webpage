@@ -18,12 +18,12 @@
      text-align:center;
    }
    
-   .menuCategory{
-		height: 5%;
-		 width: 100%;
-		  margin-bottom: 1%;
-		   text-align: left;
+   .process {
+	text-align: left;
+	color: #9C9D9D;
+	margin-bottom: 2em;
 	}
+	
 </style>
 </head>
 
@@ -36,8 +36,15 @@
 </script>
 <body>
 	
-	<div class="menuCategory">
-		<h5>수강 관리 > 상세 내역(과정)</h5>
+	<div class="process">
+		<h4>
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;">수강관리</span> > 
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;"> 수강신청내역</span> >
+			<span onclick="window.location.reload()"
+				style="cursor: pointer;"> 상세내역(강좌)</span>
+		</h4>
 	</div>
 	
 	<table align="center" border="0" width="80%" id="dynamicCompany">

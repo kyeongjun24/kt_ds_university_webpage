@@ -110,6 +110,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
+		System.out.println(enrollmentVO.getMemberVO().getId());
 		result = enrollmentService.addEnrollment(enrollmentVO);
 		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
 		return mav;

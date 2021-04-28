@@ -105,7 +105,7 @@
          	<when test="searchType == 'nameOfCourse'">
          		WHERE UPPER(slb_name) LIKE '%' || UPPER(#{searchText}) || '%'
          	</when>
-         	<when test="searchType == 'status'">
+         	<when test="searchType == '`'">
          		WHERE crs_stat LIKE '%' || #{searchText} || '%'
          	</when> 
          </choose>

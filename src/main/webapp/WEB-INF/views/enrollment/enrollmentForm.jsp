@@ -14,17 +14,16 @@ request.setCharacterEncoding("UTF-8");
 
 <style>
    
-   .menuCategory{
-		height: 5%;
-		 width: 100%;
-		  margin-bottom: 1%;
-		   text-align: left;
+   .process {
+	text-align: left;
+	color: #9C9D9D;
+	margin-bottom: 2em;
 	}
 	
 	.searchButton {
 	  background-color: #969696;
 	  border: none;
-	  border-radius: 5px;
+	  border-radius: 5px;	
 	  color: #EFEFEF;
 	  padding: 5px 12px;
 	  text-align: center;
@@ -67,8 +66,15 @@ request.setCharacterEncoding("UTF-8");
 </head>
 <body>
 
-	<div class="menuCategory">
-		<h5>수강 관리 > 수강 등록</h5>
+	<div class="process">
+		<h4>
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;">수강관리</span> > 
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;"> 수강신청내역</span> >
+			<span onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
+			style="cursor: pointer;"> 수강등록</span>
+		</h4>
 	</div>
 	
 	<form method="post" action="${contextPath}/enrollment/addEnrollment.do" id=registerFrm>
@@ -78,7 +84,7 @@ request.setCharacterEncoding("UTF-8");
 				<td width="200"><p align="right">아이디</td>
 				<td width="400"><p align="center">
 						<input type="text" name="memberVO.id" id="memberId"
-							value="${enrollmentVO.memberVO.id }" placeholder="아이디를 검색하세요." readonly disabled> 
+						 placeholder="아이디를 검색하세요."> 
 						<a class="searchButton" type="button" onclick="popup()">검색</a>
 			</tr>
 			<tr>

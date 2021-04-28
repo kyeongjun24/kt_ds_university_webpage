@@ -85,7 +85,7 @@
    	]]>
    </sql>
    
-	<!-- 수강신청내역 리스트 -->
+	<!-- 수강신청내역 리스트 W -->
 	<select id="selectAllEnrollmentList" resultMap="enrdResult"> 
 		<![CDATA[
 			SELECT 
@@ -111,7 +111,6 @@
 					LEFT JOIN company cc
         		ON m.mem_company_name = cc.com_name
 				
-			WHERE enrd_stat != '취소'
 			ORDER BY enrd_join_date desc
 		]]>
 	</select>
@@ -122,7 +121,7 @@
 		SELECT
 		<include refid="enrollment-columns"></include>
 		FROM
-		(select ROW_NUMBER() OVER (ORDER BY enrd_id) NUM,
+		(select ROW_NUMBER() OVER (ORDER BY enrd_join_date desc) NUM,
 		<include refid="enrollment-columns"></include>
 		from enrollment_detail E 
 				LEFT JOIN member M
@@ -134,13 +133,13 @@
 				LEFT JOIN syllabus S
 				ON
 				    c.slb_id = s.slb_id
-		ORDER BY enrd_id)
+		ORDER BY enrd_join_date desc)
 		WHERE NUM BETWEEN #{page} AND 10
 
 	</select>
 
 
-	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select -->
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select W -->
 	<select id="selectCriteriaBySearchEnrollmentList" resultMap="enrdResult">
 		SELECT
 			<include refid="enrollment-columns"></include>
@@ -171,22 +170,21 @@
        				ON m.mem_company_name = cc.com_name
             		
 			WHERE 
-				enrd_stat != '취소'
 				<choose>
 		         	<when test="searchType == 'name'">
-		         		AND upper(m.mem_name) LIKE '%' || upper(#{searchText}) || '%'
+		         		upper(m.mem_name) LIKE '%' || upper(#{searchText}) || '%'
 		         	</when>
 		         	<when test="searchType == ''">
-		         		AND upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
+		         		upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
 		         	</when>
 		         	<when test="searchType == 'companyName'">
-		         		AND upper(m.mem_company_name) LIKE '%' || upper(#{searchText}) || '%'
+		         		upper(m.mem_company_name) LIKE '%' || upper(#{searchText}) || '%'
 		         	</when>
 		         	<when test="searchType == 'slbName'">
-		         		AND upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
+		         		upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
 		         	</when>
 		         	<when test="searchType == 'stat'">
-		         		AND upper(enrd_stat) LIKE '%' || upper(#{searchText}) || '%'
+		         		upper(enrd_stat) LIKE '%' || upper(#{searchText}) || '%'
 		         	</when>
 	         	</choose>
 			ORDER BY enrd_join_date desc
@@ -203,7 +201,7 @@
 		ORDER BY NUM
 	</select>
 
-	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<!-- 기준으로 페이지 리시트 나누는 select list.jsp W -->
 	<select id="listEnrollmentCriteria" resultMap="enrdResult">
 		SELECT
 			<include refid="enrollment-columns"></include>
@@ -234,7 +232,6 @@
 	            LEFT JOIN company cc
 	        		ON m.mem_company_name = cc.com_name
 	        		
-	        WHERE enrd_stat != '취소'
 	      	ORDER BY enrd_join_date desc
       		)
 		WHERE NUM BETWEEN #{pageStart} 
@@ -246,7 +243,7 @@
 				AND (#{perPageNum} + #{pageStart}) -1 
 			</when>
 		</choose>
-		order by enrd_id
+		order by enrd_join_date desc
 	</select>
 
    <!-- 상세페이지 (상태) 수정 작업 -->
@@ -289,11 +286,11 @@
 	 <select id="addEnrollment" parameterType="enrollmentVO">
 		<![CDATA[
 			INSERT INTO enrollment_detail
-			VALUES(
+			VALUES(	
     			enrd_seq.nextval, 
-    			#{courseVO.id}, #{memberVO.id}, '신청', null, 
+    			#{courseVO.id}, #{memberVO.id}, '신청', 
     			to_char(sysdate, 'YYYY-MM-DD HH24:MI:SS'), 
-                to_char(sysdate, 'YYYY-MM-DD')
+                to_char(sysdate, 'YYYY-MM-DD'), null
                 )
     	]]>
 	</select>
@@ -302,7 +299,7 @@
 	<update id="updateDeleteEnrollments"  parameterType="int">
     	<![CDATA[
 	    	UPDATE enrollment_detail
-			SET enrd_stat = '취소'
+			SET enrd_stat = '취소완료'
 			WHERE enrd_id = #{id}
       	]]>      
    </update> 
@@ -320,12 +317,12 @@
    <update id="updateCompleteEnrollments"  parameterType="int">
     	<![CDATA[
 	    	UPDATE enrollment_detail
-			SET enrd_stat = '수료', enrd_complete_date = sysdate
+			SET enrd_stat = '수료', enrd_complete_date = to_char(sysdate, 'YYYY-MM-DD')
 			WHERE enrd_id = #{id}
       	]]>      
    </update> 
 	
-
+	<!-- W -->
 	<select id="selectAllCompletionList" resultMap="enrdResult">
 		<![CDATA[
 			select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, substr(enrd_complete_date,1,10) as enrd_complete_date,
@@ -337,7 +334,6 @@
 				ON e.crs_id = c.crs_id
 				LEFT JOIN syllabus S
 				ON c.slb_id = s.slb_id
-			WHERE enrd_stat != '취소'
 			ORDER BY m.mem_name
 		]]>
 	</select>
@@ -381,7 +377,7 @@
 		]]>
   	</select>
   	
-  	<!-- 상세 접수내용 페이지 (강의) -->
+  	<!-- 상세 접수내용 페이지 (강의) W -->
 	<select id="enrollmentCourse"  resultMap="enrdResult"   parameterType="Int" >
 		<![CDATA[
 			SELECT
@@ -405,11 +401,11 @@
 					LEFT JOIN syllabus S
 				ON c.slb_id = s.slb_id	
 			WHERE 
-				c.crs_id = #{courseVO.id} and enrd_stat != '취소'
+				c.crs_id = #{courseVO.id}
 		]]>
   	</select>
   	
-  	<!-- 엑셀 다운로드 -->
+  	<!-- 엑셀 다운로드 W -->
 	<select id="excelEnrollmentList" resultMap="enrdResult"> 
 		<![CDATA[
 			SELECT 
@@ -434,7 +430,6 @@
 					LEFT JOIN company cc
         		ON m.mem_company_name = cc.com_name
                 
-            WHERE enrd_stat != '취소'
             ORDER BY enrd_join_date desc
 		]]>
 	</select>
@@ -466,27 +461,27 @@
             LEFT JOIN company cc
         		ON m.mem_company_name = cc.com_name
         	
-        WHERE enrd_stat != '취소'
+        WHERE
 	     <choose>
          	<when test="searchType == 'name'">
-         		AND upper(m.mem_name) LIKE '%' || upper(#{searchText}) || '%'
+         		upper(m.mem_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          	<when test="searchType == ''">
-         		AND upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
+         		upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          	<when test="searchType == 'companyName'">
-         		AND upper(m.mem_company_name) LIKE '%' || upper(#{searchText}) || '%'
+         		upper(m.mem_company_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          	<when test="searchType == 'slbName'">
-         		AND upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
+         		upper(s.slb_name) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          	<when test="searchType == 'stat'">
-         		AND upper(enrd_stat) LIKE '%' || upper(#{searchText}) || '%'
+         		upper(enrd_stat) LIKE '%' || upper(#{searchText}) || '%'
          	</when>
          </choose>
 	</select>
 	
-	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<!-- 페이지 전체 리시트 뽑아주는 select list_paging W -->
 	<select id="selectEnrollmentListByPaging" resultMap="enrdResult">
 		SELECT <include refid="enrollment-columns"></include> 
 		
@@ -517,7 +512,6 @@
 					ON c.slb_id = s.slb_id
 				LEFT JOIN company cc
 					ON m.mem_company_name = cc.com_name
-			WHERE enrd_stat != '취소'
 			ORDER BY enrd_join_date desc
 			)
 		WHERE NUM BETWEEN #{page} AND 10
@@ -600,7 +594,7 @@
 					LEFT JOIN syllabus S
 					ON
 						c.slb_id = s.slb_id
-			ORDER BY enrd_id)
+			ORDER BY enrd_join_date)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
 			<when test="#{perPageNum} == '10'">
@@ -610,7 +604,7 @@
 				AND (#{perPageNum} + #{pageStart}) -1 
 			</when>
 		</choose>
-		order by enrd_id
+		order by enrd_join_date
 	</select>
 
 
