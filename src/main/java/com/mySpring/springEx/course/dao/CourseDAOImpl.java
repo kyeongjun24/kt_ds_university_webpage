@@ -35,34 +35,22 @@ public class CourseDAOImpl implements CourseDAO{
 		return coursesBySearchList;
 	}
 
-//	@Override
-//	public int insertCourse(CourseVO courseVO)  throws DataAccessException{
-//		int result = sqlSession.insert("mapper.course.insertCourse", courseVO);
-//		System.out.println(courseVO.getId());
-//		System.out.println(courseVO.getCapacity());
-//		System.out.println(courseVO.getClassroom());
-//		System.out.println(courseVO.getEndDate());
-//		System.out.println(courseVO.getEndTime());
-//		System.out.println(courseVO.getBannerImg());
-//		System.out.println(courseVO.getJoinDate());
-//		System.out.println(courseVO.getReDate());
-//		return result;
-//		
-//	}
+	@Override
+	public int insertCourse(CourseVO courseVO)  throws DataAccessException{
+		int result = sqlSession.insert("mapper.course.insertCourse", courseVO);
+		System.out.println(courseVO.getId());
+		System.out.println(courseVO.getCapacity());
+		System.out.println(courseVO.getClassroom());
+		System.out.println(courseVO.getEndDate());
+		System.out.println(courseVO.getEndTime());
+		System.out.println(courseVO.getBannerImg());
+		System.out.println(courseVO.getJoinDate());
+		System.out.println(courseVO.getReDate());
+		return result;
+		
+	}
 
 	//--------------------------------------------------------------
-	@Override
-	public int insertCourse(Map courseMap) throws DataAccessException {
-		int id = selectCourse();
-		System.out.println(id);
-		courseMap.put("id", id);
-		sqlSession.insert("mapper.course.insertCourse",courseMap);
-		return id;
-	}
-	
-	private int selectCourse() throws DataAccessException {
-		return sqlSession.selectOne("mapper.course.selectCourse");
-	}
 	
 	//-------------------------------------------------------------------
 	@Override
@@ -71,11 +59,11 @@ public class CourseDAOImpl implements CourseDAO{
 		return result;
 	}
 
-//	@Override
-//	public CourseVO selectCourse(int id) throws DataAccessException {
-//		CourseVO vo = sqlSession.selectOne("mapper.course.selectCourse", id);
-//		return vo;
-//	}
+	@Override
+	public CourseVO selectCourse(int id) throws DataAccessException {
+		CourseVO vo = sqlSession.selectOne("mapper.course.selectCourse", id);
+		return vo;
+	}
 
 	@Override
 	public int updateCourse(CourseVO courseVO) throws DataAccessException {

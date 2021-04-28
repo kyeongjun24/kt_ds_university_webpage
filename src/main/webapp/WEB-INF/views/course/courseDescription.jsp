@@ -12,21 +12,56 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상세 설명</title>
+<title>회원 정보 수정창</title>
+<style>
+   .text_center{
+     text-align:center;
+   }
+</style>
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+	
+</script>
 </head>
 <body>
-	<h1>${vo.id }</h1>
-	<h1>${vo.startDate }</h1>
-	<h1>${vo.endDate }</h1>
-	<h3>${vo.startTime }</h3>
-	<h3>${vo.endTime }</h3>
-	<h3>${vo.capacity }</h3>
-	<h1>${vo.classroom }</h1>
-	<h1>${vo.joinDate }</h1>
-	<h1>${vo.bannerImg }</h1>
-	<h1>${vo.slbId }</h1>
-	<h1>${vo.rsDate }</h1>
-	<h1>${vo.reDate }</h1>
+	<h1  class="text_center">강의 정보</h1>
+	<table  align="center" >
+	   <tr>
+	      <td width="200"><p align="right">강의 아이디</td>
+	      <td width="400"><p align="center">${vo.id }</td>
+	   </tr>
+	   <tr>
+	      <td width="200"><p align="right">강의 계획서</td>
+	      <td width="400"><p align="center">${vo.slbId }</td>
+	      
+	    </tr>
+	    <tr>
+	      <td width="200"><p align="right">수강 기간</td>
+	      <td width="400"><p align="center">${vo.startDate }~${vo.endDate }</td>
+	    </tr>
+	    <tr>
+	       <td width="200"><p align="right">접수 기간</td>
+	       <td width="400"><p align="center">${vo.rsDate }~${vo.reDate }</td>
+	    </tr>
+	    <tr>
+	       <td width="200"><p align="right">강의 시간</td>
+	       <td width="400"><p align="center">${vo.startTime }~${vo.endTime }</td>
+	    </tr>
+	    
+	    <tr>
+	       <td width="200"><p align="right">강의실 정보</td>
+	       <td width="400"><p align="center">${vo.classroom }</td>
+	    </tr>
+	    <tr>
+	       <td width="200"><p align="right">파일첨부</td>
+	       <td width="400"><p align="center">${vo.bannerImg }</td> 
+	    </tr>
+	    <tr>
+	       <td width="200"><p>&nbsp;</p></td>
+	       <td width="400"><p align="center"><button type="button" onclick="location.href='${contextPath}/course/updateCourseForm.do?id=${vo.id }&slbId=${vo.slbId}'">수정하기</button>&nbsp;&nbsp;&nbsp;<input type="button" onclick="history.back()" value="취소"></td>
+	    </tr>
+	</table>
+	
 </body>
 </html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.event_security_log">
+	<resultMap id="event_security_logResult" type="Event_security_logVO">
+		<result property="id" column="esl_id" />
+        <result property="user" column="user_id" />
+        <result property="type" column="esl_type" />
+        <result property="date" column="esl_event_date" />
+        <result property="text" column="esl_log_text" />
+        
+	</resultMap> 
+
+	
+	<sql id="event_security_log-columns">
+   	<![CDATA[
+   		esl_id, user_id, esl_type, esl_log_text,
+         esl_event_date
+   	]]>
+   </sql>
+	
+	<select id="selectAllLogsList" resultMap="event_security_logResult">
+		
+		select 
+          	<include refid="event_security_log-columns"></include>	
+        from event_security_log
+        order by esl_id desc
+
+	</select> 
+	
+	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<select id="listCriteria" resultMap="event_security_logResult">
+		SELECT
+			<include refid="event_security_log-columns"></include>
+		FROM (select ROW_NUMBER() OVER (ORDER BY esl_id desc) NUM, <include refid="event_security_log-columns"></include>
+				from event_security_log 
+				ORDER BY esl_id desc)
+		WHERE NUM BETWEEN #{pageStart} 
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by esl_id desc
+	</select>
+	
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select  -->
+	<select id="selectCriteriaBySearchLogList" resultMap="event_security_logResult">
+		SELECT
+			<include refid="event_security_log-columns"></include>
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY esl_id desc) NUM, <include refid="event_security_log-columns"></include>
+			from event_security_log
+			<choose>
+	         	<when test="searchType == 'user'">
+	         		WHERE user_id LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == 'text'">
+	         		WHERE esl_log_text LIKE '%' || #{searchText} || '%'
+	         	</when>
+         	</choose>
+		ORDER BY esl_id desc)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by esl_id desc
+	</select>
+	
+	
+	<select id="selectBySearchLogList" resultMap="event_security_logResult" parameterType="java.util.Map" >
+		select * from event_security_log
+	     <choose>
+         	<when test="searchType == 'user'">
+         		WHERE user_id LIKE '%' || #{searchText} || '%'
+         	</when>
+         	<when test="searchType == 'text'">
+         		WHERE esl_log_text LIKE '%' || #{searchText} || '%'
+         	</when>
+         </choose>
+         order by esl_id desc
+	</select> 
+	
+	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<select id="selectLogListByPaging" resultMap="event_security_logResult">
+		SELECT <include refid="event_security_log-columns"></include> FROM
+				(select ROW_NUMBER() OVER (ORDER BY esl_id desc) NUM, <include refid="event_security_log-columns"></include>
+				from event_security_log 
+				ORDER BY esl_id desc )
+		WHERE NUM BETWEEN #{page} AND 10
+		order by esl_id desc
+	</select>
+	
+	
+	
+	
+
+	<select id="selectCheckLog" resultType="int" parameterType="String" >
+	 <![CDATA[
+         select COUNT(*) from event_security_log
+         where esl_id=#{id}	 	
+      ]]>
+	
+	</select> 
+	
+	
+	<select id="selectLog" resultMap="event_security_logResult" parameterType="int">
+		<![CDATA[
+			select * from event_security_log
+			where esl_id = #{id}
+		]]>
+	</select>
+	
+
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+

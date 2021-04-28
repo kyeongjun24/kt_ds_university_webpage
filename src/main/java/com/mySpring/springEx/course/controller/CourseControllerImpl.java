@@ -32,14 +32,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mySpring.springEx.course.service.CourseService;
 import com.mySpring.springEx.course.vo.CourseVO;
-import com.mySpring.springEx.course.vo.PagingVO;
 import com.mySpring.springEx.member.vo.MemberVO;
 import com.mySpring.springEx.syllabus.service.SyllabusService;
 import com.mySpring.springEx.syllabus.vo.SyllabusVO;
 
 @Controller("courseController")
 public class CourseControllerImpl implements CourseController{
-		
+	private static final String COURSE_FILE_REPO = "C:\\uploadtest";	
 	@Autowired
 	private CourseService courseService;
 	
@@ -51,32 +50,7 @@ public class CourseControllerImpl implements CourseController{
 	
 	@Autowired
 	SyllabusVO cyllabusVO;
-	//-------------------파일첨부----------------------
-	private static final String COURSE_IMAGE_REPO="D:\\board\\article_image\\temp";
-	
-	@RequestMapping("/download.do")
-	protected void download(@RequestParam("bannerImg") String bannerImg,	//?占쏙옙誘몌옙? ?占쏙옙?占쏙옙?占쏙옙占�? ?占쏙옙?占쏙옙
-							@RequestParam("id") int id,
-			                 HttpServletResponse response)throws Exception {
-		OutputStream out = response.getOutputStream();
-		String downFile = COURSE_IMAGE_REPO + "\\" +id+"\\"+ bannerImg;	//?占쏙옙?占쏙옙 寃쎈줈 ?占쏙옙?占쏙옙
-		File file = new File(downFile);
-
-		response.setHeader("Cache-Control", "no-cache");
-		response.addHeader("Content-disposition", "attachment; fileName=" + bannerImg);
-		FileInputStream in = new FileInputStream(file);
-		byte[] buffer = new byte[1024 * 8];
-		while (true) {
-			int count = in.read(buffer); 
-			if (count == -1) 
-				break;
-			out.write(buffer, 0, count);
-		}
-		in.close();
-		out.close();
-	}
-	//-------------------------------------------------------
-	
+		
 	
 	@Override
 	@RequestMapping(value="/course/listCourses.do" ,method = RequestMethod.GET)
@@ -121,95 +95,47 @@ public class CourseControllerImpl implements CourseController{
 		return mav;
 	}
 	
-//-----------------------------업로드-----------------------------
-	
+	//-----------------------------업로드-----------------------------
 	@Override
-	@RequestMapping(value="/course/addCourse.do" ,method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity addCourse(MultipartHttpServletRequest multipartRequest, 
-	HttpServletResponse response) throws Exception {
-		multipartRequest.setCharacterEncoding("utf-8");
-		Map<String,Object> courseMap = new HashMap<String, Object>();
-		Enumeration enu=multipartRequest.getParameterNames();
-		while(enu.hasMoreElements()){
-			String name=(String)enu.nextElement();
-			String value=multipartRequest.getParameter(name);
-			courseMap.put(name,value);
-		}
-		
-		String bannerImg= upload(multipartRequest);
-		HttpSession session = multipartRequest.getSession();
-		CourseVO courseVO = (CourseVO) session.getAttribute("course");
-		int id = CourseVO.getId();
-		courseMap.put("parentNO", 0);
-		courseMap.put("id", id);
-		courseMap.put("bannerImg", bannerImg);
-		
-		String message;
-		ResponseEntity resEnt=null;
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type", "text/html; charset=utf-8");
-		try {
-			int id = courseService.addCourse(courseMap);
-			if(bannerImg!=null && bannerImg.length()!=0) {
-				File srcFile = new 
-				File(COURSE_IMAGE_REPO+"\\"+"temp"+"\\"+bannerImg);
-				File destDir = new File(COURSE_IMAGE_REPO+"\\"+id);
-				FileUtils.moveFileToDirectory(srcFile, destDir,true);
-			}
-	
-			message = "<script>";
-			message += " alert('�깉湲��쓣 異붽��뻽�뒿�땲�떎.');";
-			message += " location.href='"+multipartRequest.getContextPath()+"/course/listCourses.do'; ";
-			message +=" </script>";
-		    resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
-		}catch(Exception e) {
-			File srcFile = new File(COURSE_IMAGE_REPO+"\\"+"temp"+"\\"+COURSE_IMAGE_REPO);
-			srcFile.delete();
-			
-			message = " <script>";
-			message +=" alert('�삤瑜섍� 諛쒖깮�뻽�뒿�땲�떎. �떎�떆 �떆�룄�빐 二쇱꽭�슂');');";
-			message +=" location.href='"+multipartRequest.getContextPath()+"/course/courseForm.do'; ";
-			message +=" </script>";
-			resEnt = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
-			e.printStackTrace();
-		}
-		return resEnt;
-	}
-	
-	private String upload(MultipartHttpServletRequest multipartRequest) throws Exception{
-		String bannerImg= null;
+	public String upload(MultipartHttpServletRequest multipartRequest) throws Exception {
+		String name = null;
 		Iterator<String> fileNames = multipartRequest.getFileNames();
-		
-		while(fileNames.hasNext()){
+		while (fileNames.hasNext()) {
 			String fileName = fileNames.next();
 			MultipartFile mFile = multipartRequest.getFile(fileName);
-			bannerImg=mFile.getOriginalFilename();
-			File file = new File(COURSE_IMAGE_REPO +"\\"+ fileName);
-			if(mFile.getSize()!=0){ //File Null Check
-				if(! file.exists()){ //寃쎈줈�긽�뿉 �뙆�씪�씠 議댁옱�븯吏� �븡�쓣 寃쎌슦
-					if(file.getParentFile().mkdirs()){ //寃쎈줈�뿉 �빐�떦�븯�뒗 �뵒�젆�넗由щ뱾�쓣 �깮�꽦
-							file.createNewFile(); //�씠�썑 �뙆�씪 �깮�꽦
+			name = mFile.getOriginalFilename();
+			File file = new File(COURSE_FILE_REPO + "\\" + fileName);
+			if (mFile.getSize() != 0) { // File Null Check
+				if (! file.exists()) { // 寃쎈줈�긽�뿉 �뙆�씪�씠 議댁옱�븯吏� �븡�쓣 寃쎌슦
+					if (file.getParentFile().mkdirs()) { // 寃쎈줈�뿉 �빐�떦�븯�뒗 �뵒�젆�넗由щ뱾�쓣 �깮�꽦
+						file.createNewFile(); // �씠�썑 �뙆�씪 �깮�꽦
 					}
 				}
-				mFile.transferTo(new File(COURSE_IMAGE_REPO +"\\"+"temp"+ "\\"+bannerImg)); //�엫�떆濡� ���옣�맂 multipartFile�쓣 �떎�젣 �뙆�씪濡� �쟾�넚
+				mFile.transferTo(new File(COURSE_FILE_REPO + "\\" + "temp"+ "\\"+ name)); // �엫�떆濡� ���옣�맂
+																									// multipartFile�쓣 �떎�젣 �뙆�씪濡� �쟾�넚
 			}
 		}
-		return bannerImg;
+		return name;
 	}
+	
 	
 	//----------------------------------------------------------------------------
 	
-//	@Override
-//	@RequestMapping(value="/course/addCourse.do" ,method = RequestMethod.POST)
-//	public ModelAndView addCourse(@ModelAttribute("course") CourseVO courseVO,
-//			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		request.setCharacterEncoding("utf-8");
-//		int result = 0;
-//		result = courseService.addCourse(courseVO);
-//		ModelAndView mav = new ModelAndView("redirect:/course/listCourses.do");
-//		return mav;
-//	}
+	@Override
+	@RequestMapping(value="/course/addCourse.do" ,method = RequestMethod.POST)
+	public ModelAndView addCourse(@ModelAttribute("course") CourseVO courseVO,
+			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		result = courseService.addCourse(courseVO);
+		//---------------------------------------------------------------------------
+		
+		
+		
+		//--------------------------------------------------------------------------
+		ModelAndView mav = new ModelAndView("redirect:/course/listCourses.do");
+		return mav;
+	}
 	
 	
 	@Override
@@ -239,7 +165,7 @@ public class CourseControllerImpl implements CourseController{
 
 	
 	@Override
-	@RequestMapping(value="/course/courseForm.do", method = RequestMethod.GET)
+	@RequestMapping(value="/course/courseForm.do", method = RequestMethod.POST)
 	public ModelAndView courseForm(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
@@ -248,6 +174,12 @@ public class CourseControllerImpl implements CourseController{
 		mv.setViewName(viewName);
 		List syllabusesList = syllabusService.listSyllabuses();
 		mv.addObject("syllabusesList", syllabusesList);
+		
+		//---------------------------------------------------------------------------
+		
+		
+		//--------------------------------------------------------------------------
+		
 //		CourseVO courseVO = courseService.selectCourse(id);
 //		SyllabusVO syllabusVO = syllabusService.selectSyllabus(slbId);
 //		mv.addObject("courseVO", courseVO);
@@ -264,19 +196,20 @@ public class CourseControllerImpl implements CourseController{
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName(viewName);
 		CourseVO courseVO = courseService.selectCourse(id);
-		SyllabusVO syllabusVO = syllabusService.selectSyllabus(slbId);
+		SyllabusVO syllabusVO = syllabusService.selectSyllabus(id);
 		mv.addObject("courseVO", courseVO);
 		mv.addObject("syllabusVO", syllabusVO);
 		return mv;
 	}
 	
 	@Override
-	@RequestMapping(value="/course/updateCourse.do", method = RequestMethod.POST)
+	@RequestMapping(value="/course/updateCourse.do", method = RequestMethod.GET)
 	public ModelAndView updateCourse(@ModelAttribute("course") CourseVO courseVO,
 					  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		result = courseService.updateCourse(courseVO);
+		
 		ModelAndView mav = new ModelAndView("redirect:/course/listCourses.do");
 		return mav;
 	}

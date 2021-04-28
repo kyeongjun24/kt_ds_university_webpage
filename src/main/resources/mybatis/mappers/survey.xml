@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.survey">
+	<resultMap id="surveyResult" type="SurveyVO">
+		<result property="id" column="sur_id" />
+        <result property="title" column="sur_title" />
+        <result property="joinDate" column="sur_join_date" />
+        <result property="state" column="sur_state" />
+        <result property="contents" column="sur_contents" />
+        <result property="url" column="surUrl" />
+	</resultMap> 
+
+	
+	<sql id="survey-columns">
+   	<![CDATA[
+   		sur_id, sur_title, sur_state, sur_contents, surUrl,
+         SUBSTR(sur_join_date,0, 10) as sur_join_date
+   	]]>
+   </sql>
+	
+	<select id="selectAllSurveysList" resultMap="surveyResult">
+		
+		select 
+          	<include refid="survey-columns"></include>	
+        from survey
+        order by sur_id desc
+
+	</select> 
+	
+	
+	<select id="selectBySearchSurveyList" resultMap="surveyResult" parameterType="java.util.Map" >
+		select * from survey
+	     <choose>
+         	<when test="searchType == 'title'">
+         		WHERE sur_title LIKE '%' || #{searchText} || '%'
+         	</when>
+         	<when test="searchType == 'state'">
+         		WHERE sur_state LIKE '%' || #{searchText} || '%'
+         	</when>
+         </choose>
+         order by sur_id desc
+	</select> 
+	
+	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<select id="selectSurveyListByPaging" resultMap="surveyResult">
+		SELECT <include refid="survey-columns"></include> FROM
+				(select ROW_NUMBER() OVER (ORDER BY sur_id desc) NUM, <include refid="survey-columns"></include>
+				from survey 
+				ORDER BY sur_id desc )
+		WHERE NUM BETWEEN #{page} AND 10
+		order by sur_id desc
+	</select>
+	
+	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<select id="listCriteria" resultMap="surveyResult">
+		SELECT
+			<include refid="survey-columns"></include>
+		FROM (select ROW_NUMBER() OVER (ORDER BY sur_id desc) NUM, <include refid="survey-columns"></include>
+				from survey 
+				ORDER BY sur_id desc)
+		WHERE NUM BETWEEN #{pageStart} 
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by sur_id desc
+	</select>
+	
+	
+	
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select  -->
+	<select id="selectCriteriaBySearchSurveyList" resultMap="surveyResult">
+		SELECT
+			<include refid="survey-columns"></include>
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY sur_id desc) NUM, <include refid="survey-columns"></include>
+			from survey
+			<choose>
+	         	<when test="searchType == 'title'">
+	         		WHERE sur_title LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == 'state'">
+	         		WHERE sur_state LIKE '%' || #{searchText} || '%'
+	         	</when>
+         	</choose>
+		ORDER BY sur_id desc)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by sur_id desc
+	</select>
+	
+	
+	
+	
+
+	<select id="selectCheckSurvey" resultType="int" parameterType="String" >
+	 <![CDATA[
+         select COUNT(*) from survey
+         where sur_id=#{id}	 	
+      ]]>
+	
+	</select> 
+	
+	
+	<select id="selectSurvey" resultMap="surveyResult" parameterType="int">
+		<![CDATA[
+			select * from survey
+			where sur_id = #{id}
+		]]>
+	</select>
+	
+	<insert id="insertSurvey" parameterType="SurveyVO">
+		<![CDATA[
+			insert into survey(sur_id, sur_title, sur_state, sur_contents, surUrl)
+			VALUES(sur_seq.NEXTVAL, #{title}, #{state}, #{contents}, #{url})
+		]]>
+	</insert>
+	
+	<update id="updateSurvey" parameterType="SurveyVO">
+		<![CDATA[
+			update survey set sur_id = #{id}, sur_title = #{title}, sur_state = #{state},
+			sur_contents = #{contents}, surUrl = #{url}
+			where sur_id = #{id}
+		]]>
+	</update>
+	
+	
+	<delete id="deleteSurvey" parameterType="int">
+		<![CDATA[
+			delete from survey 
+			where sur_id = #{id}
+		]]>
+	</delete>
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+

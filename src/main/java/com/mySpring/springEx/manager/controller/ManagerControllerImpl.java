@@ -33,20 +33,20 @@ public class ManagerControllerImpl implements ManagerController{
 	
 	
 	@Override
-	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST) //loginForm.jsp의 정보를 토대로 login.do로 실행
+	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST) 
 	public ModelAndView login(@ModelAttribute("manager") ManagerVO manager,
 				              RedirectAttributes rAttr, 
 		                       HttpServletRequest request, HttpServletResponse response) throws Exception {
 	ModelAndView mav = new ModelAndView();
-	managerVO = managerService.login(manager); //Serviceimpl의 매니저의 로그인 객체를 불러옴
+	managerVO = managerService.login(manager); 
 	if(managerVO != null) {
 	    HttpSession session = request.getSession();		//
-	    session.setAttribute("manager", managerVO);		// 매니저의 정보를 Set시켜 정보표시
-	    session.setAttribute("isLogOn", true);			//
-	    //mav.setViewName("redirect:/member/listMembers.do");
+	    session.setAttribute("manager", managerVO);		
+	    session.setAttribute("isLogOn", true);			
+	
 	    String action = (String)session.getAttribute("action");
 	    System.out.println(action);
-//	    session.removeAttribute("action");
+
 	    if(action!= null) {
 	       mav.setViewName("redirect:"+action);
 	    }else {
@@ -54,7 +54,7 @@ public class ManagerControllerImpl implements ManagerController{
 	    }
 
 	}else {
-	   rAttr.addAttribute("result","loginFailed");	//로그인이 실패하였을경우 다시 로그인창으로 이동
+	   rAttr.addAttribute("result","loginFailed");	
 	   mav.setViewName("redirect:/");
 	}
 	return mav;
@@ -64,10 +64,10 @@ public class ManagerControllerImpl implements ManagerController{
 	@RequestMapping(value = "/manager/logout.do", method =  RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
-		session.removeAttribute("manager");		//로그아웃시 세션을 지워 매니저의 정보를 없애는 기능
+		session.removeAttribute("manager");		
 		session.removeAttribute("isLogOn");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/");			//로그인 창으로 이동
+		mav.setViewName("redirect:/");			
 		return mav;
 	}
 	
@@ -79,14 +79,11 @@ public class ManagerControllerImpl implements ManagerController{
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		result = managerService.updateManager(manager);
-		HttpSession session = request.getSession();		//회원 정보를 수정하였을경우 세션을 지워 로그인창에서 다시 로그인하게되는기능
+		HttpSession session = request.getSession();		
 		session.removeAttribute("manager");
 		session.removeAttribute("isLogOn");
 		ModelAndView mav = new ModelAndView("redirect:/");
 
-//		int result1 = 1;
-//		result1 = managerService.updateManager(manager);
-	
 		return mav;
 	}
 	
@@ -99,11 +96,11 @@ public class ManagerControllerImpl implements ManagerController{
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println(viewName);
 		HttpSession session = request.getSession();
-		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager"); //현재 로그인된 매니저의 정보를 가져옴
+		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager"); 
 
 		ModelAndView mv = new ModelAndView();	
 		mv.setViewName(viewName);
-//		ManagerVO vo = managerService.selectManager(id);
+
 		mv.addObject("managerVO", managerVO);
 		return mv;
 	}

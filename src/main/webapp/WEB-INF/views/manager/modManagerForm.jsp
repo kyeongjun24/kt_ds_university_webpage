@@ -14,7 +14,7 @@
 <meta charset="UTF-8">
 <title>관리자 정보 관리</title>
 <style>
-   .text_left{
+   .text_center{
      text-align:left;
    }
 </style>

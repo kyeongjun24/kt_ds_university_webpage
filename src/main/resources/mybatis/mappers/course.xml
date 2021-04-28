@@ -52,6 +52,7 @@
 	</select>
 	
 	<select id="selectBySearchCourseList" resultMap="courseResult" parameterType="java.util.Map" >
+		<![CDATA[
          select c.crs_id as crs_id, c.slb_id as slb_id , s.slb_name as slb_name, c.crs_capacity as crs_capacity,
 			SUBSTR(c.crs_start_date, 0, 10) as crs_start_date, SUBSTR(c.crs_end_date, 0, 10) as crs_end_date, SUBSTR(c.crs_join_date, 0, 10) as crs_join_date,
 			SUBSTR(c.crs_rs_date, 0, 10) as crs_rs_date, SUBSTR(c.crs_re_date, 0, 10) as crs_re_date
@@ -68,6 +69,7 @@
          	</when>
          </choose>
          order by crs_id
+         ]]>
 	</select>
 	
 	<select id="selectCheckCourse" resultType="int" parameterType="String" >
@@ -95,7 +97,7 @@
 	<update id="updateCourse" parameterType="courseVO">
 		<![CDATA[
 			update course set crs_start_date = #{startDate}, crs_end_date = #{endDate}, crs_start_time = #{startTime}, crs_end_time = #{endTime},
-			crs_capacity = #{capacity}, crs_classroom = #{classroom}, crs_banner_img = #{bannerImg}, slb_id = #{slb_id}, crs_rs_date = #{rsDate}, crs_re_date = #{reDate}
+			crs_capacity = #{capacity}, crs_classroom = #{classroom}, crs_banner_img = #{bannerImg}, slb_id = #{slbId}, crs_rs_date = #{rsDate}, crs_re_date = #{reDate}
 			where crs_id = #{id}
 		]]>
 	</update>

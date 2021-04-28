@@ -16,6 +16,7 @@
 		<li><a href="${contextPath}/member/listMembers.do"  class="no-underline">학생관리</a></li><br>
 		<li><a href="${contextPath}/company/listCompanies.do" class="no_unerline">회사관리</a></li><br>
 		<li><a href="${contextPath}/manager/modManagerForm.do"  class="no-underline">계정관리</a></li><br>
+		<li><a href="${contextPath}/event_security_log/listEvent_security_logs.do"  class="no-underline">로그 관리</a></li><br>
 	</ul>
 	 
 </div>

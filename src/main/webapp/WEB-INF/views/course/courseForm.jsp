@@ -59,8 +59,8 @@
 
   </script>
 <body>
-<form name="articleForm" method="post" action="${contextPath}/board/addNewArticle.do" enctype="multipart/form-data"></form>
-<form enctype="multipart/form-data" method="post"   action="${contextPath}/course/addCourse.do" id="courseRegister">
+<%-- <form name="articleForm" method="post" action="${contextPath}/course/addCourse.do" enctype="multipart/form-data"></form> --%>
+<form enctype="multipart/form-data" method="POST"   action="${contextPath}/course/addCourse.do" id="courseRegister">
 	<h1  class="text_center">과정 등록</h1>
 	<table  align="center">
 	   <tr>
@@ -132,6 +132,11 @@
 		        <option value="207호">209호</option>	 
 	       </select></td>
 	    </tr>
+	    
+	    <tr>
+			<td align="right">파일첨부: </td>
+			<td colspan="2"><input type="file" size="67"  maxlength="500" name="fileName" /></td>
+		</tr>
 	    <!-- <tr>
 	    	<div class="form-group">
 	    	<label for="File">첨부파일 1</label>
@@ -172,7 +177,7 @@
 		    </td>
 		  </tr> 
 		 </c:when>
-		 <c:otherwise>
+		 <%-- <c:otherwise>
 		    <tr  id="tr_file_upload" >
 				    <td width="150" align="center" bgcolor="#FF9933"  rowspan="2">
 				      이미지
@@ -188,6 +193,6 @@
 				       <input  type="file"  name="bannerImg " id="i_bannerImg"   disabled   onchange="readURL(this);"   />
 				    </td>
 			  </tr>
-		 </c:otherwise>
+		 </c:otherwise> --%>
 	 </c:choose>
 </html>

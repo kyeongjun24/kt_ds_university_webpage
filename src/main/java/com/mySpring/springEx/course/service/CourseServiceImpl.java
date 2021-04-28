@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mySpring.springEx.course.dao.CourseDAO;
 import com.mySpring.springEx.course.vo.CourseVO;
-import com.mySpring.springEx.course.vo.PagingVO;
+
 
 
 @Service("courseService")
@@ -35,16 +35,13 @@ public class CourseServiceImpl implements CourseService {
 		return coursesBySearchList;
 	}
 
-//	@Override
-//	public int addCourse(CourseVO course) throws DataAccessException {
-//		return courseDAO.insertCourse(course);
-//		
-//	}
-
 	@Override
-	public int addCourse(Map courseMap) throws Exception{
-		return courseDAO.insertCourse(courseMap);
+	public int addCourse(CourseVO course) throws DataAccessException {
+		return courseDAO.insertCourse(course);
+		
 	}
+
+
 	
 	
 	@Override

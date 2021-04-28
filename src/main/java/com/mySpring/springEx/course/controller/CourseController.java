@@ -20,11 +20,11 @@ public interface CourseController {
 	public ModelAndView updateCourse(@ModelAttribute("course")CourseVO courseVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView selectCourse(@ModelAttribute("id") int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView courseForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	int removeCheckedCourses(int[] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	ModelAndView listBySearchCourses(String searchType, String searchText, HttpServletRequest request,
+	public int removeCheckedCourses(int[] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView listBySearchCourses(String searchType, String searchText, HttpServletRequest request,
 			HttpServletResponse response) throws Exception;
-	public ResponseEntity addCourse(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
 	
+	public String upload(MultipartHttpServletRequest multipartRequest) throws Exception;
 	
 	
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+   <definition name="baseLayout"  template="/WEB-INF/views/common/layout_contents.jsp">
+      <put-attribute name="title" value="" />
+      <put-attribute name="header" value="/WEB-INF/views/common/headerMenuBar.jsp" />
+      <put-attribute name="side" value="" />
+      <put-attribute name="body" value="" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+
+   
+   <definition name="/event_security_log/listEvent_security_logs" extends="baseLayout">
+      <put-attribute name="title" value="로그 목록창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/event_security_log/event_security_logList.jsp" />
+   </definition>
+   
+   <definition name="/event_security_log/informationEvent_security_logForm" extends="baseLayout">
+      <put-attribute name="title" value="로그 상세창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/event_security_log/event_security_logInformation.jsp" />
+   </definition>
+     
+   
+   <definition name="/event_security_log/list_criteria" extends="baseLayout">
+      <put-attribute name="title" value="기준창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/event_security_log/event_security_loglist.jsp" />
+   </definition>
+   
+   <definition name="/event_security_log/list_paging" extends="baseLayout">
+      <put-attribute name="title" value="페이징창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideMember.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/event_security_log/event_security_loglist.jsp" />
+   </definition>
+   
+   
+</tiles-definitions>

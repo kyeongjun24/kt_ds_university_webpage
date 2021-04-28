@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 수정창</title>
+<title>과정 수정창</title>
 <style>
    .text_center{
      text-align:center;
@@ -26,8 +26,8 @@
   /* var categoryId = "${vo.categoryId}";
   console.log(categoryId); */
   $(function() {
-	  $("#categoryId").val("${vo.categoryId}").attr("selected", "selected");
-	  $("#type").val("${vo.type}").attr("selected", "selected");
+	/*   $("#categoryId").val("${vo.categoryId}").attr("selected", "selected");
+	  $("#type").val("${vo.type}").attr("selected", "selected"); */
 	  $("#capacity").val("${vo.capacity}").attr("selected", "selected");
 	  $("#classRoom").val("${vo.classRoom}").attr("selected", "selected");
   });
@@ -69,13 +69,14 @@
 
 </head>
 <body>
-	<form method="post"   action="${contextPath}/course/updateCourse.do" id="courseUpdate">
-	<h1  class="text_center">과정 수정</h1>
-	<input type="hidden" name="id" value="${courseVO.id }"></td>
+<form method="GET"   action="${contextPath}/course/updateCourse.do" id="courseUpdate">
+	
+	<h1 class="text_center">과정 수정</h1>
+	<%-- <input type="hidden" name="id" value="${courseVO.id }"> --%>
 	<table  align="center">
 	   <tr>
 	      <td width="200"><p align="right">과정명</td>
-	      <td width="400"><input type="text" name="name" value="${syllabusVO.name }" readonly></td>
+	      <td width="400"><input type="text" name="id" value="${courseVO.id }"></td>
 	   </tr>
 	    <tr>
 	      <td width="200"><p align="right">시작 날짜</td>
@@ -125,6 +126,6 @@
 	       <td width="400"><input type="submit" value="수정하기"><input type="button" onclick="history.back()" value="뒤로가기"></td>
 	    </tr>
 	</table>
-	</form>
+</form>
 </body>
 </html>

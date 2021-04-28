@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+   <definition name="baseLayout"  template="/WEB-INF/views/common/layout_contents.jsp">
+      <put-attribute name="title" value="" />
+      <put-attribute name="header" value="/WEB-INF/views/common/headerMenuBar.jsp" />
+      <put-attribute name="side" value="" />
+      <put-attribute name="body" value="" />
+      <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+   </definition>
+
+   
+   <definition name="/survey/listSurveys" extends="baseLayout">
+      <put-attribute name="title" value="수요조사 과정목록창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSurvey.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/survey/surveyList.jsp" />
+   </definition>
+   
+   <definition name="/survey/surveyForm" extends="baseLayout">
+      <put-attribute name="title" value="수요조사 등록창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSurvey.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/survey/surveyForm.jsp" />
+   </definition>
+   
+   
+   <definition name="/survey/modSurveyForm" extends="baseLayout">
+      <put-attribute name="title" value="수요조사 수정창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSurvey.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/survey/modSurvey.jsp" />
+   </definition>
+   
+   <definition name="/survey/informationSurveyForm" extends="baseLayout">
+      <put-attribute name="title" value="수요조사 상세창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSurvey.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/survey/surveyInformation.jsp" />
+   </definition>
+     
+   
+   
+   
+   
+   
+   <definition name="/survey/list_criteria" extends="baseLayout">
+      <put-attribute name="title" value="기준창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSurvey.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/survey/surveylist.jsp" />
+   </definition>
+   
+   <definition name="/survey/list_paging" extends="baseLayout">
+      <put-attribute name="title" value="페이징창" />
+      <put-attribute name="side" value="/WEB-INF/views/common/sideSurvey.jsp" />
+      <put-attribute name="body" value="/WEB-INF/views/survey/surveylist.jsp" />
+   </definition>
+   
+   
+</tiles-definitions>

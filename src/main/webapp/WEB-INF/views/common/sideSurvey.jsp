@@ -11,11 +11,7 @@ request.setCharacterEncoding("UTF-8");
 	<h1 class="side_title">설문조사관리</h1>
 
 	<ul>
-		<li><a href="#" class="no-underline">사전사후 이해도 조사</a></li>
-		<br>
-		<li><a href="#" class="no-underline">만족도 평가</a></li>
-		<br>
-		<li><a href="#" class="no-underline">수요조사</a></li>
-		<br>
+		<li><a href="${contextPath}/satisfaction/listSatisfactions.do" class="no-underline">만족도 평가</a></li><br>
+		<li><a href="${contextPath}/survey/listSurveys.do" class="no-underline">수요조사</a></li><br>
 	</ul>
 </div>
