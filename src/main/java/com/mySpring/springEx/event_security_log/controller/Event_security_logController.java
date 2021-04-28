@@ -15,10 +15,7 @@ public interface Event_security_logController {
 
 	public ModelAndView listEvent_security_logs(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	public int idCheckEvent_security_log(int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
-
-	public ModelAndView informationEvent_security_logForm(int id, HttpServletRequest request, HttpServletResponse response)
-			throws Exception;
+	
 	
 	
 }

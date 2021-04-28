@@ -61,17 +61,7 @@ public class Event_security_logDAOImpl implements Event_security_logDAO{
 		return sqlSession.selectList("mapper.event_security_log.selectCriteriaBySearchLogList", criteria);
 	}
 	
-	@Override
-	public Event_security_logVO selectLog(int id) throws DataAccessException {
-		Event_security_logVO vo = sqlSession.selectOne("mapper.event_security_log.selectLog", id);
-		return vo;
-	}
-
-	@Override
-	public int selectCheckLog(int id) throws DataAccessException {
-		int result = sqlSession.selectOne("mapper.event_security_log.selectCheckLog", id);
-		return result;
-	}
+	
 	
 	
 }

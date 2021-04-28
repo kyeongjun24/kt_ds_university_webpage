@@ -166,7 +166,6 @@ justify-content: flex-start;
 
 	<table border="0" align="center" width="80%">
 		<tr align="center" id="attr">
-			<td><input type="checkbox" id="selectAll"></td>
 	
 			<td><b>번호</b></td>
 			<td><b>아이디</b></td>
@@ -179,10 +178,9 @@ justify-content: flex-start;
 			<c:when test="${not empty event_security_logsList}">
 				<c:forEach var="event_security_log" items="${event_security_logsList}" varStatus="event_security_logNum">
 					<tr align="center">
-						<td><input type="checkbox" name="selectedCheckbox" id="${event_security_log.id }"></td>
 						
-						<td>${event_security_log.id-89999}</td> <%-- 번호 --%>
-						<td><a href="${contextPath}/event_security_log/informationEvent_security_logForm.do?id=${event_security_log.id }">${event_security_log.user}</a></td>
+						<td>${event_security_log.id-89999}</td>
+						<td>${event_security_log.user}</td>
 						<td>${event_security_log.type}</td>
 						<td>${event_security_log.date}</td>
 						<td>${event_security_log.text}</td>

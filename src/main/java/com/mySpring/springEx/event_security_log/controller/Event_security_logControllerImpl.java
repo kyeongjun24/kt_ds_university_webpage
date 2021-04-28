@@ -135,33 +135,7 @@ public class Event_security_logControllerImpl implements Event_security_logContr
 			return "/event_security_log/list_paging";
 		}
 		
-	@Override
-	@ResponseBody
-	@RequestMapping(value="/event_security_log/idCheckEvent_security_log.do", method = RequestMethod.POST)
-	public int idCheckEvent_security_log(@RequestParam("id") int id, 
-			HttpServletRequest request, HttpServletResponse response) throws Exception{
-		request.setCharacterEncoding("utf-8");
-		String viewName = (String)request.getAttribute("viewName");
-		System.out.println(viewName);
-		System.out.println(id);
-		int result = event_security_logService.idCheckEvent_security_log(id);
-		System.out.println(result);
-		return result;
-		}	
 		
-	@Override
-	@RequestMapping(value="/event_security_log/informationEvent_security_logForm.do", method = RequestMethod.GET)
-	public ModelAndView informationEvent_security_logForm(@RequestParam int id, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		request.setCharacterEncoding("utf-8");
-		String viewName = (String)request.getAttribute("viewName");
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName(viewName);
-		Event_security_logVO vo = event_security_logService.selectEvent_security_log(id);
-		mv.addObject("vo", vo);
-		return mv;
-	}
-	
 		
 	
 	

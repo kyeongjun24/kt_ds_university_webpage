@@ -23,9 +23,7 @@ public interface Event_security_logService {
 
 	public List listBySearchEvent_security_logs(String searchType, String searchText) throws DataAccessException;
 
-	public int idCheckEvent_security_log(int id) throws DataAccessException;
-
-	public Event_security_logVO selectEvent_security_log(int id) throws DataAccessException;
+	
 
 
 }

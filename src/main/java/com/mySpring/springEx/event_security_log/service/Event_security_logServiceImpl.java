@@ -59,16 +59,7 @@ public class Event_security_logServiceImpl implements Event_security_logService 
 		return event_security_logsBySearchList;
 	}
 
-	@Override
-	public int idCheckEvent_security_log(int id) throws DataAccessException {
-		return event_security_logDAO.selectCheckLog(id);
-	}
-
-
-	@Override
-	public Event_security_logVO selectEvent_security_log(int id) throws DataAccessException {
-		return event_security_logDAO.selectLog(id);
-	}
+	
 
 
 }

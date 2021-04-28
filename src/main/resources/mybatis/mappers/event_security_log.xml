@@ -105,21 +105,10 @@
 	
 	
 
-	<select id="selectCheckLog" resultType="int" parameterType="String" >
-	 <![CDATA[
-         select COUNT(*) from event_security_log
-         where esl_id=#{id}	 	
-      ]]>
-	
-	</select> 
 	
 	
-	<select id="selectLog" resultMap="event_security_logResult" parameterType="int">
-		<![CDATA[
-			select * from event_security_log
-			where esl_id = #{id}
-		]]>
-	</select>
+	
+	
 	
 
 	

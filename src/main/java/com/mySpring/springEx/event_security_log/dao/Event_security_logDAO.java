@@ -25,11 +25,9 @@ public interface Event_security_logDAO {
 
 	public List selectBySearchLogList(String searchType, String searchText) throws DataAccessException;
 	
-	public int selectCheckLog(int id) throws DataAccessException;
-
 	public List<Event_security_logVO> listPaging(int page) throws DataAccessException;
 
-	public Event_security_logVO selectLog(int id) throws DataAccessException;
+	
 
 
 }
