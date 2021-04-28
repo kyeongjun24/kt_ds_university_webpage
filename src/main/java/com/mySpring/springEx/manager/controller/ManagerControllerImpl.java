@@ -34,7 +34,7 @@ public class ManagerControllerImpl implements ManagerController{
 	
 	
 	@Override
-	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST) //loginForm.jsp�� ������ ���� login.do�� ����
+	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST) 
 	public ModelAndView login(@ModelAttribute("manager") ManagerVO manager,
 				              RedirectAttributes rAttr, 
 		                       HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -48,7 +48,7 @@ public class ManagerControllerImpl implements ManagerController{
 	    //mav.setViewName("redirect:/member/listMembers.do");
 	    String action = (String)session.getAttribute("action");
 	    System.out.println(action);
-//	    session.removeAttribute("action");
+
 	    if(action!= null) {
 	       mav.setViewName("redirect:"+action);
 	    }else {
@@ -89,9 +89,6 @@ public class ManagerControllerImpl implements ManagerController{
 		session.removeAttribute("isLogOn");
 		ModelAndView mav = new ModelAndView("redirect:/");
 
-//		int result1 = 1;
-//		result1 = managerService.updateManager(manager);
-	
 		return mav;
 	}
 	
@@ -104,11 +101,11 @@ public class ManagerControllerImpl implements ManagerController{
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println(viewName);
 		HttpSession session = request.getSession();
-		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager"); //���� �α��ε� �Ŵ����� ������ ������
+		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager"); 
 
 		ModelAndView mv = new ModelAndView();	
 		mv.setViewName(viewName);
-//		ManagerVO vo = managerService.selectManager(id);
+
 		mv.addObject("managerVO", managerVO);
 		return mv;
 	}

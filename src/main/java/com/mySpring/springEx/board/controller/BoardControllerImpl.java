@@ -209,7 +209,7 @@ public class BoardControllerImpl implements BoardController {
 		return mv;
 	}
 
-	// 공지사항 글 추가 , 한 개 파일
+	// 怨듭��궗�빆 湲� 異붽� , �븳 媛� �뙆�씪
 	@Override
 	@RequestMapping(value = "/board/addNewArticle.do", method = RequestMethod.POST)
 	public ModelAndView addNewArticle(MultipartHttpServletRequest multipartRequest, HttpServletRequest request,HttpServletResponse response) throws Exception {
@@ -416,7 +416,4 @@ public class BoardControllerImpl implements BoardController {
 		}
 		return name;
 	}
-
-
-
 }

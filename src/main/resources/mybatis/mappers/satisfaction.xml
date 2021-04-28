@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.satisfaction">
+	<resultMap id="satisfactionResult" type="SatisfactionVO">
+		<result property="id" column="stf_id" />
+        <result property="title" column="stf_title" />
+        <result property="joinDate" column="stf_join_date" />
+        <result property="state" column="stf_state" />
+        <result property="contents" column="stf_contents" />
+        <result property="url" column="stf_url" />
+        <result property="crsId" column="crs_id" />
+        <collection property="courseVO" resultMap="courseResult" />
+	</resultMap> 
+
+	<resultMap id="courseResult" type="courseVO">
+		<result property="id" column="crs_id" />
+		<result property="startDate" column="crs_start_date" />
+		<result property="endDate" column="crs_end_date" />
+		<result property="startTime" column="crs_start_time" />
+		<result property="endTime" column="crs_end_time" />
+		<result property="capacity" column="crs_capacity" />
+		<result property="classroom" column="crs_classroom" />
+		<result property="joinDate" column="crs_join_date" />
+		<result property="bannerImg" column="crs_banner_img" />
+		<result property="rsDate" column="crs_rs_date" />
+		<result property="reDate" column="crs_re_date" />
+		<result property="slbId" column="slb_id" />	
+	</resultMap>
+	
+	<!-- select s.stf_id as stf_id, s.stf_title as stf_title, s.stf_state as stf_state, s.stf_contents as stf_contents, s.stfUrl as stfUrl,
+					s.crs_id as crs_id
+			SUBSTR(s.stf_join_date, 0, 10) as stf_join_date
+			from satisfaction S
+				LEFT JOIN course C
+				ON
+				s.crs_id = c.crs_id
+			order by stf_id -->
+	
+	<!-- stf_id, stf_title, stf_state, stf_contents, stfUrl, crs_id
+         SUBSTR(stf_join_date,0, 10) as stf_join_date -->
+	
+	<sql id="satisfaction-columns">
+   	<![CDATA[
+    stf_id, stf_title, stf_join_date, stf_state, stf_contents, stf_url, 	crs_id
+   	]]>
+   </sql>
+	
+	<select id="selectAllSatisfactionsList" resultMap="satisfactionResult">
+		select 
+          	<include refid="satisfaction-columns"></include>	
+        from satisfaction
+        order by stf_id desc
+	</select> 
+	
+	
+	<select id="selectBySearchSatisfactionList" resultMap="satisfactionResult" parameterType="java.util.Map" >
+		select * from satisfaction
+	     <choose>
+         	<when test="searchType == 'title'">
+         		WHERE stf_title LIKE '%' || #{searchText} || '%'
+         	</when>
+         	<when test="searchType == 'state'">
+         		WHERE stf_state LIKE '%' || #{searchText} || '%'
+         	</when>
+         </choose>
+         order by stf_id desc
+	</select> 
+	
+	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<select id="selectSatisfactionListByPaging" resultMap="satisfactionResult">
+		SELECT <include refid="satisfaction-columns"></include> FROM
+				(select ROW_NUMBER() OVER (ORDER BY stf_id desc) NUM, <include refid="satisfaction-columns"></include>
+				from satisfaction 
+				ORDER BY stf_id desc )
+		WHERE NUM BETWEEN #{page} AND 10
+		order by stf_id desc
+	</select>
+	
+	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
+	<select id="listCriteria" resultMap="satisfactionResult">
+		SELECT
+			<include refid="satisfaction-columns"></include>
+		FROM (select ROW_NUMBER() OVER (ORDER BY stf_id desc) NUM, <include refid="satisfaction-columns"></include>
+				from satisfaction 
+				ORDER BY stf_id desc)
+		WHERE NUM BETWEEN #{pageStart} 
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by stf_id desc
+	</select>
+	
+	
+	
+	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select  -->
+	<select id="selectCriteriaBySearchSatisfactionList" resultMap="satisfactionResult">
+		SELECT
+			<include refid="satisfaction-columns"></include>
+		FROM (
+			SELECT ROW_NUMBER() OVER (ORDER BY stf_id desc) NUM, <include refid="satisfaction-columns"></include>
+			from satisfaction
+			<choose>
+	         	<when test="searchType == 'title'">
+	         		WHERE stf_title LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == 'state'">
+	         		WHERE stf_state LIKE '%' || #{searchText} || '%'
+	         	</when>
+         	</choose>
+		ORDER BY stf_id desc)
+		WHERE NUM BETWEEN #{pageStart}
+		<choose>
+			<when test="#{perPageNum} == '10'">
+				AND #{perPageNum}
+			</when>
+			<when test="#{perPageNum} != '10'">
+				AND (#{perPageNum} + #{pageStart})
+			</when>
+		</choose>
+		order by stf_id desc
+	</select>
+	
+	
+	
+	
+
+	<select id="selectCheckSatisfaction" resultType="int" parameterType="String" >
+	 <![CDATA[
+         select COUNT(*) from satisfaction
+         where stf_id=#{id}	 	
+      ]]>
+	
+	</select> 
+	
+	
+	<select id="selectSatisfaction" resultMap="satisfactionResult" parameterType="int">
+		<![CDATA[
+			select * from satisfaction
+			where stf_id = #{id}
+		]]>
+	</select>
+	
+	<insert id="insertSatisfaction" parameterType="SatisfactionVO">
+		<![CDATA[
+			insert into satisfaction(stf_id, stf_title, stf_state, stf_contents, stf_url, crs_id)
+			VALUES(stf_seq.NEXTVAL, #{title}, #{state}, #{contents}, #{url}, #{crsId})
+		]]>
+	</insert>
+	
+	<update id="updateSatisfaction" parameterType="SatisfactionVO">
+		<![CDATA[
+			update satisfaction set stf_id = #{id}, stf_title = #{title}, stf_state = #{state},
+			stf_contents = #{contents}, stf_url = #{url}, crs_id = #{crsId}
+			where stf_id = #{id}
+		]]>
+	</update>
+	
+	
+	<delete id="deleteSatisfaction" parameterType="int">
+		<![CDATA[
+			delete from satisfaction 
+			where stf_id = #{id}
+		]]>
+	</delete>
+	
+	
+	
+	
+</mapper>
+
+
+
+
+
+
