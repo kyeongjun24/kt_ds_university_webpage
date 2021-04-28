@@ -353,7 +353,7 @@
 	<select id="selectCompany" resultMap="comResult"
 		parameterType="String">
 		<![CDATA[
-			SELECT com_id, com_name, SUBSTR(com_mod_date,0,10) as com_mod_date, com_contract_name, 
+			SELECT com_id, com_name, com_mod_date, com_contract_name, 
 			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homepage, com_address, com_contract_agree, com_tel, com_zipcode
 			FROM company 
 			WHERE com_id = #{id}
@@ -366,19 +366,19 @@
 		UPDATE company
 	     SET 
 	     com_id=#{id}, com_name=#{name}, com_contract_name=#{contractName}, com_manager_phone=#{managerPhone}, 
-	     com_manager_email=#{managerEmail}, com_contract_stat=#{contractStat}, com_contract_type=#{contractType}, com_homepage=#{homePage}, com_mod_date=#{modDate},
+	     com_manager_email=#{managerEmail}, com_contract_stat=#{contractStat}, com_contract_type=#{contractType}, com_homepage=#{homePage}, com_mod_date=to_char(sysdate, 'yyyy-mm-dd'),
 	     com_address=#{address}, com_contract_agree=#{contractAgree}, com_tel=#{companyTel}, com_zipcode=#{zipCode}
 	     WHERE com_id=#{id}
 	]]>
 	</update>
 
 	<!-- 회사 삭제 쿼리 -->
-	<update id="deleteCompany" parameterType="String">
+	<delete id="deleteCompany" parameterType="String">
 		<![CDATA[
-		UPDATE company SET com_contract_type = '탈퇴'
+		DELETE FROM company
 		WHERE com_id=#{id}
 		]]>
-	</update>
+	</delete>
 
 	
 	<select id="selectNumberOfCompanies" resultType="int">

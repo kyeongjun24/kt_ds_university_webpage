@@ -17,36 +17,36 @@ import com.mySpring.springEx.company.vo.CompanyVO;
 
 public interface CompanyController {
 	
-	// 전체회사 출력
+	// �쟾泥댄쉶�궗 異쒕젰
 	ModelAndView listCompanies(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 검색된 회사 출력
+	// 寃��깋�맂 �쉶�궗 異쒕젰
 	ModelAndView listBySearchCompanies(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 협력회사 출력
+	// �삊�젰�쉶�궗 異쒕젰
 	ModelAndView listPartners(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 협력회사 검색리스트 출력
+	// �삊�젰�쉶�궗 寃��깋由ъ뒪�듃 異쒕젰
 	ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 회사 등록할 수 있는 메소드
-	ModelAndView addCompany(@ModelAttribute("company")CompanyVO companyVO, HttpServletRequest request, HttpServletResponse response)throws Exception;
+	// �쉶�궗 �벑濡앺븷 �닔 �엳�뒗 硫붿냼�뱶
+	ModelAndView addCompany(@ModelAttribute("company")CompanyVO companyVO, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request, HttpServletResponse response)throws Exception;
 	
-	// 회사명 클릭했을 때
+	// �쉶�궗紐� �겢由��뻽�쓣 �븣
 	ModelAndView selectCompany(@RequestParam String comId, @RequestParam String type, @ModelAttribute("criteria") Criteria criteria, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 회사 수정할 수 있는 메소드
+	// �쉶�궗 �닔�젙�븷 �닔 �엳�뒗 硫붿냼�뱶
 	ModelAndView modCompany(@ModelAttribute("company")CompanyVO companyVO, @RequestParam("type") String type, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request, HttpServletResponse response)throws Exception;
 	
-	// 회사관리 상세창에서 선택된 회사를 삭제할 수 있는 메소드
+	// �쉶�궗愿�由� �긽�꽭李쎌뿉�꽌 �꽑�깮�맂 �쉶�궗瑜� �궘�젣�븷 �닔 �엳�뒗 硫붿냼�뱶
 	ModelAndView removeCompany(@RequestParam("id") String id, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 		
-	// 회사관리 리스트에 있는 삭제 버튼으로 회원을 체크해서 삭제할 수 있는 메소드
+	// �쉶�궗愿�由� 由ъ뒪�듃�뿉 �엳�뒗 �궘�젣 踰꾪듉�쑝濡� �쉶�썝�쓣 泥댄겕�빐�꽌 �궘�젣�븷 �닔 �엳�뒗 硫붿냼�뱶
 	int removeCheckedCompanies(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 전체회사 엑셀 다운로드
+	// �쟾泥댄쉶�궗 �뿊�� �떎�슫濡쒕뱶
 	void companyExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 협력회사 엑셀 다운로드
+	// �삊�젰�쉶�궗 �뿊�� �떎�슫濡쒕뱶
 	void partnersExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

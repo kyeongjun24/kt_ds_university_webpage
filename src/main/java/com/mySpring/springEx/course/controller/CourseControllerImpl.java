@@ -204,14 +204,11 @@ public class CourseControllerImpl implements CourseController{
 		String updateStat = stat;
 		
 		if (updateStat.equals("applicable") ) {
-			System.out.println("stat의 값이 신청가능으로 바뀜");
-			updateStat = "신청가능";
+			updateStat = "�떊泥�媛��뒫";
 		} else if (updateStat.equals("earlyClosing")) {
-			System.out.println("stat의 값이 조기마감으로 바뀜");
-			updateStat = "조기마감";
+			updateStat = "議곌린留덇컧";
 		} else {
-			System.out.println("stat의 값이 마감으로 바뀜");
-			updateStat = "마감";
+			updateStat = "留덇컧";
 		}
 		
 		map.put("stat", updateStat);
@@ -257,8 +254,6 @@ public class CourseControllerImpl implements CourseController{
 		} else {
 			result = courseService.checkClassRoomOfCourses(param);
 		}
-		 
-		System.out.println("@@@@@@@@@@반환값"+result);
 		return result;
 	}
 	

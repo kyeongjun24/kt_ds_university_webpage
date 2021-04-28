@@ -66,7 +66,7 @@ public class MemberControllerImpl implements MemberController {
 	}
 
 	
-	//아이디 검색 팝업 (원본)
+	//�븘�씠�뵒 寃��깋 �뙘�뾽 (�썝蹂�)
 //	@RequestMapping(value = "/member/memberSearchPopUp.do", method = {RequestMethod.GET, RequestMethod.POST})
 //	private ModelAndView memberSearchPopUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 //		String viewName = (String)request.getAttribute("viewName");
@@ -76,7 +76,7 @@ public class MemberControllerImpl implements MemberController {
 //		return mv;
 //	}
 	
-	//아이디 검색 팝업 (검색, 페이징 기능 작업중)
+	//�븘�씠�뵒 寃��깋 �뙘�뾽 (寃��깋, �럹�씠吏� 湲곕뒫 �옉�뾽以�)
 	@RequestMapping(value = "/member/memberSearchPopUp.do", method = {RequestMethod.GET, RequestMethod.POST})
 	private ModelAndView memberSearchPopUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName");
@@ -85,9 +85,9 @@ public class MemberControllerImpl implements MemberController {
 		int page = 1;
 		
 		if(request.getParameter("page") != null) {
-			page = Integer.parseInt((String)request.getParameter("page")); //page 변수에 값을 저장
+			page = Integer.parseInt((String)request.getParameter("page")); //page 蹂��닔�뿉 媛믪쓣 ���옣
 		} else {
-			page = 1; //아니면 page 1로 기본 지정
+			page = 1; //�븘�땲硫� page 1濡� 湲곕낯 吏��젙
 		}
 		
 		int perPage = 10;
@@ -97,28 +97,28 @@ public class MemberControllerImpl implements MemberController {
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
 		
-		criteria.setPerPageNum(perPage); // 리스트 개수 설정
-		pageMaker.setCriteria(criteria); // 기준 값 설정
-		//여기까지 진행 @@
-		if (searchType != null && searchText != null) { // 검색 유형이랑 값을 받았다면
+		criteria.setPerPageNum(perPage); // 由ъ뒪�듃 媛쒖닔 �꽕�젙
+		pageMaker.setCriteria(criteria); // 湲곗� 媛� �꽕�젙
+		//�뿬湲곌퉴吏� 吏꾪뻾 @@
+		if (searchType != null && searchText != null) { // 寃��깋 �쑀�삎�씠�옉 媛믪쓣 諛쏆븯�떎硫�
 			membersList = memberService.listBySearchMembersPopup(searchType, searchText);
-			criteria.setPage(page); // page 설정
-			criteria.setSearchText(searchText); // 검색 값 설정
-			criteria.setSearchType(searchType); // 검색 유형 설정
-			pageMaker.setTotalCount(membersList.size()); // 페이지 개수를 전체 리스트 크기로 설정
-			membersList = memberService.listCriteriaBySearchPopup(criteria); // 기준 설정에 의해 새로 받는 리스트
+			criteria.setPage(page); // page �꽕�젙
+			criteria.setSearchText(searchText); // 寃��깋 媛� �꽕�젙
+			criteria.setSearchType(searchType); // 寃��깋 �쑀�삎 �꽕�젙
+			pageMaker.setTotalCount(membersList.size()); // �럹�씠吏� 媛쒖닔瑜� �쟾泥� 由ъ뒪�듃 �겕湲곕줈 �꽕�젙
+			membersList = memberService.listCriteriaBySearchPopup(criteria); // 湲곗� �꽕�젙�뿉 �쓽�빐 �깉濡� 諛쏅뒗 由ъ뒪�듃
 			
-			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내기
-			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
-		} else { // 검색 유형이랑 값을 받지 않았다면
-			membersList = memberService.listMembers(); //전체 리스트 저장
-			criteria.setPage(page); //페이지 설정
-			pageMaker.setTotalCount(membersList.size()); //페이지 개수 설정
-			membersList = memberService.listCriteria(criteria); //기준에 의해 나눠진 리스트 설정
+			mav.addObject("searchText", searchText); // 寃��깋 媛� �떎�떆 �럹�씠吏�濡� 蹂대궡湲�
+			mav.addObject("searchType", searchType); // 寃��깋 �쑀�삎 �떎�떆 �럹�씠吏�濡� 蹂대궡湲�
+		} else { // 寃��깋 �쑀�삎�씠�옉 媛믪쓣 諛쏆� �븡�븯�떎硫�
+			membersList = memberService.listMembers(); //�쟾泥� 由ъ뒪�듃 ���옣
+			criteria.setPage(page); //�럹�씠吏� �꽕�젙
+			pageMaker.setTotalCount(membersList.size()); //�럹�씠吏� 媛쒖닔 �꽕�젙
+			membersList = memberService.listCriteria(criteria); //湲곗��뿉 �쓽�빐 �굹�닠吏� 由ъ뒪�듃 �꽕�젙
 		}
-		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
-		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기		
-		mav.addObject("membersList", membersList); //설정된 리스트 보내기
+		mav.addObject("perPage", perPage); // 由ъ뒪�듃 湲곗� 媛� 蹂대궡湲�
+		mav.addObject("pageMaker", pageMaker); // �럹�씠吏� 留뚮뱾�뼱吏� 媛� 蹂대궡湲�		
+		mav.addObject("membersList", membersList); //�꽕�젙�맂 由ъ뒪�듃 蹂대궡湲�
 	
 		
 		return mav;
@@ -129,74 +129,66 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response
 			) throws Exception {
 		
-		//mebmerList에서 보낸 name 받는다. (searchType : 검색 유형, searchText : 검색 텍스트)
+		//mebmerList�뿉�꽌 蹂대궦 name 諛쏅뒗�떎. (searchType : 寃��깋 �쑀�삎, searchText : 寃��깋 �뀓�뒪�듃)
 		String viewName = (String)request.getAttribute("viewName");
 		String searchType = (String)request.getParameter("searchType");
 		String searchText = (String)request.getParameter("searchText");
 		
-		// page 기본 변수 생성
+		// page 湲곕낯 蹂��닔 �깮�꽦
 		int page = 0;
 		
-		// 받은 페이지 값이 있다면
+		// 諛쏆� �럹�씠吏� 媛믪씠 �엳�떎硫�
 		if(request.getParameter("page") != null) {
-			page = Integer.parseInt((String)request.getParameter("page")); //page 변수에 값을 저장
+			page = Integer.parseInt((String)request.getParameter("page")); //page 蹂��닔�뿉 媛믪쓣 ���옣
 		} else {
-			page = 1; //아니면 page 1로 기본 지정
+			page = 1; //�븘�땲硫� page 1濡� 湲곕낯 吏��젙
 		}
 		
-		int perPage = 0; //리스트 개수 값 저장할 변수 생성
+		int perPage = 0; //由ъ뒪�듃 媛쒖닔 媛� ���옣�븷 蹂��닔 �깮�꽦
 		
-		// perPage 값이 있다면
+		// perPage 媛믪씠 �엳�떎硫�
 		if(request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt((String)request.getParameter("perPage")); // perPage 변수에 리스트 띄울 개수 저장
+			perPage = Integer.parseInt((String)request.getParameter("perPage")); // perPage 蹂��닔�뿉 由ъ뒪�듃 �쓣�슱 媛쒖닔 ���옣
 		} else {
-			perPage = 10; // 기본 10개로 지정
+			perPage = 10; // 湲곕낯 10媛쒕줈 吏��젙
 		}
-		System.out.println("전달 받은 페이지 번호 page:" + page); // 전달 받은 페이지 번호 page 
-		System.out.println("리스트 띄울 개수 Perpage:"+perPage); // 전달 받은 페이지 번호 page 
 
 		List membersList = null; 
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
 		
-		criteria.setPerPageNum(perPage); // 리스트 개수 설정
-		pageMaker.setCriteria(criteria); // 기준 값 설정
+		criteria.setPerPageNum(perPage); // 由ъ뒪�듃 媛쒖닔 �꽕�젙
+		pageMaker.setCriteria(criteria); // 湲곗� 媛� �꽕�젙
 		
-		if (searchType != null && searchText != null) { // 검색 유형이랑 값을 받았다면
-			System.out.println(searchType);
-			System.out.println(searchText);
-			System.out.println("@@@@@@@@@검색필터 적용됨요");
+		if (searchType != null && searchText != null) { // 寃��깋 �쑀�삎�씠�옉 媛믪쓣 諛쏆븯�떎硫�
 			membersList = memberService.listBySearchMembers(searchType, searchText);
-			System.out.println("@@@@@@@@@@서치된 리스트"+membersList.size()); // 검색해서 받은 전체 리스트 사이즈
-			criteria.setPage(page); // page 설정
-			criteria.setSearchText(searchText); // 검색 값 설정
-			criteria.setSearchType(searchType); // 검색 유형 설정
-			pageMaker.setTotalCount(membersList.size()); // 페이지 개수를 전체 리스트 크기로 설정
-			membersList = memberService.listCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
-			System.out.println("page@@@"+page+"번호에 해당하는 리스트 크기"+membersList.size());
 			
-			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내기
-			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
-		} else { // 검색 유형이랑 값을 받지 않았다면
-			System.out.println("@@@@@@@@검색필터적용안됨요");
-			membersList = memberService.listMembers(); //전체 리스트 저장
+			criteria.setPage(page); // page �꽕�젙
+			criteria.setSearchText(searchText); // 寃��깋 媛� �꽕�젙
+			criteria.setSearchType(searchType); // 寃��깋 �쑀�삎 �꽕�젙
+			pageMaker.setTotalCount(membersList.size()); // �럹�씠吏� 媛쒖닔瑜� �쟾泥� 由ъ뒪�듃 �겕湲곕줈 �꽕�젙
+			membersList = memberService.listCriteriaBySearch(criteria); // 湲곗� �꽕�젙�뿉 �쓽�빐 �깉濡� 諛쏅뒗 由ъ뒪�듃
+			
+			
+			mav.addObject("searchText", searchText); // 寃��깋 媛� �떎�떆 �럹�씠吏�濡� 蹂대궡湲�
+			mav.addObject("searchType", searchType); // 寃��깋 �쑀�삎 �떎�떆 �럹�씠吏�濡� 蹂대궡湲�
+		} else { // 寃��깋 �쑀�삎�씠�옉 媛믪쓣 諛쏆� �븡�븯�떎硫�
+			membersList = memberService.listMembers(); //�쟾泥� 由ъ뒪�듃 ���옣
 //			membersList = memberService.listCriteria(criteria);
-			System.out.println(membersList.size()); //전체 사이즈
-			criteria.setPage(page); //페이지 설정
-			pageMaker.setTotalCount(membersList.size()); //페이지 개수 설정
-			membersList = memberService.listCriteria(criteria); //기준에 의해 나눠진 리스트 설정
+			criteria.setPage(page); //�럹�씠吏� �꽕�젙
+			pageMaker.setTotalCount(membersList.size()); //�럹�씠吏� 媛쒖닔 �꽕�젙
+			membersList = memberService.listCriteria(criteria); //湲곗��뿉 �쓽�빐 �굹�닠吏� 由ъ뒪�듃 �꽕�젙
 		}
-		System.out.println("perPage@@@@@@@@@@@@"+perPage);
 		mav.addObject("page", page);
-		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
-		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
-		mav.addObject("membersList", membersList); //설정된 리스트 보내기
+		mav.addObject("perPage", perPage); // 由ъ뒪�듃 湲곗� 媛� 蹂대궡湲�
+		mav.addObject("pageMaker", pageMaker); // �럹�씠吏� 留뚮뱾�뼱吏� 媛� 蹂대궡湲�
+		mav.addObject("membersList", membersList); //�꽕�젙�맂 由ъ뒪�듃 蹂대궡湲�
 		mav.addObject("viewName", viewName);
-		return mav; //리스트 페이지로
+		return mav; //由ъ뒪�듃 �럹�씠吏�濡�
 	}
 	
-	//기준에 의해 나눠진 리스트 확인해보며 연습할 페이지로 -> 실제 구현할 때는 필요없을 예정
+	//湲곗��뿉 �쓽�빐 �굹�닠吏� 由ъ뒪�듃 �솗�씤�빐蹂대ŉ �뿰�뒿�븷 �럹�씠吏�濡� -> �떎�젣 援ы쁽�븷 �븣�뒗 �븘�슂�뾾�쓣 �삁�젙
 	@RequestMapping(value = "/member/listCriteria.do", method = RequestMethod.GET)
 	public String listCriteria(Model model, Criteria criteria) throws Exception {
 		model.addAttribute("members", memberService.listCriteria(criteria));
@@ -204,7 +196,7 @@ public class MemberControllerImpl implements MemberController {
 		
 	}
 
-	//페이지 개수가 어떻게 나눠지는지 확인해보며 연습할 페이지로 -> 실제 구현할 때는 필요없을 예정
+	//�럹�씠吏� 媛쒖닔媛� �뼱�뼸寃� �굹�닠吏��뒗吏� �솗�씤�빐蹂대ŉ �뿰�뒿�븷 �럹�씠吏�濡� -> �떎�젣 援ы쁽�븷 �븣�뒗 �븘�슂�뾾�쓣 �삁�젙
 	@RequestMapping(value = "/member/listPaging.do", method = RequestMethod.GET)
 	public String listPaging(Model model, Criteria criteria) throws Exception {
 		
@@ -230,7 +222,6 @@ public class MemberControllerImpl implements MemberController {
 		if (result > 0) {
 			HttpSession session = request.getSession();
 			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
-			System.out.println(managerVO.getId());
 			String managerId = managerVO.getId();
 			Map<String, String> map = new HashMap();
 			map.put("manager", managerId);
@@ -248,10 +239,7 @@ public class MemberControllerImpl implements MemberController {
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String) request.getAttribute("viewName");
-		System.out.println(viewName);
-		System.out.println(id);
 		int result = memberService.idCheckMember(id);
-		System.out.println(result);
 		return result;
 	}
 
@@ -268,7 +256,6 @@ public class MemberControllerImpl implements MemberController {
 		if (result > 0) {
 			HttpSession session = request.getSession();
 			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
-			System.out.println(managerVO.getId());
 			String managerId = managerVO.getId();
 			Map<String, String> map = new HashMap();
 			map.put("manager", managerId);
@@ -288,7 +275,6 @@ public class MemberControllerImpl implements MemberController {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]);
 			result = memberService.updateMemberDelYN(arr[i]);
 			if(result > 0) {
 				HttpSession session = request.getSession();
@@ -316,8 +302,7 @@ public class MemberControllerImpl implements MemberController {
 		result = memberService.updateMember(member);
 		if (result > 0) {
 			HttpSession session = request.getSession();
-			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
-			System.out.println(managerVO.getId());
+			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");;
 			String managerId = managerVO.getId();
 			Map<String, String> map = new HashMap();
 			map.put("manager", managerId);
@@ -377,7 +362,6 @@ public class MemberControllerImpl implements MemberController {
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String)request.getAttribute("viewName");
-		System.out.println(id+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		HttpSession session = request.getSession();
 		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
 		String managerId = managerVO.getId();

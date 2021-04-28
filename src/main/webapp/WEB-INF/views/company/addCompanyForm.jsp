@@ -99,7 +99,7 @@ input:focus {
 
 #num, #id {
 	width: 15%;
-	padding-left: ;
+	padding-left: 7px;
 }
 
 .oNum {
@@ -165,7 +165,17 @@ input:focus {
 					
 					registercheckfrm.companyTel.value = companyTel;
 					registercheckfrm.managerPhone.value = managerPhone;
-					return true;
+					
+					var page = $(this).val();
+					var perPage = $(this).val();
+					var searchType = document.getElementById('searchType').value;
+					var searchText = document.getElementById('searchText').value;
+					
+					if (confirm("등록하시겠습니까?") == true){
+						return true;
+					} else {
+						return false;
+					}
 				})
 		})
 		//아이디 중복체크
@@ -205,15 +215,21 @@ input:focus {
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 				style="cursor: pointer;">회원관리</span> > <span
-				onclick="location.href='${contextPath}/company/listCompanies.do'"
+				onclick="location.href='${contextPath}/company/listCompanies.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 				style="cursor: pointer;"> 회사관리</span> > <span
-				onclick="location.href='${contextPath}/company/addCompanyForm.do'"
+				onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 				style="cursor: pointer;"> 회사등록</span>
 		</h4>
 	</div>
 	<h1 class="title">회사 등록</h1>
-	<form method="post" action="${contextPath}/company/addCompany.do"
+	<form method="post" action="${contextPath}/company/addCompany.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}"
 		id=registerCheck name=addFrm>
+		
+		<input type="hidden" id="page" name="page" value="${criteria.page }"  />
+		<input type="hidden" id="searchType" name="searchType" value="${criteria.searchType }"  /> 
+		<input type="hidden" id="searchText" name="searchText" value="${criteria.searchText }"  />
+		<input type="hidden" id="perPageNum" name="perPageNum" value="${criteria.perPageNum }" />
+		
 		<table id="company_add">
 			<tr>
 				<td width="10%" class="td1"><p align="right">상태</p></td>
@@ -240,8 +256,7 @@ input:focus {
 					</div>
 				</td>
 				<td width="10%" class="td1"><p align="right">홈페이지</p></td>
-				<td width="20%" class="td1"><input type="text" name="homePage"
-					id=t1 required title="예) xxxx@naver.com"></td>
+				<td width="20%" class="td1"><input type="text" name="homePage" id=t1 required pattern="^(http:\/\/|https:\/\/)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-z]+)?$" title="예) www.naver.com"></td>
 			</tr>
 
 			<tr>

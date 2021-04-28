@@ -154,7 +154,6 @@ input:focus {
 		$("input[id=radio1]:radio").attr("disabled", "true");
 		$("input[id=radio2]:radio").attr("disabled", "true");
 		$('input').css('border', 'none');
-		$('').css('border', 'none');
 		$("#search").attr("disabled", true);
 	});
 
@@ -165,6 +164,7 @@ input:focus {
 			$('input').prop('readonly', false);
 			$('radio').prop('disabled', false);
 			$('.regNum').prop('readonly', true);
+			$('.modText').prop('readonly', true);
 			$('#sel1').prop('disabled', false);
 			$('#sel2').prop('disabled', false);
 			$("input[id=radio1]:radio").attr("disabled", "false");
@@ -174,10 +174,11 @@ input:focus {
 			$("#mod").text("저장");
 			$('input').css('border', "solid 1px");
 			$('.regNum').css('border', 'none');
+			$('.modText').css('border', 'none');
 			$('#sel1').css('border', "solid 1px");
 			$('#sel2').css('border', "solid 1px");
 			$("#search").attr("disabled", false);
-		} else {
+		} else {	
 
 			var registercheckfrm = document.companyForm;
 
@@ -378,12 +379,10 @@ input:focus {
 							완료</option>
 						<option value="협약서 사본"
 							<c:if test="${companyVO.contractType eq '협약서 사본' }"> selected</c:if>>협약서
-							사본</option>
-						<option value="탈퇴"
-							<c:if test="${companyVO.contractType eq '탈퇴' }"> selected</c:if>>탈퇴</option>
+							사본</option>	
 				</select></td>
 				<td width="10%" class="td1"><p align="right">수정일</p></td>
-				<td width="20%" class="td1"><input type="text" readOnly
+				<td width="20%" class="td1"><input type="text" class="modText"
 					name="modDate" id=t1 value="${companyVO.modDate }"></td>
 			</tr>
 		</table>
