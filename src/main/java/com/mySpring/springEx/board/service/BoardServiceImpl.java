@@ -83,11 +83,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List listBySearchArticles(String searchType, String searchText) throws DataAccessException {
 		return boardDAO.selectBySearchArticlesList(searchType, searchText);
-		
-/*		List articlesBySearchList = null;
-		articlesBySearchList = boardDAO.selectBySearchArticlesList(searchType, searchText);
-		return articlesBySearchList;
-	*/
 	}
 	
 	// 제목 검색
@@ -119,32 +114,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 	 
 }
-	
-	
-	/*
-	 * @Override public Map viewArticle(int id) throws Exception { Map articleMap =
-	 * new HashMap(); ArticleVO articleVO = boardDAO.selectArticle(id);
-	 * List<ImageVO> imageFileList = boardDAO.selectImageFileList(id);
-	 * articleMap.put("article", articleVO); articleMap.put("imageFileList",
-	 * imageFileList); return articleMap; }
-	 */
-
-	// �뜝�룞�삕�뜝�룞�삕 �뜝�떛諭꾩삕�뜝�룞�삕 �뜝�뙥怨ㅼ삕�뜝�떦源띿삕
-	/*
-	 * @Override public int addNewArticle(Map articleMap) throws Exception{ int
-	 * articleNO = boardDAO.insertNewArticle(articleMap);
-	 * articleMap.put("articleNO", articleNO); boardDAO.insertNewImage(articleMap);
-	 * return articleNO; }
-	 */
-
-	// �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떛源띿삕
-
-	/*
-	 * //�뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�룞�삕 �뜝�룞�삕�뜝�떛源띿삕
-	 * 
-	 * @Override public ArticleVO viewArticle(int articleNO) throws Exception {
-	 * ArticleVO articleVO = boardDAO.selectArticle(articleNO); return articleVO; }
-	 */
 
 
 

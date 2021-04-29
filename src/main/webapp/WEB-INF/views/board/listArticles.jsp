@@ -1,15 +1,13 @@
-<%@page import="com.mySpring.springEx.manager.vo.ManagerVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
-    isELIgnored="false" %>
+    pageEncoding="UTF-8" 
+    isELIgnored="false"  %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-<%
-  request.setCharacterEncoding("UTF-8");
-%>  
+ 
 <!DOCTYPE html>
 <html>
+<meta charset="UTF-8">
 <head>
  <style>
  
@@ -23,6 +21,10 @@ color : grey
 display : flex;
 justify-content : flex-end;
 width: 100%;
+}
+
+.listArticles_searchBox{
+margin: 5px;
 }
 
 #listArticles_searchFrm{
@@ -58,8 +60,6 @@ color : blue;
 .listArticle_button {
 display : flex;
 justify-content: flex-end;
-margin-top : 5px;
-margin-bottom : 5px;
 width: 95%;
 }
 
@@ -139,17 +139,12 @@ width: 95%;
 	String searchText = request.getParameter("searchText");
 %>
 <!-- 로그인 세션 처리 -->
-<% 
-	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
-	Boolean isLogOn = (Boolean) session.getAttribute("isLogOn");
-	if (manager != null && isLogOn == true){
-%>
 
 <div class= "article_category">
 	<h4>게시판관리 > 공지사항</h4>
 </div>
 
-	<form method="get" action="${contextPath}/board/listArticles.do" id="listArticles_searchFrm" >
+	<form method="get" action="${contextPath}/board/listArticles.do" id="listArticles_searchFrm" accept-charset="utf-8" >
 	
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listArticles_listFilter">
@@ -210,7 +205,7 @@ width: 95%;
 					<input class="listArticles_searchBox" type="text" name="searchText" id="searchText">
 				</c:otherwise>
 			</c:choose>
-			<input type="submit" value="검색">
+			<input type="submit" value="검색" style="cursor: pointer; margin: 5px;">
 		</div>
 	</form>
 
@@ -224,9 +219,9 @@ width: 95%;
      </tr>
      
      <c:choose>
-  			
-     	 <c:when test="${empty articlesList}" >
-    		<tr  height="10">
+  		
+  		<c:when test="${empty articlesList }" >
+    		<tr height="10">
       			<td colspan="5">
          			<p align="center">
             		<b><span style="font-size:12pt;">등록된 글이 없습니다.</span></b>
@@ -276,9 +271,14 @@ width: 95%;
   		</c:when>
 	</c:choose>
 </table>
+
+ 	 <div class="listArticle_button">
+     	<button type="button" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%; margin-right: 5px;" >등록</button>
+     	<button type="button" onclick='getCheckList()'style="width: 8%;" >삭제</button>
+     </div>
      	
      <!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center" style="width: 80%;">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>
@@ -328,17 +328,6 @@ width: 95%;
 			</c:if>
 		</ul>
 	</div>
-     	
-     <div class="listArticle_button">
-     	<button type="button" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%;" >등록</button>
-     	<button type="button" onclick='getCheckList()'style="width: 8%;" >삭제</button>
-     </div>
-     
-<% } else { %>
-     <script>
-     	window.location.href="${contextPath}";
-     </script>
-<% } %>  
      
 </body>
 </html>

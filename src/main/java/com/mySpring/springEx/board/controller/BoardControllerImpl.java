@@ -10,11 +10,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.URLEncoder;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,14 +54,13 @@ public class BoardControllerImpl implements BoardController {
 	private ArticleFileVO articleFileVO;
 
 	@Override
-	@RequestMapping(value = "/board/listArticles.do", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/board/listArticles.do", method = { RequestMethod.GET, RequestMethod.POST } )
 	public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		String viewName = (String) request.getAttribute("viewName");
 		String searchType = (String) request.getParameter("searchType");
 		String searchText = (String) request.getParameter("searchText");
-
 		int page = 0;
-
 		// 받은 페이지 값이 있다면 (page 개수 설정)
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt((String) request.getParameter("page")); // page 변수에 값을 저장
@@ -213,9 +212,10 @@ public class BoardControllerImpl implements BoardController {
 	@Override
 	@RequestMapping(value = "/board/addNewArticle.do", method = RequestMethod.POST)
 	public ModelAndView addNewArticle(MultipartHttpServletRequest multipartRequest, HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
 		multipartRequest.setCharacterEncoding("utf-8");
 		String searchType = (String) request.getParameter("searchType");
-		String searchText = (String) request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String) request.getParameter("searchText"), "UTF-8");
 		int page = Integer.parseInt(request.getParameter("page")); // page 변수에 값을 저장
 		int perPage = Integer.parseInt(request.getParameter("perPage")); // perPage 변수에 리스트 띄울 개수 저장
 		Map<String, Object> articleMap = new HashMap<String, Object>();
@@ -247,7 +247,7 @@ public class BoardControllerImpl implements BoardController {
 			File srcFile = new File(ARTICLE_FILE_REPO + "\\" + "temp" + "\\" + name);
 			srcFile.delete();
 		}
-		ModelAndView mav = new ModelAndView("redirect:/board/listArticles.do?&page="+page+"&searchType="+searchType+"&searchText="+searchText+"&perPage="+perPage);
+		ModelAndView mav = new ModelAndView("redirect:/board/listArticles.do?page="+page+"&searchText="+searchText+"&searchType="+searchType+"&perPage="+perPage); //&page="+page+"  perPage="+perPage
 		return mav;
 	}	
 	
@@ -275,7 +275,7 @@ public class BoardControllerImpl implements BoardController {
 	public ModelAndView removeArticle(@RequestParam("id") int id, HttpServletRequest request, HttpServletResponse response) throws Exception { 
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String) request.getParameter("searchType");
-		String searchText = (String) request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String) request.getParameter("searchText"), "UTF-8");
 		int page = Integer.parseInt(request.getParameter("page")); // page 변수에 값을 저장
 		int perPage = Integer.parseInt(request.getParameter("perPage")); // perPage 변수에 리스트 띄울 개수 저장
 		 
@@ -286,7 +286,7 @@ public class BoardControllerImpl implements BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ModelAndView mav = new ModelAndView("redirect:/board/listArticles.do?&page="+page+"&searchType="+searchType+"&searchText="+searchText+"&perPage="+perPage);
+		ModelAndView mav = new ModelAndView("redirect:/board/listArticles.do?page="+page+"&searchType="+searchType+"&searchText="+searchText+"&perPage="+perPage);
 		return mav;
 	}
 
@@ -313,9 +313,10 @@ public class BoardControllerImpl implements BoardController {
 	@Override
 	@RequestMapping(value = "/board/modArticle.do", method = RequestMethod.POST)
 	public ModelAndView modArticle(MultipartHttpServletRequest multipartRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		multipartRequest.setCharacterEncoding("utf-8");
 		String searchType = (String) request.getParameter("searchType");
-		String searchText = (String) request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String) request.getParameter("searchText"), "UTF-8");
 		int page = Integer.parseInt(request.getParameter("page")); // page 변수에 값을 저장
 		int perPage = Integer.parseInt(request.getParameter("perPage")); // perPage 변수에 리스트 띄울 개수 저장
 		Map<String, Object> articleMap = new HashMap<String, Object>();
@@ -326,9 +327,10 @@ public class BoardControllerImpl implements BoardController {
 			String value = multipartRequest.getParameter(name);
 			articleMap.put(name, value);
 		}
+		
 		String originalFile = (String) articleMap.get("name");
-		String name = upload(multipartRequest);
-		articleMap.put("name", name);
+		String newName = upload(multipartRequest);
+		articleMap.put("name", newName);
 		if (articleMap.get("name") != null && (((String) articleMap.get("name")).length()) != 0) {
 			articleMap.put("file", 'T');
 		} else {
@@ -337,33 +339,33 @@ public class BoardControllerImpl implements BoardController {
 		String id = (String) articleMap.get("id");
 		boardService.modArticle(articleMap);
 		boardService.modArticleFile(articleMap);
+		
+		// 수정한 글의 파일 유무에 따라 T or F 바꿈
 		if (articleMap.get("name") != null && (((String) articleMap.get("name")).length()) != 0) {
 			articleMap.replace("file", 'T');
 		} else {
 			articleMap.replace("file", 'F');
 		}
-		// article file칼럼 T or F 구현
+		// 원래 파일이 있었는데 수정하고 난 뒤 파일이 바뀌면 이전파일 삭제
 		if (articleMap.get("name") != null && (((String) articleMap.get("name")).length()) != 0) {
-			articleMap.replace("file", 'T');
-			File srcFile = new File(ARTICLE_FILE_REPO + "\\" + "temp" + "\\" + name);
+			File srcFile = new File(ARTICLE_FILE_REPO + "\\" + "temp" + "\\" + newName);
 			File destDir = new File(ARTICLE_FILE_REPO + "\\" + id);
 			FileUtils.moveFileToDirectory(srcFile, destDir, true);
-			String originalFileName = (String) articleMap.get("originalFileName");
-			File oldFile = new File(ARTICLE_FILE_REPO + "\\" + id + "\\" + originalFileName);
+			File oldFile = new File(ARTICLE_FILE_REPO + "\\" + id + "\\" + originalFile);
 			oldFile.delete();
 
-		} else {
-			articleMap.replace("file", 'F');
-			File srcFile = new File(ARTICLE_FILE_REPO + "\\" + id + "\\" + originalFile/* articleMap.get("name") */);
-			System.out.println(srcFile);
+		} else { // 원래 파일 있었는데 수정하고 난 뒤 파일 없으면 이전 파일 삭제
+			File srcFile = new File(ARTICLE_FILE_REPO + "\\" + id + "\\" + originalFile);
 			srcFile.delete();
 		}
-		ModelAndView mav = new ModelAndView("redirect:/board/selectArticle.do?&id="+id+"&page="+page+"&searchType="+searchType+"&searchText="+searchText+"&perPage="+perPage);
+		ModelAndView mav = new ModelAndView("redirect:/board/selectArticle.do?id="+id+"&page="+page+"&searchType="+searchType+"&searchText="+searchText+"&perPage="+perPage);
 		return mav;
 	}
 	
+	 // 수정하는 화면
 	 @RequestMapping(value = "/board/modArticleForm.do", method = RequestMethod.GET	) 
 	 public ModelAndView modArticleForm(@RequestParam int id, HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		
 		String searchType = (String) request.getParameter("searchType");
 		String searchText = (String) request.getParameter("searchText");
 		int page = Integer.parseInt(request.getParameter("page")); // page 변수에 값을 저장
@@ -387,6 +389,7 @@ public class BoardControllerImpl implements BoardController {
 	@Override
 	@RequestMapping(value = "/board/listBySearch.do", method = RequestMethod.POST)
 	public ModelAndView listBySearchArticles(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		String viewName = (String) request.getAttribute("viewName");
 		List impArticlesList = boardService.listBySearchArticles(searchType, searchText);
 		List articlesList = boardService.listBySearchArticles(searchType, searchText);
