@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" 
     isELIgnored="false"  %>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
@@ -66,7 +65,8 @@ padding-bottom : 10px;
 }
 
 .modArticle_button{
-padding-top: 10px;
+padding-top: 20px;
+padding-bottom: 20px;
 display : right;
 
 }
@@ -74,38 +74,41 @@ display : right;
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script type="text/javascript">
+<script>
 	
+<% 
+	String searchType = request.getParameter("searchType");
+	String searchText = request.getParameter("searchText");
+%>	
 	
-	// 수정할 때 되묻는 함수
-	function ask_modifyArticle() {
-		if (confirm('정말 수정하시겠습니까?') == true ){		
-			window.location.href = "${contextPath}/board/modArticle.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
-		} else {
-		return ;
-		}
-	}
-	
-	$('#updateFrm').submit(function() {
-		
-		var page = $(this).val();
-    	var perPage = $(this).val();
-		var searchType = document.getElementById('searchType').value;
-		var searchText = document.getElementById('searchText').value;
-        
-        if (confirm('수정하시겠습니까?') == true) {
-          	 return true;
-        } else {
-           return false;
-        }
-     })
 
-</script>
+	// 수정할 때 되묻는 함수
+	$(document).ready(function(){	 
+		$('#updateFrm').submit(function() {
+			
+			if (confirm('정말 수정하시겠습니까?') == true) {
+				
+			/* 	var page = $(this).val();
+			var perPage = $(this).val();
+			var searchType = document.getElementById('searchType').value;
+			var searchText = document.getElementById('searchText').value; */
+	        return true;
+	        
+	        } else {
+	    
+	        return false;
+	        }
+	     });
+	});
+
+</script>	
 
 </head>
 
 <body>
+
+
+
 	<div class= "modArticle_category">
 		<h4>게시판관리 > 공지사항 > 공지사항 수정</h4>
 	</div>
@@ -114,9 +117,11 @@ display : right;
 		<h2>공지사항 수정</h2>
 	</div>
 	
-	<form method="POST" name="updateFrm" action="${contextPath}/board/modArticle.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}" enctype="multipart/form-data">
+	<form method="POST" id="updateFrm" action="${contextPath}/board/modArticle.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}" enctype="multipart/form-data" accept-charset="utf-8">
 		
 		<input type="hidden" name="id" value="${vo.id }">
+		<input type="hidden" name="searchText" value="${searchText }">
+		<input type="hidden" name="searchType" value="${searchType }">
 		
 		<table class="modArticle_table">
 			
@@ -142,7 +147,7 @@ display : right;
 		    
 		    <tr>
 		 		<td>기존파일</td>
-		 		<td class="modArticle_preFileTd">${filevo.name }</td> 	
+		 		<td class="modArticle_preFileTd">${filevo.name }<input type="hidden" name="name" value="${filevo.name}"></td>
 		 	</tr>
 		    
 		    <tr>

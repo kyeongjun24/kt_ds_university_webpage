@@ -3,13 +3,12 @@
     isELIgnored="false"  %>
  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-
-<%
-  request.setCharacterEncoding("UTF-8");
-%>    
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />   
 
 <!DOCTYPE html>
+<%
+  request.setCharacterEncoding("UTF-8");
+%> 
 <html>
 <head>
 
@@ -79,7 +78,8 @@ white-space: pre-line;
 .articleDes_buttons{
 display:flex;
 justify-content: flex-end;
- margin-top: 20px;
+margin-top: 20px;
+margin-bottom: 20px;
 width: 85%;
 }
 </style>
@@ -92,8 +92,6 @@ width: 85%;
 
 	//제거할 때 되묻는 함수
 	function ask_removeArticle() {
-		
-		/* var obj = document.frmSubmit; */
 
 		if (confirm('정말 삭제하시겠습니까?') == true ){
 			window.location.href = "${contextPath}/board/removeArticle.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
@@ -105,9 +103,11 @@ width: 85%;
 </script>
 
 <body>
-
+<%
+  request.setCharacterEncoding("UTF-8");
+%> 
 	<div class= "articleDes_category">
-		<h4>게시판관리 > 공지사항 > ${vo.id}</h4>
+		<h4>게시판관리 > 공지사항 > ${vo.id - 69999}</h4>
 	</div>
 	
 	<div class="articleDes_BigTitle">
@@ -120,13 +120,13 @@ width: 85%;
 			<tr>
 				<td class="articleDes_important">
 				<c:if test="${vo.important == '공지'}">
-	      			<a style="color: red;">${vo.important}</a>
+	      			<a style="color: red; font-weight : bold;">${vo.important}</a>
 	      		</c:if>
 	      		<c:if test="${vo.important == null}">
 	      			<a>일반</a>
 	      		</c:if>
 	      		</td>
-				<td class="articleDes_id">번호 : <a style="text-align: left;"> ${vo.id}</a><a class="articleDes_joinDate">작성일 : ${vo.joinDate}</a></td>
+				<td class="articleDes_id">번호 : <a style="text-align: left;"> ${vo.id - 69999}</a><a class="articleDes_joinDate">작성일 : ${vo.joinDate}</a></td>
 	      	</tr>
 	      	
 	      	<tr>

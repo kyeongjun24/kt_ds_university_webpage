@@ -1,15 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-     pageEncoding="UTF-8"
-    isELIgnored="false" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" 
+    isELIgnored="false"  %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
-<%
-  request.setCharacterEncoding("UTF-8");
-%> 
 
+
+<!DOCTYPE html>
+ <% request.setCharacterEncoding("UTF-8"); %>
+
+<html>
 <head>
 <meta charset="UTF-8">
+<title>게시판 글 추가</title>
 <style>
 
 .addArticle_category{
@@ -80,38 +82,38 @@ padding-bottom : 10px;
 .addArticle_buttons{
 padding-top: 10px;
 display : right;
+padding-bottom : 10px;
 
 }
 
 </style>
 <title>글쓰기창</title>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
   
-// 전 페이지로 이동
-function backToList(obj){
-    obj.action="${contextPath}/board/listArticles.do?searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
-    obj.submit();
-  }
-  
-$('#addArticleForm').submit(function() {
-	
-	var page = $(this).val();
-	var perPage = $(this).val();
-	var searchType = document.getElementById('searchType').value;
-	var searchText = document.getElementById('searchText').value;
-    
-    if (confirm('등록하시겠습니까?') == true) {
-      	 return true;
-    } else {
-       return false;
-    }
- })
+	// 전 페이지로 이동
+	function backToList(obj){
+	    obj.action="${contextPath}/board/listArticles.do?searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
+	    obj.submit();
+	  }
+	  
+	$(document).ready(function(){	
+		
+		$('#addArticleForm').submit(function() {
+		    if (confirm('정말 등록하시겠습니까?') == true) {
+		    	return true;
+		    } else {
+		    	return false;
+		    }
+		 })
+	})
   
 </script>
  <title>글쓰기창</title>
 </head>
 <body>
+<%request.setCharacterEncoding("UTF-8");%> 
 
 	<div class= "addArticle_category">
 		<h4>게시판관리 > 공지사항 > 공지사항 등록</h4>
@@ -121,7 +123,8 @@ $('#addArticleForm').submit(function() {
 		<h2>공지사항 등록</h2>
 	</div>
 	
-  	<form name="addArticleForm" method="POST" action="${contextPath}/board/addNewArticle.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}" enctype="multipart/form-data">
+	<?xml version="1.0" encoding="utf-8"?>
+  	<form name="addArticleForm" id="addArticleForm" method="POST" action="${contextPath}/board/addNewArticle.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}" enctype="multipart/form-data" accept-charset="utf-8">
     
 		<table class="addArticle_table">
 	    
@@ -149,7 +152,8 @@ $('#addArticleForm').submit(function() {
 	    <div class="addArticle_buttons">
 	       	<input type="submit" value="등록" style="width: 8%;"/>
 	       	<input type="button" value="취소" onClick="backToList(this.form)" style="width: 8%;"/>
-	     </div>
+	    </div>
 
   </form>
 </body>
+</html>

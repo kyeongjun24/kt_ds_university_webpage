@@ -132,6 +132,24 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return membersCriteriaBySearch;
 	}
 	
+	@Override
+	public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+	   return enrollmentDAO.insertEnrollment(enrollment);
+	}
+
+	@Override
+	public List listBySearchEnrollments(String searchType, String searchText) throws DataAccessException {
+	   List enrollmentsBySearchList = null;
+	   enrollmentsBySearchList = enrollmentDAO.selectBySearchEnrollmentList(searchType, searchText);
+	   return enrollmentsBySearchList;
+	}
+
+	@Override
+	public List listEnrollmentCriteriaBySearch(Criteria criteria) throws DataAccessException {
+	   List enrollmentsCriteriaBySearch = null;
+	   enrollmentsCriteriaBySearch = enrollmentDAO.selectEnrollmentCriteriaBySearch(criteria);
+	   return enrollmentsCriteriaBySearch;
+	}
 	
 
 	@Override
