@@ -61,6 +61,7 @@ color : blue;
 display : flex;
 justify-content: flex-end;
 width: 95%;
+margin-top: 5px;
 }
 
 
@@ -209,71 +210,76 @@ width: 95%;
 		</div>
 	</form>
 
-<table class = "listArticles_table">
-	<tr>
-		<td><input type="checkbox" id="selectAll"></td>
-     	<td><b>번호</b></td>
-     	<td class="listArticles_title"><b>제목</b></td>  
-     	<td><b>조회수</b></td>
-     	<td><b>등록일</b></td>
-     </tr>
-     
-     <c:choose>
-  		
-  		<c:when test="${empty articlesList }" >
-    		<tr height="10">
-      			<td colspan="5">
-         			<p align="center">
-            		<b><span style="font-size:12pt;">등록된 글이 없습니다.</span></b>
-        			</p>
-      			</td>  
-    		</tr>
-  		</c:when>
-  		<c:when test="${articlesList != null }" >
-  			<c:forEach var="board" items="${impArticlesList }">
-  				<tr align="center">
-  					<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
-  					
-  					<td width="10%"><h4 style="color: red;">${board.important}</h4></td>
-  					
-      					<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
-      						<c:if test="${board.file == 'T'}">
-      							<a href="${contextPath}/board/selectArticle.do?id=${board.id}" ><img style="width: 20px; margin-bottom: -5px;" src="${contextPath}/resources/image/diskette.png"></a>
-      						</c:if>
-      						<c:if test="${board.file == 'F'}">
-      						</c:if>
-      					</td>
-      				
-      				<td>${board.hits}</td>
-      				
-      				<td>${board.joinDate}</td>
-      			</tr>
-  			</c:forEach>
-  			
-   			<c:forEach 	var="board" items="${articlesList }" varStatus="boardNum" >  
-   				<tr align="center">
-   					<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
-      				<td width="10%">${board.id - 69999}</td>
+	<div class="listArticle_button">
+		<button type="button" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style=" width: 8%; margin-right: 5px; background-color:#E91B23; color:#efefef; cursor:pointer;" >등록</button>
+		<button type="button" onclick='getCheckList()'style="width: 8%;" >삭제</button>
+	</div>
 
-     				
-      				<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
-      					<c:if test="${board.file == 'T'}">
-      							<a href="${contextPath}/board/selectArticle.do?id=${board.id}"><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
-      					</c:if>
-      					<c:if test="${board.file == 'F'}">
-      					</c:if>
-      				</td>
-      				
-      				<td>${board.hits}</td>
-      				<td>${board.joinDate}</td>
-    			</tr>
-  			</c:forEach>  
-  		</c:when>
-	</c:choose>
-</table>
+	<table class = "listArticles_table">
+		<tr>
+			<td><input type="checkbox" id="selectAll"></td>
+			<td><b>번호</b></td>
+			<td class="listArticles_title"><b>제목</b></td>  
+			<td><b>조회수</b></td>
+			<td><b>등록일</b></td>
+		</tr>
+		
+		<c:choose>
+			
+			<c:when test="${empty articlesList }" >
+				<tr height="10">
+					<td colspan="5">
+						<p align="center">
+						<b><span style="font-size:12pt;">등록된 글이 없습니다.</span></b>
+						</p>
+					</td>  
+				</tr>
+			</c:when>
+			<c:when test="${articlesList != null }" >
+				<c:forEach var="board" items="${impArticlesList }">
+					<tr align="center">
+						<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
+						
+						<td width="10%"><h4 style="color: red;">${board.important}</h4></td>
+						
+							<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
+								<c:if test="${board.file == 'T'}">
+									<a href="${contextPath}/board/selectArticle.do?id=${board.id}" ><img style="width: 20px; margin-bottom: -5px;" src="${contextPath}/resources/image/diskette.png"></a>
+								</c:if>
+								<c:if test="${board.file == 'F'}">
+								</c:if>
+							</td>
+						
+						<td>${board.hits}</td>
+						
+						<td>${board.joinDate}</td>
+					</tr>
+				</c:forEach>
+				
+				<c:forEach 	var="board" items="${articlesList }" varStatus="boardNum" >  
+					<tr align="center">
+						<td><input type="checkbox" name="selectedCheckbox" id="${board.id }"></td>
+						<td width="10%">${board.id - 69999}</td>
+
+						
+						<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
+							<c:if test="${board.file == 'T'}">
+									<a href="${contextPath}/board/selectArticle.do?id=${board.id}"><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
+							</c:if>
+							<c:if test="${board.file == 'F'}">
+							</c:if>
+						</td>
+						
+						<td>${board.hits}</td>
+						<td>${board.joinDate}</td>
+					</tr>
+				</c:forEach>  
+			</c:when>
+		</c:choose>
+	</table>
 
  	 <div class="listArticle_button">
-     	<button type="button" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%; margin-right: 5px;" >등록</button>
+     	<button type="button" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%; margin-right: 5px; background-color:#E91B23; color:#efefef; cursor:pointer;" >등록</button>
      	<button type="button" onclick='getCheckList()'style="width: 8%;" >삭제</button>
      </div>
      	

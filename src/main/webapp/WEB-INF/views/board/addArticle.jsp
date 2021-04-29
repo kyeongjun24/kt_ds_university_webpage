@@ -150,7 +150,7 @@ padding-bottom : 10px;
 		</table>
 	   
 	    <div class="addArticle_buttons">
-	       	<input type="submit" value="등록" style="width: 8%;"/>
+	       	<input type="submit" value="등록" style="width: 8%; background-color:#E91B23; color:#efefef; cursor:pointer;"/>
 	       	<input type="button" value="취소" onClick="backToList(this.form)" style="width: 8%;"/>
 	    </div>
 

@@ -150,7 +150,7 @@ width: 85%;
 	</table>
 			
 			<div class="articleDes_buttons">
-		 		<button type="button" onclick="location.href='${contextPath}/board/modArticleForm.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%;">수정</button>&nbsp;&nbsp;&nbsp;
+		 		<button type="button" onclick="location.href='${contextPath}/board/modArticleForm.do?id=${vo.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%; background-color:#E91B23; color:#efefef; cursor:pointer;">수정</button>&nbsp;&nbsp;&nbsp;
 		 		<button type="button" onclick="ask_removeArticle()" style="width: 8%;">삭제</button>&nbsp;&nbsp;&nbsp;
 				<button type="button" onclick="location.href='${contextPath}/board/listArticles.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%;">목록</button>
 			</div>
