@@ -1,5 +1,6 @@
 package com.mySpring.springEx.member.controller;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,7 +131,7 @@ public class MemberControllerImpl implements MemberController {
 	@RequestMapping(value="/member/listMembers.do", method =  RequestMethod.GET)
 	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response
 			) throws Exception {
-		
+		request.setCharacterEncoding("utf-8");
 		//mebmerList에서 보낸 name 받는다. (searchType : 검색 유형, searchText : 검색 텍스트)
 		String viewName = (String)request.getAttribute("viewName");
 		String searchType = (String)request.getParameter("searchType");
@@ -224,9 +225,11 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView addMember(@ModelAttribute("member") MemberVO member, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"), "UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
+		
+		System.out.println("##############searchText:"+searchText);
 		int result = 0;
 		result = memberService.addMember(member);
 		if (result > 0) {
@@ -261,7 +264,7 @@ public class MemberControllerImpl implements MemberController {
 		request.setCharacterEncoding("utf-8");
 		int result = memberService.deleteMember(id);
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"), "UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		if (result > 0) {
@@ -306,7 +309,7 @@ public class MemberControllerImpl implements MemberController {
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"),"UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		int result = 0;

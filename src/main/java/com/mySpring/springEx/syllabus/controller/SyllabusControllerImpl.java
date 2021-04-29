@@ -1,6 +1,7 @@
 package com.mySpring.springEx.syllabus.controller;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,7 +99,7 @@ public class SyllabusControllerImpl implements SyllabusController{
 			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"),"UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		MultipartFile mFile = uploadDataVO.getUploadFile();
@@ -148,7 +149,7 @@ public class SyllabusControllerImpl implements SyllabusController{
 			           HttpServletRequest request, HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"),"UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		SyllabusVO vo = syllabusService.selectSyllabus(id);
@@ -223,7 +224,7 @@ public class SyllabusControllerImpl implements SyllabusController{
 					  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"),"UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		int result = 0;
