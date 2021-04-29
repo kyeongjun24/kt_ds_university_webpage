@@ -1,6 +1,8 @@
 package com.mySpring.springEx.company.controller;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.text.Normalizer.Form;
 import java.util.List;
 
@@ -180,7 +182,7 @@ public class CompanyControllerImpl implements CompanyController {
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String) request.getParameter("searchType");
-		String searchText = (String) request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String) request.getParameter("searchText"),"utf-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage")); // perPage 蹂��닔�뿉 由ъ뒪�듃 �쓣�슱 媛쒖닔 ���옣
 		// �븘�씠�뵒�옉 二쇱냼�뒗 add.jsp�뿉�꽌 �븞�꽆�뼱���꽌 而⑦듃濡ㅻ윭�뿉�꽌 媛믪쓣 �빀爾먯ㄼ�떎.

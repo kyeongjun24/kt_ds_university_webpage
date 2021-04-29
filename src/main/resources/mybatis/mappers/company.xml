@@ -353,7 +353,7 @@
 	<select id="selectCompany" resultMap="comResult"
 		parameterType="String">
 		<![CDATA[
-			SELECT com_id, com_name, com_mod_date, com_contract_name, 
+			SELECT com_id, com_name, SUBSTR(com_reg_date, 0, 10) as com_mod_date, com_contract_name, 
 			com_manager_phone, com_manager_email, com_contract_stat, com_contract_type, com_homepage, com_address, com_contract_agree, com_tel, com_zipcode
 			FROM company 
 			WHERE com_id = #{id}
