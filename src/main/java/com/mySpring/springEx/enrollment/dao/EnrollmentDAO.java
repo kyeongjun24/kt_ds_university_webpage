@@ -56,4 +56,6 @@ public interface EnrollmentDAO {
 	public List selectAllCompletionList() throws DataAccessException;
 	public int selectNumberOfApplicants() throws DataAccessException;
 
+	public int updateEnrollmentStatusByDate() throws DataAccessException;
+
 }

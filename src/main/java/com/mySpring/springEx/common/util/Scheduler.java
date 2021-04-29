@@ -5,6 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.mySpring.springEx.course.dao.CourseDAO;
+import com.mySpring.springEx.enrollment.dao.EnrollmentDAO;
 
 @Component
 public class Scheduler{ 
@@ -12,7 +13,10 @@ public class Scheduler{
 	@Autowired
 	CourseDAO courseDAO;
 	
-	/** * 1. 오후 오후 20:38:00에 호출이 되는 스케쥴러 */ 
+	@Autowired
+	EnrollmentDAO enrollmentDAO;
+	
+	/** * 1. 오후 20:38:00에 호출이 되는 스케쥴러 */ 
 	@Scheduled(cron = "00 38 20 * * *") 
 	public void cronTest1(){ 
 		System.out.println("오후 20:38:00에 호출이 됩니다 ");
@@ -27,10 +31,11 @@ public class Scheduler{
 		int result = courseDAO.updateCourseStatusByNumOfApplicants();
 		} 
 	
-//	/** * 3. 오후 20:45:00에 호출이 되는 이경준의 스케쥴러 */
-//	@Scheduled(cron = "00 31 16 * * *") 
-//	public void cronTest3(){ 
-//		System.out.println("오후 16:31:00에 호출이 됩니다 ");
-//		int result = enrollmentDAO.updateCourseStatusByNumOfApplicants();
-//		} 
+	// 강좌 종료 날짜 지나면 수료대기로 자동변경
+	/* 3. 00:00:05에 호출이 되는 스케쥴러 */
+	@Scheduled(cron = "05 00 00 * * *") 
+	public void cronTest3(){ 
+		System.out.println("오전 00:00:05에 호출이 됩니다 ");
+		int result = enrollmentDAO.updateEnrollmentStatusByDate();
+		} 
 }

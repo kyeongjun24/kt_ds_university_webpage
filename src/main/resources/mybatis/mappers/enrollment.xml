@@ -85,7 +85,22 @@
    	]]>
    </sql>
    
-	<!-- 수강신청내역 리스트 W -->
+   <!-- 과정 끝나면 수료대기 상태로 변경 -->
+   <update id="updateEnrollmentStatus">
+		<![CDATA[
+			UPDATE enrollment_detail
+			SET enrd_stat = '수료대기'
+			WHERE
+    			enrd_stat = '승인'  
+    			and enrd_id in
+        			(SELECT enrd_id
+        			FROM course C, enrollment_detail e
+        			WHERE c.crs_id = e.crs_id
+            			and c.crs_end_date <= TO_CHAR(SYSDATE, 'YYYY-MM-DD'))	
+		]]>
+	</update>
+
+	<!-- 수강신청내역 리스트 -->
 	<select id="selectAllEnrollmentList" resultMap="enrdResult"> 
 		<![CDATA[
 			SELECT 

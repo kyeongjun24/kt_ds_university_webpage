@@ -20,6 +20,13 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//과정 끝나면 수료대기 상태로 변경
+	@Override
+	public int updateEnrollmentStatusByDate() throws DataAccessException {
+		return sqlSession.update("mapper.enrollment.updateEnrollmentStatus");
+	}
+	
+	
 	// 검색에 의해 나눠지는 메서드
 	@Override
 	public List selectBySearchEnrollmentList(String searchType, String searchText) throws DataAccessException {
