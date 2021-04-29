@@ -20,7 +20,7 @@
    
    .process {
 	text-align: left;
-	color: #9C9D9D;
+	color: #9C9D9D;	
 	margin-bottom: 2em;
 	}
 	
@@ -79,16 +79,16 @@
 			<c:when test="${enrollmentsList !=null }">
 				<c:forEach var="enrollment" items="${enrollmentsList }" varStatus="enrdNum">
 					<tr align="center">
-						<td>${enrdNum.count}</td>
-						<td>${enrollment.memberVO.id }</td>
-						<td>${enrollment.memberVO.name }</td>
-						<td>${enrollment.memberVO.phone }</td>
-						<td>${enrollment.memberVO.email }</td>
-						<td>${enrollment.memberVO.companyName }</td>
-						<td>${enrollment.syllabusVO.name }</td>
-						<td>${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
-						<td>${enrollment.stat }</td>
-						<td>${enrollment.joinDate }</td>
+						<td style="width: 3%">${enrdNum.count}</td>
+						<td style="width: 8%">${enrollment.memberVO.id }</td>
+						<td style="width: 6%">${enrollment.memberVO.name }</td>
+						<td style="width: 9%">${enrollment.memberVO.phone }</td>
+						<td style="width: 13%">${enrollment.memberVO.email }</td>
+						<td style="width: 13%">${enrollment.memberVO.companyName }</td>
+						<td style="width: 21%">${enrollment.syllabusVO.name }</td>
+						<td style="width: 14%">${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
+						<td style="width: 3%">${enrollment.stat }</td>
+						<td style="width: 8%">${enrollment.joinDate }</td>
 					</tr>
 				</c:forEach>
 			</c:when>

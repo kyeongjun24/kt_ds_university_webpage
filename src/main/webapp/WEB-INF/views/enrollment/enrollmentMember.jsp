@@ -67,6 +67,7 @@
 	
 	#companyName, #datepicker1 {
 		width : 180px;
+		outline: none;
 	}
 	
 		

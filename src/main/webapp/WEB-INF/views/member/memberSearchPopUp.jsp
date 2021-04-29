@@ -212,11 +212,12 @@
 	String searchText = request.getParameter("searchType");
 	%>
 	<!-- <div class="popup_container"> -->
+	
 	<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
 	<form method="get" action="${contextPath}/member/memberSearchPopUp.do" id="searchFrm">
 		<div class="searchType">
 		
-			<select name="searchType" id="searchType">
+			<select name="searchType" id="searchType" style="height: 37.4px">
 				<c:if test="${searchType == 'name' || empty searchType}">
 					<option value="name" selected>이름</option>
 					<option value="id">아이디</option>

@@ -40,11 +40,12 @@ request.setCharacterEncoding("UTF-8");
 	}
 	
 	#courseId {
-		width: 400px;
+		width: 500px;
 	}
 	
 	#memberId {
-		width: 330px;
+		width: 430px;
+		outline: none;
 	}
 	
 	#lastTd {

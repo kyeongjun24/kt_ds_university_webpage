@@ -20,17 +20,18 @@ request.setCharacterEncoding("UTF-8");
 		font-size: 30px;
 	}
 	
-	a:link {
+	#herfId1:link, #herfId2:link {
+		text-decoration: none;
+		color: black;
+	} 
+	
+	#herfId1:visited, #herfId2:visited {
 		text-decoration: none;
 		color: black;
 	}
 	
-	a:visited {
-		text-decoration: none;
-		color: black;
-	}
 	
-	#herfId:hover {
+	#herfId1:hover, #herfId2:hover {
 		color: #c2c2c2;
 	}
 	
@@ -38,7 +39,7 @@ request.setCharacterEncoding("UTF-8");
 	text-align: left;
 	color: #9C9D9D;
 	margin-bottom: 2em;
-}
+	}
 	
 	#enrollmentButton {
 		position: relative;
@@ -256,35 +257,35 @@ request.setCharacterEncoding("UTF-8");
 		<div class="searchType">
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'name' }">
-					<option value="">검색 종류</option>
+					<option value="" disabled>검색 종류</option>
 					<option value="name" selected>이름</option>
 					<option value="companyName">회사명</option>
 					<option value="slbName">과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 				<c:if test="${searchType == 'companyName' }">
-					<option value="">검색 종류</option>
+					<option value="" disabled>검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName" selected>회사명</option>
 					<option value="slbName">과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 				<c:if test="${searchType == 'slbName' }">
-					<option value="">검색 종류</option>
+					<option value="" disabled>검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName">회사명</option>
 					<option value="slbName" selected>과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 				<c:if test="${searchType == 'stat' }">
-					<option value="">검색 종류</option>
+					<option value="" disabled>검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName">회사명</option>
 					<option value="slbName">과정명</option>
 					<option value="stat" selected>상태</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
+					<option value="" selected disabled>검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName">회사명</option>
 					<option value="slbName">과정명</option>
@@ -310,8 +311,7 @@ request.setCharacterEncoding("UTF-8");
       <p id="typeColor">
          <span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음
          </span><span style="color: green"> ●상호변경 </span><span style="color: black">
-            ●협약완료 </span><span style="color: blue"> ●협약서사본</span><span
-            style="color: #dd42f5"> ●탈퇴</span>
+            ●협약완료 </span><span style="color: blue"> ●협약서사본</span>
       </p>
       <button type="button" id="enrollButton" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
          style="width: 5%;">등록</button>
@@ -325,7 +325,7 @@ request.setCharacterEncoding("UTF-8");
 	   <form action="${contextPath}/enrollment/excelDownload.do" class="excelDownloadForm" method="get" id="excelForm" name="excelForm">
 	      열람사유 : <input type="text" name="log" id="log">
 	      <input type="submit" value='엑셀 다운로드' id="excel">
-	   </form>
+	   </form> 
 	   
    </div> 
 	
@@ -354,17 +354,17 @@ request.setCharacterEncoding("UTF-8");
 			<c:when test="${enrollmentsList !=null }">
 				<c:forEach var="enrollment" items="${enrollmentsList }" varStatus="enrdNum">
 					<tr align="center">
-						<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
+						<td style="width: 5%"><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
 							
 						<!-- 과목별 상세 조회 -->
-						<td align="left" style="width: 40%; padding-left:20px"><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
+						<td align="left" style="width: 35%; padding-left:20px"><a id="herfId1" href="${contextPath}/enrollment/enrollmentCourse.do?
 																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>
 																
-						<td style="width: 10%">${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
+						<td style="width: 20%">${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
 						
-						<td><a id="herfId" href="${contextPath}/enrollment/informationEnrollment.do?
+						<td style="width: 5%"><a id="herfId2" href="${contextPath}/enrollment/informationEnrollment.do?
 																id=${enrollment.id }">${enrollment.memberVO.name }</a></td>
-						<td>
+						<td style="width: 15%">
 							<!-- 회사가 없는 경우 -->
 							<c:if test="${enrollment.memberVO.companyName == null }">
 								<font color="red">비협력사</font>
@@ -393,10 +393,8 @@ request.setCharacterEncoding("UTF-8");
                     		</c:if>
 						</td>
 					
-						<td>
-							
+						<td style="width: 5%">
 							<c:choose>
-								
 								<c:when test="${enrollment.stat == '신청' }">
 	                       			<font color="black">${enrollment.stat }</font></c:when>
 	                       
@@ -407,13 +405,25 @@ request.setCharacterEncoding("UTF-8");
 	                   			 </c:otherwise>
 							</c:choose>
 						
-						<td>${enrollment.joinDate }</td>
+						<td style="width: 15%">${enrollment.joinDate }</td>
 					</tr>
 				</c:forEach>
 			</c:when>
 		</c:choose>
 	</table>
 
+	<!-- 버튼 모음집 -->
+	<div id="enrollmentButton">
+      <button type="button" id="enrollButton" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
+         style="width: 5%;">등록</button>
+      <button type="button" id="approveButton" onclick='getCheckList("approve")'
+			style="width: 5%;">승인</button>
+		<button type="button" id="completeButton" onclick='getCheckList("complete")'
+			style="width: 5%;">수료</button>
+      <button type="button" id="cancelButton" onclick='getCheckList("delete")'
+         style="width: 5%;">취소</button>
+   </div> 
+   
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
 		<ul>
@@ -472,17 +482,6 @@ request.setCharacterEncoding("UTF-8");
 		</ul>
 	</div>
 
-	<!-- 버튼 모음집 -->
-	<div id="enrollmentButton">
-      <button type="button" id="enrollButton" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"
-         style="width: 5%;">등록</button>
-      <button type="button" id="approveButton" onclick='getCheckList("approve")'
-			style="width: 5%;">승인</button>
-		<button type="button" id="completeButton" onclick='getCheckList("complete")'
-			style="width: 5%;">수료</button>
-      <button type="button" id="cancelButton" onclick='getCheckList("delete")'
-         style="width: 5%;">취소</button>
-   </div> 
    
 </body>
 </html>
