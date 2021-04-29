@@ -45,7 +45,7 @@ request.setCharacterEncoding("UTF-8");
 		margin-top: 5px;
 		margin-bottom: 20px;
 		display: flex;
-		justify-content: flex-end;
+		justify-content: flex-end;	
 		width: 1500px;
 		margin-right: 5px;
 	}
@@ -99,7 +99,6 @@ request.setCharacterEncoding("UTF-8");
 	//체크 된 걸 가져오는 함수
 	function getCheckList(stat) {
 		var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
-		//alert(length);
 		var arr = new Array();
 		$("input:checkbox[name='selectedCheckbox']:checked").each(
 			function(index) {
@@ -110,7 +109,9 @@ request.setCharacterEncoding("UTF-8");
 			alert("선택된 값이 없습니다.");
 			return false;
 		} else {
-			if (stat == "delete") { // 상태 '취소완료' 로 변경
+			
+			// 상태 '취소완료' 로 변경
+			if (stat == "delete") { 
 				
 				if(!confirm("취소 하시겠습니까?")){
 					return false;
@@ -133,8 +134,9 @@ request.setCharacterEncoding("UTF-8");
 						}
 					})
 				}
-						
-			} else if (stat == "approve") { // 상태 '승인' 으로 변경
+			
+			// 상태 '승인' 으로 변경
+			} else if (stat == "approve") { 
 				$.ajax({
 					type : 'post',
 					url : '${contextPath}/enrollment/modApproveEnrollments.do',
@@ -152,8 +154,9 @@ request.setCharacterEncoding("UTF-8");
 								+ "\n" + "error:" + error);
 					}
 				})
-						
-			} else if (stat == "complete") { // 상태 '수료' 로 변경
+				
+			// 상태 '수료' 로 변경			
+			} else if (stat == "complete") {
 				$.ajax({
 					type : 'post',
 					url : '${contextPath}/enrollment/modCompleteEnrollments.do',
@@ -174,7 +177,7 @@ request.setCharacterEncoding("UTF-8");
 			}
 		}
 	}
-
+	
 	$(document).on("click", '#selectAll', function() {
 		$('#selectAll').click(function() {
 			if ($("input:checkbox[id='selectAll']").prop("checked")) {
@@ -183,7 +186,23 @@ request.setCharacterEncoding("UTF-8");
 				$("input[type=checkbox]").prop("checked", false);
 			}
 		})
-	});
+	})
+	
+	//엑셀 다운로드 사유 입력 안하면 다운로드 불가능
+	$(function() {
+		$('.excelDownloadForm').submit(function(){
+			
+			var frm = document.excelForm;
+			var log = frm.log.value;
+			if (log == '') {
+				alert('사유를 입력해주세요.');
+     			frm.log.focus();
+     			return false;
+			}
+			return true;
+		}) 
+	})
+	
 </script>
 <body>
 	<!-- controller에서 보낸 값 받아서 저장 -->
@@ -201,9 +220,8 @@ request.setCharacterEncoding("UTF-8");
 		</h4>
 	</div>
 
-	<form method="get"
-		action="${contextPath}/enrollment/listEnrollments.do" id="searchFrm">
-
+	<form method="get" action="${contextPath}/enrollment/listEnrollments.do" id="searchFrm">
+	
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
 			<select name="perPage" id="listFilter">
@@ -288,7 +306,6 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 	
-	
 	<div id="enrollmentButton">
       <p id="typeColor">
          <span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음
@@ -304,9 +321,12 @@ request.setCharacterEncoding("UTF-8");
 			style="width: 5%;">수료</button>
       <button type="button" id="cancelButton" onclick='getCheckList("delete")'
          style="width: 5%;">취소</button>
-	   <form action="${contextPath}/enrollment/excelDownload.do" method="post" id="excelForm">
+         
+	   <form action="${contextPath}/enrollment/excelDownload.do" class="excelDownloadForm" method="get" id="excelForm" name="excelForm">
+	      열람사유 : <input type="text" name="log" id="log">
 	      <input type="submit" value='엑셀 다운로드' id="excel">
 	   </form>
+	   
    </div> 
 	
 	<table align="center" border="0" width="80%" id="dynamicCompany">
@@ -336,12 +356,11 @@ request.setCharacterEncoding("UTF-8");
 					<tr align="center">
 						<td><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>
 							
-						<!-- 과목별 상세 조회 / 인세 페이지 미구현 -->
-						<td align="left" style="padding-left:20px"><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
+						<!-- 과목별 상세 조회 -->
+						<td align="left" style="width: 40%; padding-left:20px"><a id="herfId" href="${contextPath}/enrollment/enrollmentCourse.do?
 																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>
-						<%-- <td>${enrollment.syllabusVO.name }</td> --%>
 																
-						<td>${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
+						<td style="width: 10%">${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
 						
 						<td><a id="herfId" href="${contextPath}/enrollment/informationEnrollment.do?
 																id=${enrollment.id }">${enrollment.memberVO.name }</a></td>
@@ -373,7 +392,7 @@ request.setCharacterEncoding("UTF-8");
                     			 </c:choose>
                     		</c:if>
 						</td>
-						
+					
 						<td>
 							
 							<c:choose>
@@ -388,21 +407,6 @@ request.setCharacterEncoding("UTF-8");
 	                   			 </c:otherwise>
 							</c:choose>
 						
-						
-						
-							<%-- <c:if test="${enrollment.stat == '신청' }">
-								<font color="black">${enrollment.stat }</font>
-							</c:if> <c:if test="${enrollment.stat == '승인' }">
-								<font color="blue">${enrollment.stat }</font>
-							</c:if> <c:if test="${enrollment.stat eq '수료' }">
-								<font color="red">${enrollment.stat }</font>
-							</c:if></td> --%>
-							
-							
-							
-							
-							
-							
 						<td>${enrollment.joinDate }</td>
 					</tr>
 				</c:forEach>
@@ -478,9 +482,6 @@ request.setCharacterEncoding("UTF-8");
 			style="width: 5%;">수료</button>
       <button type="button" id="cancelButton" onclick='getCheckList("delete")'
          style="width: 5%;">취소</button>
-	   <form action="${contextPath}/enrollment/excelDownload.do" method="post" id="excelForm">
-	      <input type="submit" value='엑셀 다운로드' id="excel">
-	   </form>
    </div> 
    
 </body>

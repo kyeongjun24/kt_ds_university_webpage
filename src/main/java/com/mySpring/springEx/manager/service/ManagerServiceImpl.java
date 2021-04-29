@@ -33,7 +33,6 @@ public class ManagerServiceImpl implements ManagerService{
 	
 	public int logLoginInfo(ManagerVO managerVO) throws DataAccessException {
 		return managerDAO.logLoginInfo(managerVO);
-		
 	}
 
 	@Override

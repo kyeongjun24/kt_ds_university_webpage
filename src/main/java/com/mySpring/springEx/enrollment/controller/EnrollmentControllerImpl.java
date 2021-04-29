@@ -46,8 +46,12 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 	//excel download
 	@Override
 	@ResponseBody
-	@RequestMapping(value="/enrollment/excelDownload.do", method = RequestMethod.POST)
+	@RequestMapping(value="/enrollment/excelDownload.do", method = RequestMethod.GET)
 	public void excelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String log = (String)request.getParameter("log");
+		int excelDownload = enrollmentService.logExcelDownload(log);
+		
 		enrollmentService.excelDownload(response);
 	}
 	
@@ -223,32 +227,6 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav;
 	}
 	
-//	//폼
-//	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
-//	private ModelAndView enrollmentForm(@RequestParam(value = "result", required = false) String result,
-//			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception {
-//
-//		String viewName = (String) request.getAttribute("viewName");
-//		HttpSession session = request.getSession();
-//		session.setAttribute("action", action);
-//		ModelAndView mav = new ModelAndView();
-//		mav.addObject("result", result);
-//		mav.setViewName(viewName);
-//		return mav;
-//	}
-	
-//	//수강신청내역 리스트로 이동 (백업)
-//	@Override
-//	@RequestMapping(value="/enrollment/listEnrollments.do" ,method = RequestMethod.GET)
-//	public ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		String viewName = (String)request.getAttribute("viewName");
-//		List enrollmentsList = enrollmentService.listEnrollments();
-//		ModelAndView mav = new ModelAndView(viewName);
-//		
-//		mav.addObject("enrollmentsList", enrollmentsList);
-//		return mav;
-//	}
 	//수료관리 리스트 출력 메소드
 	@Override
 	@RequestMapping(value="/enrollment/listCompletion.do" ,method = RequestMethod.GET)

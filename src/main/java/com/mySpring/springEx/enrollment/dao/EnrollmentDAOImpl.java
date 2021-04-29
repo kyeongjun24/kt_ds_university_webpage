@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
+import com.mySpring.springEx.manager.vo.ManagerVO;
 import com.mySpring.springEx.member.vo.MemberVO;
 
 @Repository("enrollmentDAO")
@@ -97,6 +98,14 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		List<EnrollmentVO> enrollmentsList = null;
 		enrollmentsList = sqlSession.selectList("mapper.enrollment.excelEnrollmentList");
 		return enrollmentsList;
+	}
+	
+	//엑셀 다운로드 로그
+	@Override
+	public int logExcelDownload(String log) throws DataAccessException {
+		int logExcel = 0;
+		logExcel = sqlSession.insert("mapper.enrollment.logExcelDownload", log);
+		return logExcel;
 	}
 
 	//수강신청 등록
@@ -189,12 +198,5 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	@Override
 	public List selectCompletionCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchCompletion", criteria);
-	}
-	
-
-	//(등록관련) 수강신청 되어있는지 체크
-	public int checkEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
-		int result = sqlSession.insert("mapper.enrollment.checkEnrollment", enrollmentVO);
-		return result;
 	}
 }

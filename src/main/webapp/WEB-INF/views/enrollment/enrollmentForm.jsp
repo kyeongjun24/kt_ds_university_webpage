@@ -47,6 +47,10 @@ request.setCharacterEncoding("UTF-8");
 		width: 330px;
 	}
 	
+	#lastTd {
+		border-style: hidden;
+	}
+	
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -60,6 +64,26 @@ request.setCharacterEncoding("UTF-8");
 		var option = "width = 500, height = 500, top = 100, left = 200, location = no"
 		window.open(url, name, option);
 	}
+	
+	//입력 안하면 등록 불가능
+	$(function() {
+		$('.inputForm').submit(function(){
+			
+			var frm = document.registerForm;
+			var member = document.getElementById('memberId').value;
+			var course = document.getElementById('courseId').value;
+			
+			if (member == '') {
+				alert('아이디를 선택해주세요.');
+     			return false;
+			} else if (course == '') {
+				alert('과정명을 선택해주세요.');
+				return false;
+			}
+			
+			return true;
+		}) 
+	})
 	
 </script>
 
@@ -77,13 +101,13 @@ request.setCharacterEncoding("UTF-8");
 		</h4>
 	</div>
 	
-	<form method="post" action="${contextPath}/enrollment/addEnrollment.do" id=registerFrm>
+	<form method="post" class="inputForm" action="${contextPath}/enrollment/addEnrollment.do" id="registerForm" name="registerForm">
 
 		<table class="erollmentMember_table" align="center">
 			<tr>
 				<td width="200"><p align="right">아이디</td>
 				<td width="400"><p align="center">
-						<input type="text" name="memberVO.id" id="memberId"
+						<input type="text" name="memberVO.id" id="memberId" readonly
 						 placeholder="아이디를 검색하세요."> 
 						<a class="searchButton" type="button" onclick="popup()">검색</a>
 			</tr>
@@ -98,7 +122,7 @@ request.setCharacterEncoding("UTF-8");
 					</select></td>
 			</tr>
 			<tr>
-				<td colspan="4" width="250">
+				<td id="lastTd" colspan="4" width="250">
 					<input type="submit" id="enrollButton" value="등록">&nbsp;&nbsp;&nbsp;
 					<input type="reset" value="다시입력" id="reset">&nbsp;&nbsp;&nbsp;
 					<input type="button" onclick="location.href='${contextPath}/enrollment/listEnrollments.do'" value="취소">

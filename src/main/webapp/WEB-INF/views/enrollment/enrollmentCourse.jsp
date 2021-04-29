@@ -24,6 +24,10 @@
 	margin-bottom: 2em;
 	}
 	
+	#lastTd {
+		border-style: hidden;
+	}
+	
 </style>
 </head>
 
@@ -89,10 +93,12 @@
 				</c:forEach>
 			</c:when>
 		</c:choose>
+		<tr>
+			<td  id="lastTd" colspan="10">
+				<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
+		</tr>
 	</table>
 	
 	
-	
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
 </body>
 </html>

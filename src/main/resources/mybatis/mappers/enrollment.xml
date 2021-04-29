@@ -69,6 +69,14 @@
 		<result property="contractType" column="com_contract_type" />
 	</resultMap>
 	
+	<resultMap id="eclResult" type="eventCompletionLogVO" >
+		<result property="id" column="cpt_id" />
+		<result property="type" column="event_type" />
+		<result property="log" column="event_log" />
+		<result property="timestamp" column="event_timestamp" />
+	</resultMap>
+	
+	
    <sql id="enrollment-columns">
    	<![CDATA[
          	enrd_id, 
@@ -84,6 +92,14 @@
         	crs_id
    	]]>
    </sql>
+   
+   <!-- 엑셀 다운로드 로그 -->
+   <insert id="logExcelDownload" parameterType="String" >
+		<![CDATA[
+			INSERT INTO event_completion_log
+			VALUES (cpt_seq.nextval, '엑셀 다운로드', #{eventCompletionLogVO.log}, to_char(sysdate, 'YYYY-MM-DD HH24:MI:SS'))
+		]]>
+	</insert>
    
    <!-- 과정 끝나면 수료대기 상태로 변경 -->
    <update id="updateEnrollmentStatus">
@@ -130,30 +146,6 @@
 		]]>
 	</select>
 	
-
-	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
-	<select id="selectCompletionByPaging" resultMap="enrdResult">
-		SELECT
-		<include refid="enrollment-columns"></include>
-		FROM
-		(select ROW_NUMBER() OVER (ORDER BY enrd_join_date desc) NUM,
-		<include refid="enrollment-columns"></include>
-		from enrollment_detail E 
-				LEFT JOIN member M
-				ON
-				    e.mem_id = m.mem_id
-				LEFT JOIN course C
-				ON
-				    e.crs_id = c.crs_id
-				LEFT JOIN syllabus S
-				ON
-				    c.slb_id = s.slb_id
-		ORDER BY enrd_join_date desc)
-		WHERE NUM BETWEEN #{page} AND 10
-
-	</select>
-
-
 	<!-- 검색과 기준에 의해 나눠지는 리스트 뽑기 select W -->
 	<select id="selectCriteriaBySearchEnrollmentList" resultMap="enrdResult">
 		SELECT
@@ -270,18 +262,7 @@
 			</trim>
 			WHERE enrd_id = #{id}
    </update>
-   
-    <!-- 상세페이지 (회사) 수정 작업 -->
-  	<update id="modEnrollmentCompany"  parameterType="enrollmentVO">
-    		UPDATE member
-    		<trim prefix="SET" suffixOverrides=",">
-				<if test="memberVO.companyName != null">mem_company_name = #{memberVO.companyName},</if>
-			</trim>
-			WHERE mem_id IN (
-    			select mem_id 
-    			FROM enrollment_detail 
-    			WHERE enrd_id = #{id})
-   </update>
+
    
    <!-- 등록 페이지 데이터 조회 -->
 	<select id="syllabusCourseEnrollment" resultMap="enrdResult">
@@ -336,24 +317,7 @@
 			WHERE enrd_id = #{id}
       	]]>      
    </update> 
-	
-	<!-- W -->
-	<select id="selectAllCompletionList" resultMap="enrdResult">
-		<![CDATA[
-			select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, substr(enrd_complete_date,1,10) as enrd_complete_date,
-			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, substr(enrd_join_date,1,10) as enrd_join_date
-				from enrollment_detail E
-				LEFT JOIN member M
-				ON e.mem_id = m.mem_id
-				LEFT JOIN course C
-				ON e.crs_id = c.crs_id
-				LEFT JOIN syllabus S
-				ON c.slb_id = s.slb_id
-			ORDER BY m.mem_name
-		]]>
-	</select>
-
-				
+			
 	<!-- 상세 접수내용 페이지 (학생) -->
 	<select id="enrollmentMember"  resultMap="enrdResult"   parameterType="Int" >
 		<![CDATA[
@@ -419,7 +383,19 @@
 				c.crs_id = #{courseVO.id}
 		]]>
   	</select>
-  	
+  	   
+    <!-- 상세페이지 (회사) 수정 작업 -->
+  	<update id="modEnrollmentCompany"  parameterType="enrollmentVO">
+    		UPDATE member
+    		<trim prefix="SET" suffixOverrides=",">
+				<if test="memberVO.companyName != null">mem_company_name = #{memberVO.companyName},</if>
+			</trim>
+			WHERE mem_id IN (
+    			select mem_id 
+    			FROM enrollment_detail 
+    			WHERE enrd_id = #{id})
+   </update>
+   
   	<!-- 엑셀 다운로드 W -->
 	<select id="excelEnrollmentList" resultMap="enrdResult"> 
 		<![CDATA[
@@ -532,8 +508,6 @@
 		WHERE NUM BETWEEN #{page} AND 10
 	</select>
 	
-	
-
 	<select id="selectCompletion" resultMap="enrdResult"
 		parameterType="int">
 	<![CDATA[
@@ -581,7 +555,44 @@
 			</when>
 		</choose>
 	</select>
+		
+	<select id="selectAllCompletionList" resultMap="enrdResult">
+		<![CDATA[
+			select e.enrd_id as enrd_id, e.mem_id as mem_id, m.mem_phone as mem_phone, m.mem_name as mem_name, substr(enrd_complete_date,1,10) as enrd_complete_date,
+			 m.mem_email as mem_email, m.mem_company_name as mem_company_name, s.slb_name as slb_name, e.enrd_stat as enrd_stat, substr(enrd_join_date,1,10) as enrd_join_date
+				from enrollment_detail E
+				LEFT JOIN member M
+				ON e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON c.slb_id = s.slb_id
+				
+			WHERE enrd_stat != '취소'
+			ORDER BY m.mem_name
+		]]>
+	</select>
 	
+	<!-- 페이지 전체 리시트 뽑아주는 select list_paging -->
+	<select id="selectCompletionByPaging" resultMap="enrdResult">
+		SELECT
+		<include refid="enrollment-columns"></include>
+		FROM
+		(select ROW_NUMBER() OVER (ORDER BY enrd_id) NUM,
+		<include refid="enrollment-columns"></include>
+		from enrollment_detail E 
+				LEFT JOIN member M
+				ON
+				    e.mem_id = m.mem_id
+				LEFT JOIN course C
+				ON
+				    e.crs_id = c.crs_id
+				LEFT JOIN syllabus S
+				ON
+				    c.slb_id = s.slb_id
+		ORDER BY enrd_id)
+		WHERE NUM BETWEEN #{page} AND 10
+	</select>
 	
 	<!-- 기준으로 페이지 리시트 나누는 select list.jsp -->
 	<select id="listCompletionCriteria" resultMap="enrdResult">
@@ -609,7 +620,7 @@
 					LEFT JOIN syllabus S
 					ON
 						c.slb_id = s.slb_id
-			ORDER BY enrd_join_date)
+			ORDER BY enrd_id)
 		WHERE NUM BETWEEN #{pageStart}
 		<choose>
 			<when test="#{perPageNum} == '10'">
@@ -619,17 +630,13 @@
 				AND (#{perPageNum} + #{pageStart}) -1 
 			</when>
 		</choose>
-		order by enrd_join_date
+		order by enrd_id
 	</select>
-
-
 
 	<select id="selectNumberOfApplicants" resultType="int">
 		<![CDATA[
 			SELECT COUNT(*) FROM enrollment_detail where enrd_stat = '신청'
 		]]>
 	</select>	
-	
-	
 	
 </mapper>

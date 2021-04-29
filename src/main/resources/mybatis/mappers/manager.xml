@@ -30,6 +30,7 @@
 	     mgr_id=#{id}
 	]]>
 	</update> 
+	
 	<insert id="logLoginInfo" parameterType="managerVO" >
 	<![CDATA[
 		INSERT INTO event_security_log(esl_id, user_id, esl_type, esl_log_text)
