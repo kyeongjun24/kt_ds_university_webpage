@@ -14,11 +14,26 @@
 <meta charset="UTF-8">
 </head>
 <style>
-	.menuCategory{
-		height: 5%; 
-		width: 100%;
-		margin-bottom: 1%;
+	td {
+	  	border-bottom: none;
+	  	height: 40px;
+	  	padding: 10px 0;
+	  }
+  
+  .process {
 		text-align: left;
+		color: #9C9D9D;
+		margin-bottom: 2em;
+	}
+	
+	.table_content{
+		justify-content: center;
+		display: flex;
+	}
+	
+	#categoryTable{
+		width: 500px;
+		margin-top: 60px;
 	}
 </style>
 <body>
@@ -30,24 +45,33 @@
 		
 %>
 	
-	<div class="menuCategory">
-		<h5>과정 관리 > 카테고리 수정</h5>
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/course/listCourses.do'"
+			style="cursor: pointer;">과정관리</span> > <span
+			onclick="location.href='${contextPath}/courseCategory/listAllCourseCategories.do'"
+			style="cursor: pointer;">카테고리 관리</span> > <span
+			onclick="location.href='${contextPath}/courseCategory/updateCourseCategoryForm.do?id=${courseCategoryVO.id }'"
+			style="cursor: pointer;">카테고리 수정</span>
+		</h5>
 	</div>
 	
 	<h1  class="text_center">카테고리 수정</h1>
-	<form method="post"   action="${contextPath}/courseCategory/updateCourseCategory.do">
-		<input type="hidden" name="id" value="${courseCategoryVO.id }">
-		<table  align="center" >
-			<tr>
-				<td>분류 명</td>
-				<td><input type="text" name="name" value="${courseCategoryVO.name}">${courseCategoryVO.id }</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="submit" value="수정"><input type="button" onclick="history.back()" value="취소"></td>
-			</tr>
-		</table>
-	</form>
+	
+	<div class="table_content">
+		<form method="post"   action="${contextPath}/courseCategory/updateCourseCategory.do">
+			<input type="hidden" name="id" value="${courseCategoryVO.id }">
+			<table  align="center" id="categoryTable">
+				<tr>
+					<td>분류 명</td>
+					<td><input type="text" name="name" value="${courseCategoryVO.name}"></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="padding-top: 5%;"><input type="submit" id="enrollButton" value="수정"><input type="button" onclick="history.back()" value="취소"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
 <%} else {  %>
 <script>
 	window.location.href="${contextPath}";

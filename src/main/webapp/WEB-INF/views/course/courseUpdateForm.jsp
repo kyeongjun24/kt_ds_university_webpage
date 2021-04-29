@@ -63,13 +63,18 @@
 		text-align-last: center;
 	}
 	
-	.menuCategory{
-		height: 5%;
-		width: 100%;
-		margin-bottom: 1%;
+	.process {
 		text-align: left;
+		color: #9C9D9D;
+		margin-bottom: 2em;
 	}
 	
+	select:disabled{
+		background: #ECECEC;
+		color: black;
+		opacity: 1;
+		cursor: default;
+	}
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -311,12 +316,21 @@
 		
 	
 %>
-	<div class="menuCategory" >
-	<h5>과정 관리 > 과정 수정</h5>
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/course/listCourses.do'"
+			style="cursor: pointer;">과정관리</span> > <span
+			onclick="location.href='${contextPath}/course/listCourses.do'"
+			style="cursor: pointer;"> 과정관리</span> > <span
+			onclick="location.href='${contextPath}/course/updateCourseForm.do?id=${courseVO.id }&page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
+			style="cursor: pointer;"> 과정 수정</span>
+		</h5>
 	</div>
+	
 	<div style="width: 85%;">
 		<h1  class="text_center">과정 수정</h1>
 	</div>
+	
 	<form method="post"   action="${contextPath}/course/updateCourse.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}" name="crsFrm" id="courseRegister" >
 		
 		<table  align="center">
@@ -426,7 +440,11 @@
 		    </tr>
 		    <tr>
 		       <td>상태</td>
-		       <td><p></td>
+		       <td style="padding-left: 20px;"><p align="left">
+		       <c:if test="${courseVO.stat eq '신청가능' }"><font color="blue"><b>${courseVO.stat}</b></font></c:if>
+		       <c:if test="${courseVO.stat eq '조기마감' }"><font color="black"><b>${courseVO.stat}</b></font></c:if>
+		       <c:if test="${courseVO.stat eq '마감' }"><font color="black"><b>${courseVO.stat}</b></font></c:if>
+		       </td>
 		       <td></td>
 		    </tr>
 		    <tr>

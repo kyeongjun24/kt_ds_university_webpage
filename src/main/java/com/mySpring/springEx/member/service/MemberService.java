@@ -14,7 +14,7 @@ public interface MemberService {
 	public List listBySearchMembers(String searchType, String searchText) throws DataAccessException;
 	public List listCriteria(Criteria criteria) throws DataAccessException;
 	public int addMember(MemberVO memberVO) throws DataAccessException;
-	public int updateMemberDelYN(String id) throws DataAccessException;
+	public int deleteMember(String id) throws DataAccessException;
 	public MemberVO login(MemberVO memberVO) throws DataAccessException;
 	public int updateMember(MemberVO memberVO) throws DataAccessException;
 	public MemberVO selectMember(String id) throws DataAccessException;

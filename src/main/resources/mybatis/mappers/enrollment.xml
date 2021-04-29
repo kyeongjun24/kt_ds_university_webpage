@@ -663,13 +663,19 @@
 	</select>
 
 
-
+	<!-- 수강신청 인원 -->
 	<select id="selectNumberOfApplicants" resultType="int">
 		<![CDATA[
 			SELECT COUNT(*) FROM enrollment_detail where enrd_stat = '신청'
 		]]>
 	</select>	
 	
+	<!-- 수료 대기 인원 -->
+	<select id="selectNumberOfWaitingCompletion" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM enrollment_detail where enrd_stat = '수료대기'
+		]]>
+	</select>
 	
 	
 </mapper>

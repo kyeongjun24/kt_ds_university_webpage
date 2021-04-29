@@ -8,22 +8,41 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
-	String searchText = request.getParameter("searchType");
+	String searchText = request.getParameter("searchText");
 %>
 
 
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 목록창</title>
+<title></title>
 </head>
 <style>
-	.menuCategory{
-		height: 5%;
-		 width: 100%;
-		  margin-bottom: 1%;
-		   text-align: left;
+	
+	.cls1:link {
+	text-decoration: none;
+	color: black;
 	}
+	
+	.cls1:visited {
+		text-decoration: none;
+		color: black;
+	}
+	
+	.cls1:hover {
+		color: #c2c2c2;
+	}
+	
+	.process {
+		text-align: left;
+		color: #9C9D9D;
+		margin-bottom: 2em;
+	}
+	
+	.com_search {
+		padding-left: 7px;
+	}
+	
 </style>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -111,9 +130,15 @@
 		
 	
 %>
-	<div class='menuCategory' >
-	<h5>회원 관리</h5>
+	<div class='process' >
+		<h5>
+			<span onclick="location.href='${contextPath}/member/listMembers.do'"
+			style="cursor: pointer;">회원관리</span> > <span
+			onclick="location.href='${contextPath}/member/listMembers.do'"
+			style="cursor: pointer;"> 학생관리</span>
+		</h5>
 	</div>
+	
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<form method="get" action="${contextPath}/member/listMembers.do"
 		id="searchFrm">
@@ -165,7 +190,10 @@
 						value="${searchText }">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="searchText">
+					<input type="text" name="searchText" id="searchText"
+					class="com_search" placeholder="검색어를 입력하세요."
+					onfocus="this.placholder=''"
+					onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
 			</c:choose>
 			<input type="submit" id="searchSubmit" value="검색">
@@ -179,14 +207,14 @@
 	</div>
 
 	<table>
-		<tr>
+		<tr id="attr">
 			<td width="5%"><input type="checkbox" id="selectAll"></td>
 			<td width="10%"><b>아이디</b></td>
 			<td width="10%"><b>이름</b></td>
 			<td width="15%"><b>회사명</b></td>
 			<td width="15"><b>연락처</b></td>
 			<td width="20%"><b>이메일</b></td>
-			<td width="10%"><b>탈퇴 여부</b></td>
+			<td width="10%"><b>수신동의</b></td>
 			<td width="15%"><b>가입일</b></td>
 		</tr>
 		<c:choose>
@@ -195,31 +223,29 @@
 					<tr align="center">
 						<td><input type="checkbox" name="selectedCheckbox"
 							id="${member.id }"></td>
-						<td align="left" style="padding-left: 30px;"><a
+						<td align="left" style="padding-left: 2%;"><a class='cls1'
 							href="${contextPath}/member/informationMemberForm.do?id=${member.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${fn:substring(member.id, 0, fn:length(member.id) - 3)}***</a></td>
 						<td>${fn:substring(member.name, 0, fn:length(member.name) - 1)}*</td>
-						<td>${member.companyName}</td>
+						<td align="left" style="padding-left: 5%">${member.companyName}</td>
 	       				<td>
 	       					<c:set var="memberPhone" value="${fn:split(member.phone, '-')}"/>
 	       					<c:forEach var="phoneNumber" items="${memberPhone }" varStatus="phone">
 	       						<c:if test="${phone.count == 1 }">${fn:substring(phoneNumber, 0, 2)}*</c:if>
-	       						<c:if test="${phone.count == 2 }">- ${fn:substring(phoneNumber, 2, 4)}**</c:if>
-	       						<c:if test="${phone.count == 3 }">- ${fn:substring(phoneNumber, 2, 4)}**</c:if>
+	       						<c:if test="${phone.count == 2 }">- ${fn:substring(phoneNumber, 0, 2)}**</c:if>
+	       						<c:if test="${phone.count == 3 }">- ${fn:substring(phoneNumber, 0, 2)}**</c:if>
 	       					</c:forEach>
 	       				</td>
-	       				<td align="left" style="padding-left: 45px;"><c:set var="email" value="${fn:split(member.email, '@')}"/>
+	       				<td align="left" style="padding-left: 6%;"><c:set var="email" value="${fn:split(member.email, '@')}"/>
 	       				<c:forEach var="eamil" items="${email }" varStatus="a">
 				       		<c:if test="${a.count == 1 }">${fn:replace(eamil, fn:substring(eamil, 0, 3), '***')}</c:if>
 				       		<c:if test="${a.count == 2 }">@${eamil }</c:if>
 				       </c:forEach></td>
-	       				<td>
-	       				<c:if test="${member.delYN eq 'T'}">
-	       					가입
-	       				</c:if>
-	       				<c:if test="${member.delYN eq 'F'}">
-	       					탈퇴
-	       				</c:if>
-	       				</td>
+				       	<td>
+							<c:choose>
+								<c:when test="${member.subscription == 'T' }">동의</c:when>
+								<c:otherwise>미동의</c:otherwise>
+							</c:choose>
+						</td>
 						<td>${fn:substring(member.joinDate, 0, 10)}</td>
 					</tr>
 				</c:forEach>

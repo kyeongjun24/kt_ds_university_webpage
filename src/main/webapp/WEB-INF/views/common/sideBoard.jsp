@@ -11,7 +11,7 @@ request.setCharacterEncoding("UTF-8");
 
 	<h1 class="side_title">게시판관리</h1>
 	<ul>
-		<li><a href="${contextPath}/board/listArticles.do" class="no-underline">공지사항</a></li><br>
+		<li><a href="${contextPath}/board/listArticles.do" class="no-underline"><b>공지사항</b></a></li>
 	</ul>
 </div>
 

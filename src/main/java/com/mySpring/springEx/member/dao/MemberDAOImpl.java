@@ -87,8 +87,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public int updateMemberDelYN(String id) throws DataAccessException {
-		int result = sqlSession.update("mapper.member.updateMemberDelYN", id);
+	public int deleteMember(String id) throws DataAccessException {
+		int result = sqlSession.delete("mapper.member.deleteMember", id);
 		return result;
 	}
 	

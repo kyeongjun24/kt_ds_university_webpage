@@ -19,11 +19,28 @@
   <title>글목록창</title>
 </head>
 <style>
-	.menuCategory{
-		height: 5%;
-		width: 100%;
-		margin-bottom: 1%;
+	.cls1:link {
+		text-decoration: none;
+		color: black;
+	}
+	
+	.cls1:visited {
+		text-decoration: none;
+		color: black;
+	}
+	
+	.cls1:hover {
+		color: #c2c2c2;
+	}
+	
+	.process {
 		text-align: left;
+		color: #9C9D9D;
+		margin-bottom: 2em;
+	}
+	
+	.com_search {
+		padding-left: 7px;
 	}
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -120,8 +137,13 @@
 		
 	
 %>
-	<div class="menuCategory">
-	<h5>과정 관리</h5>
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/course/listCourses.do'"
+			style="cursor: pointer;">과정관리</span> > <span
+			onclick="location.href='${contextPath}/course/listCourses.do'"
+			style="cursor: pointer;"> 과정관리</span>
+		</h5>
 	</div>
 	
 	<form method = "get" action="${contextPath }/course/listCourses.do"
@@ -173,7 +195,10 @@
 						value="${searchText }">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="searchText">
+					<input type="text" name="searchText" id="searchText"
+						class="com_search" placeholder="검색어를 입력하세요."
+						onfocus="this.placeholder=''"
+						onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
 			</c:choose>
 			<input type="submit" id="searchSubmit" value="검색">
@@ -188,7 +213,7 @@
 	</div>
 	
 	<table align="center" >
-		<tr>
+		<tr id="attr">
 		    <td><input type="checkbox" id="selectAll"></td>
 		    <td><b>번호</b></td>
 		    <td><b>과정명</b></td>
@@ -207,8 +232,7 @@
 			<c:when test="${not empty coursesList}" >
 				
 				<c:forEach  var="course" items="${coursesList }" varStatus="articleNum" >
-					<tr align="center">
-						<!--<td width="5%">${articleNum.count}</td>  -->
+					<tr align="center" >
 						<td><input type="checkbox" name="selectedCheckbox" id="${course.id }"></td>
 						<td width="5%">${course.id - 20000 + 1}</td>
 						<td align='left'  width="20%">

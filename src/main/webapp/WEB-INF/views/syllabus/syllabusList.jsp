@@ -8,7 +8,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String searchType = request.getParameter("searchType");
-	String searchText = request.getParameter("searchType");
+	String searchText = request.getParameter("searchText");
 %>    
 <html>
 <head>
@@ -17,6 +17,31 @@
 <meta charset="UTF-8">
 <title></title>
 </head>
+<style>
+	.process {
+		text-align: left;
+		color: #9C9D9D;
+		margin-bottom: 2em;
+	}
+	
+	.cls1:link {
+		text-decoration: none;
+		color: black;
+	}
+	
+	.cls1:visited {
+		text-decoration: none;
+		color: black;
+	}
+	
+	.cls1:hover {
+		color: #c2c2c2;
+	}
+	
+	.com_search {
+		padding-left: 7px;
+	}
+</style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
 
@@ -87,9 +112,15 @@
 		
 	
 %>
-	<div style="height: 5%; width: 100%; margin-bottom: 1%; text-align: left;">
-	<h5>과정 관리  >  강의 계획서 관리</h5>
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/course/listCourses.do'"
+			style="cursor: pointer;">과정관리</span> > <span
+			onclick="location.href='${contextPath}/syllabus/listSyllabuses.do'"
+			style="cursor: pointer;"> 강의계획서 관리</span>
+		</h5>
 	</div>
+	
 	<form method = "get" action="${contextPath }/syllabus/listSyllabuses.do"
 		id="searchFrm">
 		
@@ -131,7 +162,10 @@
 						value="${searchText }">
 				</c:when>
 				<c:otherwise>
-					<input type="text" name="searchText" id="searchText">
+					<input type="text" name="searchText" id="searchText"
+						class="com_search" placeholder="검색어를 입력하세요."
+						onfocus="this.placeholder=''"
+						onblur="this.placeholder='검색어를 입력하세요.'">
 				</c:otherwise>
 			</c:choose>
 			<input type="submit" id="searchSubmit" value="검색">
@@ -145,7 +179,7 @@
 	</div>
 	
 	<table >
-		<tr align="center">
+		<tr align="center" id="attr">
 		      <td width="2%"><input type="checkbox" id="selectAll"></td>
 		      <td width="5%"><b>번호</b></td>
 		      <td width="25%"><b>강의명</b></td>
@@ -161,7 +195,7 @@
 					<tr>
 						<td><input type="checkbox" name="selectedCheckbox" id="${syllabus.id }"></td>
 						<td>${syllabus.id - 30000 + 1}</td>
-						<td align="left"><a href="${contextPath}/syllabus/selectSyllabus.do?id=${syllabus.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${syllabus.name}</a></td>
+						<td align="left"><a class='cls1' href="${contextPath}/syllabus/selectSyllabus.do?id=${syllabus.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${syllabus.name}</a></td>
 						<td>${syllabus.type }</td>
 						<td>${syllabus.courseCategoryVO.name }</td>
 						<td>${syllabus.days }</td>

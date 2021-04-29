@@ -13,7 +13,7 @@
 <div class="side">
 	<h1 class="side_title">회원관리</h1>
 	<ul>
-		<c:if test="${fn:endsWith(viewName, 'listPartners' )}">
+		<c:if test="${fn:endsWith(viewName, 'listPartners') }" >
 			<li><a href="${contextPath}/partner/listPartners.do" class="no-underline"><b>협력회사</b></a></li><br>
 			<li><a href="${contextPath}/member/listMembers.do"  class="no-underline">학생관리</a></li><br>
 			<li><a href="${contextPath}/company/listCompanies.do" class="no_unerline">회사관리</a></li><br>

@@ -77,8 +77,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int updateMemberDelYN(String id) throws DataAccessException {
-		return memberDAO.updateMemberDelYN(id);
+	public int deleteMember(String id) throws DataAccessException {
+		return memberDAO.deleteMember(id);
 	}
 	
 	@Override

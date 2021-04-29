@@ -102,7 +102,7 @@
 	    title_color = $(this).find('.content_title').css('color');
 	    head_color = $(this).find('.content_head').css('color');
 	    image_old2 = image_old.split('.');
-	    $(this).css('background-color', '#3c3c3c');
+	    $(this).css('background-color', '#666666');
 	    $(this).find('img').attr('src', image_old2[0]+'2.'+image_old2[1]);
 	    $(this).find('.content_count').css('color', '#f2f2f2');
 	    $(this).find('.content_title').css('color', '#f2f2f2');
@@ -153,7 +153,7 @@
                     <div class="contents">
                         <ul class="content_ul">
                             <li class="content_count">
-                                2<br>
+                                8<br>
                             </li>
                             <li class="content_title">
                                 문의수
@@ -169,27 +169,29 @@
             </ul>
             <ul>
                 <li class="content_li">
-                    <div class="contents">
-                        <ul class="content_ul">
-                            <li class="content_count">
-                                ${numberOfApplicants }<br>
-                            </li>
-                            <li class="content_title">
-                                신청서 접수
-                            </li>
-                        </ul>
-                        <ul class="content_img_ul">
-                            <li>
-                                <img src="${contextPath}/resources/image/010-contract.png" width="90" height="90">
-                            </li>
-                        </ul>
-                    </div>
+                	<a href="${contextPath}/enrollment/listEnrollments.do?searchType=stat&searchText=신청">
+	                    <div class="contents">
+	                        <ul class="content_ul">
+	                            <li class="content_count">
+	                                ${numberOfApplicants }<br>
+	                            </li>
+	                            <li class="content_title">
+	                                신청서 접수
+	                            </li>
+	                        </ul>
+	                        <ul class="content_img_ul">
+	                            <li>
+	                                <img src="${contextPath}/resources/image/010-contract.png" width="90" height="90">
+	                            </li>
+	                        </ul>
+	                    </div>
+                    </a>
                 </li>
                 <li class="content_li">
                     <div class="contents">
                         <ul class="content_ul">
                             <li class="content_count">
-                                ${numberOfCompanies }<br>
+                                0<br>
                             </li>
                             <li class="content_title">
                                 이력서 접수
@@ -205,38 +207,42 @@
             </ul>
             <ul>
                 <li class="content_li">
-                    <div class="contents">
-                        <ul class="content_ul">
-                            <li class="content_count">
-                                ${numberOfCompanies }<br>
-                            </li>
-                            <li class="content_title">
-                                협약 진행중
-                            </li>
-                        </ul>
-                        <ul class="content_img_ul">
-                            <li>
-                                <img src="${contextPath}/resources/image/031-link.png" width="90" height="90">
-                            </li>
-                        </ul>
-                    </div>
+                	<a href="${contextPath }/company/listCompanies.do?searchType=contractStat&searchText=협약 진행중" style="display:block;">
+	                    <div class="contents">
+	                        <ul class="content_ul">
+	                            <li class="content_count">
+	                                ${numberOfCompanies }<br>
+	                            </li>
+	                            <li class="content_title">
+	                                협약 진행중
+	                            </li>
+	                        </ul>
+	                        <ul class="content_img_ul">
+	                            <li>
+	                                <img src="${contextPath}/resources/image/031-link.png" width="90" height="90">
+	                            </li>
+	                        </ul>
+	                    </div>
+                    </a>
                 </li>
                 <li class="content_li">
-                    <div class="contents">
-                        <ul class="content_ul">
-                            <li class="content_count">
-                                5<br>
-                            </li>
-                            <li class="content_title">
-                                수료 대기
-                            </li>
-                        </ul>
-                        <ul class="content_img_ul">
-                            <li>
-                                <img src="${contextPath}/resources/image/038-wall-clock.png" width="90" height="90">
-                            </li>
-                        </ul>
-                    </div>
+                	<a href="${contextPath }/enrollment/listEnrollments.do?searchType=stat&searchText=수료대기" style="display: block;">
+	                    <div class="contents">
+	                        <ul class="content_ul">
+	                            <li class="content_count">
+	                                ${numberOfWaitingCompletion }<br>
+	                            </li>
+	                            <li class="content_title">
+	                                수료 대기
+	                            </li>
+	                        </ul>
+	                        <ul class="content_img_ul">
+	                            <li>
+	                                <img src="${contextPath}/resources/image/038-wall-clock.png" width="90" height="90">
+	                            </li>
+	                        </ul>
+	                    </div>
+                    </a>
                 </li>
             </ul>
         </div>

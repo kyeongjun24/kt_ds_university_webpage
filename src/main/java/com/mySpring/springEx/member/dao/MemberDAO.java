@@ -14,7 +14,7 @@ public interface MemberDAO {
 	public List<MemberVO> listPaging(int page) throws DataAccessException;
 	public List<MemberVO> listCriteria(Criteria criteria) throws DataAccessException;
 	public int insertMember(MemberVO memberVO) throws DataAccessException ;
-	public int updateMemberDelYN(String id) throws DataAccessException;
+	public int deleteMember(String id) throws DataAccessException;
 	public MemberVO loginById(MemberVO memberVO) throws DataAccessException;
 	public int updateMember(MemberVO memberVO) throws DataAccessException;
 	public MemberVO selectMember(String id) throws DataAccessException;

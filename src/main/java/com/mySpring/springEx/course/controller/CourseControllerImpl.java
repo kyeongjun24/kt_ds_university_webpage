@@ -1,5 +1,6 @@
 package com.mySpring.springEx.course.controller;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,7 +100,7 @@ public class CourseControllerImpl implements CourseController{
 			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"),"UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		int result = 0;
@@ -115,7 +116,7 @@ public class CourseControllerImpl implements CourseController{
 			           HttpServletRequest request, HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"),"UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		courseService.removeCourse(id);
@@ -184,7 +185,7 @@ public class CourseControllerImpl implements CourseController{
 					  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String searchType = (String)request.getParameter("searchType");
-		String searchText = (String)request.getParameter("searchText");
+		String searchText = URLEncoder.encode((String)request.getParameter("searchText"),"UTF-8");
 		int page = Integer.parseInt(request.getParameter("page"));
 		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		int result = 0;
