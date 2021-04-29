@@ -10,71 +10,54 @@ request.setCharacterEncoding("UTF-8");
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-.content:after {
-	content: "";
-	display: block;
-	border-bottom: teal 1px solid #bcbcbc;
-}
-
-#button {
-	text-decoration: none;
-	color: black;
-	border: none;
-	padding: 2px 4px;
-	border-radius: 5px;
-	background-color: #ECECEC;
-	font-size: 13px;
-	font-weight : 800;
-	cursor: pointer;
-	width: 90px;
-	height: 35px;
-	padding : 5px;
-}
-
-</style>
 <meta charset="UTF-8">
 <title>수료관리</title>
+<style type="text/css" >
+
+.completion_table tr{
+text-align: left;
+}
+
+.completion_position {
+	display: flex;
+    font-size: 0.8em;
+    font-weight: 800;
+    color: #808080;
+}
+</style>
+
+
 </head>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-
 	$(function() {
-		$('#selectAll').click(function() {
-			if ($("input:checkbox[id='selectAll']").prop("checked")) {
-				$("input[type=checkbox]").prop("checked", true);
-			} else {
-				$("input[type=checkbox]").prop("checked", false);
-			}
-		})
-		
 		$('#listFilter')
-						.on(
-								'change',
-								function() {
-									var perPage = $(this).val();
-									var searchType = document
-											.getElementById('searchType').value;
-									var searchText = document
-											.getElementById('searchText').value;
-									/* alert(perPage+"씩 리스트 출력");
-									alert(searchType);
-									alert(searchText); */
-									location.href = "${contextPath}/enrollment/listCompletion.do?perPage="
-											+ perPage
-											+ "&searchType="
-											+ searchType
-											+ "&searchText="
-											+ searchText;
-								})
+				.on(
+						'change',
+						function() {
+							var perPage = $(this).val();
+							var searchType = document
+									.getElementById('searchType').value;
+							var searchText = document
+									.getElementById('searchText').value;
+							/* alert(perPage+"씩 리스트 출력");
+							alert(searchType);
+							alert(searchText); */
+							location.href = "${contextPath}/enrollment/listCompletion.do?perPage="
+									+ perPage
+									+ "&searchType="
+									+ searchType
+									+ "&searchText=" + searchText;
+						})
 	})
-
 </script>
 
 
 <body>
-	
+	<div class="completion_position">
+	<p>수강관리 > 수료관리</p>
+	</div>
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -83,7 +66,7 @@ request.setCharacterEncoding("UTF-8");
 	<form method="get" action="${contextPath}/enrollment/listCompletion.do"
 		id="searchFrm">
 		<div class="searchType">
-		<!-- 리시트 필터 값 적용 -->
+			<!-- 리시트 필터 값 적용 -->
 			<select name="perPage" id="listFilter">
 				<c:if test="${perPage == '10' }">
 					<option value='10' selected>10개</option>
@@ -111,8 +94,8 @@ request.setCharacterEncoding("UTF-8");
 				</c:if>
 			</select>
 
-		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
-		
+			<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
+
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'name'}">
 					<option value="">검색 종류</option>
@@ -144,50 +127,50 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 
-		<table align="center" id="dynamicCompany">
-			<tr align="center" id="attr">
-				<td><input type="checkbox" id="selectAll"></td>
-				<td><b>아이디</b></td>
-				<td><b>이름</b></td>
-				<td><b>전화번호</b></td>
-				<td><b>이메일</b>
-				<td><b>소속회사</b></td>
-				<td width="37%"><b>과정명</b></td>
-				<td width="80px"><b>이수</b></td>
-				<td><b>이수일</b></td>
-				<td><b>신청일</b></td>
-			</tr>
-			<c:choose>
-				<c:when test="${completionList ==null }">
-					<tr height="10">
-						<td colspan="4">
-							<p align="center">
-								<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
-							</p>
-						</td>
+	<table class="completion_table" id="dynamicCompany">
+		<tr id="attr">
+			<td align="center"><b>아이디</b></td>
+			<td align="center"><b>이름</b></td>
+			<td align="center"><b>전화번호</b></td>
+			<td align="left"><b>이메일</b>
+			<td align="center"><b>소속회사</b></td>
+			<td><b>과정명</b></td>
+			<td align="center"><b>이수</b></td>
+			<td align="center"><b>이수일</b></td>
+			<td align="center"><b>신청일</b></td>
+		</tr>
+		<c:choose>
+			<c:when test="${completionList ==null }">
+				<tr height="10">
+					<td colspan="4">
+						<p align="center">
+							<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
+						</p>
+					</td>
+				</tr>
+			</c:when>
+			<c:when test="${completionList !=null }">
+				<c:forEach var="enrollment" items="${completionList }"
+					varStatus="enrdNum">
+					<tr class="test">
+						<td width="7%" align="left">${enrollment.memberVO.id }</td>
+						<td width="7%" align="center">${enrollment.memberVO.name }</td>
+						<td width="11%" align="center">${enrollment.memberVO.phone }</td>
+						<td width="13%" align="left">${enrollment.memberVO.email }</td>
+						<td width="11%" align="center">${enrollment.memberVO.companyName }</td>
+						<td width="30%">${enrollment.syllabusVO.name }</td>
+						<td width="5%" align="center"><c:if test="${not empty enrollment.completeDate }">
+								<a id="button"
+									href="${contextPath}/enrollment/completionDoc.do?id=${enrollment.id }">출력</a>
+							</c:if> <c:if test="${empty enrollment.completeDate }">
+							</c:if></td>
+						<td width="7%" align="center">${enrollment.completeDate }</td>
+						<td width="7%" align="center">${enrollment.joinDate }</td>
 					</tr>
-				</c:when>
-				<c:when test="${completionList !=null }">
-					<c:forEach var="enrollment" items="${completionList }"
-						varStatus="enrdNum">
-						<tr class="test" align="center">
-							<td><input type="checkbox"></td>
-							<td>${enrollment.memberVO.id }</td>
-							<td class="content">${enrollment.memberVO.name }</td>
-							<td class="content">${enrollment.memberVO.phone }</td>
-							<td>${enrollment.memberVO.email }</td>
-							<td>${enrollment.memberVO.companyName }</td>
-							<td>${enrollment.syllabusVO.name }</td>
-							<td><a id="button"
-								href="${contextPath}/enrollment/completionDoc.do?id=${enrollment.id }">출력</a></td>
-							<!-- <td><a id="button" onclick="popupCompletion()">출력</a></td> -->
-							<td>${enrollment.completeDate }</td>
-							<td>${enrollment.joinDate }</td>
-						</tr>
-					</c:forEach>
-				</c:when>
-			</c:choose>
-		</table>
+				</c:forEach>
+			</c:when>
+		</c:choose>
+	</table>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center">
@@ -241,7 +224,7 @@ request.setCharacterEncoding("UTF-8");
 		</ul>
 	</div>
 
-<!-- <script>
+	<!-- <script>
 function popupCompletion(){
     var url = "${contextPath}/enrollment/printCompletion.do";
     var name = "popup completionDcmt";

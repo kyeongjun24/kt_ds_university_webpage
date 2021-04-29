@@ -183,17 +183,11 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 	public List selectCompletionCriteriaBySearch(Criteria criteria) throws DataAccessException {
 		return sqlSession.selectList("mapper.enrollment.selectCriteriaBySearchCompletion", criteria);
 	}
-	
-
-	//(등록관련) 수강신청 되어있는지 체크
-	public int checkEnrollment(EnrollmentVO enrollmentVO)  throws DataAccessException{
-		int result = sqlSession.insert("mapper.enrollment.checkEnrollment", enrollmentVO);
-		return result;
-	}
 
 	//수료 대기 인원
 	@Override
 	public int selectNumberOfWaitingCompletion() throws DataAccessException {
 		return sqlSession.selectOne("mapper.enrollment.selectNumberOfWaitingCompletion");
 	}
+
 }

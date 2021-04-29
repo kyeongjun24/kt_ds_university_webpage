@@ -51,7 +51,7 @@ request.setCharacterEncoding("UTF-8");
 	position: absolute;
 	z-index: 11;
 	width: 630px;
-	top: 215px;
+	top: 16em;
 }
 
  #completionImg {

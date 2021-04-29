@@ -22,8 +22,6 @@ public interface EnrollmentDAO {
 	public int modEnrollmentCompany(EnrollmentVO enrollmentVO) throws DataAccessException;
 
 	public int modEnrollmentStat(EnrollmentVO enrollmentVO) throws DataAccessException;
-	
-	public int checkEnrollment(EnrollmentVO enrollment);
 
 	public List selectEnrollmentCriteriaBySearch(Criteria criteria) throws DataAccessException;
 

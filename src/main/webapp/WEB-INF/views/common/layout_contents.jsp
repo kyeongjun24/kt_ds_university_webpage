@@ -28,8 +28,8 @@ request.setCharacterEncoding("UTF-8");
 }
 
 #sidebar-left {
-	width: 200px;
-	min-height : 88.5vh;
+	width: 11%;
+	min-height: 88.5vh;
 	overflow: hidden;
 	background-color: #e3e3e3;
 	border-right: 0.5px solid #bcbcbc;
@@ -45,10 +45,6 @@ request.setCharacterEncoding("UTF-8");
 	background-color: #e3e3e3;
 }
 
-h1 {
-	
-}
-
 .side ul {
 	margin-top: 30px;
 	font-family: 'Noto Sans KR', sans-serif;
@@ -59,13 +55,13 @@ h1 {
 }
 
 .side ul li a {
-	font-size: 15px;
+	font-size: 1.5em;
 	color: black;
 }
 
 .side_title {
-	padding: 30px;
-	width: 170px;
+	padding: 1.7em;
+	width: 8em;
 	border-bottom: 0.5px solid #bcbcbc;
 }
 
@@ -76,13 +72,10 @@ h1 {
 }
 
 #content {
-	width: 1700px;
-	position: relative;
-	diplay: flex;
-	justify-content: center;
+	width: 89%;
 	text-align: center;
-	padding-left: 80px;
-	padding-top: 100px;
+	padding-left: 5em;
+	padding-top: 5em;
 }
 
 #footer {
@@ -98,20 +91,35 @@ h1 {
 	border-bottom: 2px solid #bcbcbc;
 }
 
+#button {
+	text-decoration: none;
+	color: black;
+	border: none;
+	padding: 2px 4px;
+	border-radius: 5px;
+	background-color: #ECECEC;
+	font-size: 13px;
+	font-weight: 800;
+	cursor: pointer;
+	width: 90px;
+	height: 35px;
+	padding: 5px;
+}
+
 a {
 	text-decoration: none;
 }
 
 table {
-	width: 1500px;
+	width: 90%;
 	border-collapse: collapse;
 	margin: 20px 0;
 }
 
 td {
-	padding: 12px 0px 12px 0px;
+	padding: 1.3em 0px 1.3em 0px;
 	border-bottom: 0.3px solid;
-	border-color: rgba(156,157,157,0.2);
+	border-color: rgba(156, 157, 157, 0.2);
 	font-size: 14px;
 }
 
@@ -121,8 +129,8 @@ td {
 	justify-content: center;
 	text-align: center;
 	position: relative;
-	margin: 30px;
-	width: 1500px;
+	width: 90%;
+	margin: 2em;
 }
 
 .pageNumber ul {
@@ -167,9 +175,9 @@ select {
 	cursor: pointer;
 	border-radius: 5px;
 	text-align-last: center;
-   text-align: center;
-   -ms-text-align-last: center;
-   -moz-text-align-last: center;
+	text-align: center;
+	-ms-text-align-last: center;
+	-moz-text-align-last: center;
 }
 
 #enrollButton {
@@ -195,14 +203,18 @@ button {
 	margin-bottom: 20px;
 	display: flex;
 	justify-content: flex-end;
-	width: 1500px;
+	width: 90%;
+}
+
+.memberButton button {
+	margin-left: 1em;
 }
 
 #searchFrm {
 	display: flex;
 	justify-content: flex-end;
-	align-items : center;
-	width: 1500px;
+	align-items: center;
+	width: 90%;
 	margin-bottom: 20px;
 }
 </style>
