@@ -51,5 +51,6 @@ public interface EnrollmentService {
 	public List listBySearchCompletion(String searchType, String searchText) throws DataAccessException;
 
 	public List listCompletionCriteriaBySearch(Criteria criteria) throws DataAccessException;
+	public int numberOfWaitingCompletion() throws DataAccessException;
 
 }

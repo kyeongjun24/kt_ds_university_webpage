@@ -59,9 +59,11 @@ public class MemberControllerImpl implements MemberController {
 		int courseCount = courseService.numberOfCourses();
 		int numberOfApplicants = enrollmentService.numberOfApplicants();
 		int numberOfCompanies = companyService.numberOfCompanies();
+		int numberOfWaitingCompletion = enrollmentService.numberOfWaitingCompletion();
 		mav.addObject("numberOfCourses", courseCount );
 		mav.addObject("numberOfApplicants", numberOfApplicants);
 		mav.addObject("numberOfCompanies", numberOfCompanies);
+		mav.addObject("numberOfWaitingCompletion", numberOfWaitingCompletion);
 		return mav;
 	}
 
@@ -248,10 +250,7 @@ public class MemberControllerImpl implements MemberController {
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String) request.getAttribute("viewName");
-		System.out.println(viewName);
-		System.out.println(id);
 		int result = memberService.idCheckMember(id);
-		System.out.println(result);
 		return result;
 	}
 
@@ -260,7 +259,7 @@ public class MemberControllerImpl implements MemberController {
 	public ModelAndView removeMember(@RequestParam("id") String id, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		int result = memberService.updateMemberDelYN(id);
+		int result = memberService.deleteMember(id);
 		String searchType = (String)request.getParameter("searchType");
 		String searchText = (String)request.getParameter("searchText");
 		int page = Integer.parseInt(request.getParameter("page"));
@@ -268,7 +267,6 @@ public class MemberControllerImpl implements MemberController {
 		if (result > 0) {
 			HttpSession session = request.getSession();
 			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
-			System.out.println(managerVO.getId());
 			String managerId = managerVO.getId();
 			Map<String, String> map = new HashMap();
 			map.put("manager", managerId);
@@ -288,8 +286,7 @@ public class MemberControllerImpl implements MemberController {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
 		for(int i = 0; i < arr.length; i++) {
-			System.out.println(arr[i]);
-			result = memberService.updateMemberDelYN(arr[i]);
+			result = memberService.deleteMember(arr[i]);
 			if(result > 0) {
 				HttpSession session = request.getSession();
 				ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
@@ -317,7 +314,6 @@ public class MemberControllerImpl implements MemberController {
 		if (result > 0) {
 			HttpSession session = request.getSession();
 			ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
-			System.out.println(managerVO.getId());
 			String managerId = managerVO.getId();
 			Map<String, String> map = new HashMap();
 			map.put("manager", managerId);
@@ -373,17 +369,17 @@ public class MemberControllerImpl implements MemberController {
 	@Override
 	@ResponseBody
 	@RequestMapping(value="/member/insertLogByInformationInquiry.do", method = RequestMethod.POST)
-	public int insertLogByInformationInquiry(String id, HttpServletRequest request, HttpServletResponse response)
+	public int insertLogByInformationInquiry(@RequestParam String id,  @RequestParam String reason, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
 		String viewName = (String)request.getAttribute("viewName");
-		System.out.println(id+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		HttpSession session = request.getSession();
 		ManagerVO managerVO = (ManagerVO)session.getAttribute("manager");
 		String managerId = managerVO.getId();
 		Map<String, String> map = new HashMap();
 		map.put("manager", managerId);
 		map.put("id", id);
+		map.put("reason", reason);
 		int result = 0;
 		result = memberService.insertLogByInformationInquiry(map);
 		return result;
@@ -411,7 +407,6 @@ public class MemberControllerImpl implements MemberController {
 			HttpSession session = request.getSession();
 			session.setAttribute("member", memberVO);
 			session.setAttribute("isLogOn", true);
-			// mav.setViewName("redirect:/member/listMembers.do");
 			String action = (String) session.getAttribute("action");
 			session.removeAttribute("action");
 			if (action != null) {

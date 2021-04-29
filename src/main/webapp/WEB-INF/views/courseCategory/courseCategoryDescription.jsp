@@ -14,17 +14,33 @@
 <meta charset="UTF-8">
 </head>
 <style>
-	.menuCategory{
-		height: 5%;
-		width: 100%;
-		margin-bottom: 1%;
+	
+	td {
+	  	border-bottom: none;
+	  	height: 40px;
+	  	padding: 10px 0;
+	  }
+	  
+	.process {
 		text-align: left;
+		color: #9C9D9D;
+		margin-bottom: 2em;
+	}
+	
+	.table_content{
+		justify-content: center;
+		display: flex;
+	}
+	
+	#categoryTable{
+		width: 500px;
+		margin-top: 60px;
 	}
 </style>
 <script>
 	function categoryRemove() {
 		if (confirm('삭제하시겠습니까?') == true) {
-			window.location.href = '${contextPath}/courseCateogry/removeCourseCategory.do?id=${courseCategoryVO.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${[perPage]}';
+			window.location.href = '${contextPath}/courseCategory/removeCourseCategory.do?id=${courseCategoryVO.id}';
 		} else {
 			return false;
 		}
@@ -40,21 +56,32 @@
 	
 %>
 	
-	<div class="menuCategory" >
-		<h5>과정 관리 > 카테고리 상세 창</h5>
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/course/listCourses.do'"
+			style="cursor: pointer;">과정관리</span> > <span
+			onclick="location.href='${contextPath}/courseCategory/listAllCourseCategories.do'"
+			style="cursor: pointer;">카테고리 관리</span> > <span
+			onclick="location.href='${contextPath}/courseCategory/selectCourseCategory.do?id=${courseCategoryVO.id }'"
+			style="cursor: pointer;">카테고리 정보</span>
+		</h5>
 	</div>
 	<h1  class="text_center">카테고리 상세 정보</h1>
-		<table  align="center" >
+	
+	<div class="table_content">
+		<table  align="center" id="categoryTable">
 			<tr>
 				<td>분류 명</td>
 				<td><input type="text" name="name" value="${courseCategoryVO.name}" readonly></td>
 			</tr>
 			<tr>
-				<td></td>
-				<td><button onclick="location.href='${contextPath}/courseCategory/updateCourseCategoryForm.do?id=${courseCategoryVO.id }'">수정하기</button><button onclick="location.href='${contextPath}/courseCategory/removeCourseCategory.do?id=${courseCategoryVO.id }'">삭제</button>
-				<button onclick="categoryRemove()" >삭제</button></td>
+				<td colspan="2" style="padding-top: 5%;">
+				<button id="enrollButton" onclick="location.href='${contextPath}/courseCategory/updateCourseCategoryForm.do?id=${courseCategoryVO.id }'">수정하기</button>
+				<button onclick="categoryRemove()" >삭제</button>
+				<button onclick="history.back()">뒤로</button></td>
 			</tr>
 		</table>
+	</div>
 	<%} else {  %>
 	<script>
 		window.location.href="${contextPath}";

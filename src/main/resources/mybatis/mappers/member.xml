@@ -182,20 +182,20 @@
    <update id="updateMember"  parameterType="memberVO">
      <![CDATA[
 	     update member
-	     set mem_pw=#{pw}, mem_name=#{name}, mem_phone=#{phone}, mem_email=#{email}, 
+	     set mem_pw=#{pw}, mem_name=#{name}, mem_phone=#{phone}, mem_email=#{email}, mem_tel=#{tel},
 	     mem_subscription=#{subscription}, mem_company_name=#{companyName}, mem_mod_date=TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MM:SS')
 	     where 
 	     mem_id=#{id}
       ]]>      
    </update> 
      
-   <update id="updateMemberDelYN"  parameterType="String">
+   <delete id="deleteMember"  parameterType="String">
 	<![CDATA[
-	   UPDATE member SET
-	   		mem_delYN = 'F'
-	   where mem_id=#{id}
+	   DELETE FROM 
+	   	member
+	   WHERE mem_id=#{id}
 	]]>      
-  </update>
+  </delete>
   
   <select id="loginById"  resultMap="memResult"   parameterType="memberVO" >
 	<![CDATA[
@@ -225,7 +225,7 @@
   <insert id="insertLogByInformationInquiry" parameterType="java.util.Map">
   <![CDATA[
   	INSERT INTO event_security_log(esl_id, user_id, esl_type, esl_log_text) 
-  	values(esl_seq.NEXTVAL, #{manager}, 'select_memberInfo', #{manager} || '께서 ' || #{id} ||' 정보를 조회하였습니다.')
+  	values(esl_seq.NEXTVAL, #{manager}, 'select_memberInfo', #{manager} || '께서 ' || #{id} ||'의 정보를 조회하였습니다. 사유 : ' || #{reason})
   ]]>
   </insert>  
   

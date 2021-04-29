@@ -52,11 +52,10 @@
 		 padding: 10px 20px;
 	}
 	
-	.menuCategory{
-		height: 5%; 
-		width: 100%; 
-		margin-bottom: 1%; 
+	.process {
 		text-align: left;
+		color: #9C9D9D;
+		margin-bottom: 2em;
 	}
 	
 	#imgViewArea{
@@ -171,8 +170,15 @@
 		
 	
 %>
-	<div class="menuCategory">
-	<h5>과정 관리 > 강의 계획서 등록</h5>
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/course/listCourses.do'"
+			style="cursor: pointer;">과정관리</span> > <span
+			onclick="location.href='${contextPath}/syllabus/listSyllabuses.do'"
+			style="cursor: pointer;"> 강의계획서 관리</span> > <span
+			onclick="location.href='${contextPath}/syllabus/syllabusForm.do?page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
+			style="cursor: pointer;"> 강의계획서 등록</span> 
+		</h5>
 	</div>
 	
 	<div style="width: 85%;">

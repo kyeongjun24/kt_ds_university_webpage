@@ -190,4 +190,10 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		int result = sqlSession.insert("mapper.enrollment.checkEnrollment", enrollmentVO);
 		return result;
 	}
+
+	//수료 대기 인원
+	@Override
+	public int selectNumberOfWaitingCompletion() throws DataAccessException {
+		return sqlSession.selectOne("mapper.enrollment.selectNumberOfWaitingCompletion");
+	}
 }

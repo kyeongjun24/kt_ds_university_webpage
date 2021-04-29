@@ -25,7 +25,7 @@ public interface MemberController {
 	ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	int removeCheckedMembers(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	ModelAndView informationMemberForm(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	int insertLogByInformationInquiry(String id, HttpServletRequest request, HttpServletResponse response)
+	int insertLogByInformationInquiry(String id, @RequestParam String reason, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 	
 }

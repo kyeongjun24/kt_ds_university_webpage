@@ -309,4 +309,10 @@ public class EnrollmentServiceImpl implements EnrollmentService{
         }
 	}
 	
+	//수료 대기 인원
+	@Override
+	public int numberOfWaitingCompletion() throws DataAccessException {
+		return enrollmentDAO.selectNumberOfWaitingCompletion();
+	}
+	
 }
