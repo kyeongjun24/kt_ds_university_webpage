@@ -60,4 +60,8 @@ public interface EnrollmentDAO {
 
 	public int logExcelDownload(String reason) throws DataAccessException;
 
+	public int updateReduceNumEnrollments(int id) throws DataAccessException;
+
+	public int updateIncreaseNumEnrollments(EnrollmentVO enrollmentVO) throws DataAccessException;
+
 }

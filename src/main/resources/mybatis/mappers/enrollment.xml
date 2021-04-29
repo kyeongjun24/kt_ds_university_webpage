@@ -291,7 +291,7 @@
 	</select>
 
 	<!-- 수강신청 등록 -->
-	 <select id="addEnrollment" parameterType="enrollmentVO">
+	 <insert id="addEnrollment" parameterType="enrollmentVO">
 		<![CDATA[
 			INSERT INTO enrollment_detail
 			VALUES(	
@@ -301,7 +301,16 @@
                 to_char(sysdate, 'YYYY-MM-DD'), null
                 )
     	]]>
-	</select>
+	</insert>
+	
+	<!-- 수강 등록하면 수강인원 +1 -->
+	<update id="updateIncreaseNumEnrollments"  parameterType="enrollmentVO">
+    	<![CDATA[
+	    	UPDATE course
+			SET crs_apply_num = crs_apply_num +1
+			WHERE crs_id = #{courseVO.id}
+      	]]>      
+   </update> 
 	
 	<!-- 체크리스트 상태변경 (삭제) -->
 	<update id="updateDeleteEnrollments"  parameterType="int">
@@ -309,6 +318,19 @@
 	    	UPDATE enrollment_detail
 			SET enrd_stat = '취소완료'
 			WHERE enrd_id = #{id}
+      	]]>      
+   </update> 
+   
+   <!-- 상태 '취소완료'로 바뀌면 수강인원 -1 -->
+	<update id="updateReduceNumEnrollments"  parameterType="int">
+    	<![CDATA[
+	    	UPDATE course
+			SET crs_apply_num = crs_apply_num -1
+			WHERE crs_id IN 
+				(SELECT c.crs_id 
+				FROM enrollment_detail E, course C
+				WHERE e.crs_id = c.crs_id
+			    	and e.enrd_id = #{id})
       	]]>      
    </update> 
    

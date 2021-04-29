@@ -16,26 +16,26 @@ public class Scheduler{
 	@Autowired
 	EnrollmentDAO enrollmentDAO;
 	
-	/** * 1. ¿ÀÈÄ 20:38:00¿¡ È£ÃâÀÌ µÇ´Â ½ºÄÉÁì·¯ */ 
+	/** * 1. ì˜¤í›„ 20:38:00ì— í˜¸ì¶œì´ ë˜ëŠ” ìŠ¤ì¼€ì¥´ëŸ¬ */ 
 	@Scheduled(cron = "00 38 20 * * *") 
 	public void cronTest1(){ 
-		System.out.println("¿ÀÈÄ 20:38:00¿¡ È£ÃâÀÌ µË´Ï´Ù ");
+		System.out.println("ì˜¤í›„ 20:38:00ì— í˜¸ì¶œì´ ë©ë‹ˆë‹¤ ");
 		int result = courseDAO.updateCourseStatusByDate();
 		} 
 	
 	
-	/** * 2. ¿ÀÈÄ 20:45:00¿¡ È£ÃâÀÌ µÇ´Â ½ºÄÉÁì·¯ */
+	/** * 2. ì˜¤í›„ 20:45:00ì— í˜¸ì¶œì´ ë˜ëŠ” ìŠ¤ì¼€ì¥´ëŸ¬ */
 	@Scheduled(cron = "00 45 20 * * *") 
 	public void cronTest2(){ 
-		System.out.println("¿ÀÈÄ 20:45:00¿¡ È£ÃâÀÌ µË´Ï´Ù ");
+		System.out.println("ì˜¤í›„ 20:45:00ì— í˜¸ì¶œì´ ë©ë‹ˆë‹¤ ");
 		int result = courseDAO.updateCourseStatusByNumOfApplicants();
 		} 
 	
-	// °­ÁÂ Á¾·á ³¯Â¥ Áö³ª¸é ¼ö·á´ë±â·Î ÀÚµ¿º¯°æ
-	/* 3. 00:00:05¿¡ È£ÃâÀÌ µÇ´Â ½ºÄÉÁì·¯ */
+	// ê°•ì¢Œ ì¢…ë£Œ ë‚ ì§œ ì§€ë‚˜ë©´ ìˆ˜ë£ŒëŒ€ê¸°ë¡œ ìë™ë³€ê²½
+	/* 3. 00:00:05ì— í˜¸ì¶œì´ ë˜ëŠ” ìŠ¤ì¼€ì¥´ëŸ¬ */
 	@Scheduled(cron = "05 00 00 * * *") 
 	public void cronTest3(){ 
-		System.out.println("¿ÀÀü 00:00:05¿¡ È£ÃâÀÌ µË´Ï´Ù ");
+		System.out.println("ì˜¤ì „ 00:00:05ì— í˜¸ì¶œì´ ë©ë‹ˆë‹¤ ");
 		int result = enrollmentDAO.updateEnrollmentStatusByDate();
 		} 
 }
