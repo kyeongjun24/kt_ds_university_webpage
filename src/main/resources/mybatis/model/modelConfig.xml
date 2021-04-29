@@ -19,6 +19,7 @@
 		<typeAlias type="com.mySpring.springEx.manager.vo.ManagerVO"  alias="managerVO" />
 		<typeAlias type="com.mySpring.springEx.company.vo.CompanyVO"  alias="companyVO" />
 		<typeAlias type="com.mySpring.springEx.enrollment.vo.EnrollmentVO"  alias="enrollmentVO" />
+		<typeAlias type="com.mySpring.springEx.enrollment.vo.EventCompletionLogVO"  alias="EventCompletionLogVO" />
 		<typeAlias type="com.mySpring.springEx.courseCategory.vo.CourseCategoryVO"  alias="courseCategoryVO" />
 		<typeAlias type="com.mySpring.springEx.survey.vo.SurveyVO"  alias="SurveyVO" />
 		<typeAlias type="com.mySpring.springEx.event_security_log.vo.Event_security_logVO"  alias="Event_security_logVO" />

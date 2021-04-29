@@ -17,6 +17,17 @@
    .text_center{
      text-align:center;
    }
+   
+   .process {
+	text-align: left;
+	color: #9C9D9D;	
+	margin-bottom: 2em;
+	}
+	
+	#lastTd {
+		border-style: hidden;
+	}
+	
 </style>
 </head>
 
@@ -28,6 +39,17 @@
 	
 </script>
 <body>
+	
+	<div class="process">
+		<h4>
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;">수강관리</span> > 
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+				style="cursor: pointer;"> 수강신청내역</span> >
+			<span onclick="window.location.reload()"
+				style="cursor: pointer;"> 상세내역(강좌)</span>
+		</h4>
+	</div>
 	
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" id="attr">
@@ -57,24 +79,26 @@
 			<c:when test="${enrollmentsList !=null }">
 				<c:forEach var="enrollment" items="${enrollmentsList }" varStatus="enrdNum">
 					<tr align="center">
-						<td>${enrdNum.count}</td>
-						<td>${enrollment.memberVO.id }</td>
-						<td>${enrollment.memberVO.name }</td>
-						<td>${enrollment.memberVO.phone }</td>
-						<td>${enrollment.memberVO.email }</td>
-						<td>${enrollment.memberVO.companyName }</td>
-						<td>${enrollment.syllabusVO.name }</td>
-						<td>${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
-						<td>${enrollment.stat }</td>
-						<td>${enrollment.joinDate }</td>
+						<td style="width: 3%">${enrdNum.count}</td>
+						<td style="width: 8%">${enrollment.memberVO.id }</td>
+						<td style="width: 6%">${enrollment.memberVO.name }</td>
+						<td style="width: 9%">${enrollment.memberVO.phone }</td>
+						<td style="width: 13%">${enrollment.memberVO.email }</td>
+						<td style="width: 13%">${enrollment.memberVO.companyName }</td>
+						<td style="width: 21%">${enrollment.syllabusVO.name }</td>
+						<td style="width: 14%">${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>
+						<td style="width: 3%">${enrollment.stat }</td>
+						<td style="width: 8%">${enrollment.joinDate }</td>
 					</tr>
 				</c:forEach>
 			</c:when>
 		</c:choose>
+		<tr>
+			<td  id="lastTd" colspan="10">
+				<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
+		</tr>
 	</table>
 	
 	
-	
-	<button type="button" onclick="location.href = '${contextPath}/enrollment/listEnrollments.do'" style="width: 5%;">목록</button>
 </body>
 </html>

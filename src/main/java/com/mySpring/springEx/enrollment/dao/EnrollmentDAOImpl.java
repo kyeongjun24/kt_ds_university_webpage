@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
+import com.mySpring.springEx.manager.vo.ManagerVO;
 import com.mySpring.springEx.member.vo.MemberVO;
 
 @Repository("enrollmentDAO")
@@ -19,6 +20,13 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 
 	@Autowired
 	private SqlSession sqlSession;
+	
+	//과정 끝나면 수료대기 상태로 변경
+	@Override
+	public int updateEnrollmentStatusByDate() throws DataAccessException {
+		return sqlSession.update("mapper.enrollment.updateEnrollmentStatus");
+	}
+	
 	
 	// 검색에 의해 나눠지는 메서드
 	@Override
@@ -90,6 +98,14 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		List<EnrollmentVO> enrollmentsList = null;
 		enrollmentsList = sqlSession.selectList("mapper.enrollment.excelEnrollmentList");
 		return enrollmentsList;
+	}
+	
+	//엑셀 다운로드 로그
+	@Override
+	public int logExcelDownload(String log) throws DataAccessException {
+		int logExcel = 0;
+		logExcel = sqlSession.insert("mapper.enrollment.logExcelDownload", log);
+		return logExcel;
 	}
 
 	//수강신청 등록

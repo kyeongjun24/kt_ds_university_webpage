@@ -56,4 +56,8 @@ public interface EnrollmentDAO {
 
 	public int selectNumberOfWaitingCompletion() throws DataAccessException;
 
+	public int updateEnrollmentStatusByDate() throws DataAccessException;
+
+	public int logExcelDownload(String reason) throws DataAccessException;
+
 }

@@ -25,6 +25,7 @@ import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.course.vo.CourseVO;
 import com.mySpring.springEx.enrollment.dao.EnrollmentDAO;
 import com.mySpring.springEx.enrollment.vo.EnrollmentVO;
+import com.mySpring.springEx.manager.vo.ManagerVO;
 
 @Service("enrollmentService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -76,7 +77,6 @@ public class EnrollmentServiceImpl implements EnrollmentService{
     public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException {
         return enrollmentDAO.insertEnrollment(enrollment);
     }
-	
 	
 	// 상세페이지(사람)
 	@Override
@@ -157,6 +157,12 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 		return enrollmentDAO.selectNumberOfApplicants();
 	}
     
+	//엑셀 로그
+	@Override
+	public int logExcelDownload(String log) throws DataAccessException {
+		return enrollmentDAO.logExcelDownload(log);
+	}
+	
 	// 엑셀 다운로드
 	@Override
 	public void excelDownload(HttpServletResponse response) throws Exception {

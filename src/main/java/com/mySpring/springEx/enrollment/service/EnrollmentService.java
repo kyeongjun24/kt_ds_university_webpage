@@ -43,7 +43,6 @@ public interface EnrollmentService {
 
 	public List enrollmentCourse(int id) throws DataAccessException;
 
-
 	public EnrollmentVO selectCompletion(int id) throws DataAccessException;
 
 	public List listCompletionCriteria(Criteria criteria) throws DataAccessException;
@@ -51,6 +50,9 @@ public interface EnrollmentService {
 	public List listBySearchCompletion(String searchType, String searchText) throws DataAccessException;
 
 	public List listCompletionCriteriaBySearch(Criteria criteria) throws DataAccessException;
+	
 	public int numberOfWaitingCompletion() throws DataAccessException;
+	
+	public int logExcelDownload(String reason) throws DataAccessException;
 
 }
