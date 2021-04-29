@@ -115,36 +115,34 @@ request.setCharacterEncoding("UTF-8");
 	}
 
 	// 전체 체크되게 하는 함수
-	$(
-			function() {
-				$('#selectAll').click(function() {
-					if ($("input:checkbox[id='selectAll']").prop("checked")) {
-						$("input[type=checkbox]").prop("checked", true);
-					} else {
-						$("input[type=checkbox]").prop("checked", false);
-					}
-				})
+	$(function() {
+		$('#selectAll').click(function() {
+			if ($("input:checkbox[id='selectAll']").prop("checked")) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else {
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		})
 
-				$('#listFilter')
-						.on(
-								'change',
-								function() {
-									var perPage = $(this).val();
-									var searchType = document
-											.getElementById('searchType').value;
-									var searchText = document
-											.getElementById('searchText').value;
-									/* alert(perPage+"씩 리스트 출력");
-									alert(searchType);
-									alert(searchText); */
-									location.href = "${contextPath}/company/listCompanies.do?perPage="
-											+ perPage
-											+ "&searchType="
-											+ searchType
-											+ "&searchText="
-											+ searchText;
-								})
-			}) //function
+		$('#listFilter')
+				.on(
+						'change',
+						function() {
+							var perPage = $(this).val();
+							var searchType = document
+									.getElementById('searchType').value;
+							var searchText = document
+									.getElementById('searchText').value;
+							/* alert(perPage+"씩 리스트 출력");
+							alert(searchType);
+							alert(searchText); */
+							location.href = "${contextPath}/company/listCompanies.do?perPage="
+									+ perPage
+									+ "&searchType="
+									+ searchType
+									+ "&searchText=" + searchText;
+						})
+	}) //function
 </script>
 
 <body>
@@ -244,14 +242,13 @@ request.setCharacterEncoding("UTF-8");
 
 
 	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/company/companyExcelDownload.do"
-		method="post" id="excelForm">
+	<form action="${contextPath}/company/excelDownload.do" method="post"
+		id="excelForm" name="excelForm">
 		<p id="type_color">
 			<span style="color: black">협약상태 구분: </span><span style="color: black">
 				●협약완료 </span><span style="color: blue"> ●협약서사본</span><span
 				style="color: red">●협약서없음 </span><span style="color: green">
 				●상호변경 </span>
-
 		</p>
 		<button type="button" id="enrollButton"
 			onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
@@ -371,6 +368,7 @@ request.setCharacterEncoding("UTF-8");
 			</c:if>
 		</ul>
 	</div>
+
 
 </body>
 </html>

@@ -20,9 +20,9 @@
 		<result property="companyTel" column="com_tel" />
 		<result property="zipCode" column="com_zipcode" />
 	</resultMap>
-
+   
 	<!-- 전체 회사리스트 출력 -->
-	<select id="selectAllCompaniesList" resultMap="comResult">
+	<select id="selectAllCompaniesList" resultMap="comResult">  
 		<![CDATA[
 			SELECT 
 			com_contract_stat, com_name, com_contract_name, com_manager_phone, com_id,
