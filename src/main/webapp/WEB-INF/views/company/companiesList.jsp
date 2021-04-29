@@ -34,9 +34,6 @@ request.setCharacterEncoding("UTF-8");
 	padding-left: 7px;
 }
 
-#com_list {
-	line-height: 40px;
-}
 </style>
 
 <meta charset="UTF-8">
@@ -193,8 +190,8 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 
-	<table border="0" id="com_list">
-		<tr height="15" align="center" style="border-bottom: solid;">
+	<table>
+		<tr height="15" align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
 			<td><b>상태</b></td>
 			<td><b>회사명</b></td>
@@ -240,7 +237,7 @@ request.setCharacterEncoding("UTF-8");
 	</table>
 
 	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>

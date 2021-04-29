@@ -39,12 +39,15 @@ public interface EnrollmentController {
 
 	ModelAndView deleteEnrollment(String id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+	ModelAndView listCompletion(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	ModelAndView completionDoc(int id, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
-	ModelAndView listCompletion(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 
 	/*
 	 * ModelAndView printCompletion(HttpServletRequest request, HttpServletResponse
 	 * response) throws Exception;
 	 */
+
 }

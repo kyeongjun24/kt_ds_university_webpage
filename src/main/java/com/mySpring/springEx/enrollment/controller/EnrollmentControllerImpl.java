@@ -87,11 +87,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 			enrollmentsList = enrollmentService.listEnrollments(); //전체 리스트 저장
 			criteria.setPage(page); //페이지 설정
 			pageMaker.setTotalCount(enrollmentsList.size()); //페이지 개수 설정
-			enrollmentsList = enrollmentService.listCriteria(criteria); //기준에 의해 나눠진 리스트 설정
-			enrollmentsList = enrollmentService.listEnrollments(); // 전체 리스트 저장
-			criteria.setPage(page); // 페이지 설정
-			pageMaker.setTotalCount(enrollmentsList.size()); // 페이지 개수 설정
-			enrollmentsList = enrollmentService.listEnrollmentCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
+			enrollmentsList = enrollmentService.listEnrollmentCriteria(criteria); //기준에 의해 나눠진 리스트 설정
 		}
 		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
 		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
@@ -222,7 +218,44 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		 } 
 		return result;
 	}
-
+	
+	// 한개 삭제
+	@Override
+	@RequestMapping(value="/enrollment/deleteEnrollment.do" ,method = RequestMethod.GET)
+	public ModelAndView deleteEnrollment(@RequestParam String id, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = enrollmentService.updateDeleteEnrollments(Integer.parseInt(id));	
+		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
+		return mav;
+	}
+	
+//	//폼
+//	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
+//	private ModelAndView enrollmentForm(@RequestParam(value = "result", required = false) String result,
+//			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
+//			HttpServletResponse response) throws Exception {
+//
+//		String viewName = (String) request.getAttribute("viewName");
+//		HttpSession session = request.getSession();
+//		session.setAttribute("action", action);
+//		ModelAndView mav = new ModelAndView();
+//		mav.addObject("result", result);
+//		mav.setViewName(viewName);
+//		return mav;
+//	}
+	
+//	//수강신청내역 리스트로 이동 (백업)
+//	@Override
+//	@RequestMapping(value="/enrollment/listEnrollments.do" ,method = RequestMethod.GET)
+//	public ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		String viewName = (String)request.getAttribute("viewName");
+//		List enrollmentsList = enrollmentService.listEnrollments();
+//		ModelAndView mav = new ModelAndView(viewName);
+//		
+//		mav.addObject("enrollmentsList", enrollmentsList);
+//		return mav;
+//	}
 	//수료관리 리스트 출력 메소드
 	@Override
 	@RequestMapping(value="/enrollment/listCompletion.do" ,method = RequestMethod.GET)
@@ -266,13 +299,13 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 					System.out.println(searchType);
 					System.out.println(searchText);
 					System.out.println("@@@@@@@@@검색필터 적용됨요");
-					completionList = enrollmentService.listCompletionBySearch(searchType, searchText);
+					completionList = enrollmentService.listBySearchCompletion(searchType, searchText);
 					System.out.println("@@@@@@@@@@서치된 리스트"+completionList.size()); // 검색해서 받은 전체 리스트 사이즈
 					criteria.setPage(page); // page 설정
 					criteria.setSearchText(searchText); // 검색 값 설정
 					criteria.setSearchType(searchType); // 검색 유형 설정
 					pageMaker.setTotalCount(completionList.size()); // 페이지 개수를 전체 리스트 크기로 설정
-					completionList = enrollmentService.listMemberCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
+					completionList = enrollmentService.listCompletionCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
 					System.out.println("page@@@"+page+"번호에 해당하는 리스트 크기"+completionList.size());
 					
 					mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내기
@@ -280,12 +313,12 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 				} else { // 검색 유형이랑 값을 받지 않았다면
 					System.out.println("@@@@@@@@검색필터적용안됨요");
 					completionList = enrollmentService.listCompletion(); //전체 리스트 저장
-//						membersList = memberService.listCriteria(criteria);
+//					membersList = memberService.listCriteria(criteria);
 					
 					 System.out.println(completionList.size()); //전체 사이즈 
 					 criteria.setPage(page); //페이지 설정 
 					 pageMaker.setTotalCount(completionList.size()); //페이지 개수 설정
-					 completionList = enrollmentService.listMemberCriteria(criteria); //기준에 의해 나눠진 리스트 설정
+					 completionList = enrollmentService.listCompletionCriteria(criteria); //기준에 의해 나눠진 리스트 설정
 					 			}
 				System.out.println("perPage@@@@@@@@@@@@"+perPage);
 				mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
@@ -293,43 +326,32 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 				mav.addObject("completionList", completionList); //설정된 리스트 보내기
 				return mav; //리스트 페이지로
 			}
-	// 한개 삭제
+	
+	//수료증 출력 메소드
 	@Override
-	@RequestMapping(value="/enrollment/deleteEnrollment.do" ,method = RequestMethod.GET)
-	public ModelAndView deleteEnrollment(@RequestParam String id, HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value="/enrollment/completionDoc.do", method = RequestMethod.GET)
+	public ModelAndView completionDoc(@RequestParam int id, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		request.setCharacterEncoding("utf-8");
-		int result = enrollmentService.updateDeleteEnrollments(Integer.parseInt(id));	
-		ModelAndView mav = new ModelAndView("redirect:/enrollment/listEnrollments.do");
-		return mav;
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName(viewName);
+		EnrollmentVO enrollmentVO = enrollmentService.selectCompletion(id);
+		mv.addObject("enrollmentVO", enrollmentVO);
+		return mv;
 	}
 	
-//	//폼
-//	@RequestMapping(value = "/enrollment/enrollmentForm.do", method = RequestMethod.GET)
-//	private ModelAndView enrollmentForm(@RequestParam(value = "result", required = false) String result,
-//			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
-//			HttpServletResponse response) throws Exception {
-//
-//		String viewName = (String) request.getAttribute("viewName");
-//		HttpSession session = request.getSession();
-//		session.setAttribute("action", action);
-//		ModelAndView mav = new ModelAndView();
-//		mav.addObject("result", result);
-//		mav.setViewName(viewName);
-//		return mav;
-//	}
-	
-//	//수강신청내역 리스트로 이동 (백업)
-//	@Override
-//	@RequestMapping(value="/enrollment/listEnrollments.do" ,method = RequestMethod.GET)
-//	public ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		String viewName = (String)request.getAttribute("viewName");
-//		List enrollmentsList = enrollmentService.listEnrollments();
-//		ModelAndView mav = new ModelAndView(viewName);
-//		
-//		mav.addObject("enrollmentsList", enrollmentsList);
-//		return mav;
-//	}
-	
+	/*
+	 * //수료증 출력 메소드2
+	 * 
+	 * @RequestMapping(value = "/enrollment/printCompletion.do", method =
+	 * RequestMethod.GET)
+	 * 
+	 * @Override public ModelAndView printCompletion(HttpServletRequest request,
+	 * HttpServletResponse response) throws Exception { String viewName =
+	 * (String)request.getAttribute("viewName"); System.out.println(viewName);
+	 * ModelAndView mav = new ModelAndView(); mav.setViewName(viewName); return mav;
+	 * }
+	 */
 	
 }

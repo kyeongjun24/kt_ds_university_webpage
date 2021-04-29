@@ -11,21 +11,13 @@ request.setCharacterEncoding("UTF-8");
 <html>
 <head>
 <style>
-	.cls1 {
-		text-decoration: none;
-	}
 	
-	.cls2 {
-		text-align: center;
-		font-size: 30px;
-	}
-	
-	a:link {
+	#herfId:link {
 		text-decoration: none;
 		color: black;
 	}
 	
-	a:visited {
+	#herfId:visited {
 		text-decoration: none;
 		color: black;
 	}
@@ -303,7 +295,7 @@ request.setCharacterEncoding("UTF-8");
 	</table>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>

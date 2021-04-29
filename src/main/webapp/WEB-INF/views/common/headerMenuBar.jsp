@@ -7,22 +7,12 @@ request.setCharacterEncoding("UTF-8");
 %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <style>
-@import
-	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap')
-	;
-
-* {
-	margin: 0px;
-	padding: 0px;
-	box-sizing: border-box;
-	font-family: "Noto Sans KR", sans-serif;
-}
-
 header {
 	background-color: #333;
-	height: 60px;
+	height: 3.8em;
 	border-top: 2px solid #e91b23;
 	display: flex;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 /* header 부분에만 적용되게 추가... ul li a 태그까지 */
@@ -37,30 +27,28 @@ header ul li {
 
 header ul li a {
 	color: #fff;
-	font-weight: 300;
-	padding: 16px 90px;
-	font-size: 15px;
-	border-right : 0.5px solid #969696;
-	height: 60px;
+    font-weight: 300;
+    padding: 1.3em 5.5em;
+    font-size: 0.9em;
+    border-right: 0.5px solid #969696;
 }
 
 .logo {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 200px;
+	width: 11%;
 	border-right: 0.5px solid #969696;
 }
 
 .main_menu {
-	position: absolute;
-	left: 200px;
-	top : 19px;
+    position: relative;
+    top: 1em;
 }
 
 img {
-	width: 140px;
-	height: 23px;
+    width: 8.8em;
+    height: 1.4em;
 	object-fit: cover;
 }
 </style>

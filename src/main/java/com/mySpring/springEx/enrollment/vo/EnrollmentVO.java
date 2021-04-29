@@ -96,6 +96,13 @@ public class EnrollmentVO {
 		this.modDate = modDate;
 	}
 	
+	public String getCompleteDate() {
+		return completeDate;
+	}
+
+	public void setCompleteDate(String completeDate) {
+		this.completeDate = completeDate;
+	}
 
 	public MemberVO getMemberVO() {
 		return memberVO;
@@ -120,6 +127,4 @@ public class EnrollmentVO {
 	public void setSyllabusVO(SyllabusVO syllabusVO) {
 		this.syllabusVO = syllabusVO;
 	}
-
-	
 }
