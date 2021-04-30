@@ -46,7 +46,6 @@ public class SyllabusControllerImpl implements SyllabusController{
 		String viewName = (String)request.getAttribute("viewName");
 		String searchType = (String)request.getParameter("searchType");
 		String searchText = (String)request.getParameter("searchText");
-		
 		int page = 0;
 		if (request.getParameter("page") != null) {
 			page = Integer.parseInt((String)request.getParameter("page"));

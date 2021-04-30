@@ -275,18 +275,11 @@
 </script>
 </head>
 <body>
-<%
-	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
-	Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
-	
-	if (manager != null && isLogOn == true) {
-	
-%>
 	<div class='process' >
 		<h5>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 			style="cursor: pointer;">회원관리</span> > <span
-			onclick="location.href='${contextPath}/member/listMembers.do'"
+			onclick="location.href='${contextPath}/member/listMembers.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 학생관리</span> > <span
 			onclick="location.href='${contextPath}/member/memberForm.do?page=${page}&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor:pointer;"> 학생 등록</span> 
@@ -387,15 +380,10 @@
 		    </tr>
 		</table>
 		<div class="text_center" style="width: 85%; margin-top: 30px;">
-			<input type="submit" id="enrollButton" value="가입하기">&nbsp;<input type="button" onclick="history.back()" value="취소">
+			<input type="submit" id="enrollButton" value="등록">&nbsp;<input type="button" onclick="history.back()" value="취소">
 		</div>
 		</form>
 	</div>
-	<%} else {  %>
-	<script>
-		window.location.href="${contextPath}";
-	</script>
-	<% } %>
 </body>
 
 

@@ -92,6 +92,9 @@
          	<when test="searchType == 'companyName'">
          		WHERE UPPER(mem_company_name) LIKE '%' || UPPER(#{searchText}) || '%'
          	</when>
+         	<when test="searchType == 'id'">
+         		WHERE UPPER(mem_id) LIKE '%' || UPPER(#{searchText}) || '%'
+         	</when>
          </choose>
          order by mem_join_date desc
 	</select>
@@ -139,6 +142,9 @@
 	         	</when>
 	         	<when test="searchType == 'companyName'">
 	         		WHERE UPPER(mem_company_name) LIKE '%' || UPPER(#{searchText}) || '%'
+	         	</when>
+	         	<when test="searchType == 'id'">
+	         		WHERE UPPER(mem_id) LIKE '%' || UPPER(#{searchText}) || '%'
 	         	</when>
          	</choose>
 		ORDER BY mem_join_date desc)

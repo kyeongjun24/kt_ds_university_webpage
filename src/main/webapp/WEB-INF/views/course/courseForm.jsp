@@ -311,7 +311,7 @@
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/course/listCourses.do'"
+			onclick="location.href='${contextPath}/course/listCourses.do??page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 과정 관리</span> > <span
 			onclick="location.href='${contextPath}/course/courseForm.do?page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor: pointer;"> 과정 등록</span> 
@@ -424,7 +424,7 @@
 		       <td></td>
 		    </tr>
 		    <tr>
-		       <td colspan="4" width="250"><input type="submit" value="등록하기" id="enrollButton"><input type="button" onclick="history.back()" value="취소"></td>
+		       <td colspan="4" width="250"><input type="submit" value="등록" id="enrollButton"><input type="button" onclick="history.back()" value="취소"></td>
 		    </tr>
 		</table>
 	</form>

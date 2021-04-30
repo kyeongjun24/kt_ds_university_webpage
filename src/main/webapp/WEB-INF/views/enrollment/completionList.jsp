@@ -98,18 +98,15 @@ text-align: left;
 
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'name'}">
-					<option value="">검색 종류</option>
 					<option value="name" selected>이름</option>
 					<option value="companyName">회사명</option>
 				</c:if>
 				<c:if test="${searchType == 'companyName' }">
-					<option value="">검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName" selected>회사명</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
-					<option value="name">이름</option>
+					<option value="name" selected>이름</option>
 					<option value="companyName">회사명</option>
 				</c:if>
 			</select>
