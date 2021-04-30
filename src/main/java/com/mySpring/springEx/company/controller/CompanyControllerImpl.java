@@ -360,15 +360,15 @@ public class CompanyControllerImpl implements CompanyController {
 		String viewName = (String) request.getAttribute("viewName");
 		String searchType = (String) request.getParameter("searchType");
 		String searchText = (String) request.getParameter("searchText");
-		int page = Integer.parseInt(request.getParameter("page")); // page 蹂��닔�뿉 媛믪쓣 ���옣
-		int perPage = Integer.parseInt(request.getParameter("perPage")); // perPage 蹂��닔�뿉 由ъ뒪�듃 �쓣�슱 媛쒖닔 ���옣
+		int page = Integer.parseInt(request.getParameter("page")); 
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		HttpSession session = request.getSession();
 		session.setAttribute("action", action);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result", result);
 		mav.setViewName(viewName);
 		mav.addObject("page", page);
-		mav.addObject("perPage", perPage); // 由ъ뒪�듃 湲곗� 媛� 蹂대궡湲� 
+		mav.addObject("perPage", perPage); 
 		mav.addObject("searchText", searchText);
 		mav.addObject("searchType", searchType);
 		return mav;
