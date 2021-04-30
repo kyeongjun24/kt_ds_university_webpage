@@ -257,38 +257,33 @@ request.setCharacterEncoding("UTF-8");
 		<div class="searchType">
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'name' }">
-					<option value="" disabled>검색 종류</option>
 					<option value="name" selected>이름</option>
 					<option value="companyName">회사명</option>
 					<option value="slbName">과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 				<c:if test="${searchType == 'companyName' }">
-					<option value="">검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName" selected>회사명</option>
 					<option value="slbName">과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 				<c:if test="${searchType == 'slbName' }">
-					<option value="">검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName">회사명</option>
 					<option value="slbName" selected>과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 				<c:if test="${searchType == 'stat' }">
-					<option value="">검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName">회사명</option>
 					<option value="slbName">과정명</option>
 					<option value="stat" selected>상태</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName">회사명</option>
-					<option value="slbName">과정명</option>
+					<option value="slbName" selected>과정명</option>
 					<option value="stat">상태</option>
 				</c:if>
 			</select>
@@ -344,9 +339,9 @@ request.setCharacterEncoding("UTF-8");
 		<c:choose>
 			<c:when test="${empty enrollmentsList}">
 				<tr height="10">
-					<td colspan="4">
+					<td colspan="7">
 						<p align="center">
-							<b><span style="font-size: 9pt;">등록된 회사가 없습니다.</span></b>
+							<b><span style="font-size: 9pt;">찾으시는 데이터가 없습니다.</span></b>
 						</p>
 					</td>
 				</tr>
