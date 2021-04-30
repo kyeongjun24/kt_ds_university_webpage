@@ -399,9 +399,9 @@
 		       <td align="left" ><input type="text" value="${vo.companyName }" readonly></td> 
 		    </tr>
 		</table>
-		<div class="text_center" style="width: 85%; margin-top: 30px;">
-		    <button id="enrollButton" onclick="updateFormMember('F')">수정하기</button>&nbsp;&nbsp;&nbsp;
-		    <button onclick="removeMember()">탈퇴</button>&nbsp;&nbsp;&nbsp;
+		<div class="text_center" style="width: 85%; margin-top: 3em; margin-bottom: 4em;">
+		    <button id="enrollButton" onclick="updateFormMember('F')">수정하기</button>
+		    <button onclick="removeMember()">탈퇴</button>
 		    <button onclick="history.back()" >뒤로</button>
 	    </div>
     </div>

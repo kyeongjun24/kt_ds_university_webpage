@@ -61,7 +61,7 @@ request.setCharacterEncoding("UTF-8");
 
 .side_title {
 	padding: 1.7em;
-	width: 8em;
+	width: 9em;
 	border-bottom: 0.5px solid #bcbcbc;
 }
 
@@ -113,7 +113,6 @@ a {
 table {
 	width: 90%;
 	border-collapse: collapse;
-	margin: 20px 0;
 }
 
 td {
@@ -200,7 +199,6 @@ button {
 .memberButton {
 	position: relative;
 	margin-top: 5px;
-	margin-bottom: 20px;
 	display: flex;
 	justify-content: flex-end;
 	width: 90%;

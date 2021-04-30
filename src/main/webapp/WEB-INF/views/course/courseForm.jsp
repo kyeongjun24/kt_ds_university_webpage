@@ -75,8 +75,13 @@
 	}
 	
 	#imgArea{
-		position : relative;
-		transform : translateX(-170px);
+		float: left;
+    	height: 7.7em;
+    	margin-left: 1.6em;
+	}
+	
+	.ui-datepicker-trigger {
+		width: 1.8em;
 	}
 	
 	
@@ -325,7 +330,7 @@
 	
 	<form method="post"   action="${contextPath}/course/addCourse.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}"
 		 name="crsFrm" id="courseRegister" >
-		<table  align="center">
+		<table>
 		   <tr>
 		      <td width="10%"><p align="right">강좌명</td>
 		      <td width="40%" style="text-align:left; padding-left: 20px;">
@@ -425,7 +430,7 @@
 		       <td></td>
 		    </tr>
 		    <tr>
-		       <td colspan="4" width="250"><input type="submit" value="등록하기" id="enrollButton"><input type="button" onclick="history.back()" value="취소"></td>
+		       <td colspan="4" width="250"><input type="submit" value="등록하기" style="width: 5em" id="enrollButton"><input type="button" style="margin-left: 1em;" onclick="history.back()" value="취소"></td>
 		    </tr>
 		</table>
 	</form>

@@ -63,7 +63,8 @@ input:focus {
 }
 
 .buttonZip {
-	margin-top: 70px;
+	margin-top: 4em;
+	margin-bottom: 4em;
 }
 
 #rd {
@@ -83,23 +84,27 @@ input:focus {
 
 .oNum {
 	text-align: left;
-	padding-left: 3em;
+	padding-left: 4em;
 }
 
 .td2 {
 	border-bottom: none;
 }
 
-#search {
+#address_search {
 	float: left;
 	width: 47px;
+	position: relative;
+    top: 1.8em;
 }
 
 #zipCode {
 	float: left;
 	margin-left: 4em;
-	width: 16%;
+	width: 68%;
 	padding-left: 7px;
+	position: relative;
+    top: 2em;
 }
 
 #address {
@@ -304,7 +309,7 @@ input:focus {
 				<td width="10%" class="td1" rowspan="2"><p align="right">주소</p></td>
 				<td width="20%" class="td1" colspan="1"><input type="text"
 					id=zipCode name="zipCode" value="${companyVO.zipCode }">
-					<button type="button" id=search name="search"
+					<button type="button" id="address_search" name="search"
 						onclick="openZipSearch()">검색</button></td>
 				<td width="10%" class="td1" rowspan="2"><p align="right">사업자등록번호</p></td>
 				<td width="20%" class="td2" rowspan="2">

@@ -25,6 +25,29 @@ request.setCharacterEncoding("UTF-8");
 	#herfId:hover {
 		color: #c2c2c2;
 	}
+	
+	.process {
+	text-align: left;
+	margin-bottom: 2em;
+	color: #9C9D9D;
+}
+	
+	#type_color {
+	font-size: 15px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+	}
+	
+	#type_color span{
+	font-size: 0.9em;
+	margin-right: 7px;
+	}
+	
+	#excel {
+	width: 7em;
+    margin-left: 1em;
+	}
 </style>
 <meta charset="UTF-8">
 <title>글목록창</title>
@@ -163,13 +186,21 @@ request.setCharacterEncoding("UTF-8");
 	});
 </script>
 <body>
+	<div class='process' >
+		<h5>
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+			style="cursor: pointer;">수강관리</span> > <span
+			onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+			style="cursor: pointer;"> 수강신청내역</span>
+		</h5>
+	</div>
+
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
 	String searchText = request.getParameter("searchType");
 	%>
 
-	<h4 align="left"> 수강신청내역</h4>
 	<form method="get"
 		action="${contextPath}/enrollment/listEnrollments.do" id="searchFrm">
 
@@ -259,11 +290,15 @@ request.setCharacterEncoding("UTF-8");
 	
 	<!-- 엑셀 다운로드 버튼 -->
 	<form action="${contextPath}/enrollment/excelDownload.do" method="post">
-		<input type="submit" value='엑셀 다운로드'>
+		<div id="type_color">
+			<div style="width: 40em;">
+			<span style="color: black">협약상태 구분: </span><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span><span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span>
+			</div>
+			<div class="memberButton">
+				<input type="submit" value='엑셀 다운로드' id="excel">
+			</div>
+		</div>
 	</form>
-	
-	<p id="type_color" align="left" style="font-size:5px;"><span style="color:red">●협약서없음 </span><span style="color:green"> ●상호변경 </span>
-											  <span style="color:black"> ●협약완료 </span><span style="color:blue"> ●협약서사본</span></p>
 	
 	<table align="center" border="0" width="80%" id="dynamicCompany">
 		<tr height="15" align="center" id="attr">

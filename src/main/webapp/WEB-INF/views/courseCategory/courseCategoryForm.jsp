@@ -69,7 +69,7 @@
 					<td><input type="text" name="name"></td>
 				</tr>
 				<tr>
-					<td colspan="2" style="padding-top: 5%;"><input type="submit" value="등록하기" id="enrollButton"><input type="button" onclick="history.back()" value="취소"></td>
+					<td colspan="2" style="padding-top: 5%;"><input type="submit" style="width: 5em" value="등록하기" id="enrollButton"><input type="button" style="margin-left: 1em;" onclick="history.back()" value="취소"></td>
 				</tr>
 			</table>
 		</form>

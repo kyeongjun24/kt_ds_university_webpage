@@ -14,9 +14,20 @@ request.setCharacterEncoding("UTF-8");
 <title>수요조사 목록창</title>
 <style>
 .surveyButton {
-margin-top : 100px;
-display : flex;
-justify-content: flex-start;
+	width: 89%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 3em;
+}
+
+#surveyButton {
+	background-color: #e91b23;
+}
+
+.process {
+	text-align: left;
+	margin-bottom: 2em;
+	color: #9C9D9D;
 }
 
 
@@ -99,6 +110,16 @@ justify-content: flex-start;
 </script>
 
 <body>
+
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/survey/listSurveys.do'"
+				style="cursor: pointer;">설문조사관리</span> > <span
+				onclick="location.href='${contextPath}/survey/listSurveys.do'"
+				style="cursor: pointer;"> 수요조사</span>
+		</h5>
+	</div>
+
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -180,7 +201,7 @@ justify-content: flex-start;
 						<td><input type="checkbox" name="selectedCheckbox" id="${survey.id }"></td>
 						
 						<td>${survey.id-109999}</td> <%-- 번호 --%>
-						<td><a href="${contextPath}/survey/informationSurveyForm.do?id=${survey.id }">${survey.title}</a></td>
+						<td><a style="color:black;" href="${contextPath}/survey/informationSurveyForm.do?id=${survey.id }">${survey.title}</a></td>
 						<td>${survey.joinDate}</td>
 						<td>${survey.state}</td>
 						
@@ -196,7 +217,7 @@ justify-content: flex-start;
 	</table>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>
@@ -250,7 +271,7 @@ justify-content: flex-start;
 	<div class="surveyButton">
 		<button type="button" id="surveyButton"
 			onclick="location.href='${contextPath}/survey/surveyForm.do'">등록</button>
-		<button type="button" onclick='getCheckList()'>삭제</button>
+		<button type="button" style="margin-left: 1em;" onclick='getCheckList()'>삭제</button>
 	</div>
 	<!-- 등록 버튼 추가해서 함수 실행하게 만들어야함 -->
 	<%-- 

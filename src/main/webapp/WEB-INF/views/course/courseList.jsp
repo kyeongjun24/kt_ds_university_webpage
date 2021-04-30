@@ -255,7 +255,7 @@
 		</c:choose>
 	</table>
 	
-		<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+		<div class="pageNumber" align="center">
 			<ul>
 				<c:if test="${pageMaker.prev }">
 					<c:choose>
@@ -306,7 +306,7 @@
 			</ul>
 		</div>
 	
-		<div class="memberButton">
+		<div class="memberButton" style="margin-bottom: 3em;">
 			<button type="button" onclick="getCheckList('applicable')" style="width: 5%;">신청가능</button>
 			<button type="button" onclick="getCheckList('earlyClosing')" style="width: 5%;">조기마감</button>
 			<button type="button" onclick="getCheckList('deadline')" style="width: 5%;">마감</button>

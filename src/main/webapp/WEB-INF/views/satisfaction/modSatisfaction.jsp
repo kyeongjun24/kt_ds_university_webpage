@@ -22,6 +22,19 @@
    width : 500px;
    height : 200px;
    }
+   
+   .mod_satisfaction_button {
+   position: relative;
+    left: 4.5em;
+    top: 3em;
+    margin-bottom: 7em;
+   }
+   
+    .mod_satisfaction_button input{
+    width: 5em;
+    background-color: #ECECEC;
+    color : #333333;
+   }
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -77,11 +90,12 @@ function checkOnlyOne(element) {
 	    </tr>
 	    
 	    
-	    <tr>
-	       <td width="200"><p>&nbsp;</p></td>
-	       <td width="400"><input type="submit" value="수정하기"><input type="reset" value="다시입력" id="reset"><input type="button" onclick="history.back()" value="취소"></td>
-	    </tr>
 	</table>
+	    <div class="mod_satisfaction_button">
+	       <input type="submit" value="수정하기">
+	       <input type="reset" value="다시입력" id="reset">
+	       <input type="button" onclick="history.back()" value="취소">
+	    </div>
 	</form>
 </body>
 </html>

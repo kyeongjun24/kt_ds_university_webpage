@@ -44,7 +44,7 @@
 		
 		
 	.input_text{
-		width: 75%; 
+		width: 100%; 
 		height: auto;
 		 resize: none; 
 		 background-color: #ECECEC; 
@@ -65,7 +65,20 @@
 	}
 	
 	#imgArea{
-		position : relative; transform : translateX(-220px);
+	width: 10em;
+    height: 10em;
+    position: relative;
+    left: -4em;
+    background: #ececec;
+	}
+	
+	.slb_col2 {
+	text-align: start;
+	width: 24em;
+	}
+	
+	.slbUpdate_button {
+	margin-bottom: 3em;
 	}
 	
 </style>
@@ -184,17 +197,18 @@
 		</h5>
 	</div>
 	
-	<div style="width: 85%;">
-		<h1 class="text_center">강의 계획서 수정</h1>
-	</div>
+	<div style="width: 85%; display: flex; flex-direction: column;">
+		<div class="slb_title">	
+			<h1 class="text_center">강의 계획서 수정</h1>
+		</div>
 	<form method="post"   action="${contextPath}/syllabus/updateSyllabus.do?page=${page}&searchText=${searchText}&searchType=
 			${searchType}&perPage=${perPage}" id="syllabusRegister" name="slbFrm" enctype="multipart/form-data" >
 		
 		<input type="hidden" name="id" value="${syllabusVO.id }">
-		<table  align="center" >
+		<table style="position: relative; width: 58%; left: 18em; margin-bottom: 3em;">
 		   <tr>
-		      <td width="7%"><p align="left">1차 분류</td>
-		      <td width="40%" style="text-align:left; padding-left: 20px;">
+		      <td style="width : 7em;"><p align="left">1차 분류</td>
+		      <td class="slb_col2">
 			      <select name="type">
 			      	<c:if test="${syllabusVO.type == '채용예정자' }">
 				        <option value="">유형 선택</option>
@@ -220,26 +234,30 @@
 			      	</c:forEach>
 			      </select>
 		      </td>
-		      <td width="7%"><p align="left">교육 일수</td>
-		      <td width="40%" style="text-align:left; padding-left: 20px;"><input type="text" name="days" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  value="${syllabusVO.days }" style="width:30%;">일</td>
+		      <td style="width: 6em;"><p align="left">교육 일수</td>
+		      <td><input type="text" name="days" style="position: relative; left: -1em;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  value="${syllabusVO.days }">일</td>
 		   </tr>
 		   <tr>
 		      <td ><p align="left">강의명</td>
-		      <td style="text-align:left; padding-left: 20px;"><input type="text" name="name" value="${syllabusVO.name }" style="width:60%;"></td>
+		      <td class="slb_col2"><input type="text" name="name" value="${syllabusVO.name }"></td>
 		      <td ><p align="left">교육 시간</td>
-		      <td style="text-align:left; padding-left: 20px;"><input type="text" name="time" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  value="${syllabusVO.time}" style="width:30%;">시간</td>
+		      <td><input type="text" name="time" style="position: relative; left: -0.5em;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  value="${syllabusVO.time}">시간</td>
 		   </tr>
 		   <tr>
 		      <td ><p align="left">보고용 강의명</td>
-		      <td style="text-align:left; padding-left: 20px;"><input type="text" name="reportName" value="${syllabusVO.reportName }" style="width:60%;"></td>
+		      <td class="slb_col2"><input type="text" name="reportName" value="${syllabusVO.reportName }"></td>
 		      <td ><p align="left">파일 업로드</td>
-		      <td style="text-align:left; padding-left: 20px;"><input type="file" name="uploadFile" accept="image/png, image/jpeg">${syllabusVO.bannerImg }<input type="hidden" name="bannerImg" value="${syllabusVO.bannerImg }"><input type="hidden" name="uploadName" value="kt_ds_university"></td>
+		      <td>
+		      <input type="file" name="uploadFile" accept="image/png, image/jpeg">${syllabusVO.bannerImg }
+		      <input type="hidden" name="bannerImg" value="${syllabusVO.bannerImg }">
+		      <input type="hidden" name="uploadName" value="kt_ds_university">
+		      </td>
 		   </tr>
 		   <tr>
 		   	<td></td>
 		   	<td></td>
-		   	<td  height="150"></td>
-		   	<td ><div id="imgViewArea" ><img id="imgArea" width="120" height="120" onerror="imgAreaError()" ></div></td>
+		   	<td></td>
+		   	<td ><div id="imgViewArea" ><img id="imgArea" onerror="imgAreaError()" ></div></td>
 		   </tr>
 		    <tr>
 		      <td colspan="4"><p align="left">학습 개요</td>
@@ -265,14 +283,12 @@
 		    <tr>
 		       <td colspan="4" ><p align="left"><textarea cols="50" rows="10" WRAP = "hard"  name="contents" class='input_text'>${syllabusVO.contents }</textarea></td>
 		    </tr>
-		    <tr>
-		    	<td></td>
-		       	<td style="text-align: right; padding-right: 30px;"><input type="submit" id="enrollButton" value="수정"><input type="button" onclick="history.back()" value="취소"></td>
-		    	<td></td>
-		    	<td></td>
-		    </tr>
 		</table>
+		      <div class="slbUpdate_button">
+		      <input type="submit" id="enrollButton" value="수정"><input type="button" style="margin-left: 1em;" onclick="history.back()" value="취소">
+		      </div>
 		</form>
+		</div>
 <%} else {  %>
 <script>
 	window.location.href="${contextPath}";

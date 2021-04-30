@@ -17,6 +17,22 @@
    .text_center{
      text-align:center;
    }
+   
+   .satisfaction_button p a {
+   	color: #f2f2f2;
+    background: #969696;
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 1.1em;
+   }
+   
+   .satisfaction_button2 {
+   	position: relative;
+    left: 4.5em;
+    top: 3em;
+    margin-bottom: 7em;
+   }
+   
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -55,15 +71,14 @@
 	    
 	    <tr>
 	       <td width="200"><p align="right">URL링크</td>
-	       <td width="400"><p align="center">
+	       <td width="400" class="satisfaction_button"><p align="center">
 	       <a href=${vo.url } target='_blank'>만족도 조사 바로가기</a></td>
 	    </tr>
-	
-	    <tr>
-	       <td width="200"><p>&nbsp;</p></td>
-	       <td width="400"><p align="center"><button type="button" onclick="location.href='${contextPath}/satisfaction/modSatisfactionForm.do?id=${vo.id }'">수정하기</button>&nbsp;&nbsp;&nbsp;<input type="button" onclick="history.back()" value="취소"></td>
-	    </tr>
 	</table>
-	
+			
+		<div class="satisfaction_button2">
+	      <p align="center"><button onclick="location.href='${contextPath}/satisfaction/modSatisfactionForm.do?id=${vo.id }'">수정하기</button>&nbsp;&nbsp;&nbsp;
+	      <input style="background:#ECECEC; color:#333333;" type="button" onclick="history.back()" value="취소">
+		</div>
 </body>
 </html>

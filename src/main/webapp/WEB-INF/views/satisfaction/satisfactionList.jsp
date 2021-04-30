@@ -14,11 +14,22 @@ request.setCharacterEncoding("UTF-8");
 <title>만족도조사 목록창</title>
 <style>
 .satisfactionButton {
-margin-top : 100px;
-display : flex;
-justify-content: flex-start;
+	width: 89%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 3em;
 }
 
+#satisfactionButton {
+	background-color: #e91b23;
+}
+
+
+.process {
+	text-align: left;
+	margin-bottom: 2em;
+	color: #9C9D9D;
+}
 
 </style>
 </head>
@@ -96,6 +107,16 @@ justify-content: flex-start;
 </script>
 
 <body>
+
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/survey/listSurveys.do'"
+				style="cursor: pointer;">설문조사관리</span> > <span
+				onclick="location.href='${contextPath}/satisfaction/listSatisfactions.do'"
+				style="cursor: pointer;"> 만족도 평가</span>
+		</h5>
+	</div>
+
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -177,7 +198,7 @@ justify-content: flex-start;
 						<td><input type="checkbox" name="selectedCheckbox" id="${satisfaction.id }"></td>
 						
 						<td>${satisfaction.id-119999}</td> <%-- 번호 --%>
-						<td><a href="${contextPath}/satisfaction/informationSatisfactionForm.do?id=${satisfaction.id }">${satisfaction.title}</a></td>
+						<td><a style="color:black;" href="${contextPath}/satisfaction/informationSatisfactionForm.do?id=${satisfaction.id }">${satisfaction.title}</a></td>
 						<td>${satisfaction.joinDate}</td>
 						<td>${satisfaction.state}</td>
 						
@@ -194,7 +215,7 @@ justify-content: flex-start;
 	</table>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>
@@ -248,7 +269,8 @@ justify-content: flex-start;
 	<div class="satisfactionButton">
 		<button type="button" id="satisfactionButton"
 			onclick="location.href='${contextPath}/satisfaction/satisfactionForm.do'">등록</button>
-		<button type="button" onclick='getCheckList()'>삭제</button>
+		<button type="button" style="margin-left: 1em;" onclick='getCheckList()'>삭제</button>
 	</div>
+	
 </body>
 </html>

@@ -147,20 +147,20 @@
 		<div class="searchType">
 			<select name="perPage" id="listFilter">
 				<c:if test="${perPage == '20' }">
-					<option value='10'>10</option>
-					<option value='20' selected>20</option>
+					<option value='10'>10개</option>
+					<option value='20' selected>20개</option>
 					<option value='50'>50</option>
 
 				</c:if>
 				<c:if test="${perPage == '50' }">
-					<option value='10'>10</option>
-					<option value='20'>20</option>
-					<option value='50' selected>50</option>
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='50' selected>50개</option>
 				</c:if>
 				<c:if test="${perPage == '10' }">
-					<option value='10' selected>10</option>
-					<option value='20'>20</option>
-					<option value='50'>50</option>
+					<option value='10' selected>10개</option>
+					<option value='20'>20개</option>
+					<option value='50'>50개</option>
 				</c:if>
 			</select>
 
@@ -310,7 +310,7 @@
 		</ul>
 	</div>
 
-	<div class="memberButton">
+	<div class="memberButton" style="position: relative; top: -1em; margin-bottom: 2em;">
 		<button type="button" id="enrollButton"
 			onclick="location.href='${contextPath}/member/memberForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">등록</button>
 		<button type="button" onclick='getCheckList()'>탈퇴</button>

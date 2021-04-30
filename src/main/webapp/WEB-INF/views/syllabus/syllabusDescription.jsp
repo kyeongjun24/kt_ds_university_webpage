@@ -43,7 +43,7 @@
 	}
 	
 	.input_text{
-		width: 75%; 
+		width: 100%; 
 		height: auto;
 		 resize: none; 
 		 background-color: #ECECEC; 
@@ -56,6 +56,21 @@
 		text-align: left;
 		color: #9C9D9D;
 		margin-bottom: 2em;
+	}
+	
+	.slb_button {
+	width: 93%;
+    margin: 3em;
+	}
+	
+	.slb_button button {
+	background-color: #ECECEC;
+	color : #333333;
+	}
+	
+	.slb_col2 {
+	text-align: start;
+	width: 24em;
 	}
 </style>
 <script>
@@ -88,14 +103,14 @@
 		</h5>
 	</div>
 		
-	<div style="width: 85%;">
+	<div style="width: 85%; display: flex; flex-direction: column;">
+	<div class="slb_title">
 		<h1  class="text_center">상세 정보</h1>
 	</div>
-	
-	<table  align="center" >
+	<table style="position: relative; width: 58%; left: 18em;" >
 	   <tr>
-	      <td width="7%"><p align="left">1차 분류</td>
-	      <td width="40%" style="text-align:left; padding-left: 20px;"><p>
+	      <td style="width: 8em;"><p align="left">1차 분류</td>
+	      <td class="slb_col2"><p>
 	      <select name="type">
 		      <c:if test="${syllabusVO.type == '채용예정자' }">
 			  	<option value="채용예정자" selected>채용예정자</option>
@@ -109,57 +124,52 @@
 	      	<option value="${syllabusVO.courseCategoryVO.name }" >${syllabusVO.courseCategoryVO.name }</option>
 	      </select>
 	      </td>
-	      <td width="7%"><p align="left">교육 일수</td>
-	      <td width="40%" style="text-align:left; padding-left: 20px;"><input type="text" name="days" style="width:30%;" readonly value="${syllabusVO.days }">일</td>
+	      <td><p align="left">교육 일수</td>
+	      <td><input type="text" name="days" readonly value="${syllabusVO.days }">일</td>
 	   </tr>
 	   <tr>
-	      <td width="100"><p align="left">강의명</td>
-	      <td width="400" style="text-align:left; padding-left: 20px;"><input type="text" name="name"  style="width:60%;" readonly value="${syllabusVO.name }"></td>
-	      <td width="100"><p align="left">교육 시간</td>
-	      <td width="400" style="text-align:left; padding-left: 20px;"><input type="text" name="days" style="width:30%;" readonly value="${syllabusVO.time }">일</td>
+	      <td><p align="left">강의명</td>
+	      <td class="slb_col2"><input type="text" name="name" readonly value="${syllabusVO.name }"></td>
+	      <td><p align="left">교육 시간</td>
+	      <td><input type="text" name="days" readonly value="${syllabusVO.time }">일</td>
 	   </tr>
 	   <tr>
-	      <td width="100"><p align="left">보고용 강의명</td>
-	      <td width="400" style="text-align:left; padding-left: 20px;"><input type="text" name="reportName" style="width:60%;" readonly value="${syllabusVO.reportName }"></td>
-	      <td width="100"><p align="left">파일</td>
-	      <td width="400" style="text-align:left; padding-left: 20px;"><a href="${contextPath}/fileDown.do?filename=${syllabusVO.bannerImg}&folderName=${syllabusVO.id }">${syllabusVO.bannerImg }</a></td>
+	      <td><p align="left">보고용 강의명</td>
+	      <td class="slb_col2"><input type="text" name="reportName" readonly value="${syllabusVO.reportName }"></td>
+	      <td><p align="left">파일</td>
+	      <td><a href="${contextPath}/fileDown.do?filename=${syllabusVO.bannerImg}&folderName=${syllabusVO.id }">${syllabusVO.bannerImg }</a></td>
 	   </tr>
 	    <tr>
-	      <td colspan="4" width="1000"><p align="left">학습 개요</td>
+	      <td colspan="4"><p align="left">학습 개요</td>
 	    </tr>
 	    <tr>
-	      <td colspan="4" width="1000"><p align="left"><textarea cols="50" rows="10" WRAP = "hard" readonly="readonly" class='input_text'>${syllabusVO.overview }</textarea></td>
+	      <td colspan="4"><p align="left"><textarea cols="50" rows="10" WRAP = "hard" readonly="readonly" class='input_text'>${syllabusVO.overview }</textarea></td>
 	    </tr>
 	    <tr>
-	      <td colspan="4" width="1000"><p align="left">학습 목표</td>
+	      <td colspan="4"><p align="left">학습 목표</td>
 	   </tr>
 	   <tr>
-	      <td colspan="4" width="1000"><p align="left"><textarea cols="50" rows="10" WRAP = "hard" readonly="readonly" name="objectives" class='input_text' >${syllabusVO.objectives }</textarea></td>
+	      <td colspan="4"><p align="left"><textarea cols="50" rows="10" WRAP = "hard" readonly="readonly" name="objectives" class='input_text' >${syllabusVO.objectives }</textarea></td>
 	   </tr>
 	    <tr>
-	       <td colspan="4" width="1000"><p align="left">학습 대상</td>
+	       <td colspan="4"><p align="left">학습 대상</td>
 	    </tr>
 	    <tr>
-	       <td colspan="4" width="1000"><p align="left"><textarea cols="50" rows="10" WRAP = "hard" readonly="readonly" name="target" class='input_text' >${syllabusVO.target }</textarea></td>
+	       <td colspan="4"><p align="left"><textarea cols="50" rows="10" WRAP = "hard" readonly="readonly" name="target" class='input_text' >${syllabusVO.target }</textarea></td>
 	    </tr>
 	    <tr>
-	       <td colspan="4" width="1000"><p align="left">학습 내용</td>
+	       <td colspan="4"><p align="left">학습 내용</td>
 	    </tr>
 	    <tr>
-	       <td colspan="4" width="1000"><p align="left"><textarea cols="50" rows="10" WRAP = "hard" readonly="readonly" name="contents" class='input_text' >${syllabusVO.contents }</textarea></td>
-	    </tr>
-	    <tr>
-	    	<td></td>
-	       	<td style="text-align: right; padding-right: 20px;">
-		       <button onclick="location.href='${contextPath}/syllabus/updateSyllabusForm.do?id=${syllabusVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" id="enrollButton">수정하기</button>
-		       <button onclick="syllabusRemove()">삭제</button>
-		       <button type="button" onclick="history.back()">뒤로</button>
-	       	</td>
-	       	<!-- location.href='${contextPath}/syllabus/listSyllabuses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}' -->
-	       	<td></td>
-	       	<td></td>
+	       <td colspan="4"><p align="left"><textarea cols="50" rows="10" WRAP = "hard" readonly="readonly" name="contents" class='input_text' >${syllabusVO.contents }</textarea></td>
 	    </tr>
 	</table>
+	    <div class="slb_button">
+		       <button onclick="location.href='${contextPath}/syllabus/updateSyllabusForm.do?id=${syllabusVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" id="enrollButton">수정하기</button>
+		       <button onclick="syllabusRemove()">삭제</button>
+		       <button onclick="history.back()">뒤로</button>
+	    </div>
+	</div>
 	<%} else {  %>
 	<script>
 		window.location.href="${contextPath}";

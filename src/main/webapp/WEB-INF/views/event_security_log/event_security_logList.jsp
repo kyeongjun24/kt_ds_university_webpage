@@ -19,6 +19,11 @@ display : flex;
 justify-content: flex-start;
 }
 
+.process {
+	text-align: left;
+	margin-bottom: 2em;
+	color: #9C9D9D;
+}
 
 </style>
 </head>
@@ -100,6 +105,14 @@ justify-content: flex-start;
 </script>
 
 <body>
+
+	<div class='process' >
+		<h5>
+			<span onclick="location.href='${contextPath}/event_security_log/listEvent_security_logs.do'"
+			style="cursor: pointer;">로그관리</span>
+		</h5>
+	</div>
+
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -197,7 +210,7 @@ justify-content: flex-start;
 	</table>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>

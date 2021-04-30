@@ -18,11 +18,10 @@ request.setCharacterEncoding("UTF-8");
 text-align: left;
 }
 
-.completion_position {
-	display: flex;
-    font-size: 0.8em;
-    font-weight: 800;
-    color: #808080;
+.process {
+	text-align: left;
+	margin-bottom: 2em;
+	color: #9C9D9D;
 }
 </style>
 
@@ -55,8 +54,13 @@ text-align: left;
 
 
 <body>
-	<div class="completion_position">
-	<p>수강관리 > 수료관리</p>
+	<div class='process' >
+		<h5>
+			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"
+			style="cursor: pointer;">수강관리</span> > <span
+			onclick="location.href='${contextPath}/enrollment/listCompletion.do'"
+			style="cursor: pointer;"> 수료관리</span>
+		</h5>
 	</div>
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
@@ -153,7 +157,7 @@ text-align: left;
 				<c:forEach var="enrollment" items="${completionList }"
 					varStatus="enrdNum">
 					<tr class="test">
-						<td width="7%" align="left">${enrollment.memberVO.id }</td>
+						<td width="7%" align="center">${enrollment.memberVO.id }</td>
 						<td width="7%" align="center">${enrollment.memberVO.name }</td>
 						<td width="11%" align="center">${enrollment.memberVO.phone }</td>
 						<td width="13%" align="left">${enrollment.memberVO.email }</td>

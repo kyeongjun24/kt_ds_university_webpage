@@ -17,6 +17,16 @@
    .text_center{
      text-align:left;
    }
+   
+   .modManager_button {
+   	width: 26%;
+    display: flex;
+    justify-content: space-between;
+   }
+   
+   .modManager_button input{
+   width : 70px;
+   }
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -127,7 +137,10 @@
 
 	    <tr>
 	       <td width="200"><p>&nbsp;</p></td>
-	       <td width="400"><input type="submit" value="수정하기"><input type="reset" value="다시입력" id="reset"><input type="button" onclick="history.back()" value="취소"></td>
+	       <td width="400" style="display: flex; justify-content: center; width: 100%;">
+	       <div class="modManager_button">
+	       <input type="submit" value="수정하기"><input type="reset" value="다시입력" id="reset"><input type="button" onclick="history.back()" value="취소">
+	       </div></td>
 	    </tr>
 	</table>
 	</form>
