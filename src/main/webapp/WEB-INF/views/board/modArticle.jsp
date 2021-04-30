@@ -110,7 +110,10 @@ display : right;
 
 
 	<div class= "modArticle_category">
-		<h4>게시판관리 > 공지사항 > 공지사항 수정</h4>
+		<h5><span onclick="location.href='${contextPath}/board/listArticles.do'"
+			style="cursor: pointer;">게시판관리</span> > <span onclick="location.href='${contextPath}/board/listArticles.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
+			style="cursor: pointer;">공지사항</span> > <span onclick="location.href='${contextPath}/board/modArticleForm.do?page=${page}&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
+			style="cursor:pointer;">공지사항 수정</span></h5>
 	</div>
 
 	<div class="modArticle_BigTitle">

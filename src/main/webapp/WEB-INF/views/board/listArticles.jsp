@@ -142,7 +142,10 @@ margin-top: 5px;
 <!-- 로그인 세션 처리 -->
 
 <div class= "article_category">
-	<h4>게시판관리 > 공지사항</h4>
+	<h5><span onclick="location.href='${contextPath}/board/listArticles.do'"
+			style="cursor: pointer;">게시판관리</span> > <span
+			onclick="location.href='${contextPath}/board/listArticles.do'"
+			style="cursor: pointer;"> 공지사항</span></h5>
 </div>
 
 	<form method="get" action="${contextPath}/board/listArticles.do" id="listArticles_searchFrm" accept-charset="utf-8" >
@@ -181,18 +184,15 @@ margin-top: 5px;
 			<!-- 검색 유형 값(title만)에 따라 셀렉트 띄우는 값 설정 -->
 			<select class= "listArticles_searchType" name="searchType" id="searchType">
 				<c:if test="${searchType == 'title'}">
-					<option value="">검색 종류</option>
 					<option value="title" selected>제목</option>
 					<option value="contents">내용</option>
 				</c:if>
 				<c:if test="${searchType == 'contents'}">
-					<option value="">검색 종류</option>
 					<option value="title">제목</option>
 					<option value="contents" selected>내용</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
-					<option value="title">제목</option>
+					<option value="title" selected >제목</option>
 					<option value="contents">내용</option>
 				</c:if>
 			</select>
@@ -244,7 +244,7 @@ margin-top: 5px;
 						
 							<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
 								<c:if test="${board.file == 'T'}">
-									<a href="${contextPath}/board/selectArticle.do?id=${board.id}" ><img style="width: 20px; margin-bottom: -5px;" src="${contextPath}/resources/image/diskette.png"></a>
+									<a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}" ><img style="width: 20px; margin-bottom: -5px;" src="${contextPath}/resources/image/diskette.png"></a>
 								</c:if>
 								<c:if test="${board.file == 'F'}">
 								</c:if>
@@ -264,9 +264,9 @@ margin-top: 5px;
 						
 						<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
 							<c:if test="${board.file == 'T'}">
-									<a href="${contextPath}/board/selectArticle.do?id=${board.id}"><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
+								<a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}" ><img style="width: 20px; margin-bottom: -5px;" src="${contextPath}/resources/image/diskette.png"></a>
 							</c:if>
-							<c:if test="${board.file == 'F'}">
+								<c:if test="${board.file == 'F'}">
 							</c:if>
 						</td>
 						
