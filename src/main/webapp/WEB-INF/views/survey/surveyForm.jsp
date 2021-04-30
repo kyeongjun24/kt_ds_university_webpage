@@ -61,8 +61,8 @@ function checkOnlyOne(element) {
 	    <tr>
 	      <td style="border : none" align="center"> </td>
 	      <td style="border : none" colspan="2">
-	       <input type=submit value="글쓰기" id="enrollButton"/>
-	       <input type=button value="목록보기" onClick="history.back()" />
+	       <input type=submit value="등록" id="enrollButton"/>
+	       <input type=button value="목록" onClick="history.back()" />
 	      </td>
      </tr>
     </table>
