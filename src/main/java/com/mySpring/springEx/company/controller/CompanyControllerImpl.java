@@ -34,7 +34,7 @@ public class CompanyControllerImpl implements CompanyController {
 	@Autowired
 	CompanyService companyService;
 
-	// �쟾泥댄쉶�궗 由ъ뒪�듃 異쒕젰 硫붿냼�뱶
+	// 전체회사 리스트 출력 메소드
 	@Override
 	@RequestMapping(value = "/company/listCompanies.do", method = RequestMethod.GET)
 	public ModelAndView listCompanies(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -42,23 +42,22 @@ public class CompanyControllerImpl implements CompanyController {
 		String searchType = (String) request.getParameter("searchType");
 		String searchText = (String) request.getParameter("searchText");
 
-		// �럹�씠吏� 蹂��닔 �꽑�뼵
 		int page = 0;
 
-		// �럹�씠吏� 媛믪씠 �엳�쑝硫�
+		
 		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page")); // �럹�씠吏� 媛� ���옣
+			page = Integer.parseInt(request.getParameter("page"));
 		} else {
-			page = 1; // �뾾�쑝硫� 1 ���옣
+			page = 1; 
 		}
 
-		int perPage = 0; // 由ъ뒪�듃 媛쒖닔 媛� ���옣�븷 蹂��닔 �깮�꽦
+		int perPage = 0;
 
-		// perPage 媛� �엳�쑝硫�
+		
 		if (request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt(request.getParameter("perPage")); // �럹�씠吏� 媛� ���옣
+			perPage = Integer.parseInt(request.getParameter("perPage")); 
 		} else {
-			perPage = 10; // �뾾�쑝硫� 10 ���옣
+			perPage = 10;
 		}
 
 		List companiesList = null;
@@ -66,33 +65,33 @@ public class CompanyControllerImpl implements CompanyController {
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
 
-		criteria.setPerPageNum(perPage); // 由ъ뒪�듃 媛쒖닔 �꽕�젙
-		pageMaker.setCriteria(criteria); // 湲곗� 媛� �꽕�젙
+		criteria.setPerPageNum(perPage); 
+		pageMaker.setCriteria(criteria); 
 
-		if (searchType != null && searchText != null) { // 寃��깋 �쑀�삎�씠�옉 媛믪쓣 諛쏆븯�쑝硫�
+		if (searchType != null && searchText != null) { 
 			companiesList = companyService.listBySearchCompanies(searchType, searchText);
-			criteria.setPage(page); // �럹�씠吏� �꽕�젙
-			criteria.setSearchText(searchText); // 寃��깋 媛� �꽕�젙
-			criteria.setSearchType(searchType); // 寃��깋 �쑀�삎 �꽕�젙
-			pageMaker.setTotalCount(companiesList.size()); // �럹�씠吏� 媛쒖닔瑜� �쟾泥� 由ъ뒪�듃 �겕湲곕줈 �꽕�젙
-			companiesList = companyService.listCriteriaBySearch(criteria); // 湲곗� �꽕�젙�뿉 �쓽�빐 �깉濡� 諛쏅뒗 由ъ뒪�듃
-			mav.addObject("searchText", searchText); // 寃��깋 媛� �떎�떆 �럹�씠吏�濡� 蹂대궡怨�
-			mav.addObject("searchType", searchType); // 寃��깋 �쑀�삎 �떎�떆 �럹�씠吏�濡� 蹂대궡湲�
-		} else { // type, text瑜� 諛쏆� �븡�쑝硫�
-			companiesList = companyService.listCompanies(); // �쟾泥� 由ъ뒪�듃瑜� ���옣�븯怨�
-			criteria.setPage(page); // �럹�씠吏� �꽕�젙
-			pageMaker.setTotalCount(companiesList.size()); // �럹�씠吏� 媛쒖닔 �꽕�젙
-			companiesList = companyService.listCriteria(criteria); // 湲곗��뿉 �쓽�빐 �굹�닠吏� 由ъ뒪�듃 �꽕�젙
+			criteria.setPage(page); 
+			criteria.setSearchText(searchText); 
+			criteria.setSearchType(searchType); 
+			pageMaker.setTotalCount(companiesList.size());
+			companiesList = companyService.listCriteriaBySearch(criteria); 
+			mav.addObject("searchText", searchText);
+			mav.addObject("searchType", searchType);
+		} else {
+			companiesList = companyService.listCompanies();
+			criteria.setPage(page);
+			pageMaker.setTotalCount(companiesList.size()); 
+			companiesList = companyService.listCriteria(criteria);
 		}
 		mav.addObject("page", page);
 		mav.addObject("criteria", criteria);
-		mav.addObject("perPage", perPage); // 由ъ뒪�듃 湲곗� 媛� 蹂대궡湲�
-		mav.addObject("pageMaker", pageMaker); // �럹�씠吏� 留뚮뱾�뼱吏� 媛� 蹂대궡湲�
-		mav.addObject("companiesList", companiesList); // �꽕�젙�맂 由ъ뒪�듃 蹂대궡湲�
+		mav.addObject("perPage", perPage);
+		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("companiesList", companiesList); 
 		return mav;
 	}
 
-	// �쉶�궗愿�由ъ뿉�꽌 寃��깋�맂 �쉶�궗 異쒕젰
+	// 회사관리에서 검색된 회사 출력
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "/company/listBySearch.do", method = RequestMethod.POST)
@@ -106,7 +105,7 @@ public class CompanyControllerImpl implements CompanyController {
 		return mav;
 	}
 
-	// �삊�젰�쉶�궗 由ъ뒪�듃 遺덈윭�삤�뒗 硫붿냼�뱶
+	// 협력회사 리스트 불러오는 메소드
 	@Override
 	@RequestMapping(value = "/partner/listPartners.do", method = RequestMethod.GET)
 	public ModelAndView listPartners(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -114,22 +113,22 @@ public class CompanyControllerImpl implements CompanyController {
 		String searchType = request.getParameter("searchType");
 		String searchText = request.getParameter("searchText");
 
-		// �럹�씠吏� 蹂��닔 �꽑�뼵
+		
 		int page = 0;
-		// �럹�씠吏� 媛믪씠 �엳�쑝硫�
+		
 		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page")); // �럹�씠吏� 媛� ���옣
+			page = Integer.parseInt(request.getParameter("page")); 
 		} else {
-			page = 1; // �뾾�쑝硫� 1 ���옣
+			page = 1; 
 		}
 
-		int perPage = 0; // 由ъ뒪�듃 媛쒖닔 媛� ���옣�븷 蹂��닔 �깮�꽦
+		int perPage = 0; 
 
-		// perPage 媛� �엳�쑝硫�
+		
 		if (request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt((String) request.getParameter("perPage")); // �럹�씠吏� 媛� ���옣
+			perPage = Integer.parseInt((String) request.getParameter("perPage")); 
 		} else {
-			perPage = 10; // �뾾�쑝硫� 10 ���옣
+			perPage = 10;
 		}
 
 		List partnersList = null;
@@ -137,32 +136,32 @@ public class CompanyControllerImpl implements CompanyController {
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
 
-		criteria.setPerPageNum(perPage); // 由ъ뒪�듃 媛쒖닔 �꽕�젙
-		pageMaker.setCriteria(criteria); // 湲곗� 媛� �꽕�젙
+		criteria.setPerPageNum(perPage); 
+		pageMaker.setCriteria(criteria); 
 
 		if (searchType != null && searchText != null) {
 			partnersList = companyService.listBySearchPartners(searchType, searchText);
-			criteria.setPage(page); // �럹�씠吏� �꽕�젙
-			criteria.setSearchText(searchText); // 寃��깋 媛� �꽕�젙
-			criteria.setSearchType(searchType); // 寃��깋 �쑀�삎 �꽕�젙
-			pageMaker.setTotalCount(partnersList.size()); // �럹�씠吏� 媛쒖닔瑜� �쟾泥� 由ъ뒪�듃 �겕湲곕줈 �꽕�젙
-			partnersList = companyService.partnerListCriteriaBySearch(criteria); // 湲곗� �꽕�젙�뿉 �쓽�빐 �깉濡� 諛쏅뒗 由ъ뒪�듃
-			mav.addObject("searchText", searchText); // 寃��깋 媛� �떎�떆 �럹�씠吏�濡� 蹂대궡怨�
-			mav.addObject("searchType", searchType); // 寃��깋 �쑀�삎 �떎�떆 �럹�씠吏�濡� 蹂대궡湲�
-		} else { // 寃��깋 �쑀�삎�씠�옉 媛믪쓣 諛쏆� �븡�븯�떎硫�
+			criteria.setPage(page); 
+			criteria.setSearchText(searchText); 
+			criteria.setSearchType(searchType); 
+			pageMaker.setTotalCount(partnersList.size());
+			partnersList = companyService.partnerListCriteriaBySearch(criteria);
+			mav.addObject("searchText", searchText); 
+			mav.addObject("searchType", searchType); 
+		} else { 
 			partnersList = companyService.listPartners();
-			criteria.setPage(page); // �럹�씠吏� �꽕�젙
-			pageMaker.setTotalCount(partnersList.size()); // �럹�씠吏� 媛쒖닔 �꽕�젙
-			partnersList = companyService.partnerListCriteria(criteria); // 湲곗��뿉 �쓽�빐 �굹�닠吏� 由ъ뒪�듃 �꽕�젙
+			criteria.setPage(page);
+			pageMaker.setTotalCount(partnersList.size()); 
+			partnersList = companyService.partnerListCriteria(criteria);
 		}
 		mav.addObject("criteria", criteria);
-		mav.addObject("perPage", perPage); // 由ъ뒪�듃 湲곗� 媛� 蹂대궡湲�
-		mav.addObject("pageMaker", pageMaker); // �럹�씠吏� 留뚮뱾�뼱吏� 媛� 蹂대궡湲�
+		mav.addObject("perPage", perPage); 
+		mav.addObject("pageMaker", pageMaker); 
 		mav.addObject("partnersList", partnersList);
 		return mav;
 	}
 
-	// �삊�젰�쉶�궗 寃��깋 �븷 �닔 �엳�뒗 硫붿냼�뱶
+	// 협력회사 검색 할 수 있는 메소드
 	@Override
 	@RequestMapping(value = "/partner/listBySearchPartners.do", method = RequestMethod.POST)
 	public ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType,
@@ -175,7 +174,7 @@ public class CompanyControllerImpl implements CompanyController {
 		return mav;
 	}
 
-	// �쉶�궗 �벑濡앺븷 �닔 �엳�뒗 硫붿냼�뱶
+	// 회사 등록할 수 있는 메소드
 	@Override
 	@RequestMapping(value = "/company/addCompany.do", method = { RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView addCompany(@ModelAttribute("company") CompanyVO companyVO, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request,
@@ -184,8 +183,8 @@ public class CompanyControllerImpl implements CompanyController {
 		String searchType = (String) request.getParameter("searchType");
 		String searchText = URLEncoder.encode((String) request.getParameter("searchText"),"utf-8");
 		int page = Integer.parseInt(request.getParameter("page"));
-		int perPage = Integer.parseInt(request.getParameter("perPage")); // perPage 蹂��닔�뿉 由ъ뒪�듃 �쓣�슱 媛쒖닔 ���옣
-		// �븘�씠�뵒�옉 二쇱냼�뒗 add.jsp�뿉�꽌 �븞�꽆�뼱���꽌 而⑦듃濡ㅻ윭�뿉�꽌 媛믪쓣 �빀爾먯ㄼ�떎.
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
+		// 아이디랑 주소는 add.jsp에서 안넘어와서 컨트롤러에서 값을 합쳐줬다.
 		companyVO.setid(
 				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
 		companyVO.setAddress(
@@ -200,7 +199,7 @@ public class CompanyControllerImpl implements CompanyController {
 		return mav;
 	}
 
-	// �삊�젰�쉶�궗, �쉶�궗愿�由� 由ъ뒪�듃�쓽 �쉶�궗紐낆쓣 �겢由��븯硫� 洹� �쉶�궗�쓽 �젙蹂닿� �쓣�뼱吏��뒗 硫붿냼�뱶
+	// 협력회사, 회사관리 리스트의 회사명을 클릭하면 그 회사의 정보가 띄어지는 메소드
 	@Override
 	@RequestMapping(value = "/company/companyForm.do", method = { RequestMethod.POST, RequestMethod.GET })
 	public ModelAndView selectCompany(@RequestParam("id") String id, @RequestParam("type") String type, @ModelAttribute("criteria") Criteria criteria, Model model, HttpServletRequest request,
@@ -218,7 +217,7 @@ public class CompanyControllerImpl implements CompanyController {
 		return mav;
 	}
 
-	// �쉶�궗 �닔�젙�븷 �닔 �엳�뒗 硫붿냼�뱶
+	// 회사 수정할 수 있는 메소드
 	@Override
 	@RequestMapping(value = "/company/modCompany.do", method = RequestMethod.POST)
 	public ModelAndView modCompany(@ModelAttribute("company") CompanyVO companyVO, @RequestParam("type") String type, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr,  HttpServletRequest request,
@@ -232,13 +231,12 @@ public class CompanyControllerImpl implements CompanyController {
 		int result = 0;
 		result = companyService.modCompany(companyVO);
 		
-		// 寃��깋 �썑 �쉶�궗 �꽑�깮�븯怨� �닔�젙�븳 �썑�뿉 �떎�떆 寃��깋 �럹�씠吏�濡� �룎�븘�삤寃�
 		rttr.addAttribute("page", criteria.getPage());
 		rttr.addAttribute("perPageNum", criteria.getPerPageNum());
 		rttr.addAttribute("searchType", criteria.getSearchType());
 		rttr.addAttribute("searchText", criteria.getSearchText());
 		ModelAndView mav = new ModelAndView();
-		// type�씠 �뙆�듃�꼫�씪 寃쎌슦 �삊�젰�쉶�궗濡� �삤寃�, �븘�땲硫� 而댄띁�땲濡� 媛�寃�
+		
 		if (type.equals("partner")) {
 			mav.setViewName("redirect:/partner/listPartners.do");
 		} else {
@@ -247,7 +245,7 @@ public class CompanyControllerImpl implements CompanyController {
 		return mav;
 	}
 
-	// �쉶�궗紐낆쓣 �꽑�깮�븯硫� �쉶�궗 �긽�꽭李쎌뿉�꽌 �쉶�궗瑜� �궘�젣�븷 �닔 �엳�뒗 硫붿냼�뱶
+	// 회사명을 선택하면 회사 상세창에서 회사를 삭제할 수 있는 메소드
 	@Override
 	@RequestMapping(value = "/company/removeCompany.do", method = RequestMethod.GET)
 	public ModelAndView removeCompany(@RequestParam("id") String id, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request,
@@ -263,7 +261,7 @@ public class CompanyControllerImpl implements CompanyController {
 		return mav;
 	}
 
-	// �쉶�궗 由ъ뒪�듃 李쎌뿉�꽌 泥댄겕�빐�꽌 �쉶�궗瑜� �궘�젣�븷 �닔 �엳�뒗 硫붿냼�뱶
+	// 회사 리스트 창에서 체크해서 회사를 삭제할 수 있는 메소드
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "/company/removeCheckedCompanies.do", method = RequestMethod.POST)
@@ -277,7 +275,7 @@ public class CompanyControllerImpl implements CompanyController {
 		return result;
 	}
 
-	// �쟾泥� �쉶�궗 �뿊�� �떎�슫濡쒕뱶
+	// 전체 회사 엑셀 다운로드
 	@Override
 	@RequestMapping(value = "/company/excelDownload.do", method = RequestMethod.POST)
 	@ResponseBody
@@ -285,7 +283,7 @@ public class CompanyControllerImpl implements CompanyController {
 		companyService.companyExcelDownload(response);
 	}
 
-	// �삊�젰 �쉶�궗 �뿊�� �떎�슫濡쒕뱶
+	// 협력 회사 엑셀 다운로드
 	@Override
 	@RequestMapping(value = "/partner/partnersExcelDownload.do", method = RequestMethod.POST)
 	@ResponseBody
@@ -293,59 +291,59 @@ public class CompanyControllerImpl implements CompanyController {
 		companyService.partnersExcelDownload(response);
 	}
 
-	// �븰�깮愿�由ъ쓽 �닔�젙李� �븞�뿉 �쉶�궗�닔�젙 �뙘�뾽李�
+	// 학생관리의 수정창 안에 회사수정 팝업창
 	@RequestMapping(value = "/company/popUp.do", method = { RequestMethod.GET, RequestMethod.POST })
 	private ModelAndView popUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		String searchType = (String) request.getParameter("searchType");
 		String searchText = (String) request.getParameter("searchText");
 
-		// �럹�씠吏� 蹂��닔 �꽑�뼵
+		
 		int page = 0;
-		// �럹�씠吏� 媛믪씠 �엳�쑝硫�
+		
 		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page")); // �럹�씠吏� 媛� ���옣
+			page = Integer.parseInt(request.getParameter("page")); 
 		} else {
-			page = 1; // �뾾�쑝硫� 1 ���옣
+			page = 1; 
 		}
 
-		int perPage = 0; // 由ъ뒪�듃 媛쒖닔 媛� ���옣�븷 蹂��닔 �깮�꽦
-		// perPage 媛� �엳�쑝硫�
+		int perPage = 0; 
+		
 		if (request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt(request.getParameter("perPage")); // �럹�씠吏� 媛� ���옣
+			perPage = Integer.parseInt(request.getParameter("perPage")); 
 		} else {
-			perPage = 10; // �뾾�쑝硫� 10 ���옣
+			perPage = 10; 
 		}
 		List companiesList = companyService.listCompanies();
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
 
-		criteria.setPerPageNum(perPage); // 由ъ뒪�듃 媛쒖닔 �꽕�젙
-		pageMaker.setCriteria(criteria); // 湲곗� 媛� �꽕�젙
+		criteria.setPerPageNum(perPage); 
+		pageMaker.setCriteria(criteria); 
 
-		if (searchType != null && searchText != null) { // 寃��깋 �쑀�삎�씠�옉 媛믪쓣 諛쏆븯�쑝硫�
+		if (searchType != null && searchText != null) { 
 			companiesList = companyService.searchFromPopUp(searchType, searchText);
-			criteria.setPage(page); // �럹�씠吏� �꽕�젙
-			criteria.setSearchText(searchText); // 寃��깋 媛� �꽕�젙
-			criteria.setSearchType(searchType); // 寃��깋 �쑀�삎 �꽕�젙
-			pageMaker.setTotalCount(companiesList.size()); // �럹�씠吏� 媛쒖닔瑜� �쟾泥� 由ъ뒪�듃 �겕湲곕줈 �꽕�젙
-			companiesList = companyService.listCriteriaBySearchFromPopUp(criteria); // 湲곗� �꽕�젙�뿉 �쓽�빐 �깉濡� 諛쏅뒗 由ъ뒪�듃
-			mav.addObject("searchText", searchText); // 寃��깋 媛� �떎�떆 �럹�씠吏�濡� 蹂대궡怨�
-			mav.addObject("searchType", searchType); // 寃��깋 �쑀�삎 �떎�떆 �럹�씠吏�濡� 蹂대궡湲�
-		} else { // type, text瑜� 諛쏆� �븡�쑝硫�
-			companiesList = companyService.listCompanies(); // �쟾泥� 由ъ뒪�듃瑜� ���옣�븯怨�
-			criteria.setPage(page); // �럹�씠吏� �꽕�젙
-			pageMaker.setTotalCount(companiesList.size()); // �럹�씠吏� 媛쒖닔 �꽕�젙
-			companiesList = companyService.listCriteria(criteria); // 湲곗��뿉 �쓽�빐 �굹�닠吏� 由ъ뒪�듃 �꽕�젙
+			criteria.setPage(page); 
+			criteria.setSearchText(searchText); 
+			criteria.setSearchType(searchType); 
+			pageMaker.setTotalCount(companiesList.size()); 
+			companiesList = companyService.listCriteriaBySearchFromPopUp(criteria); 
+			mav.addObject("searchText", searchText); 
+			mav.addObject("searchType", searchType); 
+		} else {
+			companiesList = companyService.listCompanies(); 
+			criteria.setPage(page); 
+			pageMaker.setTotalCount(companiesList.size()); 
+			companiesList = companyService.listCriteria(criteria);
 		}
-		mav.addObject("perPage", perPage); // 由ъ뒪�듃 湲곗� 媛� 蹂대궡湲�
-		mav.addObject("pageMaker", pageMaker); // �럹�씠吏� 留뚮뱾�뼱吏� 媛� 蹂대궡湲�
-		mav.addObject("companiesList", companiesList); // �꽕�젙�맂 由ъ뒪�듃 蹂대궡湲�
+		mav.addObject("perPage", perPage);
+		mav.addObject("pageMaker", pageMaker); 
+		mav.addObject("companiesList", companiesList);
 		return mav;
 	}
 
-	// �븘�씠�뵒 以묐났�솗�씤
+	// 아이디 중복확인
 	@ResponseBody
 	@RequestMapping(value = "/company/idCheck.do", method = RequestMethod.POST)
 	public int idCheck(String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
