@@ -75,6 +75,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
     //수강신청 등록
     @Override
     public int addEnrollment(EnrollmentVO enrollment) throws DataAccessException {
+    	enrollmentDAO.updateIncreaseNumEnrollments(enrollment);
         return enrollmentDAO.insertEnrollment(enrollment);
     }
 	
@@ -102,6 +103,7 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 	// 상태 '삭제' 로 수정
 	@Override 
 	public int updateDeleteEnrollments(int id) throws DataAccessException {
+		enrollmentDAO.updateReduceNumEnrollments(id);
         return enrollmentDAO.updateDeleteEnrollments(id);
 	}
 	
