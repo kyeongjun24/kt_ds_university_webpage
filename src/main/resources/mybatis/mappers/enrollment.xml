@@ -286,6 +286,7 @@
 				syllabus s, course c
 			WHERE 
 				s.slb_id = c.slb_id
+				AND sysdate between c.crs_rs_date and crs_re_date
     	]]>
 	</select>
 
