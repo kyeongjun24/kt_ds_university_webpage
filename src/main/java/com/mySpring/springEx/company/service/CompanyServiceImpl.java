@@ -367,5 +367,4 @@ public class CompanyServiceImpl implements CompanyService {
 		int result = companyDAO.idCheck(vo);
 		return result;
 	}
-	
 }

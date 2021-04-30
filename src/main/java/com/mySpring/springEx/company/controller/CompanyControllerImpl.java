@@ -1,5 +1,8 @@
 package com.mySpring.springEx.company.controller;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.text.Normalizer.Form;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,23 +42,22 @@ public class CompanyControllerImpl implements CompanyController {
 		String searchType = (String) request.getParameter("searchType");
 		String searchText = (String) request.getParameter("searchText");
 
-		// 페이지 변수 선언
 		int page = 0;
 
-		// 페이지 값이 있으면
+		
 		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page")); // 페이지 값 저장
+			page = Integer.parseInt(request.getParameter("page"));
 		} else {
-			page = 1; // 없으면 1 저장
+			page = 1; 
 		}
 
-		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
+		int perPage = 0;
 
-		// perPage 값 있으면
+		
 		if (request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt(request.getParameter("perPage")); // 페이지 값 저장
+			perPage = Integer.parseInt(request.getParameter("perPage")); 
 		} else {
-			perPage = 10; // 없으면 10 저장
+			perPage = 10;
 		}
 
 		List companiesList = null;
@@ -62,28 +65,29 @@ public class CompanyControllerImpl implements CompanyController {
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
 
-		criteria.setPerPageNum(perPage); // 리스트 개수 설정
-		pageMaker.setCriteria(criteria); // 기준 값 설정
+		criteria.setPerPageNum(perPage); 
+		pageMaker.setCriteria(criteria); 
 
-		if (searchType != null && searchText != null) { // 검색 유형이랑 값을 받았으면
+		if (searchType != null && searchText != null) { 
 			companiesList = companyService.listBySearchCompanies(searchType, searchText);
-			criteria.setPage(page); // 페이지 설정
-			criteria.setSearchText(searchText); // 검색 값 설정
-			criteria.setSearchType(searchType); // 검색 유형 설정
-			pageMaker.setTotalCount(companiesList.size()); // 페이지 개수를 전체 리스트 크기로 설정
-			companiesList = companyService.listCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
-			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내고
-			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
-		} else { // type, text를 받지 않으면
-			companiesList = companyService.listCompanies(); // 전체 리스트를 저장하고
-			criteria.setPage(page); // 페이지 설정
-			pageMaker.setTotalCount(companiesList.size()); // 페이지 개수 설정
-			companiesList = companyService.listCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
+			criteria.setPage(page); 
+			criteria.setSearchText(searchText); 
+			criteria.setSearchType(searchType); 
+			pageMaker.setTotalCount(companiesList.size());
+			companiesList = companyService.listCriteriaBySearch(criteria); 
+			mav.addObject("searchText", searchText);
+			mav.addObject("searchType", searchType);
+		} else {
+			companiesList = companyService.listCompanies();
+			criteria.setPage(page);
+			pageMaker.setTotalCount(companiesList.size()); 
+			companiesList = companyService.listCriteria(criteria);
 		}
+		mav.addObject("page", page);
 		mav.addObject("criteria", criteria);
-		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
-		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
-		mav.addObject("companiesList", companiesList); // 설정된 리스트 보내기
+		mav.addObject("perPage", perPage);
+		mav.addObject("pageMaker", pageMaker);
+		mav.addObject("companiesList", companiesList); 
 		return mav;
 	}
 
@@ -109,22 +113,22 @@ public class CompanyControllerImpl implements CompanyController {
 		String searchType = request.getParameter("searchType");
 		String searchText = request.getParameter("searchText");
 
-		// 페이지 변수 선언
+		
 		int page = 0;
-		// 페이지 값이 있으면
+		
 		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page")); // 페이지 값 저장
+			page = Integer.parseInt(request.getParameter("page")); 
 		} else {
-			page = 1; // 없으면 1 저장
+			page = 1; 
 		}
 
-		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
+		int perPage = 0; 
 
-		// perPage 값 있으면
+		
 		if (request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt((String) request.getParameter("perPage")); // 페이지 값 저장
+			perPage = Integer.parseInt((String) request.getParameter("perPage")); 
 		} else {
-			perPage = 10; // 없으면 10 저장
+			perPage = 10;
 		}
 
 		List partnersList = null;
@@ -132,27 +136,27 @@ public class CompanyControllerImpl implements CompanyController {
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
 
-		criteria.setPerPageNum(perPage); // 리스트 개수 설정
-		pageMaker.setCriteria(criteria); // 기준 값 설정
+		criteria.setPerPageNum(perPage); 
+		pageMaker.setCriteria(criteria); 
 
 		if (searchType != null && searchText != null) {
 			partnersList = companyService.listBySearchPartners(searchType, searchText);
-			criteria.setPage(page); // 페이지 설정
-			criteria.setSearchText(searchText); // 검색 값 설정
-			criteria.setSearchType(searchType); // 검색 유형 설정
-			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수를 전체 리스트 크기로 설정
-			partnersList = companyService.partnerListCriteriaBySearch(criteria); // 기준 설정에 의해 새로 받는 리스트
-			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내고
-			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
-		} else { // 검색 유형이랑 값을 받지 않았다면
+			criteria.setPage(page); 
+			criteria.setSearchText(searchText); 
+			criteria.setSearchType(searchType); 
+			pageMaker.setTotalCount(partnersList.size());
+			partnersList = companyService.partnerListCriteriaBySearch(criteria);
+			mav.addObject("searchText", searchText); 
+			mav.addObject("searchType", searchType); 
+		} else { 
 			partnersList = companyService.listPartners();
-			criteria.setPage(page); // 페이지 설정
-			pageMaker.setTotalCount(partnersList.size()); // 페이지 개수 설정
-			partnersList = companyService.partnerListCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
+			criteria.setPage(page);
+			pageMaker.setTotalCount(partnersList.size()); 
+			partnersList = companyService.partnerListCriteria(criteria);
 		}
 		mav.addObject("criteria", criteria);
-		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
-		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
+		mav.addObject("perPage", perPage); 
+		mav.addObject("pageMaker", pageMaker); 
 		mav.addObject("partnersList", partnersList);
 		return mav;
 	}
@@ -173,9 +177,13 @@ public class CompanyControllerImpl implements CompanyController {
 	// 회사 등록할 수 있는 메소드
 	@Override
 	@RequestMapping(value = "/company/addCompany.do", method = { RequestMethod.POST, RequestMethod.GET })
-	public ModelAndView addCompany(@ModelAttribute("company") CompanyVO companyVO, HttpServletRequest request,
+	public ModelAndView addCompany(@ModelAttribute("company") CompanyVO companyVO, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
+		String searchType = (String) request.getParameter("searchType");
+		String searchText = URLEncoder.encode((String) request.getParameter("searchText"),"utf-8");
+		int page = Integer.parseInt(request.getParameter("page"));
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		// 아이디랑 주소는 add.jsp에서 안넘어와서 컨트롤러에서 값을 합쳐줬다.
 		companyVO.setid(
 				request.getParameter("id1") + "-" + request.getParameter("id2") + "-" + request.getParameter("id3"));
@@ -183,7 +191,11 @@ public class CompanyControllerImpl implements CompanyController {
 				request.getParameter("address1") + "," + request.getParameter("address2"));
 		int result = 0;
 		result = companyService.addCompany(companyVO);
-		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do");
+		rttr.addAttribute("page", criteria.getPage());
+		rttr.addAttribute("perPageNum", criteria.getPerPageNum());
+		rttr.addAttribute("searchType", criteria.getSearchType());
+		rttr.addAttribute("searchText", criteria.getSearchText());
+		ModelAndView mav = new ModelAndView("redirect:/company/listCompanies.do?&page="+page+"&searchType="+searchType+"&searchText="+searchText+"&perPage="+perPage);
 		return mav;
 	}
 
@@ -219,12 +231,12 @@ public class CompanyControllerImpl implements CompanyController {
 		int result = 0;
 		result = companyService.modCompany(companyVO);
 		
-		// 검색 후 회사 선택하고 수정한 후에 다시 검색 페이지로 돌아오게
 		rttr.addAttribute("page", criteria.getPage());
 		rttr.addAttribute("perPageNum", criteria.getPerPageNum());
 		rttr.addAttribute("searchType", criteria.getSearchType());
 		rttr.addAttribute("searchText", criteria.getSearchText());
 		ModelAndView mav = new ModelAndView();
+		
 		if (type.equals("partner")) {
 			mav.setViewName("redirect:/partner/listPartners.do");
 		} else {
@@ -286,48 +298,48 @@ public class CompanyControllerImpl implements CompanyController {
 		String searchType = (String) request.getParameter("searchType");
 		String searchText = (String) request.getParameter("searchText");
 
-		// 페이지 변수 선언
+		
 		int page = 0;
-		// 페이지 값이 있으면
+		
 		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page")); // 페이지 값 저장
+			page = Integer.parseInt(request.getParameter("page")); 
 		} else {
-			page = 1; // 없으면 1 저장
+			page = 1; 
 		}
 
-		int perPage = 0; // 리스트 개수 값 저장할 변수 생성
-		// perPage 값 있으면
+		int perPage = 0; 
+		
 		if (request.getParameter("perPage") != null) {
-			perPage = Integer.parseInt(request.getParameter("perPage")); // 페이지 값 저장
+			perPage = Integer.parseInt(request.getParameter("perPage")); 
 		} else {
-			perPage = 10; // 없으면 10 저장
+			perPage = 10; 
 		}
 		List companiesList = companyService.listCompanies();
 		ModelAndView mav = new ModelAndView(viewName);
 		Criteria criteria = new Criteria();
 		PageMaker pageMaker = new PageMaker();
 
-		criteria.setPerPageNum(perPage); // 리스트 개수 설정
-		pageMaker.setCriteria(criteria); // 기준 값 설정
+		criteria.setPerPageNum(perPage); 
+		pageMaker.setCriteria(criteria); 
 
-		if (searchType != null && searchText != null) { // 검색 유형이랑 값을 받았으면
+		if (searchType != null && searchText != null) { 
 			companiesList = companyService.searchFromPopUp(searchType, searchText);
-			criteria.setPage(page); // 페이지 설정
-			criteria.setSearchText(searchText); // 검색 값 설정
-			criteria.setSearchType(searchType); // 검색 유형 설정
-			pageMaker.setTotalCount(companiesList.size()); // 페이지 개수를 전체 리스트 크기로 설정
-			companiesList = companyService.listCriteriaBySearchFromPopUp(criteria); // 기준 설정에 의해 새로 받는 리스트
-			mav.addObject("searchText", searchText); // 검색 값 다시 페이지로 보내고
-			mav.addObject("searchType", searchType); // 검색 유형 다시 페이지로 보내기
-		} else { // type, text를 받지 않으면
-			companiesList = companyService.listCompanies(); // 전체 리스트를 저장하고
-			criteria.setPage(page); // 페이지 설정
-			pageMaker.setTotalCount(companiesList.size()); // 페이지 개수 설정
-			companiesList = companyService.listCriteria(criteria); // 기준에 의해 나눠진 리스트 설정
+			criteria.setPage(page); 
+			criteria.setSearchText(searchText); 
+			criteria.setSearchType(searchType); 
+			pageMaker.setTotalCount(companiesList.size()); 
+			companiesList = companyService.listCriteriaBySearchFromPopUp(criteria); 
+			mav.addObject("searchText", searchText); 
+			mav.addObject("searchType", searchType); 
+		} else {
+			companiesList = companyService.listCompanies(); 
+			criteria.setPage(page); 
+			pageMaker.setTotalCount(companiesList.size()); 
+			companiesList = companyService.listCriteria(criteria);
 		}
-		mav.addObject("perPage", perPage); // 리스트 기준 값 보내기
-		mav.addObject("pageMaker", pageMaker); // 페이지 만들어진 값 보내기
-		mav.addObject("companiesList", companiesList); // 설정된 리스트 보내기
+		mav.addObject("perPage", perPage);
+		mav.addObject("pageMaker", pageMaker); 
+		mav.addObject("companiesList", companiesList);
 		return mav;
 	}
 
@@ -345,13 +357,20 @@ public class CompanyControllerImpl implements CompanyController {
 	private ModelAndView Form(@RequestParam(value = "result", required = false) String result,
 			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
 		String viewName = (String) request.getAttribute("viewName");
+		String searchType = (String) request.getParameter("searchType");
+		String searchText = (String) request.getParameter("searchText");
+		int page = Integer.parseInt(request.getParameter("page")); 
+		int perPage = Integer.parseInt(request.getParameter("perPage"));
 		HttpSession session = request.getSession();
 		session.setAttribute("action", action);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("result", result);
 		mav.setViewName(viewName);
+		mav.addObject("page", page);
+		mav.addObject("perPage", perPage); 
+		mav.addObject("searchText", searchText);
+		mav.addObject("searchType", searchType);
 		return mav;
 	}
 

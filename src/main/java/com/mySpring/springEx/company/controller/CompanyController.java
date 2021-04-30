@@ -17,34 +17,34 @@ import com.mySpring.springEx.company.vo.CompanyVO;
 
 public interface CompanyController {
 	
-	// 전체회사 출력
+	// 전체 회사 출력
 	ModelAndView listCompanies(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 검색된 회사 출력
+	// 검색 회사 출력
 	ModelAndView listBySearchCompanies(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 협력회사 출력
 	ModelAndView listPartners(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 협력회사 검색리스트 출력
+	// 협력회사 검색 출력
 	ModelAndView listBySearchPartners(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 회사 등록할 수 있는 메소드
-	ModelAndView addCompany(@ModelAttribute("company")CompanyVO companyVO, HttpServletRequest request, HttpServletResponse response)throws Exception;
+	// 회사 등록
+	ModelAndView addCompany(@ModelAttribute("company")CompanyVO companyVO, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request, HttpServletResponse response)throws Exception;
 	
-	// 회사명 클릭했을 때
+	// 회사 선택
 	ModelAndView selectCompany(@RequestParam String comId, @RequestParam String type, @ModelAttribute("criteria") Criteria criteria, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 회사 수정할 수 있는 메소드
+	// 회사 수정
 	ModelAndView modCompany(@ModelAttribute("company")CompanyVO companyVO, @RequestParam("type") String type, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request, HttpServletResponse response)throws Exception;
 	
-	// 회사관리 상세창에서 선택된 회사를 삭제할 수 있는 메소드
+	// 회사 삭제
 	ModelAndView removeCompany(@RequestParam("id") String id, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 		
-	// 회사관리 리스트에 있는 삭제 버튼으로 회원을 체크해서 삭제할 수 있는 메소드
+	// 체크한 회사 삭제
 	int removeCheckedCompanies(String [] arr, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
-	// 전체회사 엑셀 다운로드
+	// 전체 회사 엑셀 다운로드
 	void companyExcelDownload(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 	// 협력회사 엑셀 다운로드

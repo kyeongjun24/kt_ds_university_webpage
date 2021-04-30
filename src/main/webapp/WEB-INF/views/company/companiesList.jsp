@@ -54,13 +54,20 @@ request.setCharacterEncoding("UTF-8");
 
 #type_color {
 	text-align: left;
-	padding-top: 0.8%;
-	font-size: 15px;
-	margin-right: 63.5%;
+	font-size: 80%;
+	margin-right: 55.32%;
 }
 
 #excel {
 	width: 8%;
+}
+
+#enrollButton, #cancelButton {
+	margin-right: 0.7%;
+}
+
+#pageNum {
+	margin-bottom: 5%;
 }
 </style>
 
@@ -95,8 +102,7 @@ request.setCharacterEncoding("UTF-8");
 						},
 
 						success : function(data) {
-							alert(data + '개의 데이터가 삭제되었습니다.');
-							window.location.href = "${contextPath}/company/listCompanies.do";
+							window.location.href = "${contextPath}/company/listCompanies.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}";
 						},
 						error : function(data, request, status, error) {
 							alert("code:" + request.status + "\n" + "message:"
@@ -109,36 +115,34 @@ request.setCharacterEncoding("UTF-8");
 	}
 
 	// 전체 체크되게 하는 함수
-	$(
-			function() {
-				$('#selectAll').click(function() {
-					if ($("input:checkbox[id='selectAll']").prop("checked")) {
-						$("input[type=checkbox]").prop("checked", true);
-					} else {
-						$("input[type=checkbox]").prop("checked", false);
-					}
-				})
+	$(function() {
+		$('#selectAll').click(function() {
+			if ($("input:checkbox[id='selectAll']").prop("checked")) {
+				$("input[type=checkbox]").prop("checked", true);
+			} else {
+				$("input[type=checkbox]").prop("checked", false);
+			}
+		})
 
-				$('#listFilter')
-						.on(
-								'change',
-								function() {
-									var perPage = $(this).val();
-									var searchType = document
-											.getElementById('searchType').value;
-									var searchText = document
-											.getElementById('searchText').value;
-									/* alert(perPage+"씩 리스트 출력");
-									alert(searchType);
-									alert(searchText); */
-									location.href = "${contextPath}/company/listCompanies.do?perPage="
-											+ perPage
-											+ "&searchType="
-											+ searchType
-											+ "&searchText="
-											+ searchText;
-								})
-			}) //function
+		$('#listFilter')
+				.on(
+						'change',
+						function() {
+							var perPage = $(this).val();
+							var searchType = document
+									.getElementById('searchType').value;
+							var searchText = document
+									.getElementById('searchText').value;
+							/* alert(perPage+"씩 리스트 출력");
+							alert(searchType);
+							alert(searchText); */
+							location.href = "${contextPath}/company/listCompanies.do?perPage="
+									+ perPage
+									+ "&searchType="
+									+ searchType
+									+ "&searchText=" + searchText;
+						})
+	}) //function
 </script>
 
 <body>
@@ -151,12 +155,13 @@ request.setCharacterEncoding("UTF-8");
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 				style="cursor: pointer;">회원관리</span> > <span
-				onclick="location.href='${contextPath}/company/listCompanies.do'"
+				onclick="location.href='${contextPath}/company/listCompanies.do?&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=company'"
 				style="cursor: pointer;"> 회사관리</span>
 		</h4>
 	</div>
 
-	<form method="get" action="${contextPath }/company/listCompanies.do" id="searchFrm" name="searchZip">
+	<form method="get" action="${contextPath }/company/listCompanies.do"
+		id="searchFrm" name="searchZip">
 
 		<!-- 리시트 필터 값 적용 -->
 		<div class="listFilter">
@@ -234,26 +239,27 @@ request.setCharacterEncoding("UTF-8");
 		</div>
 	</form>
 
-	<div class="memberButton" id="mem1">
-		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/company/addCompanyForm.do'"
-			style="width: 5%;">등록</button>
-		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
-	</div>
+
 
 	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/company/companyExcelDownload.do" method="post"
-		id="excelForm">
+	<form action="${contextPath}/company/excelDownload.do" method="post"
+		id="excelForm" name="excelForm">
 		<p id="type_color">
-			<span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음
-			</span><span style="color: green"> ●상호변경 </span><span style="color: black">
-				●협약완료 </span><span style="color: blue"> ●협약서사본</span><span style="color: #dd42f5"> ●탈퇴</span>
+			<span style="color: black">협약상태 구분: </span><span style="color: black">
+				●협약완료 </span><span style="color: blue"> ●협약서사본</span><span
+				style="color: red">●협약서없음 </span><span style="color: green">
+				●상호변경 </span>
 		</p>
+		<button type="button" id="enrollButton"
+			onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
+			style="width: 5%;">등록</button>
+		<button type="button" id="cancelButton" onclick='getCheckList()'
+			style="width: 5%;">삭제</button>
 		<input type="submit" value='엑셀 다운로드' id="excel">
 	</form>
 
 	<table border="0" id="com_list">
-		<tr height="15" align="center" style="border-bottom: solid;">
+		<tr height="15" align="center">
 			<td><input type="checkbox" id="selectAll"></td>
 			<td><b>상태</b></td>
 			<td><b>회사명</b></td>
@@ -289,8 +295,6 @@ request.setCharacterEncoding("UTF-8");
 									<font color="black">${company.name }</font>
 								</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
 									<font color="blue">${company.name }</font>
-								</c:if> <c:if test="${company.contractType eq '탈퇴'}">
-									<font color="#dd42f5">${company.name }</font>
 								</c:if>
 						</a></td>
 						<td width="15%">${company.contractName }</td>
@@ -302,6 +306,16 @@ request.setCharacterEncoding("UTF-8");
 			</c:when>
 		</c:choose>
 	</table>
+
+	<form action="${contextPath}/company/excelDownload.do" method="post"
+		id="excelForm">
+		<button type="button" id="enrollButton"
+			onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
+			style="width: 5%;">등록</button>
+		<button type="button" id="cancelButton" onclick='getCheckList()'
+			style="width: 5%;">삭제</button>
+		<input type="submit" value='엑셀 다운로드' id="excel">
+	</form>
 
 	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center">
@@ -355,15 +369,6 @@ request.setCharacterEncoding("UTF-8");
 		</ul>
 	</div>
 
-	<form action="${contextPath}/company/excelDownload.do" method="post" id="excelForm">
-		<input type="submit" value='엑셀 다운로드' id="excel">
-	</form>
 
-	<div class="memberButton">
-		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/company/addCompanyForm.do'"
-			style="width: 5%;">등록</button>
-		<button type="button" onclick='getCheckList()' style="width: 5%;">삭제</button>
-	</div>
 </body>
 </html>

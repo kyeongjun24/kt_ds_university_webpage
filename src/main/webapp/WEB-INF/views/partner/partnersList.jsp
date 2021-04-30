@@ -57,21 +57,24 @@ request.setCharacterEncoding("UTF-8");
 #excelForm {
 	position: relative;
 	margin-top: 1%;
-	width: 1500px;
+	width: 90%;
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
 	cursor: pointer;
 }
 
 #type_color {
 	text-align: left;
-	padding-top: 0.8%;
-	font-size: 15px;
-	margin-right: 60.4%;
+	font-size: 80%;
+	margin-right: 66.71%;
 }
 
 #excel {
 	width: 8%;
+}
+
+#pageNum {
+	margin-bottom: 5%;
 }
 </style>
 
@@ -113,7 +116,7 @@ request.setCharacterEncoding("UTF-8");
 		<h4>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 				style="cursor: pointer;">회원관리</span> > <span
-				onclick="location.href='${contextPath}/partner/listPartners.do'"
+				onclick="location.href='${contextPath}/partner/listPartners.do?&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=company'"
 				style="cursor: pointer;"> 협력회사</span>
 		</h4>
 	</div>
@@ -198,16 +201,16 @@ request.setCharacterEncoding("UTF-8");
 	<form action="${contextPath}/partner/partnersExcelDownload.do"
 		id="excelForm" method="post">
 		<p id="type_color">
-			<span style="color: black">협약상태 구분: </span><span style="color: red">●협약서없음
-			</span><span style="color: green"> ●상호변경 </span><span style="color: black">
-				●협약완료 </span> <span style="color: blue"> ●협약서사본</span><span
-				style="color: #dd42f5"> ●탈퇴</span>
+			<span style="color: black">협약상태 구분: </span><span style="color: black">
+				●협약완료 </span><span style="color: blue"> ●협약서사본</span><span
+				style="color: red">●협약서없음 </span><span style="color: green">
+				●상호변경 </span>
 		</p>
 		<input type="submit" value='엑셀 다운로드' id="excel">
 	</form>
 
 	<table align="center" border="0" width="80%" id="partners">
-		<tr height="15" align="center" style="border-bottom: solid;">
+		<tr height="15" align="center">
 			<td class=line1><b>회사명</b></td>
 			<td class=line1><b>협약 상태</b></td>
 			<td class=line1><b>담당자</b></td>
@@ -225,31 +228,34 @@ request.setCharacterEncoding("UTF-8");
 			<c:when test="${not empty partnersList}">
 				<c:forEach var="company" items="${partnersList }"
 					varStatus="articleNum">
-					<tr align="center">
-						<td class=line2 align='center' width="15%"><a class='cls1'
-							href="${contextPath}/company/companyForm.do?id=${company.id}&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=partner">${company.name }</a>
-						</td>
-						<td width="15%" class=line2><c:if
-								test="${company.contractType eq '협약서 없음'}">
-								<font color="red">${company.contractType }</font>
-							</c:if> <c:if test="${company.contractType eq '상호 변경'}">
-								<font color="green">${company.contractType }</font>
-							</c:if> <c:if test="${company.contractType eq '협약 완료'}">
-								<font color="black">${company.contractType }</font>
-							</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
-								<font color="blue">${company.contractType }</font>
-							</c:if> <c:if test="${company.contractType eq '탈퇴'}">
-								<font color="#dd42f5">${company.contractType }</font>
-							</c:if></td>
-						<td width="15%" class=line2>${company.contractName }</td>
-						<td width="15%" class=line2>${company.managerPhone }</td>
-						<td width="15%" class=line2>${company.id }</td>
-						<td width="15%" class=line2>${company.regDate }</td>
-					</tr>
+						<tr align="center">
+							<td class=line2 align='center' width="15%"><a class='cls1'
+								href="${contextPath}/company/companyForm.do?id=${company.id}&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=partner">${company.name }</a>
+							</td>
+							<td width="15%" class=line2><c:if
+									test="${company.contractType eq '협약서 없음'}">
+									<font color="red">${company.contractType }</font>
+								</c:if> <c:if test="${company.contractType eq '상호 변경'}">
+									<font color="green">${company.contractType }</font>
+								</c:if> <c:if test="${company.contractType eq '협약 완료'}">
+									<font color="black">${company.contractType }</font>
+								</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
+									<font color="blue">${company.contractType }</font>
+								</c:if></td>
+							<td width="15%" class=line2>${company.contractName }</td>
+							<td width="15%" class=line2>${company.managerPhone }</td>
+							<td width="15%" class=line2>${company.id }</td>
+							<td width="15%" class=line2>${company.regDate }</td>
+						</tr>
 				</c:forEach>
 			</c:when>
 		</c:choose>
 	</table>
+
+	<form action="${contextPath}/partner/partnersExcelDownload.do"
+		method="post" id="excelForm" style="justify-content: flex-end;">
+		<input type="submit" value='엑셀 다운로드' id="excel">
+	</form>
 
 	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center">
@@ -302,11 +308,6 @@ request.setCharacterEncoding("UTF-8");
 			</c:if>
 		</ul>
 	</div>
-
-	<form action="${contextPath}/partner/partnersExcelDownload.do"
-		method="post" id="excelForm">
-		<input type="submit" value='엑셀 다운로드' id="excel">
-	</form>
 
 </body>
 </html>
