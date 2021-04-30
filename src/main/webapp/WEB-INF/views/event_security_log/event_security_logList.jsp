@@ -138,18 +138,15 @@ request.setCharacterEncoding("UTF-8");
 		<div class="searchType">
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'user'}">
-					<option value="">검색 종류</option>
 					<option value="user" selected>아이디</option>
 					<option value="text">로그 텍스트</option>
 				</c:if>
 				<c:if test="${searchType == 'text' }">
-					<option value="">검색 종류</option>
 					<option value="user">아이디</option>
 					<option value="text" selected>로그 텍스트</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
-					<option value="user">아이디</option>
+					<option value="user" selected>아이디</option>
 					<option value="text">로그 텍스트</option>
 				</c:if>
 			</select>

@@ -144,18 +144,15 @@ width : 90%
 		<div class="searchType">
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'title'}">
-					<option value="">검색 종류</option>
 					<option value="title" selected>제목</option>
 					<option value="state">개설 상태</option>
 				</c:if>
 				<c:if test="${searchType == 'state' }">
-					<option value="">검색 종류</option>
 					<option value="title">제목</option>
 					<option value="state" selected>개설 상태</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
-					<option value="title">제목</option>
+					<option value="" selected>제목</option>
 					<option value="state">개설 상태</option>
 				</c:if>
 			</select>
