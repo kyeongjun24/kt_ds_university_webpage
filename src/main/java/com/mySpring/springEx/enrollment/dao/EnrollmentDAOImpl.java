@@ -115,6 +115,14 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return result;
 	}
 	
+	//수강 등록하면 수강인원 +1
+	@Override
+	public int updateIncreaseNumEnrollments(EnrollmentVO enrollmentVO)  throws DataAccessException{
+		int result = sqlSession.insert("mapper.enrollment.updateIncreaseNumEnrollments", enrollmentVO);
+		return result;
+	}
+	
+	
 	// 상세페이지 (회사) 수정
 	@Override
 	public int modEnrollmentCompany(EnrollmentVO enrollmentVO)  throws DataAccessException{
@@ -129,10 +137,17 @@ public class EnrollmentDAOImpl implements EnrollmentDAO{
 		return result;
 	}
 	
-	// 상태 '삭제' 로 수정
+	// 상태 '취소완료' 로 수정
 	@Override
 	public int updateDeleteEnrollments(int id) throws DataAccessException {
 		int result = sqlSession.update("mapper.enrollment.updateDeleteEnrollments", id);
+		return result;
+	}
+	
+	//상태 '취소완료'로 바뀌면 수강인원 -1
+	@Override
+	public int updateReduceNumEnrollments(int id) throws DataAccessException {
+		int result = sqlSession.update("mapper.enrollment.updateReduceNumEnrollments", id);
 		return result;
 	}
 

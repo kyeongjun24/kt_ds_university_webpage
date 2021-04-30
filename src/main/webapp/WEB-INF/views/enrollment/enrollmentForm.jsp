@@ -127,7 +127,7 @@ request.setCharacterEncoding("UTF-8");
 				<td id="lastTd" colspan="4" width="250">
 					<input type="submit" id="enrollButton" value="등록">&nbsp;&nbsp;&nbsp;
 					<input type="reset" value="초기화" id="reset">&nbsp;&nbsp;&nbsp;
-					<input type="button" onclick="location.href='${contextPath}/enrollment/listEnrollments.do'" value="취소">
+					<input type="button" onclick="location.href='${contextPath}/enrollment/listEnrollments.do'" value="목록">
 				</td>
 			</tr>
 		</table>
