@@ -54,8 +54,8 @@
 	    </tr>
 	    
 	    <tr>
-	       <td width="200"><p>&nbsp;</p></td>
-	       <td width="400"><p align="center"><button type="button" onclick="location.href='${contextPath}/survey/modSurveyForm.do?id=${vo.id }'">수정하기</button>&nbsp;&nbsp;&nbsp;<input type="button" onclick="history.back()" value="취소"></td>
+	       <td style="border : none" width="200"><p>&nbsp;</p></td>
+	       <td style="border : none" width="400"><p align="center"><button type="button" id="enrollButton" onclick="location.href='${contextPath}/survey/modSurveyForm.do?id=${vo.id }'">수정</button>&nbsp;&nbsp;&nbsp;<input type="button" onclick="history.back()" value="취소"></td>
 	    </tr>
 	</table>
 	

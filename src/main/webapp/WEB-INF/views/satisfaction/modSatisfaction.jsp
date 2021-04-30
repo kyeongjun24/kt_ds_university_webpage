@@ -78,8 +78,8 @@ function checkOnlyOne(element) {
 	    
 	    
 	    <tr>
-	       <td width="200"><p>&nbsp;</p></td>
-	       <td width="400"><input type="submit" value="수정하기"><input type="reset" value="다시입력" id="reset"><input type="button" onclick="history.back()" value="취소"></td>
+	       <td style="border : none" width="200"><p>&nbsp;</p></td>
+	       <td style="border : none" width="400"><input type="submit" value="수정" id="enrollButton">&nbsp;<input type="button" onclick="history.back()" value="취소"></td>
 	    </tr>
 	</table>
 	</form>
