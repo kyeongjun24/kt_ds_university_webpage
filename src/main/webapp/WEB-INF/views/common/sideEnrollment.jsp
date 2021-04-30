@@ -20,7 +20,7 @@
 			<li><a href="${contextPath }/enrollment/listCompletion.do"
 				class="no-underline">수료관리</a></li>
 			<br>
-		</c:if>
+		</c:if> 
 		
 		<c:if test="${viewName eq '/enrollment/enrollmentForm' }">
 			<li><a href="${contextPath }/enrollment/listEnrollments.do"

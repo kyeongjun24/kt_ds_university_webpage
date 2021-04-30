@@ -118,14 +118,15 @@ request.setCharacterEncoding("UTF-8");
 					<select name="courseVO.id" id="courseId">
 						<option id="selectBox" value="" disabled selected>과정명을 선택하세요</option>
 							<c:forEach var="enrollmentVO" items="${syllabusesCoursesList}">
-								<option value="${enrollmentVO.courseVO.id }">${enrollmentVO.syllabusVO.name }</option>
+								<option value="${enrollmentVO.courseVO.id }">${enrollmentVO.syllabusVO.name } 
+								(${enrollmentVO.courseVO.startDate } ~ ${enrollmentVO.courseVO.endDate })</option>
 							</c:forEach>
 					</select></td>
 			</tr>
 			<tr>
 				<td id="lastTd" colspan="4" width="250">
 					<input type="submit" id="enrollButton" value="등록">&nbsp;&nbsp;&nbsp;
-					<input type="reset" value="다시입력" id="reset">&nbsp;&nbsp;&nbsp;
+					<input type="reset" value="초기화" id="reset">&nbsp;&nbsp;&nbsp;
 					<input type="button" onclick="location.href='${contextPath}/enrollment/listEnrollments.do'" value="취소">
 				</td>
 			</tr>
