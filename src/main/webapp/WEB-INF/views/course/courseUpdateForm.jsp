@@ -259,7 +259,6 @@
 	     			contentType : "application/json; charset=UTF-8",
 	     			async : false,
 	     			success : function(data) {
-	     				alert('넘어온 값'+data)
 	     				countNum = data;
 	     			},
 	     			error : function(error) {
