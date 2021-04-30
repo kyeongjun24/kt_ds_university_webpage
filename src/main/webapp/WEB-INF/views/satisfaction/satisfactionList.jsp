@@ -14,11 +14,18 @@ request.setCharacterEncoding("UTF-8");
 <title>만족도조사 목록창</title>
 <style>
 .satisfactionButton {
-margin-top : 100px;
+margin-top : 20px;
 display : flex;
-justify-content: flex-start;
+justify-content: flex-end;
+width: 90%;
 }
 
+.menuCategory{
+	height: 5%;
+	width: 100%;
+	margin-bottom: 1%;
+	text-align: left;
+}
 
 </style>
 </head>
@@ -96,6 +103,9 @@ justify-content: flex-start;
 </script>
 
 <body>
+	<div class="menuCategory">
+		<h5>설문조사 관리 > 만족도 조사</h5>
+	</div>
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -164,22 +174,21 @@ justify-content: flex-start;
 		<tr align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
 	
-			<td><b>번호</b></td>
-			<td><b>제목</b></td>
-			<td><b>등록일</b></td>
-			<td><b>개설상태</b></td>
+			<td width="5%"><b>번호</b></td>
+			<td width="10%"><b>제목</b></td>
+			<td width="10%"><b>등록일</b></td>
+			<td width="10%"><b>개설상태</b></td>
 			
 		</tr>
 		<c:choose>
 			<c:when test="${not empty satisfactionsList}">
 				<c:forEach var="satisfaction" items="${satisfactionsList}" varStatus="satisfactionNum">
 					<tr align="center">
-						<td><input type="checkbox" name="selectedCheckbox" id="${satisfaction.id }"></td>
-						
-						<td>${satisfaction.id-119999}</td> <%-- 번호 --%>
-						<td><a href="${contextPath}/satisfaction/informationSatisfactionForm.do?id=${satisfaction.id }">${satisfaction.title}</a></td>
-						<td>${satisfaction.joinDate}</td>
-						<td>${satisfaction.state}</td>
+						<td width="5%"><input type="checkbox" name="selectedCheckbox" id="${satisfaction.id }"></td>
+						<td width="5%">${satisfaction.id-119999}</td> <%-- 번호 --%>
+						<td width="10%"><a href="${contextPath}/satisfaction/informationSatisfactionForm.do?id=${satisfaction.id }">${satisfaction.title}</a></td>
+						<td width="10%">${satisfaction.joinDate}</td>
+						<td width="10%">${satisfaction.state}</td>
 						
 						
 					</tr>
@@ -192,9 +201,15 @@ justify-content: flex-start;
 			</c:when>
 		</c:choose>
 	</table>
+	
+	<div class="memberButton">
+		<button type="button" id="enrollButton"
+			onclick="location.href='${contextPath}/satisfaction/satisfactionForm.do'" style="margin-right: 10px	;">등록</button>
+		<button type="button" onclick='getCheckList()'>삭제</button>
+	</div>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center" style="width: 80%;">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>
@@ -245,10 +260,5 @@ justify-content: flex-start;
 		</ul>
 	</div>
 
-	<div class="satisfactionButton">
-		<button type="button" id="satisfactionButton"
-			onclick="location.href='${contextPath}/satisfaction/satisfactionForm.do'">등록</button>
-		<button type="button" onclick='getCheckList()'>삭제</button>
-	</div>
 </body>
 </html>

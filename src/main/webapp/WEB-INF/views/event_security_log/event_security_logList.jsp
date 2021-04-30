@@ -13,11 +13,13 @@ request.setCharacterEncoding("UTF-8");
 <meta charset=UTF-8">
 <title>로그 목록창</title>
 <style>
-.event_security_logButton {
-margin-top : 100px;
-display : flex;
-justify-content: flex-start;
+.menuCategory{
+	height: 5%;
+	width: 100%;
+	margin-bottom: 1%;
+	text-align: left;
 }
+
 
 
 </style>
@@ -100,6 +102,9 @@ justify-content: flex-start;
 </script>
 
 <body>
+	<div class="menuCategory">
+		<h5>회원 관리 > 로그 관리</h5>
+	</div>
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -167,11 +172,11 @@ justify-content: flex-start;
 	<table border="0" align="center" width="80%">
 		<tr align="center" id="attr">
 	
-			<td><b>번호</b></td>
-			<td><b>아이디</b></td>
-			<td><b>이벤트 타입</b></td>
-			<td><b>발생일시</b></td>
-			<td><b>로그 텍스트</b></td>
+			<td width="15%"><b>번호</b></td>
+			<td width="15%"><b>아이디</b></td>
+			<td width="20%" align="center" style="padding-left:40px;"><b>이벤트 타입</b></td>
+			<td width="20%"><b>발생일시</b></td>
+			<td width="30%" align="center" style="padding-left:70px;"><b>로그 텍스트</b></td>
 			
 		</tr>
 		<c:choose>
@@ -179,11 +184,11 @@ justify-content: flex-start;
 				<c:forEach var="event_security_log" items="${event_security_logsList}" varStatus="event_security_logNum">
 					<tr align="center">
 						
-						<td width="10%">${event_security_log.id-89999}</td>
-						<td width="10%">${event_security_log.user}</td>
-						<td width="15%" align="left" style="padding-left:40px;">${event_security_log.type}</td>
-						<td width="15%">${event_security_log.date}</td>
-						<td align="left" style="padding-left:70px;">${event_security_log.text}</td>
+						<td width="15%">${event_security_log.id-89999}</td>
+						<td width="15%">${event_security_log.user}</td>
+						<td width="20%" align="center" style="padding-left:40px;">${event_security_log.type}</td>
+						<td width="20%">${event_security_log.date}</td>
+						<td width="30%" align="center" style="padding-left:70px;">${event_security_log.text}</td>
 						
 					</tr>
 				</c:forEach>

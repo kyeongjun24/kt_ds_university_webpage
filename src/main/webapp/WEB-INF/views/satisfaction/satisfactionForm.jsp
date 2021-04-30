@@ -58,9 +58,9 @@ function checkOnlyOne(element) {
 	    </tr>
  
 	    <tr>
-	      <td align="center"> </td>
-	      <td colspan="2">
-	       <input type=submit value="글쓰기"/>
+	      <td style="border : none" align="center"> </td>
+	      <td style="border : none" colspan="2">
+	       <input type=submit value="글쓰기" id="enrollButton"/>
 	       <input type=button value="목록보기" onClick="history.back()" />
 	      </td>
      </tr>

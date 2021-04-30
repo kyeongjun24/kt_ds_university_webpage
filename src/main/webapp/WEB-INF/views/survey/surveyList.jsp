@@ -14,9 +14,17 @@ request.setCharacterEncoding("UTF-8");
 <title>수요조사 목록창</title>
 <style>
 .surveyButton {
-margin-top : 100px;
+margin-top : 20px;
 display : flex;
-justify-content: flex-start;
+justify-content: flex-end;
+width : 90%
+}
+
+.menuCategory{
+	height: 5%;
+	width: 100%;
+	margin-bottom: 1%;
+	text-align: left;
 }
 
 
@@ -99,6 +107,10 @@ justify-content: flex-start;
 </script>
 
 <body>
+
+	<div class="menuCategory">
+		<h5>설문조사 관리 > 수요조사</h5>
+	</div>
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -167,22 +179,21 @@ justify-content: flex-start;
 		<tr align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
 	
-			<td><b>번호</b></td>
-			<td><b>제목</b></td>
-			<td><b>등록일</b></td>
-			<td><b>개설상태</b></td>
+			<td width="5%"><b>번호</b></td>
+			<td width="10%"><b>제목</b></td>
+			<td width="10%"><b>등록일</b></td>
+			<td width="10%"><b>개설상태</b></td>
 			
 		</tr>
 		<c:choose>
 			<c:when test="${not empty surveysList}">
 				<c:forEach var="survey" items="${surveysList}" varStatus="surveyNum">
 					<tr align="center">
-						<td><input type="checkbox" name="selectedCheckbox" id="${survey.id }"></td>
-						
-						<td>${survey.id-109999}</td> <%-- 번호 --%>
-						<td><a href="${contextPath}/survey/informationSurveyForm.do?id=${survey.id }">${survey.title}</a></td>
-						<td>${survey.joinDate}</td>
-						<td>${survey.state}</td>
+						<td width="5%"><input type="checkbox" name="selectedCheckbox" id="${survey.id }"></td>
+						<td width="5%">${survey.id-109999}</td> <%-- 번호 --%>
+						<td width="10%"><a href="${contextPath}/survey/informationSurveyForm.do?id=${survey.id }">${survey.title}</a></td>
+						<td width="10%">${survey.joinDate}</td>
+						<td width="10%">${survey.state}</td>
 						
 					</tr>
 				</c:forEach>
@@ -194,9 +205,16 @@ justify-content: flex-start;
 			</c:when>
 		</c:choose>
 	</table>
+	
+	
+	<div class="memberButton" >
+		<button type="button" id="enrollButton"
+			onclick="location.href='${contextPath}/survey/surveyForm.do'" style="margin-right: 10px;">등록</button>
+		<button type="button" onclick='getCheckList()'>삭제</button>
+	</div>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center" style="width: 80%; ">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>
@@ -246,14 +264,6 @@ justify-content: flex-start;
 			</c:if>
 		</ul>
 	</div>
-
-	<div class="surveyButton">
-		<button type="button" id="surveyButton"
-			onclick="location.href='${contextPath}/survey/surveyForm.do'">등록</button>
-		<button type="button" onclick='getCheckList()'>삭제</button>
-	</div>
-	<!-- 등록 버튼 추가해서 함수 실행하게 만들어야함 -->
-	<%-- 
-      <td><a href="${contextPath}/member/removeMember.do?id=${member.id }">삭제</a></td> --%>
+	
 </body>
 </html>
