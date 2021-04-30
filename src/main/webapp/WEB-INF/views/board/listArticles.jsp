@@ -75,7 +75,7 @@ width: 95%;
 
 	//체크 된 걸 가져오는 함수
 	function getCheckList() {
-		if (confirm('삭제하시겠습니까?') == true ){
+		if (confirm('정말 삭제하시겠습니까?') == true ){
 			var length = $("input:checkbox[name='selectedCheckbox']:checked").length;
  			var arr = new Array();
 			$("input:checkbox[type=checkbox]:checked").each(function(index) {
@@ -238,7 +238,7 @@ width: 95%;
   					
       					<td class='listArticles_titleValue'><a href="${contextPath}/board/selectArticle.do?id=${board.id}&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${board.title}</a>
       						<c:if test="${board.file == 'T'}">
-      							<a href="${contextPath}/board/selectArticle.do?id=${board.id}" ><img style="width: 20px; margin-bottom: -7px;" src="${contextPath}/resources/image/diskette.png"></a>
+      							<a href="${contextPath}/board/selectArticle.do?id=${board.id}" ><img style="width: 20px; margin-bottom: -5px;" src="${contextPath}/resources/image/diskette.png"></a>
       						</c:if>
       						<c:if test="${board.file == 'F'}">
       						</c:if>
