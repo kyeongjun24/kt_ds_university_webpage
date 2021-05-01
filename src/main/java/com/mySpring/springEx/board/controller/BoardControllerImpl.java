@@ -39,6 +39,7 @@ import com.mySpring.springEx.board.service.BoardService;
 import com.mySpring.springEx.board.vo.ArticleVO;
 import com.mySpring.springEx.common.paging.Criteria;
 import com.mySpring.springEx.common.paging.PageMaker;
+import com.mySpring.springEx.member.vo.MemberVO;
 import com.mySpring.springEx.board.vo.ArticleFileVO;
 
 @Controller("boardController")
@@ -175,12 +176,10 @@ public class BoardControllerImpl implements BoardController {
 	@RequestMapping(value = "/board/selectArticle.do", method = RequestMethod.GET)
 	public ModelAndView selectArticle(@RequestParam("id") int id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		// 받은 페이지 값이 있다면 (page 개수 설정)
 		String searchType = (String) request.getParameter("searchType"); 
 		String searchText = (String) request.getParameter("searchText"); 
 		int page = Integer.parseInt(request.getParameter("page")); // page 변수에 값을 저장
 		int perPage = Integer.parseInt(request.getParameter("perPage")); // perPage 변수에 리스트 띄울 개수 저장
-
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName(viewName);
@@ -207,8 +206,8 @@ public class BoardControllerImpl implements BoardController {
 		mv.addObject("filevo", filevo);
 		return mv;
 	}
-
-	// 怨듭��궗�빆 湲� 異붽� , �븳 媛� �뙆�씪
+	
+	// 새로운 공지사항 등록
 	@Override
 	@RequestMapping(value = "/board/addNewArticle.do", method = RequestMethod.POST)
 	public ModelAndView addNewArticle(MultipartHttpServletRequest multipartRequest, HttpServletRequest request,HttpServletResponse response) throws Exception {

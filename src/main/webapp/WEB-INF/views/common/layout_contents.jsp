@@ -62,7 +62,7 @@ request.setCharacterEncoding("UTF-8");
 
 .side_title {
 	padding: 1.7em;
-	width: 8em;
+	width: 9em;
 	border-bottom: 0.5px solid #bcbcbc;
 }
 
