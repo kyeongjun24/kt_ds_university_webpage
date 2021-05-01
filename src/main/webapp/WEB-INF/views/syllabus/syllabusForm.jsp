@@ -43,7 +43,7 @@
 		}
 		
 	.input_text{
-		width: 75%; 
+		width: 100%; 
 		height: auto;
 		 resize: none; 
 		 background-color: #ECECEC; 
@@ -64,7 +64,16 @@
 	}
 	
 	#imgArea{
-		position : relative; transform : translateX(-220px);
+	width: 10em;
+    height: 10em;
+    position: relative;
+    left: -4em;
+    background: #ececec;
+	}
+	
+	.slb_col2 {
+	text-align: start;
+	width: 24em;
 	}
 	
 </style>
@@ -173,17 +182,18 @@
 		</h5>
 	</div>
 	
-	<div style="width: 85%;">
+	<div style="width: 85%; display: flex; flex-direction: column;">
+	<div class="slb_title">
 		<h1 class="text_center">강의 계획서 등록</h1>
 	</div>
 	
 	<form method="post"   action="${contextPath}/syllabus/addSyllabus.do?page=${page}&searchText=${searchText}&searchType=
 	${searchType}&perPage=${perPage}" id="syllabusRegister" name="slbFrm" enctype="multipart/form-data"> 
 	
-		<table align="center" >
+		<table style="position: relative; width: 58%; left: 18em; margin-bottom: 3em;">
 		   <tr>
-		      <td width="8%"><p align="left">1차 분류</td>
-		      <td width="39%" style="text-align:left; padding-left: 20px;">
+		      <td><p align="left">1차 분류</td>
+		      <td class="slb_col2">
 		      <select name="type">
 		        <option value="">유형 선택</option>
 		      	<option value="채용예정자">채용예정자</option>
@@ -197,27 +207,27 @@
 		      	</c:forEach>
 		      </select>
 		      </td>
-		      <td width="7%"><p align="left">교육 일수</td>
-		      <td width="40%" style="text-align:left; padding-left: 20px;"><input type="text" name="days" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >일</td>
+		      <td><p align="left">교육 일수</td>
+		      <td><input type="text" name="days" style="position: relative; left: -0.5em;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >일</td>
 		   </tr>
 		   <tr>
 		      <td ><p align="left">강의명</td>
-		      <td style="text-align:left; padding-left: 20px;"><input type="text" name="name" style="width: 310px;"></td>
+		      <td class="slb_col2"><input type="text" name="name"></td>
 		      <td ><p align="left">교육 시간</td>
-		      <td style="text-align:left; padding-left: 20px;" ><input type="text" name="time" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >시간</td>
+		      <td><input type="text" name="time" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >시간</td>
 		   </tr>
 		   <tr>
 		      <td ><p align="left">보고용 강의명</td>
-		      <td style="text-align:left; padding-left: 20px;"><input type="text" name="reportName" style="width: 310px;"></td>
+		      <td class="slb_col2"><input type="text" name="reportName"></td>
 		      <td ><p align="left">파일 업로드</td>
-		      <td style="text-align:left; padding-left: 20px;"><input type="file" name="uploadFile" accept="image/png, image/jpeg"><input type="hidden" name="originalReportName" value="이성현"></td>
+		      <td><input type="file" name="uploadFile" accept="image/png, image/jpeg"><input type="hidden" name="originalReportName" value="이성현"></td>
 		   </tr>
 		   <tr>
 		   	<td></td>
 		   	<td></td>
 		   	<td height="150"></td>
 		   	<td><div id="imgViewArea">
-		   		<img id="imgArea" width="120" height="120" onerror="imgAreaError()" ></div></td>
+		   		<img id="imgArea" onerror="imgAreaError()" ></div></td>
 		   </tr>
 		    <tr>
 		      <td colspan="4" ><p align="left">학습 개요</td>
@@ -245,7 +255,7 @@
 		    </tr>
 		    <tr>
 		       <td></td>
-		       <td style="text-align: right; padding-right: 20px;"><input type="submit" id="enrollButton" value="등록"><input type="button" onclick="history.back()" value="취소"></td>
+		       <td style="text-align: right; padding-right: 20px;"><input type="submit" id="enrollButton" value="등록"><input type="button" style="margin-left: 1em;" onclick="history.back()" value="취소"></td>
 		       <td></td>
 		       <td></td>
 		    </tr>

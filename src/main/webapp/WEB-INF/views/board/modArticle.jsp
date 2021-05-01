@@ -161,9 +161,9 @@ display : right;
 		 </table>
 	
 		    <div class="modArticle_button">
-		    	<input type="submit" value="수정" style="width: 8%; background-color:#E91B23; color:#efefef; cursor:pointer;">
-		    	<input type="reset" value="재입력" id="reset" style="width: 8%;">
-		    	<input type="button" onclick="history.back()" value="취소" style="width: 8%;">
+		    	<input type="submit" value="수정" style="background-color:#E91B23; color:#efefef; cursor:pointer;">
+		    	<input type="reset" value="재입력" id="reset">
+		    	<input type="button" onclick="history.back()" value="취소">
 		    </div>
 	</form>
 </body>

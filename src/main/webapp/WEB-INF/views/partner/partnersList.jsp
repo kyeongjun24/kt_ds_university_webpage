@@ -31,19 +31,6 @@ request.setCharacterEncoding("UTF-8");
 	font-size: 30px;
 }
 
-.line1 {
-	border-bottom: 2px solid #a3a3a3;
-}
-
-.line2 {
-	border-bottom: 0.5px solid #d3d3d3;
-}
-
-#partners {
-	border-collapse: collapse;
-	line-height: 40px;
-}
-
 .process {
 	text-align: left;
 	margin-bottom: 2em;
@@ -54,23 +41,26 @@ request.setCharacterEncoding("UTF-8");
 	padding-left: 7px
 }
 
-#excelForm {
-	position: relative;
-	margin-top: 1%;
-	width: 90%;
-	display: flex;
-	justify-content: space-between;
-	cursor: pointer;
+#type_color {
+	font-size: 15px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
 }
 
-#type_color {
-	text-align: left;
-	font-size: 80%;
-	margin-right: 66.71%;
+#type_color span{
+	font-size: 0.9em;
+	margin-right: 7px;
 }
 
 #excel {
-	width: 8%;
+	width: 7em;
+}
+
+#under_excelButton {
+	width: 90%;
+    justify-content: flex-end;
+    display: flex;
 }
 
 #pageNum {
@@ -113,12 +103,12 @@ request.setCharacterEncoding("UTF-8");
 	String searchText = request.getParameter("searchType");
 	%>
 	<div class="process">
-		<h4>
+		<h5>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 				style="cursor: pointer;">회원관리</span> > <span
 				onclick="location.href='${contextPath}/partner/listPartners.do?&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=company'"
 				style="cursor: pointer;"> 협력회사</span>
-		</h4>
+		</h5>
 	</div>
 	<form method="get" action="${contextPath }/partner/listPartners.do"
 		id="searchFrm">
@@ -198,25 +188,26 @@ request.setCharacterEncoding("UTF-8");
 	</form>
 
 	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/partner/partnersExcelDownload.do"
-		id="excelForm" method="post">
-		<p id="type_color">
-			<span style="color: black">협약상태 구분: </span><span style="color: black">
-				●협약완료 </span><span style="color: blue"> ●협약서사본</span><span
-				style="color: red">●협약서없음 </span><span style="color: green">
-				●상호변경 </span>
-		</p>
+	<form action="${contextPath}/partner/partnersExcelDownload.do" method="post">
+		<div id="type_color">
+			<div>
+			<span style="color: black">협약상태 구분: </span><span style="color: red">●협약서없음
+			</span><span style="color: green"> ●상호변경 </span><span style="color: black">
+				●협약완료 </span> <span style="color: blue"> ●협약서사본</span><span
+				style="color: #dd42f5"> ●탈퇴</span>
+			</div>
 		<input type="submit" value='엑셀 다운로드' id="excel">
+		</div>
 	</form>
 
-	<table align="center" border="0" width="80%" id="partners">
-		<tr height="15" align="center">
-			<td class=line1><b>회사명</b></td>
-			<td class=line1><b>협약 상태</b></td>
-			<td class=line1><b>담당자</b></td>
-			<td class=line1><b>전화번호</b>
-			<td class=line1><b>사업자등록번호</b></td>
-			<td class=line1><b>등록일</b></td>
+	<table align="center">
+		<tr id="attr">
+			<td><b>회사명</b></td>
+			<td><b>협약 상태</b></td>
+			<td><b>담당자</b></td>
+			<td><b>전화번호</b>
+			<td><b>사업자등록번호</b></td>
+			<td><b>등록일</b></td>
 		</tr>
 		<c:choose>
 			<c:when test="${empty partnersList}">
@@ -228,35 +219,35 @@ request.setCharacterEncoding("UTF-8");
 			<c:when test="${not empty partnersList}">
 				<c:forEach var="company" items="${partnersList }"
 					varStatus="articleNum">
-						<tr align="center">
-							<td class=line2 align='center' width="15%"><a class='cls1'
-								href="${contextPath}/company/companyForm.do?id=${company.id}&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=partner">${company.name }</a>
-							</td>
-							<td width="15%" class=line2><c:if
-									test="${company.contractType eq '협약서 없음'}">
-									<font color="red">${company.contractType }</font>
-								</c:if> <c:if test="${company.contractType eq '상호 변경'}">
-									<font color="green">${company.contractType }</font>
-								</c:if> <c:if test="${company.contractType eq '협약 완료'}">
-									<font color="black">${company.contractType }</font>
-								</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
-									<font color="blue">${company.contractType }</font>
-								</c:if></td>
-							<td width="15%" class=line2>${company.contractName }</td>
-							<td width="15%" class=line2>${company.managerPhone }</td>
-							<td width="15%" class=line2>${company.id }</td>
-							<td width="15%" class=line2>${company.regDate }</td>
-						</tr>
+					<tr align="center">
+						<td align='center' width="15%"><a class='cls1'
+							href="${contextPath}/company/companyForm.do?id=${company.id}&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=partner">${company.name }</a>
+						</td>
+						<td width="15%"><c:if
+								test="${company.contractType eq '협약서 없음'}">
+								<font color="red">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '상호 변경'}">
+								<font color="green">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '협약 완료'}">
+								<font color="black">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '협약서 사본'}">
+								<font color="blue">${company.contractType }</font>
+							</c:if> <c:if test="${company.contractType eq '탈퇴'}">
+								<font color="#dd42f5">${company.contractType }</font>
+							</c:if></td>
+						<td width="15%">${company.contractName }</td>
+						<td width="15%">${company.managerPhone }</td>
+						<td width="15%">${company.id }</td>
+						<td width="15%">${company.regDate }</td>
+					</tr>
 				</c:forEach>
 			</c:when>
 		</c:choose>
 	</table>
-
-	<form action="${contextPath}/partner/partnersExcelDownload.do"
-		method="post" id="excelForm" style="justify-content: flex-end;">
+	<form class="under" id="under_excelButton" action="${contextPath}/partner/partnersExcelDownload.do"
+		method="post">
 		<input type="submit" value='엑셀 다운로드' id="excel">
 	</form>
-
 	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center">
 		<ul>
@@ -308,6 +299,5 @@ request.setCharacterEncoding("UTF-8");
 			</c:if>
 		</ul>
 	</div>
-
 </body>
 </html>

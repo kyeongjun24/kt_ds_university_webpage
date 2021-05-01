@@ -148,12 +148,11 @@ margin-top: 5px;
 			style="cursor: pointer;"> 공지사항</span></h5>
 </div>
 
-	<form method="get" action="${contextPath}/board/listArticles.do" id="listArticles_searchFrm" accept-charset="utf-8" >
+	<form method="get" action="${contextPath}/board/listArticles.do" id="searchFrm" accept-charset="utf-8" >
 	
 		<!-- 리시트 필터 값 적용 -->
-		<div class="listArticles_listFilter">
+		<div class="listFilter">
 			<select name="perPage" id="listFilter">
-			
 				<c:if test="${perPage == '10' }">
 					<option value='10' selected>10개</option>
 					<option value='20'>20개</option>
@@ -182,7 +181,7 @@ margin-top: 5px;
 			</select>
 	
 			<!-- 검색 유형 값(title만)에 따라 셀렉트 띄우는 값 설정 -->
-			<select class= "listArticles_searchType" name="searchType" id="searchType">
+			<select class= "searchType" name="searchType" id="searchType">
 				<c:if test="${searchType == 'title'}">
 					<option value="title" selected>제목</option>
 					<option value="contents">내용</option>
@@ -206,16 +205,16 @@ margin-top: 5px;
 					<input class="listArticles_searchBox" type="text" name="searchText" id="searchText">
 				</c:otherwise>
 			</c:choose>
-			<input type="submit" value="검색" style="cursor: pointer; margin: 5px;">
+			<input type="submit" value="검색" style="cursor: pointer;">
 		</div>
 	</form>
 
-	<div class="listArticle_button">
-		<button type="button" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style=" width: 8%; margin-right: 5px; background-color:#E91B23; color:#efefef; cursor:pointer;" >등록</button>
-		<button type="button" onclick='getCheckList()'style="width: 8%;" >삭제</button>
+	<div class="memberButton">
+		<button type="button" id="enrollButton" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" >등록</button>
+		<button type="button" onclick='getCheckList()'>삭제</button>
 	</div>
 
-	<table class = "listArticles_table">
+	<table>
 		<tr>
 			<td><input type="checkbox" id="selectAll"></td>
 			<td><b>번호</b></td>
@@ -278,9 +277,9 @@ margin-top: 5px;
 		</c:choose>
 	</table>
 
- 	 <div class="listArticle_button">
-     	<button type="button" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 8%; margin-right: 5px; background-color:#E91B23; color:#efefef; cursor:pointer;" >등록</button>
-     	<button type="button" onclick='getCheckList()'style="width: 8%;" >삭제</button>
+ 	 <div class="under memberButton">
+     	<button type="button" id="enrollButton" onclick="location.href='${contextPath}/board/addArticleForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" >등록</button>
+     	<button type="button" id="cancleButton" onclick='getCheckList()' >삭제</button>
      </div>
      	
      <!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->

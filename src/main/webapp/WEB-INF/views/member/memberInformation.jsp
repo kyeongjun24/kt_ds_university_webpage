@@ -399,10 +399,10 @@
 		       <td align="left" ><input type="text" value="${vo.companyName }" readonly></td> 
 		    </tr>
 		</table>
-		<div class="text_center" style="width: 85%; margin-top: 30px;">
-		    <button id="enrollButton" onclick="updateFormMember('F')">수정</button>&nbsp;&nbsp;&nbsp;
-		    <button onclick="removeMember()">탈퇴</button>&nbsp;&nbsp;&nbsp;
-		    <button onclick="location.href='${contextPath}/member/listMembers.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" >목록</button>
+		<div class="text_center" style="width: 85%; margin-top: 3em; margin-bottom: 4em;">
+		    <button id="enrollButton" onclick="updateFormMember('F')">수정</button>
+		    <button onclick="removeMember()">탈퇴</button>
+		    <button onclick="history.back()" >목록</button>
 	    </div>
     </div>
 	<%} else {  %>

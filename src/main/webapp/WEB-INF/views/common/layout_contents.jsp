@@ -114,7 +114,6 @@ a {
 table {
 	width: 90%;
 	border-collapse: collapse;
-	margin: 20px 0;
 }
 
 td {
@@ -131,7 +130,7 @@ td {
 	text-align: center;
 	position: relative;
 	width: 90%;
-	margin: 2em;
+	margin-bottom: 2em;
 }
 
 .pageNumber ul {
@@ -143,6 +142,10 @@ td {
 	color: black;
 	font-weight: 400;
 	padding: 5px 15px;
+}
+
+.pageNumber ul .active a{
+   font-weight: 1000;
 }
 
 input[type=submit], [type=reset], [type=button] {
@@ -201,7 +204,6 @@ button {
 .memberButton {
 	position: relative;
 	margin-top: 5px;
-	margin-bottom: 20px;
 	display: flex;
 	justify-content: flex-end;
 	width: 90%;
@@ -217,6 +219,11 @@ button {
 	align-items: center;
 	width: 90%;
 	margin-bottom: 20px;
+}
+
+.under {
+	position: relative;
+    top: 0.5em;
 }
 </style>
 <title><tiles:insertAttribute name="title" /></title>

@@ -11,64 +11,46 @@ request.setCharacterEncoding("UTF-8");
 <head>
 
 <style>
-.cls1:link {
-	text-decoration: none;
-	color: black;
-}
-
-.cls1:visited {
-	text-decoration: none;
-	color: black;
-}
-
-.cls1:hover {
-	color: #c2c2c2;
-}
-
-.process {
-	text-align: left;
-	color: #9C9D9D;
-	margin-bottom: 2em;
-}
 
 .com_search {
 	padding-left: 7px;
 }
 
-#com_list {
-	line-height: 40px;
+.process {
+	text-align: left;
+	margin-bottom: 2em;
+	color: #9C9D9D;
 }
 
 #mem1 {
 	margin-bottom: 1em;
 }
 
-#excelForm {
-	position: relative;
-	margin-top: 1%;
-	width: 1500px;
-	display: flex;
-	justify-content: flex-end;
-	cursor: pointer;
+#type_color {
+	font-size: 15px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
 }
 
-#type_color {
-	text-align: left;
-	font-size: 80%;
-	margin-right: 55.32%;
+#type_color span{
+	font-size: 0.9em;
+	margin-right: 7px;
 }
 
 #excel {
-	width: 8%;
+	width: 7em;
+    margin-left: 1em;
 }
 
-#enrollButton, #cancelButton {
-	margin-right: 0.7%;
+#under_excelButton {
+	width: 90%;
+    justify-content: flex-end;
+    display: flex;
+    margin-bottom: 3em;
+    margin-top: -1em;
 }
 
-#pageNum {
-	margin-bottom: 5%;
-}
 </style>
 
 <meta charset="UTF-8">
@@ -152,12 +134,12 @@ request.setCharacterEncoding("UTF-8");
 	String searchText = request.getParameter("searchType");
 	%>
 	<div class="process">
-		<h4>
+		<h5>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 				style="cursor: pointer;">회원관리</span> > <span
 				onclick="location.href='${contextPath}/company/listCompanies.do?&page=${criteria.page}&searchText=${criteria.searchText}&searchType=${criteria.searchType}&perPageNum=${criteria.perPageNum}&type=company'"
 				style="cursor: pointer;"> 회사관리</span>
-		</h4>
+		</h5>
 	</div>
 
 	<form method="get" action="${contextPath }/company/listCompanies.do"
@@ -240,26 +222,25 @@ request.setCharacterEncoding("UTF-8");
 	</form>
 
 
-
 	<!-- 엑셀 다운로드 버튼 -->
-	<form action="${contextPath}/company/excelDownload.do" method="post"
-		id="excelForm" name="excelForm">
-		<p id="type_color">
-			<span style="color: black">협약상태 구분: </span><span style="color: black">
-				●협약완료 </span><span style="color: blue"> ●협약서사본</span><span
-				style="color: red">●협약서없음 </span><span style="color: green">
-				●상호변경 </span>
-		</p>
-		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
-			style="width: 5%;">등록</button>
-		<button type="button" id="cancelButton" onclick='getCheckList()'
-			style="width: 5%;">삭제</button>
-		<input type="submit" value='엑셀 다운로드' id="excel">
+	<form action="${contextPath}/partner/partnersExcelDownload.do" method="post">
+		<div id="type_color">
+			<div style="width: 47em;">
+			<span style="color: black">협약상태 구분: </span><span style="color: red">●협약서없음
+			</span><span style="color: green"> ●상호변경 </span><span style="color: black">
+				●협약완료 </span> <span style="color: blue"> ●협약서사본</span><span
+				style="color: #dd42f5"> ●탈퇴</span>
+			</div>
+			<div class="memberButton" id="mem1">
+				<button type="button" id="enrollButton"	onclick="location.href='${contextPath}/company/addCompanyForm.do'">등록</button>
+				<button type="button" onclick='getCheckList()'>삭제</button>
+				<input type="submit" value='엑셀 다운로드' id="excel">
+			</div>
+		</div>
 	</form>
 
-	<table border="0" id="com_list">
-		<tr height="15" align="center">
+	<table>
+		<tr id="attr" align="center">
 			<td><input type="checkbox" id="selectAll"></td>
 			<td><b>상태</b></td>
 			<td><b>회사명</b></td>
@@ -307,16 +288,15 @@ request.setCharacterEncoding("UTF-8");
 		</c:choose>
 	</table>
 
-	<form action="${contextPath}/company/excelDownload.do" method="post"
-		id="excelForm">
-		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
-			style="width: 5%;">등록</button>
-		<button type="button" id="cancelButton" onclick='getCheckList()'
-			style="width: 5%;">삭제</button>
-		<input type="submit" value='엑셀 다운로드' id="excel">
+	<form class="under" action="${contextPath}/company/excelDownload.do" method="post">
+		<div class="memberButton">
+			<button type="button" id="enrollButton"
+				onclick="location.href='${contextPath}/company/addCompanyForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">등록</button>
+			<button type="button" id="cancelButton" onclick='getCheckList()'>삭제</button>
+			<input type="submit" value='엑셀 다운로드' id="excel">
+		</div>
 	</form>
-
+	
 	<!-- 전체 페이지 개수에 의한 페이지 리스트 띄우기 -->
 	<div class="pageNumber" align="center">
 		<ul>
@@ -368,7 +348,5 @@ request.setCharacterEncoding("UTF-8");
 			</c:if>
 		</ul>
 	</div>
-
-
 </body>
 </html>
