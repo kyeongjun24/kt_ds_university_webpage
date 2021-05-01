@@ -76,9 +76,9 @@
 			</tr>
 			<tr>
 				<td colspan="2" style="padding-top: 5%;">
-				<button id="enrollButton" onclick="location.href='${contextPath}/courseCategory/updateCourseCategoryForm.do?id=${courseCategoryVO.id }'">수정하기</button>
+				<button id="enrollButton" onclick="location.href='${contextPath}/courseCategory/updateCourseCategoryForm.do?id=${courseCategoryVO.id }'">수정</button>
 				<button onclick="categoryRemove()" >삭제</button>
-				<button onclick="history.back()">뒤로</button></td>
+				<button onclick="location.href='${contextPath}/courseCategory/listAllCourseCategories.do?'">목록</button></td>
 			</tr>
 		</table>
 	</div>

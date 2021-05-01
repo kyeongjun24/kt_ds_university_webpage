@@ -195,7 +195,7 @@
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/course/listCourses.do'"
+			onclick="location.href='${contextPath}/course/listCourses.do??page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 과정관리</span> > <span
 			onclick="location.href='${contextPath}/course/selectCourse.do?id=${courseVO.id }&page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor: pointer;"> 과정 상세</span>
@@ -325,9 +325,9 @@
 		    </tr>
 		    <tr>
 		       <td colspan="4" width="250">
-		       <button type="button" id="enrollButton" onclick="location.href='${contextPath}/course/updateCourseForm.do?id=${courseVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">수정하기</button>&nbsp;&nbsp;&nbsp;
+		       <button type="button" id="enrollButton" onclick="location.href='${contextPath}/course/updateCourseForm.do?id=${courseVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">수정</button>&nbsp;&nbsp;&nbsp;
 		       <button type="button" onclick="courseRemove()">삭제</button>&nbsp;&nbsp;&nbsp;
-		       <input type="button" onclick="location.href='${contextPath}/course/listCourses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" value="뒤로"></td>
+		       <input type="button" onclick="location.href='${contextPath}/course/listCourses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" value="목록"></td>
 		    </tr>
 		</table>
 	</form>

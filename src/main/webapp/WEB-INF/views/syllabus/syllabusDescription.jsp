@@ -69,19 +69,11 @@
 	}
 </script>
 <body>
-<%
-	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
-	Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
-	
-	if (manager != null && isLogOn == true) {
-		
-	
-%>
 	<div class="process">
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/syllabus/listSyllabuses.do'"
+			onclick="location.href='${contextPath}/syllabus/listSyllabuses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 강의계획서 관리</span> > <span
 			onclick="location.href='${contextPath}/syllabus/selectSyllabus.do?id=${syllabusVO.id }&page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor: pointer;"> 강의계획서 상세</span> 
@@ -151,19 +143,14 @@
 	    <tr>
 	    	<td></td>
 	       	<td style="text-align: right; padding-right: 20px;">
-		       <button onclick="location.href='${contextPath}/syllabus/updateSyllabusForm.do?id=${syllabusVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" id="enrollButton">수정하기</button>
+		       <button onclick="location.href='${contextPath}/syllabus/updateSyllabusForm.do?id=${syllabusVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" id="enrollButton">수정</button>
 		       <button onclick="syllabusRemove()">삭제</button>
-		       <button type="button" onclick="history.back()">뒤로</button>
+		       <button type="button" onclick="location.href='${contextPath}/syllabus/listSyllabuses.do?&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">목록</button>
 	       	</td>
 	       	<!-- location.href='${contextPath}/syllabus/listSyllabuses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}' -->
 	       	<td></td>
 	       	<td></td>
 	    </tr>
 	</table>
-	<%} else {  %>
-	<script>
-		window.location.href="${contextPath}";
-	</script>
-	<% } %>
 </body>
 </html>

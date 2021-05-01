@@ -186,7 +186,6 @@ justify-content: center;
 	window.onload=function(){
 		window.focus();
 		window.moveTo(3,0);
-		window.resizeTo(510, auto);
 		window.scrollTo(0,0)
 	}
 	
@@ -213,9 +212,9 @@ justify-content: center;
 			function() {
 				var perPage = $(this).val();
 				var searchType = document
-						.getElementById('searchType').value;
+						.getElementById('popup_searchType').value;
 				var searchText = document
-						.getElementById('searchText').value;
+						.getElementById('popup_searchText').value;
 				location.href = "${contextPath}/syllabus/searchSyllabusByPopUp.do?perPage="
 						+ perPage
 						+ "&searchType="
@@ -230,7 +229,7 @@ justify-content: center;
 	<div class="popup_container">
 		<%
 		String searchType = request.getParameter("searchType");
-		String searchText = request.getParameter("searchType");
+		String searchText = request.getParameter("searchText");
 		%>
 		<form method="get"
 			action="${contextPath }/syllabus/searchSyllabusByPopUp.do"
@@ -265,13 +264,26 @@ justify-content: center;
 					</c:if>
 				</select> <select name="searchType" id="popup_searchType">
 					<c:if test="${empty searchType }">
-						<option value="nameOfLecture" selected>선택</option>
-						<option value="nameOfLecture">강의명</option>
+						<option value="nameOfLecture" selected>강의명</option>
+						<option value="joinDate">등록일</option>
+						<option value="category2">2차 분류</option>
 					</c:if>
 					<c:if test="${searchType == 'nameOfLecture' }">
-						<option value="nameOfLecture">선택</option>
 						<option value="nameOfLecture" selected>강의명</option>
+						<option value="joinDate">등록일</option>
+						<option value="category2">2차 분류</option>
 					</c:if>
+					<c:if test="${searchType == 'joinDate' }">
+						<option value="nameOfLecture">강의명</option>
+						<option value="joinDate" selected>등록일</option>
+						<option value="category2">2차 분류</option>
+					</c:if>
+					<c:if test="${searchType == 'category2' }">
+						<option value="nameOfLecture">강의명</option>
+						<option value="joinDate">등록일</option>
+						<option value="category2" selected>2차 분류</option>
+					</c:if>
+					
 				</select>
 				<!-- 검색 값이 있냐 없냐에 따라 값 뛰우는거 설정 -->
 				<c:choose>

@@ -165,19 +165,11 @@
 </script>
 	  
 <body>
-<%
-	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
-	Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
-	
-	if (manager != null && isLogOn == true) {
-		
-	
-%>
 	<div class="process">
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/syllabus/listSyllabuses.do'"
+			onclick="location.href='${contextPath}/syllabus/listSyllabuses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 강의계획서 관리</span> > <span
 			onclick="location.href='${contextPath}/syllabus/updateSyllabusForm.do?id=${syllabusVO.id }&page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor: pointer;"> 강의계획서 수정</span> 
@@ -273,10 +265,5 @@
 		    </tr>
 		</table>
 		</form>
-<%} else {  %>
-<script>
-	window.location.href="${contextPath}";
-</script>
-<% } %>	
 </body>
 </html>

@@ -319,7 +319,7 @@
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/course/listCourses.do'"
+			onclick="location.href='${contextPath}/course/listCourses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 과정관리</span> > <span
 			onclick="location.href='${contextPath}/course/updateCourseForm.do?id=${courseVO.id }&page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor: pointer;"> 과정 수정</span>

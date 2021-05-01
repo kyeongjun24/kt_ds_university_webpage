@@ -56,9 +56,15 @@
          	<when test="searchType == 'nameOfLecture'">
          		WHERE UPPER(slb_name) LIKE '%' || UPPER(#{searchText}) || '%'
          	</when>
-         	<!-- <when test="searchType == 'companyName'">
-         		WHERE mem_company_name LIKE '%' || #{searchText} || '%'
-         	</when> -->
+         	<when test="searchType == 'joinDate'">
+         		WHERE slb_join_date LIKE '%' || SUBSTR(#{searchText}, 0, 4) || '-' || SUBSTR(#{searchText}, 5, 2)|| '-' || SUBSTR(#{searchText}, 7, 2) || '%'
+         	</when>
+         	<when test="searchType == 'category1'">
+         		WHERE slb_type LIKE '%' || #{searchText} || '%'
+         	</when>
+         	<when test="searchType == 'category2'">
+         		WHERE slb_type LIKE '%' || #{searchText} || '%'
+         	</when> 
          </choose>
 	</select>
 	
@@ -99,9 +105,15 @@
 	         	<when test="searchType == 'nameOfLecture'">
 	         		WHERE UPPER(slb_name) LIKE '%' || UPPER(#{searchText}) || '%'
 	         	</when>
-	         	<!-- <when test="searchType == 'companyName'">
-	         		WHERE mem_company_name LIKE '%' || #{searchText} || '%'
-	         	</when> -->
+	         	<when test="searchType == 'joinDate'">
+	         		WHERE slb_join_date LIKE '%' || SUBSTR(#{searchText}, 0, 4) || '-' || SUBSTR(#{searchText}, 5, 2)|| '-' || SUBSTR(#{searchText}, 7, 2) || '%'
+	         	</when>
+	         	<when test="searchType == 'category1'">
+	         		WHERE slb_type LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == 'category2'">
+	         		WHERE slb_type LIKE '%' || #{searchText} || '%'
+	         	</when>
          	</choose>
 		ORDER BY slb_id desc)
 		WHERE NUM BETWEEN #{pageStart}

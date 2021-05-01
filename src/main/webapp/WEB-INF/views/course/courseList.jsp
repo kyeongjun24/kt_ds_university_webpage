@@ -141,7 +141,7 @@
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/course/listCourses.do'"
+			onclick="location.href='${contextPath}/course/listCourses.do??page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 과정관리</span>
 		</h5>
 	</div>
@@ -173,19 +173,46 @@
 		
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'nameOfCourse' }">
-					<option value="nameOfCourse">선택</option>
 					<option value="nameOfCourse" selected>과정명</option>
 					<option value="status">접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate">교육종료일</option>
 				</c:if>
 				<c:if test="${searchType == 'status' }">
-					<option value="nameOfCourses">선택</option>
 					<option value="nameOfCourse">과정명</option>
 					<option value="status" selected>접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate">교육종료일</option>
 				</c:if>
-				<c:if test="${empty searchType }">
-					<option value="nameOfCourse" selected>선택</option>
+				<c:if test="${searchType == 'classRoom' }">
 					<option value="nameOfCourse">과정명</option>
 					<option value="status">접수 상태</option>
+					<option value="classRoom" selected>강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate">교육종료일</option>
+				</c:if>
+				<c:if test="${searchType == 'startDate' }">
+					<option value="nameOfCourse">과정명</option>
+					<option value="status">접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate" selected>교육시작일</option>
+					<option value="endDate">교육종료일</option>
+				</c:if>
+				<c:if test="${searchType == 'endDate' }">
+					<option value="nameOfCourse">과정명</option>
+					<option value="status">접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate" selected>교육종료일</option>
+				</c:if>
+				<c:if test="${empty searchType }">
+					<option value="nameOfCourse" selected>과정명</option>
+					<option value="status">접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate">교육종료일</option>
 				</c:if>
 			</select>
 			

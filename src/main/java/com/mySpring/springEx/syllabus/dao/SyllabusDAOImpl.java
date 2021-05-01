@@ -53,9 +53,6 @@ public class SyllabusDAOImpl implements SyllabusDAO{
 
 	@Override
 	public List selectCriteriaBySearch(Criteria criteria) {
-		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println("pageStart" + criteria.getPageStart());
-		System.out.println("Perpage" + criteria.getPerPageNum());
 		return sqlSession.selectList("mapper.syllabus.selectCriteriaBySearchSyllabusesList", criteria);
 	}
 
