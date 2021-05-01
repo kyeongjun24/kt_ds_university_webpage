@@ -1,0 +1,546 @@
+[1mdiff --cc src/main/webapp/WEB-INF/views/enrollment/enrollmentsList.jsp[m
+[1mindex 3e21119,fe09fe7..0000000[m
+[1m--- a/src/main/webapp/WEB-INF/views/enrollment/enrollmentsList.jsp[m
+[1m+++ b/src/main/webapp/WEB-INF/views/enrollment/enrollmentsList.jsp[m
+[36m@@@ -189,286 -181,283 +181,352 @@@[m
+  			var log = frm.log.value;[m
+  			if (log == '') {[m
+  				alert('사유를 입력해주세요.');[m
+[31m-      			frm.log.focus();[m
+[31m-      			return false;[m
+[32m+ 				frm.log.focus();[m
+[32m+ 				return false;[m
+  			}[m
+  			return true;[m
+[31m- 		}) [m
+[32m+ 		})[m
+  	})[m
+[31m- 	[m
+[32m+ [m
+  </script>[m
+[32m+ [m
+  <body>[m
+[31m- 	<!-- controller에서 보낸 값 받아서 저장 -->[m
+[31m- 	<%[m
+[31m- 	String searchType = request.getParameter("searchType");[m
+[31m- 	String searchText = request.getParameter("searchType");[m
+[31m- 	%>[m
+[31m- 	[m
+[31m- 	<div class="process">[m
+[31m- 		<h4>[m
+[32m+ 	<div class='process'>[m
+[32m+ 		<h5>[m
+  			<span onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"[m
+  				style="cursor: pointer;">수강관리</span> > <span[m
+[31m- 				onclick="location.href='${contextPath}/enrollment/listEnrollments.do'"[m
+[31m- 				style="cursor: pointer;"> 수강신청내역</span>[m
+[31m- 		</h4>[m
+[32m+ 				onclick="location.href='${contextPath}/enrollment/listEnrollments.do'" style="cursor: pointer;">[m
+[32m+ 				수강신청내역</span>[m
+[32m+ 		</h5>[m
+  	</div>[m
+  [m
+[32m++<<<<<<< HEAD[m
+[32m +	<form method="get" action="${contextPath}/enrollment/listEnrollments.do" id="searchFrm">[m
+[32m +	[m
+[32m +		<!-- 리시트 필터 값 적용 -->[m
+[32m +		<div class="listFilter">[m
+[32m +			<select name="perPage" id="listFilter">[m
+[32m +				<c:if test="${perPage == '10' }">[m
+[32m +					<option value='10' selected>10</option>[m
+[32m +					<option value='20'>20</option>[m
+[32m +					<option value='50'>50</option>[m
+[32m +					<option value='100'>100</option>[m
+[32m +				</c:if>[m
+[32m +				<c:if test="${perPage == '20' }">[m
+[32m +					<option value='10'>10</option>[m
+[32m +					<option value='20' selected>20</option>[m
+[32m +					<option value='50'>50</option>[m
+[32m +					<option value='100'>100</option>[m
+[32m +				</c:if>[m
+[32m +				<c:if test="${perPage == '50' }">[m
+[32m +					<option value='10'>10</option>[m
+[32m +					<option value='20'>20</option>[m
+[32m +					<option value='50' selected>50</option>[m
+[32m +					<option value='100'>100</option>[m
+[32m +				</c:if>[m
+[32m +				<c:if test="${perPage == '100' }">[m
+[32m +					<option value='10'>10</option>[m
+[32m +					<option value='20'>20</option>[m
+[32m +					<option value='50'>50</option>[m
+[32m +					<option value='100' selected>100</option>[m
+[32m +				</c:if>[m
+[32m +			</select>[m
+[32m +		</div>[m
+[32m +		[m
+[32m +		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->[m
+[32m +		<div class="searchType">[m
+[32m +			<select name="searchType" id="searchType">[m
+[32m +				<c:if test="${searchType == 'name' }">[m
+[32m +					<option value="name" selected>이름</option>[m
+[32m +					<option value="companyName">회사명</option>[m
+[32m +					<option value="slbName">과정명</option>[m
+[32m +					<option value="stat">상태</option>[m
+[32m +				</c:if>[m
+[32m +				<c:if test="${searchType == 'companyName' }">[m
+[32m +					<option value="name">이름</option>[m
+[32m +					<option value="companyName" selected>회사명</option>[m
+[32m +					<option value="slbName">과정명</option>[m
+[32m +					<option value="stat">상태</option>[m
+[32m +				</c:if>[m
+[32m +				<c:if test="${searchType == 'slbName' }">[m
+[32m +					<option value="name">이름</option>[m
+[32m +					<option value="companyName">회사명</option>[m
+[32m +					<option value="slbName" selected>과정명</option>[m
+[32m +					<option value="stat">상태</option>[m
+[32m +				</c:if>[m
+[32m +				<c:if test="${searchType == 'stat' }">[m
+[32m +					<option value="name">이름</option>[m
+[32m +					<option value="companyName">회사명</option>[m
+[32m +					<option value="slbName">과정명</option>[m
+[32m +					<option value="stat" selected>상태</option>[m
+[32m +				</c:if>[m
+[32m +				<c:if test="${empty searchType }">[m
+[32m +					<option value="name">이름</option>[m
+[32m +					<option value="companyName">회사명</option>[m
+[32m +					<option value="slbName" selected>과정명</option>[m
+[32m +					<option value="stat">상태</option>[m
+[32m +				</c:if>[m
+[32m +			</select>[m
+[32m++=======[m
+[32m+ 	<!-- controller에서 보낸 값 받아서 저장 -->[m
+[32m+ 	<% String searchType=request.getParameter("searchType"); String searchText=request.getParameter("searchType"); %>[m
+[32m++>>>>>>> 756d986597aa4b2179c90910ba2d8c2e2eb068f2[m
+  [m
+[31m- 			<!-- 검색 값이 있냐 없냐에 따라 값 뛰우는거 설정 -->[m
+[31m- 			<c:choose>[m
+[31m- 				<c:when test="${not empty searchText }">[m
+[31m- 					<input type="text" name="searchText" id="searchText"[m
+[31m- 						value="${searchText }">[m
+[31m- 				</c:when>[m
+[31m- 				<c:otherwise>[m
+[31m- 					<input type="text" name="searchText" id="searchText">[m
+[31m- 				</c:otherwise>[m
+[31m- 			</c:choose>[m
+[31m- 			<input type="submit" id="searchSubmit" value="검색">[m
+[31m- 		</div>[m
+[31m- 	</form>[m
+[31m- 	[m
+[31m- 	<div id="enrollmentButton">[m
+[31m-       <p id="typeColor">[m
+[31m-          <span style="color: black">협약상태 구분: </span> <span style="color: red">●협약서없음[m
+[31m-          </span><span style="color: green"> ●상호변경 </span><span style="color: black">[m
+[31m-             ●협약완료 </span><span style="color: blue"> ●협약서사본</span>[m
+[31m-       </p>[m
+[31m-       <button type="button" id="enrollButton" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"[m
+[31m-          style="width: 5%;">등록</button>[m
+[31m-       <button type="button" id="approveButton" onclick='getCheckList("approve")'[m
+[31m- 			style="width: 5%;">승인</button>[m
+[31m- 		<button type="button" id="completeButton" onclick='getCheckList("complete")'[m
+[31m- 			style="width: 5%;">수료</button>[m
+[31m-       <button type="button" id="cancelButton" onclick='getCheckList("delete")'[m
+[31m-          style="width: 5%;">취소</button>[m
+[31m-          [m
+[31m- 	   <form action="${contextPath}/enrollment/excelDownload.do" class="excelDownloadForm" method="get" id="excelForm" name="excelForm">[m
+[31m- 	      열람사유 : <input type="text" name="log" id="log">[m
+[31m- 	      <input type="submit" value='엑셀 다운로드' id="excel">[m
+[31m- 	   </form> [m
+[31m- 	   [m
+[31m-    </div> [m
+[31m- 	[m
+[31m- 	<table align="center" border="0" width="80%" id="dynamicCompany">[m
+[31m- 		<tr height="15" align="center" id="attr">[m
+[31m- 			<td><input type="checkbox" id="selectAll"></td>[m
+[31m- 			<td><b>과정명</b></td>[m
+[31m- 			<td><b>교육기간</b></td>[m
+[31m- 			<td><b>이름</b></td>[m
+[31m- 			<td><b>소속회사</b></td>[m
+[31m- 			<td><b>상태</b></td>[m
+[31m- 			<td><b>신청일</b></td>[m
+[31m- 		</tr>[m
+[31m- 		[m
+[31m- 	<!-- 리스트 반복문 -->[m
+[31m- 		<c:choose>[m
+[31m- 			<c:when test="${empty enrollmentsList}">[m
+[31m- 				<tr height="10">[m
+[31m- 					<td colspan="7">[m
+[31m- 						<p align="center">[m
+[31m- 							<b><span style="font-size: 9pt;">찾으시는 데이터가 없습니다.</span></b>[m
+[31m- 						</p>[m
+[31m- 					</td>[m
+[31m- 				</tr>[m
+[31m- 			</c:when>[m
+[31m- 			<c:when test="${enrollmentsList !=null }">[m
+[31m- 				<c:forEach var="enrollment" items="${enrollmentsList }" varStatus="enrdNum">[m
+[31m- 					<tr align="center">[m
+[31m- 						<td style="width: 5%"><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }"></td>[m
+[31m- 							[m
+[31m- 						<!-- 과목별 상세 조회 -->[m
+[31m- 						<td align="left" style="width: 35%; padding-left:20px"><a id="herfId1" href="${contextPath}/enrollment/enrollmentCourse.do?[m
+[31m- 																id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>[m
+[31m- 																[m
+[31m- 						<td style="width: 20%">${enrollment.courseVO.startDate } ~ ${enrollment.courseVO.endDate }</td>[m
+[31m- 						[m
+[31m- 						<td style="width: 5%"><a id="herfId2" href="${contextPath}/enrollment/informationEnrollment.do?[m
+[31m- 																id=${enrollment.id }">${enrollment.memberVO.name }</a></td>[m
+[31m- 						<td style="width: 15%">[m
+[31m- 							<!-- 회사가 없는 경우 -->[m
+[31m- 							<c:if test="${enrollment.memberVO.companyName == null }">[m
+[31m- 								<font color="red">비협력사</font>[m
+[31m- 							</c:if>[m
+[31m- 							[m
+[31m- 							<!-- 회사가 있는 경우 -->[m
+[31m- 							<c:if test="${enrollment.memberVO.companyName != null }">[m
+[31m- 						[m
+[31m- 								<c:choose>[m
+[31m- 									<c:when test="${enrollment.companyVO.contractType eq '협약서 없음'}">[m
+[31m- 	                        			<font color="red">${enrollment.memberVO.companyName }</font>[m
+[31m- 	                        [m
+[31m- 	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '상호 변경'}">[m
+[31m- 	                        			<font color="green">${enrollment.memberVO.companyName }</font>[m
+[31m- 	                        [m
+[31m- 	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '협약 완료'}">[m
+[31m- 	                        			<font color="black">${enrollment.memberVO.companyName }</font>[m
+[31m- 	                        [m
+[31m- 	                     			</c:when> <c:when test="${enrollment.companyVO.contractType eq '협약서 사본'}">[m
+[31m- 	                        			<font color="blue">${enrollment.memberVO.companyName }</font>[m
+[31m- 	                    			 </c:when>[m
+[31m- 	                    			 <c:otherwise>[m
+[31m- 	                    			 	<font color="red">${enrollment.memberVO.companyName }</font>[m
+[31m- 	                    			 </c:otherwise>[m
+[31m-                     			 </c:choose>[m
+[31m-                     		</c:if>[m
+[31m- 						</td>[m
+[31m- 					[m
+[31m- 						<td style="width: 5%">[m
+[31m- 							<c:choose>[m
+[31m- 								<c:when test="${enrollment.stat == '신청' }">[m
+[31m- 	                       			<font color="black">${enrollment.stat }</font></c:when>[m
+[31m- 	                       [m
+[31m- 	                    			 <c:when test="${enrollment.stat == '승인' }">[m
+[31m- 	                       			<font color="blue">${enrollment.stat }</font> </c:when>[m
+[31m- 	                   			 <c:otherwise>[m
+[31m- 	                   			 	<font color="red">${enrollment.stat }</font>[m
+[31m- 	                   			 </c:otherwise>[m
+[31m- 							</c:choose>[m
+[31m- 						[m
+[31m- 						<td style="width: 15%">${enrollment.joinDate }</td>[m
+[31m- 					</tr>[m
+[31m- 				</c:forEach>[m
+[31m- 			</c:when>[m
+[31m- 		</c:choose>[m
+[31m- 	</table>[m
+[31m- [m
+[31m- 	<!-- 버튼 모음집 -->[m
+[31m- 	<div id="enrollmentButton">[m
+[31m-       <button type="button" id="enrollButton" onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'"[m
+[31m-          style="width: 5%;">등록</button>[m
+[31m-       <button type="button" id="approveButton" onclick='getCheckList("approve")'[m
+[31m- 			style="width: 5%;">승인</button>[m
+[31m- 		<button type="button" id="completeButton" onclick='getCheckList("complete")'[m
+[31m- 			style="width: 5%;">수료</button>[m
+[31m-       <button type="button" id="cancelButton" onclick='getCheckList("delete")'[m
+[31m-          style="width: 5%;">취소</button>[m
+[31m-    </div> [m
+[31m-    [m
+[31m- 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->[m
+[31m- 	<div class="pageNumber" align="center">[m
+[31m- 		<ul>[m
+[31m- 			<c:if test="${pageMaker.prev }">[m
+[32m+ 		<form method="get" action="${contextPath}/enrollment/listEnrollments.do" id="searchFrm">[m
+[32m+ [m
+[32m+ 			<!-- 리시트 필터 값 적용 -->[m
+[32m+ 			<div class="listFilter">[m
+[32m+ 				<select name="perPage" id="listFilter">[m
+[32m+ 					<c:if test="${perPage == '10' }">[m
+[32m+ 						<option value='10' selected>10</option>[m
+[32m+ 						<option value='20'>20</option>[m
+[32m+ 						<option value='50'>50</option>[m
+[32m+ 						<option value='100'>100</option>[m
+[32m+ 					</c:if>[m
+[32m+ 					<c:if test="${perPage == '20' }">[m
+[32m+ 						<option value='10'>10</option>[m
+[32m+ 						<option value='20' selected>20</option>[m
+[32m+ 						<option value='50'>50</option>[m
+[32m+ 						<option value='100'>100</option>[m
+[32m+ 					</c:if>[m
+[32m+ 					<c:if test="${perPage == '50' }">[m
+[32m+ 						<option value='10'>10</option>[m
+[32m+ 						<option value='20'>20</option>[m
+[32m+ 						<option value='50' selected>50</option>[m
+[32m+ 						<option value='100'>100</option>[m
+[32m+ 					</c:if>[m
+[32m+ 					<c:if test="${perPage == '100' }">[m
+[32m+ 						<option value='10'>10</option>[m
+[32m+ 						<option value='20'>20</option>[m
+[32m+ 						<option value='50'>50</option>[m
+[32m+ 						<option value='100' selected>100</option>[m
+[32m+ 					</c:if>[m
+[32m+ 				</select>[m
+[32m+ 			</div>[m
+[32m+ [m
+[32m+ 			<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->[m
+[32m+ 			<div class="searchType">[m
+[32m+ 				<select name="searchType" id="searchType">[m
+[32m+ 					<c:if test="${searchType == 'name' }">[m
+[32m+ 						<option value="name" selected>이름</option>[m
+[32m+ 						<option value="companyName">회사명</option>[m
+[32m+ 						<option value="slbName">과정명</option>[m
+[32m+ 						<option value="stat">상태</option>[m
+[32m+ 					</c:if>[m
+[32m+ 					<c:if test="${searchType == 'companyName' }">[m
+[32m+ 						<option value="name">이름</option>[m
+[32m+ 						<option value="companyName" selected>회사명</option>[m
+[32m+ 						<option value="slbName">과정명</option>[m
+[32m+ 						<option value="stat">상태</option>[m
+[32m+ 					</c:if>[m
+[32m+ 					<c:if test="${searchType == 'slbName' }">[m
+[32m+ 						<option value="name">이름</option>[m
+[32m+ 						<option value="companyName">회사명</option>[m
+[32m+ 						<option value="slbName" selected>과정명</option>[m
+[32m+ 						<option value="stat">상태</option>[m
+[32m+ 					</c:if>[m
+[32m+ 					<c:if test="${searchType == 'stat' }">[m
+[32m+ 						<option value="name">이름</option>[m
+[32m+ 						<option value="companyName">회사명</option>[m
+[32m+ 						<option value="slbName">과정명</option>[m
+[32m+ 						<option value="stat" selected>상태</option>[m
+[32m+ 					</c:if>[m
+[32m+ 					<c:if test="${empty searchType }">[m
+[32m+ 						<option value="name">이름</option>[m
+[32m+ 						<option value="companyName">회사명</option>[m
+[32m+ 						<option value="slbName" selected>과정명</option>[m
+[32m+ 						<option value="stat">상태</option>[m
+[32m+ 					</c:if>[m
+[32m+ 				</select>[m
+[32m+ [m
+[32m+ 				<!-- 검색 값이 있냐 없냐에 따라 값 뛰우는거 설정 -->[m
+  				<c:choose>[m
+[31m- 					<c:when test="${not empty searchType and not empty searchText }">[m
+[31m- 						<li><a[m
+[31m- 							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }[m
+[31m- 								&searchText=${searchText}&searchType=${searchType}">이전</a></li>[m
+[32m+ 					<c:when test="${not empty searchText }">[m
+[32m+ 						<input type="text" name="searchText" id="searchText" value="${searchText }">[m
+  					</c:when>[m
+  					<c:otherwise>[m
+[31m- 						<li><a[m
+[31m- 							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }[m
+[31m- 								&searchText=${searchText}&searchType=${searchType}">이전</a></li>[m
+[32m+ 						<input type="text" name="searchText" id="searchText">[m
+  					</c:otherwise>[m
+  				</c:choose>[m
+[31m- 			</c:if>[m
+[32m+ 				<input type="submit" id="searchSubmit" value="검색">[m
+[32m+ 			</div>[m
+[32m+ 		</form>[m
+[32m+ [m
+[32m+ 		<!-- 엑셀 다운로드 버튼-->[m
+[32m+ 		<form action="${contextPath}/enrollment/excelDownload.do" class="excelDownloadForm" method="get" name="excelForm">[m
+[32m+ 			<div id="type_color">[m
+[32m+ 				<div>[m
+[32m+ 					<span style="color: black">협약상태 구분: </span><span style="color:red">●협약서없음</span><span style="color:green"> ●상호변경 </span><span style="color:black"> ●협약완료</span><span style="color:blue"> ●협약서사본</span>[m
+[32m+ 				</div>[m
+[32m+ 				<div>[m
+[32m+ 					열람사유 : <input type="text" name="log" id="log">[m
+[32m+ 					<input type="submit" value='엑셀 다운로드' id="excel">[m
+[32m+ 				</div>[m
+[32m+ 			</div>[m
+[32m+ 		</form>[m
+[32m+ 		<!-- 버튼 모음집-->[m
+[32m+ 		<div class="memberButton" style="margin: 20px 0px;">[m
+[32m+ 			<button type="button" id="enrollButton"[m
+[32m+ 				onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'" style="width: 5%;">등록</button>[m
+[32m+ 			<button type="button" id="approveButton" onclick='getCheckList("approve")' style="width: 5%;">승인</button>[m
+[32m+ 			<button type="button" id="completeButton" onclick='getCheckList("complete")' style="width: 5%;">수료</button>[m
+[32m+ 			<button type="button" id="cancelButton" onclick='getCheckList("delete")' style="width: 5%;">취소</button>[m
+[32m+ 		</div>[m
+[32m+ [m
+[32m+ [m
+[32m+ 		<table align="center" border="0" width="80%" id="dynamicCompany">[m
+[32m+ 			<tr height="15" align="center" id="attr">[m
+[32m+ 				<td><input type="checkbox" id="selectAll"></td>[m
+[32m+ 				<td><b>과정명</b></td>[m
+[32m+ 				<td><b>교육기간</b></td>[m
+[32m+ 				<td><b>이름</b></td>[m
+[32m+ 				<td><b>소속회사</b></td>[m
+[32m+ 				<td><b>상태</b></td>[m
+[32m+ 				<td><b>신청일</b></td>[m
+[32m+ 			</tr>[m
+[32m+ [m
+[32m+ 			<!-- 리스트 반복문 -->[m
+  			<c:choose>[m
+[31m- 				<c:when test="${not empty searchType and not empty searchText }">[m
+[31m- 					<c:forEach begin="${pageMaker.startPage }"[m
+[31m- 						end="${pageMaker.endPage }" var="idx">[m
+[31m- 						<li[m
+[31m- 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>[m
+[31m- 							<a[m
+[31m- 							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}[m
+[31m- 								&searchType=${searchType}&perPage=${perPage}">${idx }</a>[m
+[31m- 						</li>[m
+[31m- 					</c:forEach>[m
+[32m+ 				<c:when test="${empty enrollmentsList}">[m
+[32m+ 					<tr height="10">[m
+[32m+ 						<td colspan="7">[m
+[32m+ 							<p align="center">[m
+[32m+ 								<b><span style="font-size: 9pt;">찾으시는 데이터가 없습니다.</span></b>[m
+[32m+ 							</p>[m
+[32m+ 						</td>[m
+[32m+ 					</tr>[m
+  				</c:when>[m
+[31m- 				<c:otherwise>[m
+[31m- 					<c:forEach begin="${pageMaker.startPage }"[m
+[31m- 						end="${pageMaker.endPage }" var="idx">[m
+[31m- 						<li[m
+[31m- 							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>[m
+[31m- 							<a[m
+[31m- 							href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}[m
+[31m- 								&searchType=${searchType}&perPage=${perPage}">${idx }</a>[m
+[31m- 						</li>[m
+[32m+ 				<c:when test="${enrollmentsList !=null }">[m
+[32m+ 					<c:forEach var="enrollment" items="${enrollmentsList }" varStatus="enrdNum">[m
+[32m+ 						<tr align="center">[m
+[32m+ 							<td style="width: 5%"><input type="checkbox" name="selectedCheckbox" id="${enrollment.id }">[m
+[32m+ 							</td>[m
+[32m+ [m
+[32m+ 							<!-- 과목별 상세 조회 -->[m
+[32m+ 							<td align="left" style="width: 35%; padding-left:20px"><a id="herfId1" href="${contextPath}/enrollment/enrollmentCourse.do?[m
+[32m+ 											id=${enrollment.courseVO.id }">${enrollment.syllabusVO.name }</a></td>[m
+[32m+ [m
+[32m+ 							<td style="width: 20%">${enrollment.courseVO.startDate } ~[m
+[32m+ 								${enrollment.courseVO.endDate }</td>[m
+[32m+ [m
+[32m+ 							<td style="width: 5%"><a id="herfId2" href="${contextPath}/enrollment/informationEnrollment.do?[m
+[32m+ 											id=${enrollment.id }">${enrollment.memberVO.name }</a></td>[m
+[32m+ 							<td style="width: 15%">[m
+[32m+ 								<!-- 회사가 없는 경우 -->[m
+[32m+ 								<c:if test="${enrollment.memberVO.companyName == null }">[m
+[32m+ 									<font color="red">비협력사</font>[m
+[32m+ 								</c:if>[m
+[32m+ [m
+[32m+ 								<!-- 회사가 있는 경우 -->[m
+[32m+ 								<c:if test="${enrollment.memberVO.companyName != null }">[m
+[32m+ [m
+[32m+ 									<c:choose>[m
+[32m+ 										<c:when test="${enrollment.companyVO.contractType eq '협약서 없음'}">[m
+[32m+ 											<font color="red">${enrollment.memberVO.companyName }[m
+[32m+ 											</font>[m
+[32m+ [m
+[32m+ 										</c:when>[m
+[32m+ 										<c:when test="${enrollment.companyVO.contractType eq '상호 변경'}">[m
+[32m+ 											<font color="green">${enrollment.memberVO.companyName }[m
+[32m+ 											</font>[m
+[32m+ [m
+[32m+ 										</c:when>[m
+[32m+ 										<c:when test="${enrollment.companyVO.contractType eq '협약 완료'}">[m
+[32m+ 											<font color="black">${enrollment.memberVO.companyName }[m
+[32m+ 											</font>[m
+[32m+ [m
+[32m+ 										</c:when>[m
+[32m+ 										<c:when test="${enrollment.companyVO.contractType eq '협약서 사본'}">[m
+[32m+ 											<font color="blue">${enrollment.memberVO.companyName }[m
+[32m+ 											</font>[m
+[32m+ 										</c:when>[m
+[32m+ 										<c:otherwise>[m
+[32m+ 											<font color="red">${enrollment.memberVO.companyName }[m
+[32m+ 											</font>[m
+[32m+ 										</c:otherwise>[m
+[32m+ 									</c:choose>[m
+[32m+ 								</c:if>[m
+[32m+ 							</td>[m
+[32m+ [m
+[32m+ 							<td style="width: 5%">[m
+[32m+ 								<c:choose>[m
+[32m+ 									<c:when test="${enrollment.stat == '신청' }">[m
+[32m+ 										<font color="black">${enrollment.stat }</font>[m
+[32m+ 									</c:when>[m
+[32m+ [m
+[32m+ 									<c:when test="${enrollment.stat == '승인' }">[m
+[32m+ 										<font color="blue">${enrollment.stat }</font>[m
+[32m+ 									</c:when>[m
+[32m+ 									<c:otherwise>[m
+[32m+ 										<font color="red">${enrollment.stat }</font>[m
+[32m+ 									</c:otherwise>[m
+[32m+ 								</c:choose>[m
+[32m+ [m
+[32m+ 							<td style="width: 15%">${enrollment.joinDate }</td>[m
+[32m+ 						</tr>[m
+  					</c:forEach>[m
+[31m- 				</c:otherwise>[m
+[32m+ 				</c:when>[m
+  			</c:choose>[m
+[31m- 			<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">[m
+[32m+ 		</table>[m
+[32m+ [m
+[32m+ 		<!-- 버튼 모음집 -->[m
+[32m+ 		<div class="under memberButton">[m
+[32m+ 			<button type="button" id="enrollButton"[m
+[32m+ 				onclick="location.href='${contextPath}/enrollment/enrollmentForm.do'" style="width: 5%;">등록</button>[m
+[32m+ 			<button type="button" id="approveButton" onclick='getCheckList("approve")' style="width: 5%;">승인</button>[m
+[32m+ 			<button type="button" id="completeButton" onclick='getCheckList("complete")' style="width: 5%;">수료</button>[m
+[32m+ 			<button type="button" id="cancelButton" onclick='getCheckList("delete")' style="width: 5%;">취소</button>[m
+[32m+ 		</div>[m
+[32m+ [m
+[32m+ 		<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->[m
+[32m+ 		<div class="pageNumber" align="center">[m
+[32m+ 			<ul>[m
+[32m+ 				<c:if test="${pageMaker.prev }">[m
+[32m+ 					<c:choose>[m
+[32m+ 						<c:when test="${not empty searchType and not empty searchText }">[m
+[32m+ 							<li><a href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }[m
+[32m+ 			&searchText=${searchText}&searchType=${searchType}">이전</a></li>[m
+[32m+ 						</c:when>[m
+[32m+ 						<c:otherwise>[m
+[32m+ 							<li><a href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.startPage - 1 }[m
+[32m+ 			&searchText=${searchText}&searchType=${searchType}">이전</a></li>[m
+[32m+ 						</c:otherwise>[m
+[32m+ 					</c:choose>[m
+[32m+ 				</c:if>[m
+  				<c:choose>[m
+  					<c:when test="${not empty searchType and not empty searchText }">[m
+[31m- 						<li><a[m
+[31m- 							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }[m
+[31m- 								&searchText=${searchText}&searchType=${searchType}">다음</a></li>[m
+[32m+ 						<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">[m
+[32m+ 							<li <c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>[m
+[32m+ 							<a href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}[m
+[32m+ 			&searchType=${searchType}&perPage=${perPage}">${idx }</a>[m
+[32m+ 							</li>[m
+[32m+ 						</c:forEach>[m
+  					</c:when>[m
+  					<c:otherwise>[m
+[31m- 						<li><a[m
+[31m- 							href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }[m
+[31m- 								&searchText=${searchText}&searchType=${searchType}">다음</a></li>[m
+[32m+ 						<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">[m
+[32m+ 							<li <c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }" />>[m
+[32m+ 							<a href="${contextPath }/enrollment/listEnrollments.do?page=${idx}&searchText=${searchText}[m
+[32m+ 			&searchType=${searchType}&perPage=${perPage}">${idx }</a>[m
+[32m+ 							</li>[m
+[32m+ 						</c:forEach>[m
+  					</c:otherwise>[m
+  				</c:choose>[m
+[31m- 			</c:if>[m
+[31m- 		</ul>[m
+[31m- 	</div>[m
+[32m+ 				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">[m
+[32m+ 					<c:choose>[m
+[32m+ 						<c:when test="${not empty searchType and not empty searchText }">[m
+[32m+ 							<li><a href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }[m
+[32m+ 			&searchText=${searchText}&searchType=${searchType}">다음</a></li>[m
+[32m+ 						</c:when>[m
+[32m+ 						<c:otherwise>[m
+[32m+ 							<li><a href="${contextPath}/enrollment/listEnrollments.do?page=${pageMaker.endPage + 1 }[m
+[32m+ 			&searchText=${searchText}&searchType=${searchType}">다음</a></li>[m
+[32m+ 						</c:otherwise>[m
+[32m+ 					</c:choose>[m
+[32m+ 				</c:if>[m
+[32m+ 			</ul>[m
+[32m+ 		</div>[m
+[32m+ [m
+  [m
+[31m-    [m
+  </body>[m
+[32m+ [m
+  </html>[m

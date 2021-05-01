@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +34,22 @@ public class ManagerControllerImpl implements ManagerController{
 	 }
 	
 	
+	/* 로그인 실패 시 loginForm.do로 리다이렉트*/
+	@RequestMapping (value = "/manager/loginForm.do", method = RequestMethod.GET)
+	private ModelAndView form(@RequestParam(value = "result", required = false) String result,
+			@RequestParam(value = "action", required = false) String action, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		String viewName = (String) request.getAttribute("viewName");
+		HttpSession session = request.getSession();
+		session.setAttribute("action", action);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("result", result);
+		mav.setViewName(viewName);
+		return mav;
+	}
+
+	
 	@Override
 	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST) 
 	public ModelAndView login(@ModelAttribute("manager") ManagerVO manager,
@@ -58,7 +75,7 @@ public class ManagerControllerImpl implements ManagerController{
 	}else {
 		int loginFail = managerService.logLoginFailInfo(manager);
 	   rAttr.addAttribute("result","loginFailed");
-	   mav.setViewName("redirect:/");
+	   mav.setViewName("redirect:/manager/loginForm.do");
 	}
 	return mav;
 	}

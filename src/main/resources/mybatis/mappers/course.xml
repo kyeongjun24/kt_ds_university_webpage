@@ -107,7 +107,16 @@
          	</when>
          	<when test="searchType == 'status'">
          		WHERE crs_stat LIKE '%' || #{searchText} || '%'
-         	</when> 
+         	</when>
+         	<when test="searchType == 'classRoom'">
+         		WHERE crs_classroom LIKE '%' || #{searchText} || '%'
+         	</when>
+         	<when test="searchType == 'startDate'">
+         		WHERE crs_start_date LIKE '%' || SUBSTR(#{searchText}, 0, 4) || '-' || SUBSTR(#{searchText}, 5, 2)|| '-' || SUBSTR(#{searchText}, 7, 2) || '%'
+         	</when>
+         	<when test="searchType == 'endDate'">
+         		WHERE crs_end_date LIKE '%' || SUBSTR(#{searchText}, 0, 4) || '-' || SUBSTR(#{searchText}, 5, 2)|| '-' || SUBSTR(#{searchText}, 7, 2) || '%'
+         	</when>
          </choose>
          order by crs_id desc
 	</select>
@@ -142,6 +151,15 @@
 	         	</when>
 	         	<when test="searchType == 'status'">
 	         		WHERE crs_stat LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == 'classRoom'">
+	         		WHERE crs_classroom LIKE '%' || #{searchText} || '%'
+	         	</when>
+	         	<when test="searchType == 'startDate'">
+	         		WHERE crs_start_date LIKE '%' || SUBSTR(#{searchText}, 0, 4) || '-' || SUBSTR(#{searchText}, 5, 2)|| '-' || SUBSTR(#{searchText}, 7, 2) || '%'
+	         	</when>
+	         	<when test="searchType == 'endDate'">
+	         		WHERE crs_end_date LIKE '%' || SUBSTR(#{searchText}, 0, 4) || '-' || SUBSTR(#{searchText}, 5, 2)|| '-' || SUBSTR(#{searchText}, 7, 2) || '%'
 	         	</when>
          	</choose>
 		ORDER BY crs_id )

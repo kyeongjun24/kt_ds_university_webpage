@@ -14,17 +14,20 @@ request.setCharacterEncoding("UTF-8");
 <title>만족도조사 목록창</title>
 <style>
 .satisfactionButton {
-margin-top : 20px;
-display : flex;
-justify-content: flex-end;
-width: 90%;
+	width: 90%;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.menuCategory{
-	height: 5%;
-	width: 100%;
-	margin-bottom: 1%;
+#satisfactionButton {
+	background-color: #e91b23;
+}
+
+
+.process {
 	text-align: left;
+	margin-bottom: 2em;
+	color: #9C9D9D;
 }
 
 </style>
@@ -103,9 +106,16 @@ width: 90%;
 </script>
 
 <body>
-	<div class="menuCategory">
-		<h5>설문조사 관리 > 만족도 조사</h5>
+
+	<div class="process">
+		<h5>
+			<span onclick="location.href='${contextPath}/survey/listSurveys.do'"
+				style="cursor: pointer;">설문조사관리</span> > <span
+				onclick="location.href='${contextPath}/satisfaction/listSatisfactions.do'"
+				style="cursor: pointer;"> 만족도 평가</span>
+		</h5>
 	</div>
+
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -139,18 +149,15 @@ width: 90%;
 		<div class="searchType">
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'title'}">
-					<option value="">검색 종류</option>
 					<option value="title" selected>제목</option>
 					<option value="state">개설 상태</option>
 				</c:if>
 				<c:if test="${searchType == 'state' }">
-					<option value="">검색 종류</option>
 					<option value="title">제목</option>
 					<option value="state" selected>개설 상태</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
-					<option value="title">제목</option>
+					<option value="" selected>제목</option>
 					<option value="state">개설 상태</option>
 				</c:if>
 			</select>
@@ -168,27 +175,31 @@ width: 90%;
 		</div>
 	</form>
 
-
+	<div class="satisfactionButton">
+		<button type="button" id="satisfactionButton"
+			onclick="location.href='${contextPath}/satisfaction/satisfactionForm.do'">등록</button>
+		<button type="button" style="margin-left: 1em;" onclick='getCheckList()'>삭제</button>
+	</div>
 
 	<table border="0" align="center" width="80%">
 		<tr align="center" id="attr">
 			<td><input type="checkbox" id="selectAll"></td>
 	
-			<td width="5%"><b>번호</b></td>
-			<td width="10%"><b>제목</b></td>
-			<td width="10%"><b>등록일</b></td>
-			<td width="10%"><b>개설상태</b></td>
+			<td><b>번호</b></td>
+			<td><b>제목</b></td>
+			<td><b>등록일</b></td>
+			<td><b>개설상태</b></td>
 			
 		</tr>
 		<c:choose>
 			<c:when test="${not empty satisfactionsList}">
 				<c:forEach var="satisfaction" items="${satisfactionsList}" varStatus="satisfactionNum">
 					<tr align="center">
-						<td width="5%"><input type="checkbox" name="selectedCheckbox" id="${satisfaction.id }"></td>
-						<td width="5%">${satisfaction.id-119999}</td> <%-- 번호 --%>
-						<td width="10%"><a href="${contextPath}/satisfaction/informationSatisfactionForm.do?id=${satisfaction.id }">${satisfaction.title}</a></td>
-						<td width="10%">${satisfaction.joinDate}</td>
-						<td width="10%">${satisfaction.state}</td>
+						<td><input type="checkbox" name="selectedCheckbox" id="${satisfaction.id }"></td>
+						<td>${satisfaction.id-119999}</td> <%-- 번호 --%>
+						<td><a style="color:black;" href="${contextPath}/satisfaction/informationSatisfactionForm.do?id=${satisfaction.id }">${satisfaction.title}</a></td>
+						<td>${satisfaction.joinDate}</td>
+						<td>${satisfaction.state}</td>
 						
 						
 					</tr>
@@ -202,14 +213,14 @@ width: 90%;
 		</c:choose>
 	</table>
 	
-	<div class="memberButton">
-		<button type="button" id="enrollButton"
-			onclick="location.href='${contextPath}/satisfaction/satisfactionForm.do'" style="margin-right: 10px	;">등록</button>
-		<button type="button" onclick='getCheckList()'>삭제</button>
+	<div class="under satisfactionButton">
+		<button type="button" id="satisfactionButton"
+			onclick="location.href='${contextPath}/satisfaction/satisfactionForm.do'">등록</button>
+		<button type="button" style="margin-left: 1em;" onclick='getCheckList()'>삭제</button>
 	</div>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%;">
+	<div class="pageNumber" align="center">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>
@@ -259,6 +270,5 @@ width: 90%;
 			</c:if>
 		</ul>
 	</div>
-
 </body>
 </html>

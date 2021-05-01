@@ -15,26 +15,19 @@
 <meta charset="UTF-8">
 <title>관리자 정보 관리</title>
 <style>
-   /* .text_center{
-     text-align:left;
-   } */
-.text_center {
-	text-align:center;
-}
-#manager{
-	width: 1100px;
-	margin-top: 60px;
-}   
-.menuCategory{
-	height: 5%;
-	width: 100%;
-	margin-bottom: 1%;
-	text-align: left;
-}
-td{
-	border : none;
-}    
+   .text_center{
+		text-align:left;
+   }
+
+   .modManager_button {
+		width: 26%;
+		display: flex;
+		justify-content: space-between;
+   }
    
+   .modManager_button input{
+   		width : 70px;
+   }
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -170,11 +163,11 @@ td{
 	   
 	   <tr>
 	      <td width="200" style="padding-right: 3%;"><p align="right">비밀번호</td>
-	      <td width="400" align="left" style="padding-left: 2%;"><input type="password" name="pw" id="pw" value="${managerVO.pw }"></td>
+	      <td width="400" align="left" style="padding-left: 2%;"><input type="password" name="pw" id="pw" value="${managerVO.pw }" pattern="^(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}$"></td>
 	    </tr>
 	    <tr>
 	      <td width="200" style="padding-right: 3%;"><p align="right">비밀번호 확인</td>
-	      <td width="400" align="left" style="padding-left: 2%;"><input type="password" name="pw2" id="pw2"></td>
+	      <td width="400" align="left" style="padding-left: 2%;"><input type="password" name="pw2" id="pw2" pattern="^(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}$"></td>
 	    </tr>
 	    <tr>
 	      <td width="200" style="padding-right: 3%;"><p align="right">비밀번호 최종 확인</td>
@@ -190,10 +183,14 @@ td{
 	      <td width="400" align="left" style="padding-left: 2%;"><input type="text" id="joindate1" readonly name="joindate" id="joindate" value="${managerVO.joindate }"></td>
 	    </tr>
 
+	    <tr>
+	       <td width="200"><p>&nbsp;</p></td>
+	       <td width="400" style="display: flex; justify-content: center; width: 100%;">
+	       <div class="modManager_button">
+	       <input type="submit" value="수정"><input type="reset" value="다시입력" id="reset"><input type="button" onclick="history.back()" value="취소">
+	       </div></td>
+	    </tr>
 	</table>
-	<div style="width: 80%;">
-		<h1  class="text_center"><input type="submit" id="enrollButton" value="수정">&nbsp;<input type="reset" value="다시입력" id="reset">&nbsp;<input type="button" onclick="history.back()" value="취소"></h1>
-	</div>
 	</form>
 </body>
 </html>

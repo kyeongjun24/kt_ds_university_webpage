@@ -104,19 +104,11 @@
 	})
 </script>
 <body>
-<%
-	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
-	Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
-	
-	if (manager != null && isLogOn == true) {
-		
-	
-%>
 	<div class="process">
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/syllabus/listSyllabuses.do'"
+			onclick="location.href='${contextPath}/syllabus/listSyllabuses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 강의계획서 관리</span>
 		</h5>
 	</div>
@@ -147,12 +139,34 @@
 		
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'nameOfLecture' }">
-					<option value="nameOfLecture">선택</option>
 					<option value="nameOfLecture" selected>강의명</option>
+					<option value="joinDate">등록일</option>
+					<option value="category1">1차 분류</option>
+					<option value="category2">2차 분류</option>
+				</c:if>
+				<c:if test="${searchType == 'joinDate' }">
+					<option value="nameOfLecture">강의명</option>
+					<option value="joinDate" selected>등록일</option>
+					<option value="category1">1차 분류</option>
+					<option value="category2">2차 분류</option>
+				</c:if>
+				<c:if test="${searchType == 'category1' }">
+					<option value="nameOfLecture">강의명</option>
+					<option value="joinDate">등록일</option>
+					<option value="category1" selected>1차 분류</option>
+					<option value="category2">2차 분류</option>
+				</c:if>
+				<c:if test="${searchType == 'category2' }">
+					<option value="nameOfLecture">강의명</option>
+					<option value="joinDate">등록일</option>
+					<option value="category1">1차 분류</option>
+					<option value="category2"  selected>2차 분류</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="nameOfLecture" selected>선택</option>
-					<option value="nameOfLecture">강의명</option>
+					<option value="nameOfLecture" selected>강의명</option>
+					<option value="joinDate">등록일</option>
+					<option value="category1">1차 분류</option>
+					<option value="category2">2차 분류</option>
 				</c:if>
 			</select>
 			
@@ -268,10 +282,5 @@
 			onclick="location.href='${contextPath}/syllabus/syllabusForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 5%;">등록</button>
 		<button type="button" onclick="getCheckListRemove()" style="width: 5%;">삭제</button>
 	</div>
-	<%} else {  %>
-	<script>
-		window.location.href="${contextPath}";
-	</script>
-	<% } %>
 </body>
 </html>

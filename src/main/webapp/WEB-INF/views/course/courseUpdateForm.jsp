@@ -75,6 +75,14 @@
 		opacity: 1;
 		cursor: default;
 	}
+	
+	.ui-datepicker-trigger {
+		width: 1.8em;
+	}
+	
+	#imgArea {
+		height: 7.7em;
+	}
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -319,7 +327,7 @@
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/course/listCourses.do'"
+			onclick="location.href='${contextPath}/course/listCourses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 과정관리</span> > <span
 			onclick="location.href='${contextPath}/course/updateCourseForm.do?id=${courseVO.id }&page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor: pointer;"> 과정 수정</span>
@@ -447,7 +455,7 @@
 		       <td></td>
 		    </tr>
 		    <tr>
-		       <td colspan="4"><input type="submit" value="수정" id="enrollButton"><input type="button" onclick="history.back()" value="취소"></td>
+		       <td colspan="4"><input type="submit" value="수정" id="enrollButton"><input type="button" style="margin-left: 1em;" onclick="history.back()" value="취소"></td>
 		    </tr>
 		</table>
 	</form>

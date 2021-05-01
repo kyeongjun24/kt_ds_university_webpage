@@ -122,19 +122,11 @@
 </script>
 
 <body>
-<%
-	ManagerVO manager = (ManagerVO)session.getAttribute("manager");
-	Boolean isLogOn = (Boolean)session.getAttribute("isLogOn");
-	
-	if (manager != null && isLogOn == true) {
-		
-	
-%>
 	<div class='process' >
 		<h5>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 			style="cursor: pointer;">회원관리</span> > <span
-			onclick="location.href='${contextPath}/member/listMembers.do'"
+			onclick="location.href='${contextPath}/member/listMembers.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 학생관리</span>
 		</h5>
 	</div>
@@ -147,39 +139,44 @@
 		<div class="searchType">
 			<select name="perPage" id="listFilter">
 				<c:if test="${perPage == '20' }">
-					<option value='10'>10</option>
-					<option value='20' selected>20</option>
+					<option value='10'>10개</option>
+					<option value='20' selected>20개</option>
 					<option value='50'>50</option>
 
 				</c:if>
 				<c:if test="${perPage == '50' }">
-					<option value='10'>10</option>
-					<option value='20'>20</option>
-					<option value='50' selected>50</option>
+					<option value='10'>10개</option>
+					<option value='20'>20개</option>
+					<option value='50' selected>50개</option>
 				</c:if>
 				<c:if test="${perPage == '10' }">
-					<option value='10' selected>10</option>
-					<option value='20'>20</option>
-					<option value='50'>50</option>
+					<option value='10' selected>10개</option>
+					<option value='20'>20개</option>
+					<option value='50'>50개</option>
 				</c:if>
 			</select>
 
 		<!-- 검색 유형 값에 따라 셀렉트 띄우는 값 설정 -->
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'name'}">
-					<option value="name">검색 종류</option>
 					<option value="name" selected>이름</option>
 					<option value="companyName">회사명</option>
+					<option value="id">아이디</option>
 				</c:if>
 				<c:if test="${searchType == 'companyName' }">
-					<option value="name">검색 종류</option>
 					<option value="name">이름</option>
 					<option value="companyName" selected>회사명</option>
+					<option value="id">아이디</option>
 				</c:if>
-				<c:if test="${empty searchType }">
-					<option value="name" selected>검색 종류</option>
+				<c:if test="${searchType == 'id' }">
 					<option value="name">이름</option>
 					<option value="companyName">회사명</option>
+					<option value="id" selected>아이디</option>
+				</c:if>
+				<c:if test="${empty searchType }">
+					<option value="name" selected>이름</option>
+					<option value="companyName">회사명</option>
+					<option value="id">아이디</option>
 				</c:if>
 			</select>
 
@@ -310,15 +307,10 @@
 		</ul>
 	</div>
 
-	<div class="memberButton">
+	<div class="memberButton" style="position: relative; top: -1em; margin-bottom: 2em;">
 		<button type="button" id="enrollButton"
 			onclick="location.href='${contextPath}/member/memberForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">등록</button>
 		<button type="button" onclick='getCheckList()'>탈퇴</button>
 	</div>
-	<%} else {  %>
-	<script>
-		window.location.href="${contextPath}";
-	</script>
-	<% } %>
 </body>
 </html>

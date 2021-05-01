@@ -20,6 +20,11 @@ request.setCharacterEncoding("UTF-8");
 	text-align: left;
 }
 
+.process {
+	text-align: left;
+	margin-bottom: 2em;
+	color: #9C9D9D;
+}
 
 
 </style>
@@ -102,9 +107,14 @@ request.setCharacterEncoding("UTF-8");
 </script>
 
 <body>
-	<div class="menuCategory">
-		<h5>회원 관리 > 로그 관리</h5>
+
+	<div class='process' >
+		<h5>
+			<span onclick="location.href='${contextPath}/event_security_log/listEvent_security_logs.do'"
+			style="cursor: pointer;">로그관리</span>
+		</h5>
 	</div>
+
 	<!-- controller에서 보낸 값 받아서 저장 -->
 	<%
 	String searchType = request.getParameter("searchType");
@@ -138,18 +148,15 @@ request.setCharacterEncoding("UTF-8");
 		<div class="searchType">
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'user'}">
-					<option value="">검색 종류</option>
 					<option value="user" selected>아이디</option>
 					<option value="text">로그 텍스트</option>
 				</c:if>
 				<c:if test="${searchType == 'text' }">
-					<option value="">검색 종류</option>
 					<option value="user">아이디</option>
 					<option value="text" selected>로그 텍스트</option>
 				</c:if>
 				<c:if test="${empty searchType }">
-					<option value="" selected>검색 종류</option>
-					<option value="user">아이디</option>
+					<option value="user" selected>아이디</option>
 					<option value="text">로그 텍스트</option>
 				</c:if>
 			</select>
@@ -185,10 +192,10 @@ request.setCharacterEncoding("UTF-8");
 					<tr align="center">
 						
 						<td width="15%">${event_security_log.id-89999}</td>
-						<td width="15%">${event_security_log.user}</td>
+						<td width="10%">${event_security_log.user}</td>
 						<td width="20%" align="center" style="padding-left:40px;">${event_security_log.type}</td>
 						<td width="20%">${event_security_log.date}</td>
-						<td width="30%" align="center" style="padding-left:70px;">${event_security_log.text}</td>
+						<td width="35%" align="left" style="padding-left:70px; word-break: keep-all; overflow-wrap: break-word;">${event_security_log.text}</td>
 						
 					</tr>
 				</c:forEach>
@@ -202,7 +209,7 @@ request.setCharacterEncoding("UTF-8");
 	</table>
 
 	<!-- 전체 페이지개수에 의한 페이지 리스트 띄우기 -->
-	<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
+	<div class="pageNumber" align="center" style="margin-top:2em;">
 		<ul>
 			<c:if test="${pageMaker.prev }">
 				<c:choose>

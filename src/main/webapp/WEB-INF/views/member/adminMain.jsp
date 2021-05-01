@@ -31,10 +31,9 @@
     }
 
     .contents {
-        width: 333px; 
-        height: 159px; 
-        background-color: #F2F2F2;
-        position: relative;
+        width: 18em;
+   		height: 9em;
+   		background: #f2f2f2;
     }
 
     .content_count {
@@ -70,8 +69,15 @@
     }
 
     .content_img_ul {
-        padding: 25px 35px;
-        
+        position: relative;
+  	  	left: 1em;
+    	top: 1.9em;
+    }
+    
+     .content_img_ul img {
+        width: 5em;
+    	height: 5em;
+    	object-fit: cover;
     }
     
     .adminMain {
@@ -80,8 +86,10 @@
     }
     
     .mainContent {
-    position : relative;
-    left : 180px;
+    position: relative;
+    left: 6em;
+    top: 4em;
+    width: 80%;
     }
     
 </style>
@@ -127,8 +135,8 @@
 	
 %>
 <div class="mainContent">
-<section class="adminMain" style="width: 80%; height: 400px; margin-left: 5%;">
-        <div style="width: 97%; height: 400px; ">
+<section class="adminMain">
+        <div>
             <ul>
                 <li class="content_li">
                 	<a href="${contextPath }/course/listCourses.do?searchType=status&searchText=신청가능" style="display:block;">
@@ -247,8 +255,8 @@
             </ul>
         </div>
     </section>
-    <section class="adminMain" style="width: 80%; heigt: 400px; margin-left: 5%;">
-        <div style="width: 97%; height: 200px;">
+    <section class="adminMain">
+        <div>
             <ul>
                 <li class="content_li">
                 	<a href="${contextPath }/course/courseForm.do?page=1&perPage=10&searchText=&searchType=" style="display:block;">

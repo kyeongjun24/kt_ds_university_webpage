@@ -75,6 +75,14 @@
 		opacity: 1;
 		cursor: default;
 	}
+	
+	.ui-datepicker-trigger {
+		width: 1.8em;
+	}
+	
+	#imgArea {
+		height: 7.7em;
+	}
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -195,7 +203,7 @@
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/course/listCourses.do'"
+			onclick="location.href='${contextPath}/course/listCourses.do??page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 과정관리</span> > <span
 			onclick="location.href='${contextPath}/course/selectCourse.do?id=${courseVO.id }&page=${page }&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor: pointer;"> 과정 상세</span>
@@ -207,7 +215,7 @@
 	</div>
 	<form method="post"   action="${contextPath}/course/addCourse.do" name="crsFrm" id="courseRegister" >
 		
-		<table  align="center">
+		<table>
 		   <tr>
 		      <td width="10%"><p align="right">강좌명</td>
 		      <td width="40%" style="text-align:left; padding-left: 20px;">
@@ -311,7 +319,8 @@
 			       </c:choose>
 			       </td>
 		       <td width="50"><p align="right">이미지 배너 </td>
-		      <td width="60" rowspan="2"><div  id="imgViewArea" style="height: 140px; padding-top: 10px;"><img id="imgArea" src="${contextPath}/resources/image/${courseVO.syllabusVO.id}/${courseVO.syllabusVO.bannerImg}" width="120" height="120" style="position : relative; transform : translateX(-170px);"/></div></td>
+		      <td width="60" rowspan="2"><div  id="imgViewArea" style="height: 140px; padding-top: 10px;">
+		      <img id="imgArea" src="${contextPath}/resources/image/${courseVO.syllabusVO.id}/${courseVO.syllabusVO.bannerImg}" width="120" height="120" style="position : relative; transform : translateX(-170px);"/></div></td>
 		    </tr>
 		    <tr>
 		       <td width="100"><p align="right" >상태</td>
@@ -325,9 +334,9 @@
 		    </tr>
 		    <tr>
 		       <td colspan="4" width="250">
-		       <button type="button" id="enrollButton" onclick="location.href='${contextPath}/course/updateCourseForm.do?id=${courseVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">수정하기</button>&nbsp;&nbsp;&nbsp;
+		       <button type="button" id="enrollButton" style="width: 5em"  onclick="location.href='${contextPath}/course/updateCourseForm.do?id=${courseVO.id }&page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'">수정</button>&nbsp;&nbsp;&nbsp;
 		       <button type="button" onclick="courseRemove()">삭제</button>&nbsp;&nbsp;&nbsp;
-		       <input type="button" onclick="location.href='${contextPath}/course/listCourses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" value="뒤로"></td>
+		       <input type="button" onclick="location.href='${contextPath}/course/listCourses.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" value="목록"></td>
 		    </tr>
 		</table>
 	</form>

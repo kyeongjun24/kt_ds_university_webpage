@@ -141,7 +141,7 @@
 		<h5>
 			<span onclick="location.href='${contextPath}/course/listCourses.do'"
 			style="cursor: pointer;">과정관리</span> > <span
-			onclick="location.href='${contextPath}/course/listCourses.do'"
+			onclick="location.href='${contextPath}/course/listCourses.do??page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 과정관리</span>
 		</h5>
 	</div>
@@ -173,19 +173,46 @@
 		
 			<select name="searchType" id="searchType">
 				<c:if test="${searchType == 'nameOfCourse' }">
-					<option value="nameOfCourse">선택</option>
 					<option value="nameOfCourse" selected>과정명</option>
 					<option value="status">접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate">교육종료일</option>
 				</c:if>
 				<c:if test="${searchType == 'status' }">
-					<option value="nameOfCourses">선택</option>
 					<option value="nameOfCourse">과정명</option>
 					<option value="status" selected>접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate">교육종료일</option>
 				</c:if>
-				<c:if test="${empty searchType }">
-					<option value="nameOfCourse" selected>선택</option>
+				<c:if test="${searchType == 'classRoom' }">
 					<option value="nameOfCourse">과정명</option>
 					<option value="status">접수 상태</option>
+					<option value="classRoom" selected>강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate">교육종료일</option>
+				</c:if>
+				<c:if test="${searchType == 'startDate' }">
+					<option value="nameOfCourse">과정명</option>
+					<option value="status">접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate" selected>교육시작일</option>
+					<option value="endDate">교육종료일</option>
+				</c:if>
+				<c:if test="${searchType == 'endDate' }">
+					<option value="nameOfCourse">과정명</option>
+					<option value="status">접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate" selected>교육종료일</option>
+				</c:if>
+				<c:if test="${empty searchType }">
+					<option value="nameOfCourse" selected>과정명</option>
+					<option value="status">접수 상태</option>
+					<option value="classRoom">강의실</option>
+					<option value="startDate">교육시작일</option>
+					<option value="endDate">교육종료일</option>
 				</c:if>
 			</select>
 			
@@ -254,65 +281,63 @@
 			</c:when>
 		</c:choose>
 	</table>
-	
-		<div class="pageNumber" align="center" style="width: 80%; height: 10%;">
-			<ul>
-				<c:if test="${pageMaker.prev }">
-					<c:choose>
-						<c:when test="${not empty searchType and not empty searchText }">
-							<li><a
-								href="${contextPath}/course/listCourses.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="${contextPath}/course/listCourses.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
+	<div class="under memberButton" style="margin-bottom: 3em;">
+		<button type="button" onclick="getCheckList('applicable')" style="width: 5%;">신청가능</button>
+		<button type="button" onclick="getCheckList('earlyClosing')" style="width: 5%;">조기마감</button>
+		<button type="button" onclick="getCheckList('deadline')" style="width: 5%;">마감</button>
+		<button type="button" id="enrollButton" onclick="location.href='${contextPath}/course/courseForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 5%;">등록</button>
+		<button type="button" onclick="getCheckList('remove')" style="width: 5%;">삭제</button>
+	 </div>
+	<div class="pageNumber" align="center">
+		<ul>
+			<c:if test="${pageMaker.prev }">
 				<c:choose>
 					<c:when test="${not empty searchType and not empty searchText }">
-						<c:forEach begin="${pageMaker.startPage }"
-							end="${pageMaker.endPage }" var="idx">
-							<li
-								<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
-								<a
-								href="${contextPath }/course/listCourses.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
-							</li>
-						</c:forEach>
+						<li><a
+							href="${contextPath}/course/listCourses.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:when>
 					<c:otherwise>
-						<c:forEach begin="${pageMaker.startPage }"
-							end="${pageMaker.endPage }" var="idx">
-							<li
-								<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
-								<a
-								href="${contextPath }/course/listCourses.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
-							</li>
-						</c:forEach>
+						<li><a
+							href="${contextPath}/course/listCourses.do?page=${pageMaker.startPage - 1 }&searchText=${searchText}&searchType=${searchType}">이전</a></li>
 					</c:otherwise>
 				</c:choose>
-				<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
-					<c:choose>
-						<c:when test="${not empty searchType and not empty searchText }">
-							<li><a
-								href="${contextPath}/course/listCourses.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a
-								href="${contextPath}/course/listCourses.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:if>
-			</ul>
-		</div>
-	
-		<div class="memberButton">
-			<button type="button" onclick="getCheckList('applicable')" style="width: 5%;">신청가능</button>
-			<button type="button" onclick="getCheckList('earlyClosing')" style="width: 5%;">조기마감</button>
-			<button type="button" onclick="getCheckList('deadline')" style="width: 5%;">마감</button>
-			<button type="button" id="enrollButton" onclick="location.href='${contextPath}/course/courseForm.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'" style="width: 5%;">등록</button>
-			<button type="button" onclick="getCheckList('remove')" style="width: 5%;">삭제</button>
-		 </div>
+			</c:if>
+			<c:choose>
+				<c:when test="${not empty searchType and not empty searchText }">
+					<c:forEach begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }" var="idx">
+						<li
+							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
+							<a
+							href="${contextPath }/course/listCourses.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+						</li>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:forEach begin="${pageMaker.startPage }"
+						end="${pageMaker.endPage }" var="idx">
+						<li
+							<c:out value="${pageMaker.criteria.page == idx ? 'class=active' : '' }"/>>
+							<a
+							href="${contextPath }/course/listCourses.do?page=${idx}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}">${idx }</a>
+						</li>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${pageMaker.next && pageMaker.endPage > 0 }">
+				<c:choose>
+					<c:when test="${not empty searchType and not empty searchText }">
+						<li><a
+							href="${contextPath}/course/listCourses.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a
+							href="${contextPath}/course/listCourses.do?page=${pageMaker.endPage + 1 }&searchText=${searchText}&searchType=${searchType}">다음</a></li>
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+		</ul>
+	</div>
 	 <%} else {  %>
 	<script>
 		window.location.href="${contextPath}";

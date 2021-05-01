@@ -247,7 +247,7 @@
 		<h5>
 			<span onclick="location.href='${contextPath}/member/listMembers.do'"
 			style="cursor: pointer;">회원관리</span> > <span
-			onclick="location.href='${contextPath}/member/listMembers.do'"
+			onclick="location.href='${contextPath}/member/listMembers.do?page=${page}&searchText=${searchText}&searchType=${searchType}&perPage=${perPage}'"
 			style="cursor: pointer;"> 학생관리</span> > <span
 			onclick="location.href='${contextPath}/member/informationMemberForm.do?id=${vo.id }&page=${page}&searchText=${searchText }&searchType=${searchType }&perPage=${perPage }'"
 			style="cursor:pointer;"> 학생정보</span> 
@@ -399,10 +399,10 @@
 		       <td align="left" ><input type="text" value="${vo.companyName }" readonly></td> 
 		    </tr>
 		</table>
-		<div class="text_center" style="width: 85%; margin-top: 30px;">
-		    <button id="enrollButton" onclick="updateFormMember('F')">수정하기</button>&nbsp;&nbsp;&nbsp;
-		    <button onclick="removeMember()">탈퇴</button>&nbsp;&nbsp;&nbsp;
-		    <button onclick="history.back()" >뒤로</button>
+		<div class="text_center" style="width: 85%; margin-top: 3em; margin-bottom: 4em;">
+		    <button id="enrollButton" onclick="updateFormMember('F')">수정</button>
+		    <button onclick="removeMember()">탈퇴</button>
+		    <button onclick="history.back()" >목록</button>
 	    </div>
     </div>
 	<%} else {  %>
