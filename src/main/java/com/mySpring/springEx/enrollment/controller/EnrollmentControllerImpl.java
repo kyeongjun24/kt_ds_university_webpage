@@ -55,7 +55,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		enrollmentService.excelDownload(response);
 	}
 	
-	// list page
+	// 리스트 페이지
 	@Override
 	@RequestMapping(value="/enrollment/listEnrollments.do", method =  RequestMethod.GET)
 	public ModelAndView listEnrollments(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -107,7 +107,7 @@ public class EnrollmentControllerImpl implements EnrollmentController{
 		return mav; //리스트 페이지로
 	}
 
-	//add enrollment
+	// Enrollement 추가
 	@Override
 	@RequestMapping(value="/enrollment/addEnrollment" ,method = {RequestMethod.POST, RequestMethod.GET})
 	public ModelAndView addEnrollment(@ModelAttribute("enrollment") EnrollmentVO enrollmentVO,
